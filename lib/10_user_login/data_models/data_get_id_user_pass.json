@@ -1,0 +1,121 @@
+https://citigov.cloud:6984/buscobien_usuarios_promotores/_design/DDUSER/_view/
+// vistaUserID?key=%2293037ebe13ebab6cabf56046cb77733f90908c05f8f8e73ace4835d8a281cfe3%22
+
+{
+  "total_rows": 9303,
+  "offset": 459,
+  "rows": [
+    {
+      "id": "2dc4d0446cac3c6d2fe4091d27a818b5",
+      "key": "amirelesb",
+      "value": {
+        "userID": "c64b82eb4998f3aefaf39e39ad209004c1862b5a58ff460a9da5e18c83431d06",
+        "userName": "amirelesb",
+        "userPass": "6da338fa638ae4431ef0b57879c18b350f7ffde6d3d00b4ea0e78189860fdcf5",
+        "idFoto": "6da338fa638ae4431ef0b57879c18b350f7ffde6d3d00b4ea0e78189860fdcf5"
+      }
+    }
+  ]
+}
+
+
+
+{
+  "total_rows": 3,
+  "offset": 1,
+  "rows": [
+    {
+      "id": "7b565dbbe3ef6288e888137965d2f95f",
+      "key": "93037ebe13ebab6cabf56046cb77733f90908c05f8f8e73ace4835d8a281cfe3",
+      "value": {
+        "userName": "rojo69",
+        "userPass": "94736d9814fd4a90c2e69567462f711b"
+      }
+    }
+  ]
+}
+
+https://citigov.cloud:6984/buscobien_usuarios_promotores/_design/DDUSER/_view/
+// vistaUserPass?key=%2293037ebe13ebab6cabf56046cb77733f90908c05f8f8e73ace4835d8a281cfe3%22
+
+{
+  "total_rows": 3,
+  "offset": 1,
+  "rows": [
+    {
+      "id": "7b565dbbe3ef6288e888137965d2f95f",
+      "key": "93037ebe13ebab6cabf56046cb77733f90908c05f8f8e73ace4835d8a281cfe3",
+      "value": {
+        "userID": "93037ebe13ebab6cabf56046cb77733f90908c05f8f8e73ace4835d8a281cfe3",
+        "userName": "rojo69",
+        "userPass": "94736d9814fd4a90c2e69567462f711b"
+      }
+    }
+  ]
+}
+
+https://citigov.cloud:6984/buscobien_usuarios_promotores/_design/DDUSER/_view/
+// vistaNOMBRE?key=%22rojo69%22;
+
+{
+  "total_rows": 3,
+  "offset": 2,
+  "rows": [
+    {
+      "id": "7b565dbbe3ef6288e888137965d2f95f",
+      "key": "rojo69",
+      "value": {
+        "_id": "7b565dbbe3ef6288e888137965d2f95f",
+        "_rev": "1-29479ba79b54e19945525b4d8de17bfd",
+        "usuario": {
+          "id_usuario": "93037ebe13ebab6cabf56046cb77733f90908c05f8f8e73ace4835d8a281cfe3",
+          "avatar": "",
+          "nombres": "Marcela ",
+          "apellidopaterno": "Rojo",
+          "apellidomaterno": "Godoy",
+          "numerocelular": "580105531",
+          "correoelectronico": "Serranoalarm@nearbpo.com",
+          "nombreusuario": "rojo69",
+          "claveacceso": "94736d9814fd4a90c2e69567462f711b",
+          "ubicacionUserData": {
+            "pais": "México",
+            "localidadCp": {
+              "idEstado": 5,
+              "estado": "Coahuila de Zaragoza",
+              "idMunicipio": 6,
+              "municipio": "Castaños",
+              "ciudad": " ",
+              "zona": "Rural",
+              "cp": 25898,
+              "asentamiento": "El Sago (Loma Bola)",
+              "tipo": "Coahuila de Zaragoza"
+            },
+            "calle": "Ángel Daniel Edificio",
+            "seccionine": "2ecac4620427",
+            "latitud": "-80.1831",
+            "longitud": "0.3254",
+            "latDecimal": "latitudDecimal",
+            "lonDecimal": "longitudDecimal"
+          },
+          "fecha_de_nacimiento": {
+            "dia": 24,
+            "mes": 10,
+            "anio": 1974
+          },
+          "timestamp": "2025-07-11 21:10:54.027097",
+          "datospromotor": {
+            "tipodeusuario": "",
+            "rfc": "f849a2a6",
+            "numerodecliente": "c18ade51",
+            "inmobiliaria": "Prieto S.A.",
+            "espacionormal": 9,
+            "espaciodestacados": 8,
+            "espaciosuperdestacados": 3,
+            "espaciosoportunidad": 1,
+            "espaciosremate": 7
+          }
+        }
+      }
+    }
+  ]
+}

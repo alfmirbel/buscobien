@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(ssh miservidor \"curl -s -X POST -u admin:misa2026 -H 'Content-Type: application/json' -d '{\\\\\"index\\\\\":{\\\\\"fields\\\\\":[\\\\\"type\\\\\",\\\\\"usuarioOrigenId\\\\\",\\\\\"usuarioDestinoId\\\\\"]},\\\\\"name\\\\\":\\\\\"idx-lista-compartida-dupla\\\\\"}' https://citigov.cloud:6984/buscobien_listas_compartidas_usuarios/_index\")",
+      "PowerShell(ssh miservidor \"curl -s -u admin:misa2026 https://citigov.cloud:6984/buscobien_listas_compartidas_usuarios/_index | python3 -c 'import json,sys; d=json.load\\(sys.stdin\\); [print\\(i[\\\\\"name\\\\\"]\\) for i in d[\\\\\"indexes\\\\\"]]'\")"
+    ]
+  },
+  "model": "opusplan"
+}

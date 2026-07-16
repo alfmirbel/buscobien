@@ -1,0 +1,29 @@
+{
+  "total_rows": 4,
+  "offset": 0,
+  "rows": [
+    {
+      "id": "02167bd73a2e8bc29ec1830c975609ae",
+      "key": [
+        "e6b35dc3cf22c77a5270500d715b2ab867dc1f3e0fe36d99ae4483dd20c05af1",
+        "ce8484facc40af087340e1777aa331d7436c5ffe"
+      ],
+      "value": {
+        "_id": "02167bd73a2e8bc29ec1830c975609ae",
+        "_rev": "1-0bb7c2f42320b4d5830e2836bdca867c",
+        "fotosCasa": {
+          "idFoto": "3f08dd8eaa4cf2ef9234df2d14ce7323e89fcf33d77be512cb2eb2d7044624a3",
+          "idUsuario": "e6b35dc3cf22c77a5270500d715b2ab867dc1f3e0fe36d99ae4483dd20c05af1",
+          "idPropiedad": "ce8484facc40af087340e1777aa331d7436c5ffe",
+          "filaname": "4127.jpg",
+          "path": "D:\\Imagenes\\4127.jpg",
+          "size": 1840887,
+          "identifier": null,
+          "foto": "/9j/4AAQSkZJRgABEB01CgkhQdO7/APg2R//Z",
+          "content_type": "image/jpg",
+          "timestamp": "Hora estándar central (México)"
+        }
+      }
+    }
+  ]
+}

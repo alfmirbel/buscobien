@@ -1,0 +1,6 @@
+# Hermes Auto-generated Gitignore
+.DS_Store
+*.log
+.dart_tool/
+.packages
+build/

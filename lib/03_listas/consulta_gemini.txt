@@ -1,0 +1,27 @@
+Revisa el siguiente código, genera las sugerencias de ajustes y mejoras, 
+no cambien los nombres de clases, variables, funciones, etc. 
+Genera el código con los cambios sugeridos, comentarios sobre los cambios, 
+y que este completo. Asume que las funciones que se referencian, que no estan 
+definidas en el código, estan definidas en otro archivo.
+El código es el siguiente:
+
+El siguiente código está desarrollo en flutter y dart. Ajústalo para 
+generar el AsyncProvider de Riverpod, usando el generador de código, de ser recomendable.
+Genera ejemplos de como se debería usar. Asume que las funciones que se referencian, que no estan 
+definidas en el código, estan definidas en otro archivo. No cambien los nombres de clases, 
+variables, funciones, etc. 
+El codigo está contenido en el archivo: provider_get_avatar.dart, por lo que si parte del código 
+es necesario eliminarlo de este archivo, e incluirlo en otro archivo, genera la versión modificada
+del archivo provider_get_avatar.dart.
+
+El siguiente código está desarrollo en flutter y dart. Ajústalo para generar el AsyncProvider de Riverpod, usando el generador de código, de ser recomendable.
+Asume que las funciones que se referencian, que no están definidas en el código, están definidas en otro archivo. No cambien los nombres de clases, variables, funciones, etc.  El código está contenido en el archivo: provider_get_avatar.dart, por lo que si parte del código  es necesario eliminarlo de este archivo, e incluirlo en otro archivo, genera la versión modificada del archivo provider_get_avatar.dart.
+Genera ejemplos de como se debería usar.
+
+Con los cambios anteriores, ajusta en siguiente código para que haga uso del adecuadamente.
+Revisa el siguiente código, genera las sugerencias de ajustes y mejoras, 
+no cambien los nombres de clases, variables, funciones, etc. 
+Genera el código con los cambios sugeridos, comentarios sobre los cambios, 
+y que este completo. Asume que las funciones que se referencian, que no estan 
+definidas en el código, estan definidas en otro archivo.
+El código es el siguiente:

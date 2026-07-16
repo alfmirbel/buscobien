@@ -1,0 +1,42 @@
+{
+  "total_rows": 35,
+  "offset": 0,
+  "rows": [
+    {
+      "id": "02167bd73a2e8bc29ec1830c976a5552",
+      "key": [
+        "8d7fc778b03e1f5e8c848ab240b53a517b2264743cddd78dd27d2d6f9fc37147",
+        "2648a79742173c611e73f4c74fae912a3683dfb6"
+      ],
+      "value": {
+        "idUsuario": "8d7fc778b03e1f5e8c848ab240b53a517b2264743cddd78dd27d2d6f9fc37147",
+        "idPropiedad": "2648a79742173c611e73f4c74fae912a3683dfb6",
+        "idFoto": "14ef4ec38d6ee09951fe9fa3c270512ed90929f2141c38ad3bcc40c9b1d4eb79"
+      }
+    },
+    {
+      "id": "02167bd73a2e8bc29ec1830c976a6df7",
+      "key": [
+        "8d7fc778b03e1f5e8c848ab240b53a517b2264743cddd78dd27d2d6f9fc37147",
+        "2648a79742173c611e73f4c74fae912a3683dfb6"
+      ],
+      "value": {
+        "idUsuario": "8d7fc778b03e1f5e8c848ab240b53a517b2264743cddd78dd27d2d6f9fc37147",
+        "idPropiedad": "2648a79742173c611e73f4c74fae912a3683dfb6",
+        "idFoto": "0252e3826690238dcf77236da611aad5952965cf25ce0a1e05f450075991fc62"
+      }
+    },
+    {
+      "id": "02167bd73a2e8bc29ec1830c976a7b22",
+      "key": [
+        "8d7fc778b03e1f5e8c848ab240b53a517b2264743cddd78dd27d2d6f9fc37147",
+        "2648a79742173c611e73f4c74fae912a3683dfb6"
+      ],
+      "value": {
+        "idUsuario": "8d7fc778b03e1f5e8c848ab240b53a517b2264743cddd78dd27d2d6f9fc37147",
+        "idPropiedad": "2648a79742173c611e73f4c74fae912a3683dfb6",
+        "idFoto": "ac3f0d0b9abffc6711cd57b0c1b2bf528cb9d106ced784e315bceeaa6dba9526"
+      }
+    }
+  ]
+}

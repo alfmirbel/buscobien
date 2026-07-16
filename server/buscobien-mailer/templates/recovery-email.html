@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recuperación de contraseña — BuscoBien</title>
+</head>
+<body style="margin:0;padding:0;background:#f4f6f8;font-family:Arial,Helvetica,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#f4f6f8;padding:40px 0;">
+    <tr>
+      <td align="center">
+        <table width="480" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+
+          <!-- Header -->
+          <tr>
+            <td align="center" style="background:#1565C0;padding:28px 40px;">
+              <p style="margin:0;color:#ffffff;font-size:22px;font-weight:bold;letter-spacing:1px;">BuscoBien</p>
+              <p style="margin:6px 0 0;color:#90CAF9;font-size:12px;">Red de Promoción Inmobiliaria</p>
+            </td>
+          </tr>
+
+          <!-- Body -->
+          <tr>
+            <td style="padding:36px 40px 24px;">
+              <p style="margin:0 0 16px;color:#37474F;font-size:15px;">Hola, <strong>{{nombreUsuario}}</strong>:</p>
+              <p style="margin:0 0 16px;color:#546E7A;font-size:14px;line-height:1.6;">
+                Recibimos una solicitud para restablecer la contraseña de tu cuenta de perfil
+                <strong>{{perfil}}</strong> en BuscoBien.
+              </p>
+              <p style="margin:0 0 28px;color:#546E7A;font-size:14px;line-height:1.6;">
+                Haz clic en el botón de abajo para crear una nueva contraseña. Este enlace
+                expirará en <strong>1 hora</strong>.
+              </p>
+
+              <!-- CTA Button -->
+              <table width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td align="center">
+                    <a href="{{deepLink}}"
+                       style="display:inline-block;background:#1565C0;color:#ffffff;text-decoration:none;font-size:15px;font-weight:bold;padding:14px 36px;border-radius:6px;letter-spacing:0.5px;">
+                      Restablecer contraseña
+                    </a>
+                  </td>
+                </tr>
+              </table>
+
+              <p style="margin:28px 0 0;color:#78909C;font-size:12px;line-height:1.6;">
+                Si no solicitaste este cambio, puedes ignorar este correo — tu contraseña
+                no se modificará.
+              </p>
+              <p style="margin:8px 0 0;color:#78909C;font-size:11px;word-break:break-all;">
+                Si el botón no funciona, copia este enlace en tu navegador:<br/>
+                <a href="{{deepLink}}" style="color:#1565C0;">{{deepLink}}</a>
+              </p>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="background:#ECEFF1;padding:18px 40px;text-align:center;">
+              <p style="margin:0;color:#90A4AE;font-size:11px;">
+                © 2025 BuscoBien · Red de Promoción Inmobiliaria en México<br/>
+                Este es un correo automático, por favor no respondas a este mensaje.
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

@@ -1,0 +1,34 @@
+import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+class AdvancedMarkerExample extends StatefulWidget {
+  const AdvancedMarkerExample({super.key});
+
+  @override
+  _AdvancedMarkerExampleState createState() => _AdvancedMarkerExampleState();
+}
+
+class _AdvancedMarkerExampleState extends State<AdvancedMarkerExample> {
+
+  @override
+  void initState() {
+    super.initState();
+    addMarker('01', 37.7749, -122.4194, 'Mi Ubicación', 'Marker Description', Icon.);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Advanced Markers'),
+      ),
+      body: GoogleMap(
+        initialCameraPosition: CameraPosition(
+          target: const LatLng(37.7749, -122.4194),
+          zoom: 12,
+        ),
+        markers: marcadores,
+      ),
+    );
+  }
+}

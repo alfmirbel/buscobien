@@ -1,0 +1,15 @@
+{
+  "_id": "cf40ea1d00b5a1d6e285dd980dd54658",
+  "_rev": "1-dfe056f498a2bf8ebadcbbcb0fcb1f8f",
+  "localidadCp": {
+    "idEstado": 10,
+    "estado": "Durango",
+    "idMunicipio": 7,
+    "municipio": "Gómez Palacio",
+    "ciudad": " ",
+    "zona": "Rural",
+    "cp": 35101,
+    "asentamiento": "Nuevo Jericó",
+    "tipo": "Ejido"
+  }
+}

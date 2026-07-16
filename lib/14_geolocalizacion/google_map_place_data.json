@@ -1,0 +1,2207 @@
+{
+   "plus_code" : 
+   {
+      "compound_code" : "8Q8H+7RV Ciudad de México, CDMX, México",
+      "global_code" : "76F28Q8H+7RV"
+   },
+   "results" : 
+   [
+      {
+         "address_components" : 
+         [
+            {
+               "long_name" : "3230",
+               "short_name" : "3230",
+               "types" : 
+               [
+                  "street_number"
+               ]
+            },
+            {
+               "long_name" : "Periferico Sur",
+               "short_name" : "Periferico Sur",
+               "types" : 
+               [
+                  "route"
+               ]
+            },
+            {
+               "long_name" : "Jardines del Pedregal",
+               "short_name" : "Jardines del Pedregal",
+               "types" : 
+               [
+                  "political",
+                  "sublocality",
+                  "sublocality_level_1"
+               ]
+            },
+            {
+               "long_name" : "Ciudad de México",
+               "short_name" : "México D.F.",
+               "types" : 
+               [
+                  "locality",
+                  "political"
+               ]
+            },
+            {
+               "long_name" : "Ciudad de México",
+               "short_name" : "CDMX",
+               "types" : 
+               [
+                  "administrative_area_level_1",
+                  "political"
+               ]
+            },
+            {
+               "long_name" : "México",
+               "short_name" : "MX",
+               "types" : 
+               [
+                  "country",
+                  "political"
+               ]
+            },
+            {
+               "long_name" : "01900",
+               "short_name" : "01900",
+               "types" : 
+               [
+                  "postal_code"
+               ]
+            }
+         ],
+         "formatted_address" : "Periferico Sur 3230, Jardines del Pedregal, Álvaro Obregón, 01900 Ciudad de México, CDMX, México",
+         "geometry" : 
+         {
+            "location" : 
+            {
+               "lat" : 19.3159,
+               "lng" : -99.2205
+            },
+            "location_type" : "ROOFTOP",
+            "viewport" : 
+            {
+               "northeast" : 
+               {
+                  "lat" : 19.3172489802915,
+                  "lng" : -99.21915101970851
+               },
+               "southwest" : 
+               {
+                  "lat" : 19.3145510197085,
+                  "lng" : -99.22184898029151
+               }
+            }
+         },
+         "navigation_points" : 
+         [
+            {
+               "location" : 
+               {
+                  "latitude" : 19.3158755,
+                  "longitude" : -99.2205632
+               }
+            }
+         ],
+         "place_id" : "ChIJ_ynbIJf_zYURB_vdEwmXjzw",
+         "types" : 
+         [
+            "street_address",
+            "subpremise"
+         ]
+      },
+      {
+         "address_components" : 
+         [
+            {
+               "long_name" : "3230",
+               "short_name" : "3230",
+               "types" : 
+               [
+                  "street_number"
+               ]
+            },
+            {
+               "long_name" : "Periferico Sur",
+               "short_name" : "Periferico Sur",
+               "types" : 
+               [
+                  "route"
+               ]
+            },
+            {
+               "long_name" : "Jardines del Pedregal",
+               "short_name" : "Jardines del Pedregal",
+               "types" : 
+               [
+                  "political",
+                  "sublocality",
+                  "sublocality_level_1"
+               ]
+            },
+            {
+               "long_name" : "Ciudad de México",
+               "short_name" : "México D.F.",
+               "types" : 
+               [
+                  "locality",
+                  "political"
+               ]
+            },
+            {
+               "long_name" : "Ciudad de México",
+               "short_name" : "CDMX",
+               "types" : 
+               [
+                  "administrative_area_level_1",
+                  "political"
+               ]
+            },
+            {
+               "long_name" : "México",
+               "short_name" : "MX",
+               "types" : 
+               [
+                  "country",
+                  "political"
+               ]
+            },
+            {
+               "long_name" : "01900",
+               "short_name" : "01900",
+               "types" : 
+               [
+                  "postal_code"
+               ]
+            }
+         ],
+         "formatted_address" : "Periferico Sur 3230, Jardines del Pedregal, Álvaro Obregón, 01900 Ciudad de México, CDMX, México",
+         "geometry" : 
+         {
+            "location" : 
+            {
+               "lat" : 19.3159,
+               "lng" : -99.2205
+            },
+            "location_type" : "ROOFTOP",
+            "viewport" : 
+            {
+               "northeast" : 
+               {
+                  "lat" : 19.3172489802915,
+                  "lng" : -99.21915101970851
+               },
+               "southwest" : 
+               {
+                  "lat" : 19.3145510197085,
+                  "lng" : -99.22184898029151
+               }
+            }
+         },
+         "navigation_points" : 
+         [
+            {
+               "location" : 
+               {
+                  "latitude" : 19.3158755,
+                  "longitude" : -99.2205632
+               }
+            }
+         ],
+         "place_id" : "ChIJITV4H5f_zYURRx_FYCQn3Xo",
+         "plus_code" : 
+         {
+            "compound_code" : "8Q8H+9Q Ciudad de México, CDMX, México",
+            "global_code" : "76F28Q8H+9Q"
+         },
+         "types" : 
+         [
+            "car_dealer",
+            "establishment",
+            "point_of_interest",
+            "store"
+         ]
+      },
+      {
+         "address_components" : 
+         [
+            {
+               "long_name" : "Periférico - PFP",
+               "short_name" : "Periférico - PFP",
+               "types" : 
+               [
+                  "establishment",
+                  "point_of_interest",
+                  "transit_station"
+               ]
+            },
+            {
+               "long_name" : "San Jerónimo Aculco",
+               "short_name" : "San Jerónimo Aculco",
+               "types" : 
+               [
+                  "political",
+                  "sublocality",
+                  "sublocality_level_1"
+               ]
+            },
+            {
+               "long_name" : "Ciudad de México",
+               "short_name" : "México D.F.",
+               "types" : 
+               [
+                  "locality",
+                  "political"
+               ]
+            },
+            {
+               "long_name" : "Ciudad de México",
+               "short_name" : "CDMX",
+               "types" : 
+               [
+                  "administrative_area_level_1",
+                  "political"
+               ]
+            },
+            {
+               "long_name" : "México",
+               "short_name" : "MX",
+               "types" : 
+               [
+                  "country",
+                  "political"
+               ]
+            },
+            {
+               "long_name" : "01904",
+               "short_name" : "01904",
+               "types" : 
+               [
+                  "postal_code"
+               ]
+            }
+         ],
+         "formatted_address" : "Periférico - PFP, San Jerónimo Aculco, 01904 Ciudad de México, CDMX, México",
+         "geometry" : 
+         {
+            "location" : 
+            {
+               "lat" : 19.31571,
+               "lng" : -99.22068999999999
+            },
+            "location_type" : "GEOMETRIC_CENTER",
+            "viewport" : 
+            {
+               "northeast" : 
+               {
+                  "lat" : 19.3170589802915,
+                  "lng" : -99.21934101970848
+               },
+               "southwest" : 
+               {
+                  "lat" : 19.3143610197085,
+                  "lng" : -99.2220389802915
+               }
+            }
+         },
+         "navigation_points" : 
+         [
+            {
+               "location" : 
+               {
+                  "latitude" : 19.3157151,
+                  "longitude" : -99.2206606
+               }
+            }
+         ],
+         "place_id" : "ChIJVTqPIZf_zYUR__zwvGm5Zhw",
+         "plus_code" : 
+         {
+            "compound_code" : "8Q8H+7P Ciudad de México, CDMX, México",
+            "global_code" : "76F28Q8H+7P"
+         },
+         "types" : 
+         [
+            "establishment",
+            "point_of_interest",
+            "transit_station"
+         ]
+      },
+      {
+         "address_components" : 
+         [
+            {
+               "long_name" : "Pedregal",
+               "short_name" : "Pedregal",
+               "types" : 
+               [
+                  "premise"
+               ]
+            },
+            {
+               "long_name" : "3230",
+               "short_name" : "3230",
+               "types" : 
+               [
+                  "street_number"
+               ]
+            },
+            {
+               "long_name" : "Anillo Periférico",
+               "short_name" : "Anillo Perif.",
+               "types" : 
+               [
+                  "route"
+               ]
+            },
+            {
+               "long_name" : "San Jerónimo Aculco",
+               "short_name" : "San Jerónimo Aculco",
+               "types" : 
+               [
+                  "political",
+                  "sublocality",
+                  "sublocality_level_1"
+               ]
+            },
+            {
+               "long_name" : "Ciudad de México",
+               "short_name" : "México D.F.",
+               "types" : 
+               [
+                  "locality",
+                  "political"
+               ]
+            },
+            {
+               "long_name" : "Ciudad de México",
+               "short_name" : "CDMX",
+               "types" : 
+               [
+                  "administrative_area_level_1",
+                  "political"
+               ]
+            },
+            {
+               "long_name" : "México",
+               "short_name" : "MX",
+               "types" : 
+               [
+                  "country",
+                  "political"
+               ]
+            },
+            {
+               "long_name" : "01904",
+               "short_name" : "01904",
+               "types" : 
+               [
+                  "postal_code"
+               ]
+            }
+         ],
+         "formatted_address" : "Pedregal, Anillo Perif. 3230, San Jerónimo Aculco, Álvaro Obregón, 01904 Ciudad de México, CDMX, México",
+         "geometry" : 
+         {
+            "location" : 
+            {
+               "lat" : 19.3159982,
+               "lng" : -99.2204505
+            },
+            "location_type" : "ROOFTOP",
+            "viewport" : 
+            {
+               "northeast" : 
+               {
+                  "lat" : 19.3173471802915,
+                  "lng" : -99.21910151970849
+               },
+               "southwest" : 
+               {
+                  "lat" : 19.3146492197085,
+                  "lng" : -99.22179948029151
+               }
+            }
+         },
+         "navigation_points" : 
+         [
+            {
+               "location" : 
+               {
+                  "latitude" : 19.3160313,
+                  "longitude" : -99.2207574
+               }
+            }
+         ],
+         "place_id" : "ChIJHwygIJf_zYURyfQw6nMNYZ0",
+         "types" : 
+         [
+            "premise",
+            "street_address"
+         ]
+      },
+      {
+         "address_components" : 
+         [
+            {
+               "long_name" : "3666",
+               "short_name" : "3666",
+               "types" : 
+               [
+                  "street_number"
+               ]
+            },
+            {
+               "long_name" : "Periferico Sur",
+               "short_name" : "Periferico Sur",
+               "types" : 
+               [
+                  "route"
+               ]
+            },
+            {
+               "long_name" : "Jardines del Pedregal",
+               "short_name" : "Jardines del Pedregal",
+               "types" : 
+               [
+                  "political",
+                  "sublocality",
+                  "sublocality_level_1"
+               ]
+            },
+            {
+               "long_name" : "Ciudad de México",
+               "short_name" : "México D.F.",
+               "types" : 
+               [
+                  "locality",
+                  "political"
+               ]
+            },
+            {
+               "long_name" : "Ciudad de México",
+               "short_name" : "CDMX",
+               "types" : 
+               [
+                  "administrative_area_level_1",
+                  "political"
+               ]
+            },
+            {
+               "long_name" : "México",
+               "short_name" : "MX",
+               "types" : 
+               [
+                  "country",
+                  "political"
+               ]
+            },
+            {
+               "long_name" : "01904",
+               "short_name" : "01904",
+               "types" : 
+               [
+                  "postal_code"
+               ]
+            }
+         ],
+         "formatted_address" : "Periferico Sur 3666, Jardines del Pedregal, Álvaro Obregón, 01904 Ciudad de México, CDMX, México",
+         "geometry" : 
+         {
+            "location" : 
+            {
+               "lat" : 19.3155037,
+               "lng" : -99.22060429999999
+            },
+            "location_type" : "ROOFTOP",
+            "viewport" : 
+            {
+               "northeast" : 
+               {
+                  "lat" : 19.3168526802915,
+                  "lng" : -99.21925531970848
+               },
+               "southwest" : 
+               {
+                  "lat" : 19.3141547197085,
+                  "lng" : -99.22195328029149
+               }
+            }
+         },
+         "navigation_points" : 
+         [
+            {
+               "location" : 
+               {
+                  "latitude" : 19.3155003,
+                  "longitude" : -99.22062579999999
+               }
+            }
+         ],
+         "place_id" : "ChIJ_01yH5f_zYUR05NTAyS2DXo",
+         "plus_code" : 
+         {
+            "compound_code" : "8Q8H+6Q Ciudad de México, CDMX, México",
+            "global_code" : "76F28Q8H+6Q"
+         },
+         "types" : 
+         [
+            "street_address"
+         ]
+      },
+      {
+         "address_components" : 
+         [
+            {
+               "long_name" : "3666",
+               "short_name" : "3666",
+               "types" : 
+               [
+                  "street_number"
+               ]
+            },
+            {
+               "long_name" : "Periferico Sur",
+               "short_name" : "Periferico Sur",
+               "types" : 
+               [
+                  "route"
+               ]
+            },
+            {
+               "long_name" : "San Jerónimo Aculco",
+               "short_name" : "San Jerónimo Aculco",
+               "types" : 
+               [
+                  "political",
+                  "sublocality",
+                  "sublocality_level_1"
+               ]
+            },
+            {
+               "long_name" : "Ciudad de México",
+               "short_name" : "México D.F.",
+               "types" : 
+               [
+                  "locality",
+                  "political"
+               ]
+            },
+            {
+               "long_name" : "Ciudad de México",
+               "short_name" : "CDMX",
+               "types" : 
+               [
+                  "administrative_area_level_1",
+                  "political"
+               ]
+            },
+            {
+               "long_name" : "México",
+               "short_name" : "MX",
+               "types" : 
+               [
+                  "country",
+                  "political"
+               ]
+            },
+            {
+               "long_name" : "01904",
+               "short_name" : "01904",
+               "types" : 
+               [
+                  "postal_code"
+               ]
+            }
+         ],
+         "formatted_address" : "Periferico Sur 3666, San Jerónimo Aculco, Álvaro Obregón, 01904 Ciudad de México, CDMX, México",
+         "geometry" : 
+         {
+            "location" : 
+            {
+               "lat" : 19.3157282,
+               "lng" : -99.220731
+            },
+            "location_type" : "RANGE_INTERPOLATED",
+            "viewport" : 
+            {
+               "northeast" : 
+               {
+                  "lat" : 19.3170771802915,
+                  "lng" : -99.21938201970849
+               },
+               "southwest" : 
+               {
+                  "lat" : 19.3143792197085,
+                  "lng" : -99.22207998029151
+               }
+            }
+         },
+         "place_id" : "EmJQZXJpZmVyaWNvIFN1ciAzNjY2LCBTYW4gSmVyw7NuaW1vIEFjdWxjbywgw4FsdmFybyBPYnJlZ8OzbiwgMDE5MDQgQ2l1ZGFkIGRlIE3DqXhpY28sIENETVgsIE1leGljbyIbEhkKFAoSCYVsHiKX_82FEaFNIYTPuV6XENIc",
+         "types" : 
+         [
+            "street_address"
+         ]
+      },
+      {
+         "address_components" : 
+         [
+            {
+               "long_name" : "8Q8H+7R",
+               "short_name" : "8Q8H+7R",
+               "types" : 
+               [
+                  "plus_code"
+               ]
+            },
+            {
+               "long_name" : "Ciudad de México",
+               "short_name" : "México D.F.",
+               "types" : 
+               [
+                  "locality",
+                  "political"
+               ]
+            },
+            {
+               "long_name" : "Ciudad de México",
+               "short_name" : "CDMX",
+               "types" : 
+               [
+                  "administrative_area_level_1",
+                  "political"
+               ]
+            },
+            {
+               "long_name" : "México",
+               "short_name" : "MX",
+               "types" : 
+               [
+                  "country",
+                  "political"
+               ]
+            }
+         ],
+         "formatted_address" : "8Q8H+7R Ciudad de México, CDMX, México",
+         "geometry" : 
+         {
+            "bounds" : 
+            {
+               "northeast" : 
+               {
+                  "lat" : 19.31575,
+                  "lng" : -99.22037499999999
+               },
+               "southwest" : 
+               {
+                  "lat" : 19.315625,
+                  "lng" : -99.2205
+               }
+            },
+            "location" : 
+            {
+               "lat" : 19.315733,
+               "lng" : -99.220451
+            },
+            "location_type" : "GEOMETRIC_CENTER",
+            "viewport" : 
+            {
+               "northeast" : 
+               {
+                  "lat" : 19.3170364802915,
+                  "lng" : -99.21908851970849
+               },
+               "southwest" : 
+               {
+                  "lat" : 19.3143385197085,
+                  "lng" : -99.2217864802915
+               }
+            }
+         },
+         "place_id" : "GhIJmUS94NNQM0ARtteC3hvOWMA",
+         "plus_code" : 
+         {
+            "compound_code" : "8Q8H+7R Ciudad de México, CDMX, México",
+            "global_code" : "76F28Q8H+7R"
+         },
+         "types" : 
+         [
+            "plus_code"
+         ]
+      },
+      {
+         "address_components" : 
+         [
+            {
+               "long_name" : "Periferico Sur",
+               "short_name" : "Periferico Sur",
+               "types" : 
+               [
+                  "route"
+               ]
+            },
+            {
+               "long_name" : "San Jerónimo Aculco",
+               "short_name" : "San Jerónimo Aculco",
+               "types" : 
+               [
+                  "political",
+                  "sublocality",
+                  "sublocality_level_1"
+               ]
+            },
+            {
+               "long_name" : "Ciudad de México",
+               "short_name" : "México D.F.",
+               "types" : 
+               [
+                  "locality",
+                  "political"
+               ]
+            },
+            {
+               "long_name" : "Ciudad de México",
+               "short_name" : "CDMX",
+               "types" : 
+               [
+                  "administrative_area_level_1",
+                  "political"
+               ]
+            },
+            {
+               "long_name" : "México",
+               "short_name" : "MX",
+               "types" : 
+               [
+                  "country",
+                  "political"
+               ]
+            },
+            {
+               "long_name" : "01904",
+               "short_name" : "01904",
+               "types" : 
+               [
+                  "postal_code"
+               ]
+            }
+         ],
+         "formatted_address" : "Periferico Sur, San Jerónimo Aculco, Álvaro Obregón, 01904 Ciudad de México, CDMX, México",
+         "geometry" : 
+         {
+            "bounds" : 
+            {
+               "northeast" : 
+               {
+                  "lat" : 19.3159404,
+                  "lng" : -99.22072240000001
+               },
+               "southwest" : 
+               {
+                  "lat" : 19.3156676,
+                  "lng" : -99.2207679
+               }
+            },
+            "location" : 
+            {
+               "lat" : 19.3158038,
+               "lng" : -99.22074579999999
+            },
+            "location_type" : "GEOMETRIC_CENTER",
+            "viewport" : 
+            {
+               "northeast" : 
+               {
+                  "lat" : 19.3171529802915,
+                  "lng" : -99.2193961697085
+               },
+               "southwest" : 
+               {
+                  "lat" : 19.3144550197085,
+                  "lng" : -99.22209413029151
+               }
+            }
+         },
+         "place_id" : "ChIJhWweIpf_zYURoE0hhM-5Xpc",
+         "types" : 
+         [
+            "route"
+         ]
+      },
+      {
+         "address_components" : 
+         [
+            {
+               "long_name" : "San Jerónimo Aculco",
+               "short_name" : "San Jerónimo Aculco",
+               "types" : 
+               [
+                  "political",
+                  "sublocality",
+                  "sublocality_level_1"
+               ]
+            },
+            {
+               "long_name" : "Ciudad de México",
+               "short_name" : "México D.F.",
+               "types" : 
+               [
+                  "locality",
+                  "political"
+               ]
+            },
+            {
+               "long_name" : "Ciudad de México",
+               "short_name" : "CDMX",
+               "types" : 
+               [
+                  "administrative_area_level_1",
+                  "political"
+               ]
+            },
+            {
+               "long_name" : "México",
+               "short_name" : "MX",
+               "types" : 
+               [
+                  "country",
+                  "political"
+               ]
+            },
+            {
+               "long_name" : "01904",
+               "short_name" : "01904",
+               "types" : 
+               [
+                  "postal_code"
+               ]
+            }
+         ],
+         "formatted_address" : "San Jerónimo Aculco, 01904 Ciudad de México, CDMX, México",
+         "geometry" : 
+         {
+            "bounds" : 
+            {
+               "northeast" : 
+               {
+                  "lat" : 19.3210812,
+                  "lng" : -99.2193341
+               },
+               "southwest" : 
+               {
+                  "lat" : 19.3152935,
+                  "lng" : -99.22148550000001
+               }
+            },
+            "location" : 
+            {
+               "lat" : 19.3181557,
+               "lng" : -99.220715
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : 
+            {
+               "northeast" : 
+               {
+                  "lat" : 19.3210812,
+                  "lng" : -99.2190608197085
+               },
+               "southwest" : 
+               {
+                  "lat" : 19.3152935,
+                  "lng" : -99.22175878029151
+               }
+            }
+         },
+         "place_id" : "ChIJNReq2JD_zYUR2smQZ72WbVw",
+         "types" : 
+         [
+            "political",
+            "sublocality",
+            "sublocality_level_1"
+         ]
+      },
+      {
+         "address_components" : 
+         [
+            {
+               "long_name" : "01904",
+               "short_name" : "01904",
+               "types" : 
+               [
+                  "postal_code"
+               ]
+            },
+            {
+               "long_name" : "Ciudad de México",
+               "short_name" : "México D.F.",
+               "types" : 
+               [
+                  "locality",
+                  "political"
+               ]
+            },
+            {
+               "long_name" : "Ciudad de México",
+               "short_name" : "CDMX",
+               "types" : 
+               [
+                  "administrative_area_level_1",
+                  "political"
+               ]
+            },
+            {
+               "long_name" : "México",
+               "short_name" : "MX",
+               "types" : 
+               [
+                  "country",
+                  "political"
+               ]
+            }
+         ],
+         "formatted_address" : "01904 Ciudad de México, CDMX, México",
+         "geometry" : 
+         {
+            "bounds" : 
+            {
+               "northeast" : 
+               {
+                  "lat" : 19.3210812,
+                  "lng" : -99.21932030000001
+               },
+               "southwest" : 
+               {
+                  "lat" : 19.3152936,
+                  "lng" : -99.22148550000001
+               }
+            },
+            "location" : 
+            {
+               "lat" : 19.3181557,
+               "lng" : -99.220715
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : 
+            {
+               "northeast" : 
+               {
+                  "lat" : 19.3210812,
+                  "lng" : -99.21905391970851
+               },
+               "southwest" : 
+               {
+                  "lat" : 19.3152936,
+                  "lng" : -99.22175188029152
+               }
+            }
+         },
+         "place_id" : "ChIJIS-t2JD_zYUR2OChj47-lDE",
+         "types" : 
+         [
+            "postal_code"
+         ]
+      },
+      {
+         "address_components" : 
+         [
+            {
+               "long_name" : "Álvaro Obregón",
+               "short_name" : "Álvaro Obregón",
+               "types" : 
+               [
+                  "administrative_area_level_3",
+                  "political"
+               ]
+            },
+            {
+               "long_name" : "Ciudad de México",
+               "short_name" : "CDMX",
+               "types" : 
+               [
+                  "administrative_area_level_1",
+                  "political"
+               ]
+            },
+            {
+               "long_name" : "México",
+               "short_name" : "MX",
+               "types" : 
+               [
+                  "country",
+                  "political"
+               ]
+            }
+         ],
+         "formatted_address" : "Álvaro Obregón, CDMX, México",
+         "geometry" : 
+         {
+            "bounds" : 
+            {
+               "northeast" : 
+               {
+                  "lat" : 19.403743,
+                  "lng" : -99.17170610000001
+               },
+               "southwest" : 
+               {
+                  "lat" : 19.2326098,
+                  "lng" : -99.32435599999999
+               }
+            },
+            "location" : 
+            {
+               "lat" : 19.3605334,
+               "lng" : -99.22670669999999
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : 
+            {
+               "northeast" : 
+               {
+                  "lat" : 19.403743,
+                  "lng" : -99.17170610000001
+               },
+               "southwest" : 
+               {
+                  "lat" : 19.2326098,
+                  "lng" : -99.32435599999999
+               }
+            }
+         },
+         "place_id" : "ChIJsxIUR4oA0oURW1WtnNGK-zg",
+         "types" : 
+         [
+            "administrative_area_level_3",
+            "political"
+         ]
+      },
+      {
+         "address_components" : 
+         [
+            {
+               "long_name" : "Ciudad de México",
+               "short_name" : "México D.F.",
+               "types" : 
+               [
+                  "locality",
+                  "political"
+               ]
+            },
+            {
+               "long_name" : "Ciudad de México",
+               "short_name" : "CDMX",
+               "types" : 
+               [
+                  "administrative_area_level_1",
+                  "political"
+               ]
+            },
+            {
+               "long_name" : "México",
+               "short_name" : "MX",
+               "types" : 
+               [
+                  "country",
+                  "political"
+               ]
+            }
+         ],
+         "formatted_address" : "Ciudad de México, CDMX, México",
+         "geometry" : 
+         {
+            "bounds" : 
+            {
+               "northeast" : 
+               {
+                  "lat" : 19.5927571,
+                  "lng" : -98.9604482
+               },
+               "southwest" : 
+               {
+                  "lat" : 19.1887101,
+                  "lng" : -99.3267771
+               }
+            },
+            "location" : 
+            {
+               "lat" : 19.4326077,
+               "lng" : -99.133208
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : 
+            {
+               "northeast" : 
+               {
+                  "lat" : 19.5927571,
+                  "lng" : -98.9604482
+               },
+               "southwest" : 
+               {
+                  "lat" : 19.1887101,
+                  "lng" : -99.3267771
+               }
+            }
+         },
+         "navigation_points" : 
+         [
+            {
+               "location" : 
+               {
+                  "latitude" : 19.4305936,
+                  "longitude" : -99.1371496
+               }
+            }
+         ],
+         "place_id" : "ChIJB3UJ2yYAzoURQeheJnYQBlQ",
+         "types" : 
+         [
+            "locality",
+            "political"
+         ]
+      },
+      {
+         "address_components" : 
+         [
+            {
+               "long_name" : "Ciudad de México",
+               "short_name" : "CDMX",
+               "types" : 
+               [
+                  "administrative_area_level_1",
+                  "political"
+               ]
+            },
+            {
+               "long_name" : "México",
+               "short_name" : "MX",
+               "types" : 
+               [
+                  "country",
+                  "political"
+               ]
+            }
+         ],
+         "formatted_address" : "Cd. de México, México",
+         "geometry" : 
+         {
+            "bounds" : 
+            {
+               "northeast" : 
+               {
+                  "lat" : 19.5927571,
+                  "lng" : -98.94030269999999
+               },
+               "southwest" : 
+               {
+                  "lat" : 19.0482366,
+                  "lng" : -99.36492419999999
+               }
+            },
+            "location" : 
+            {
+               "lat" : 19.2464696,
+               "lng" : -99.10134979999999
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : 
+            {
+               "northeast" : 
+               {
+                  "lat" : 19.5927571,
+                  "lng" : -98.94030269999999
+               },
+               "southwest" : 
+               {
+                  "lat" : 19.0482366,
+                  "lng" : -99.36492419999999
+               }
+            }
+         },
+         "place_id" : "ChIJJyk1sTYAzoURW4rR6E6e_d4",
+         "types" : 
+         [
+            "administrative_area_level_1",
+            "political"
+         ]
+      },
+      {
+         "address_components" : 
+         [
+            {
+               "long_name" : "México",
+               "short_name" : "MX",
+               "types" : 
+               [
+                  "country",
+                  "political"
+               ]
+            }
+         ],
+         "formatted_address" : "México",
+         "geometry" : 
+         {
+            "bounds" : 
+            {
+               "northeast" : 
+               {
+                  "lat" : 32.7187538,
+                  "lng" : -86.5887
+               },
+               "southwest" : 
+               {
+                  "lat" : 14.3895,
+                  "lng" : -118.6523001
+               }
+            },
+            "location" : 
+            {
+               "lat" : 23.634501,
+               "lng" : -102.552784
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : 
+            {
+               "northeast" : 
+               {
+                  "lat" : 32.7187538,
+                  "lng" : -86.5887
+               },
+               "southwest" : 
+               {
+                  "lat" : 14.3895,
+                  "lng" : -118.6523001
+               }
+            }
+         },
+         "place_id" : "ChIJU1NoiDs6BIQREZgJa760ZO0",
+         "types" : 
+         [
+            "country",
+            "political"
+         ]
+      }
+   ],
+   "status" : "OK"
+}
+
+
+
+//---------------------------------------------------------
+{
+  "plus_code": {
+    "compound_code": "8Q8J+MPR Ciudad de México, CDMX, México",
+    "global_code": "76F28Q8J+MPR"
+  },
+  "results": [
+    {
+      "address_components": [
+        {
+          "long_name": "432",
+          "short_name": "432",
+          "types": [
+            "street_number"
+          ]
+        },
+        {
+          "long_name": "Nubes",
+          "short_name": "Nubes",
+          "types": [
+            "route"
+          ]
+        },
+        {
+          "long_name": "Jardines del Pedregal",
+          "short_name": "Jardines del Pedregal",
+          "types": [
+            "political",
+            "sublocality",
+            "sublocality_level_1"
+          ]
+        },
+        {
+          "long_name": "Ciudad de México",
+          "short_name": "México D.F.",
+          "types": [
+            "locality",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Ciudad de México",
+          "short_name": "CDMX",
+          "types": [
+            "administrative_area_level_1",
+            "political"
+          ]
+        },
+        {
+          "long_name": "México",
+          "short_name": "MX",
+          "types": [
+            "country",
+            "political"
+          ]
+        },
+        {
+          "long_name": "01900",
+          "short_name": "01900",
+          "types": [
+            "postal_code"
+          ]
+        }
+      ],
+      "formatted_address": "Nubes 432, Jardines del Pedregal, Álvaro Obregón, 01900 Ciudad de México, CDMX, México",
+      "geometry": {
+        "bounds": {
+          "northeast": {
+            "lat": 19.3167232,
+            "lng": -99.2183063
+          },
+          "southwest": {
+            "lat": 19.3165274,
+            "lng": -99.2184003
+          }
+        },
+        "location": {
+          "lat": 19.3166245,
+          "lng": -99.2183512
+        },
+        "location_type": "ROOFTOP",
+        "viewport": {
+          "northeast": {
+            "lat": 19.3179742802915,
+            "lng": -99.2170043197085
+          },
+          "southwest": {
+            "lat": 19.3152763197085,
+            "lng": -99.2197022802915
+          }
+        }
+      },
+      "navigation_points": [
+        {
+          "location": {
+            "latitude": 19.3165258,
+            "longitude": -99.2184278
+          }
+        }
+      ],
+      "place_id": "ChIJb5fMsZb_zYURLDM55Q1gR-c",
+      "types": [
+        "premise",
+        "street_address"
+      ]
+    },
+    {
+      "address_components": [
+        {
+          "long_name": "418",
+          "short_name": "418",
+          "types": [
+            "street_number"
+          ]
+        },
+        {
+          "long_name": "Nubes",
+          "short_name": "Nubes",
+          "types": [
+            "route"
+          ]
+        },
+        {
+          "long_name": "Jardines del Pedregal",
+          "short_name": "Jardines del Pedregal",
+          "types": [
+            "political",
+            "sublocality",
+            "sublocality_level_1"
+          ]
+        },
+        {
+          "long_name": "Ciudad de México",
+          "short_name": "México D.F.",
+          "types": [
+            "locality",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Ciudad de México",
+          "short_name": "CDMX",
+          "types": [
+            "administrative_area_level_1",
+            "political"
+          ]
+        },
+        {
+          "long_name": "México",
+          "short_name": "MX",
+          "types": [
+            "country",
+            "political"
+          ]
+        },
+        {
+          "long_name": "01900",
+          "short_name": "01900",
+          "types": [
+            "postal_code"
+          ]
+        }
+      ],
+      "formatted_address": "Nubes 418, Jardines del Pedregal, Álvaro Obregón, 01900 Ciudad de México, CDMX, México",
+      "geometry": {
+        "location": {
+          "lat": 19.3169548,
+          "lng": -99.2185247
+        },
+        "location_type": "ROOFTOP",
+        "viewport": {
+          "northeast": {
+            "lat": 19.3183037802915,
+            "lng": -99.2171757197085
+          },
+          "southwest": {
+            "lat": 19.3156058197085,
+            "lng": -99.2198736802915
+          }
+        }
+      },
+      "navigation_points": [
+        {
+          "location": {
+            "latitude": 19.3169494,
+            "longitude": -99.2185124
+          }
+        }
+      ],
+      "place_id": "ChIJgW3eq3v_zYURGE8Y1gk80i0",
+      "plus_code": {
+        "compound_code": "8Q8J+QH Ciudad de México, CDMX, México",
+        "global_code": "76F28Q8J+QH"
+      },
+      "types": [
+        "street_address"
+      ]
+    },
+    {
+      "address_components": [
+        {
+          "long_name": "433",
+          "short_name": "433",
+          "types": [
+            "street_number"
+          ]
+        },
+        {
+          "long_name": "Nubes",
+          "short_name": "Nubes",
+          "types": [
+            "route"
+          ]
+        },
+        {
+          "long_name": "Jardines del Pedregal",
+          "short_name": "Jardines del Pedregal",
+          "types": [
+            "political",
+            "sublocality",
+            "sublocality_level_1"
+          ]
+        },
+        {
+          "long_name": "Ciudad de México",
+          "short_name": "México D.F.",
+          "types": [
+            "locality",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Ciudad de México",
+          "short_name": "CDMX",
+          "types": [
+            "administrative_area_level_1",
+            "political"
+          ]
+        },
+        {
+          "long_name": "México",
+          "short_name": "MX",
+          "types": [
+            "country",
+            "political"
+          ]
+        },
+        {
+          "long_name": "01900",
+          "short_name": "01900",
+          "types": [
+            "postal_code"
+          ]
+        }
+      ],
+      "formatted_address": "Nubes 433, Jardines del Pedregal, Álvaro Obregón, 01900 Ciudad de México, CDMX, México",
+      "geometry": {
+        "location": {
+          "lat": 19.3165675,
+          "lng": -99.218619
+        },
+        "location_type": "ROOFTOP",
+        "viewport": {
+          "northeast": {
+            "lat": 19.3179164802915,
+            "lng": -99.2172700197085
+          },
+          "southwest": {
+            "lat": 19.3152185197085,
+            "lng": -99.2199679802915
+          }
+        }
+      },
+      "navigation_points": [
+        {
+          "location": {
+            "latitude": 19.3165586,
+            "longitude": -99.2186337
+          }
+        }
+      ],
+      "place_id": "ChIJlzrSsJb_zYURBZqwIqBgNVU",
+      "plus_code": {
+        "compound_code": "8Q8J+JH Jardines del Pedregal, Ciudad de México, CDMX, México",
+        "global_code": "76F28Q8J+JH"
+      },
+      "types": [
+        "establishment",
+        "point_of_interest"
+      ]
+    },
+    {
+      "address_components": [
+        {
+          "long_name": "436",
+          "short_name": "436",
+          "types": [
+            "street_number"
+          ]
+        },
+        {
+          "long_name": "Nubes",
+          "short_name": "Nubes",
+          "types": [
+            "route"
+          ]
+        },
+        {
+          "long_name": "Jardines del Pedregal",
+          "short_name": "Jardines del Pedregal",
+          "types": [
+            "political",
+            "sublocality",
+            "sublocality_level_1"
+          ]
+        },
+        {
+          "long_name": "Ciudad de México",
+          "short_name": "México D.F.",
+          "types": [
+            "locality",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Ciudad de México",
+          "short_name": "CDMX",
+          "types": [
+            "administrative_area_level_1",
+            "political"
+          ]
+        },
+        {
+          "long_name": "México",
+          "short_name": "MX",
+          "types": [
+            "country",
+            "political"
+          ]
+        },
+        {
+          "long_name": "01900",
+          "short_name": "01900",
+          "types": [
+            "postal_code"
+          ]
+        }
+      ],
+      "formatted_address": "Nubes 436, Jardines del Pedregal, Álvaro Obregón, 01900 Ciudad de México, CDMX, México",
+      "geometry": {
+        "location": {
+          "lat": 19.3164109,
+          "lng": -99.2181916
+        },
+        "location_type": "RANGE_INTERPOLATED",
+        "viewport": {
+          "northeast": {
+            "lat": 19.3177598802915,
+            "lng": -99.2168426197085
+          },
+          "southwest": {
+            "lat": 19.3150619197085,
+            "lng": -99.2195405802915
+          }
+        }
+      },
+      "place_id": "EllOdWJlcyA0MzYsIEphcmRpbmVzIGRlbCBQZWRyZWdhbCwgw4FsdmFybyBPYnJlZ8OzbiwgMDE5MDAgQ2l1ZGFkIGRlIE3DqXhpY28sIENETVgsIE1leGljbyIbEhkKFAoSCXmdeK2W_82FEQ5c9TDsMu2aELQD",
+      "types": [
+        "street_address"
+      ]
+    },
+    {
+      "address_components": [
+        {
+          "long_name": "8Q8J+MP",
+          "short_name": "8Q8J+MP",
+          "types": [
+            "plus_code"
+          ]
+        },
+        {
+          "long_name": "Ciudad de México",
+          "short_name": "México D.F.",
+          "types": [
+            "locality",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Ciudad de México",
+          "short_name": "CDMX",
+          "types": [
+            "administrative_area_level_1",
+            "political"
+          ]
+        },
+        {
+          "long_name": "México",
+          "short_name": "MX",
+          "types": [
+            "country",
+            "political"
+          ]
+        }
+      ],
+      "formatted_address": "8Q8J+MP Ciudad de México, CDMX, México",
+      "geometry": {
+        "bounds": {
+          "northeast": {
+            "lat": 19.31675,
+            "lng": -99.218125
+          },
+          "southwest": {
+            "lat": 19.316625,
+            "lng": -99.21825
+          }
+        },
+        "location": {
+          "lat": 19.316736,
+          "lng": -99.2182272
+        },
+        "location_type": "GEOMETRIC_CENTER",
+        "viewport": {
+          "northeast": {
+            "lat": 19.3180364802915,
+            "lng": -99.2168385197085
+          },
+          "southwest": {
+            "lat": 19.3153385197085,
+            "lng": -99.2195364802915
+          }
+        }
+      },
+      "place_id": "GhIJQndJnBVRM0ARQMY3b_fNWMA",
+      "plus_code": {
+        "compound_code": "8Q8J+MP Ciudad de México, CDMX, México",
+        "global_code": "76F28Q8J+MP"
+      },
+      "types": [
+        "plus_code"
+      ]
+    },
+    {
+      "address_components": [
+        {
+          "long_name": "444-388",
+          "short_name": "444-388",
+          "types": [
+            "street_number"
+          ]
+        },
+        {
+          "long_name": "Nubes",
+          "short_name": "Nubes",
+          "types": [
+            "route"
+          ]
+        },
+        {
+          "long_name": "Jardines del Pedregal",
+          "short_name": "Jardines del Pedregal",
+          "types": [
+            "political",
+            "sublocality",
+            "sublocality_level_1"
+          ]
+        },
+        {
+          "long_name": "Ciudad de México",
+          "short_name": "México D.F.",
+          "types": [
+            "locality",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Ciudad de México",
+          "short_name": "CDMX",
+          "types": [
+            "administrative_area_level_1",
+            "political"
+          ]
+        },
+        {
+          "long_name": "México",
+          "short_name": "MX",
+          "types": [
+            "country",
+            "political"
+          ]
+        },
+        {
+          "long_name": "01900",
+          "short_name": "01900",
+          "types": [
+            "postal_code"
+          ]
+        }
+      ],
+      "formatted_address": "Nubes 444-388, Jardines del Pedregal, Álvaro Obregón, 01900 Ciudad de México, CDMX, México",
+      "geometry": {
+        "bounds": {
+          "northeast": {
+            "lat": 19.3176519,
+            "lng": -99.217693
+          },
+          "southwest": {
+            "lat": 19.3164041,
+            "lng": -99.2186369
+          }
+        },
+        "location": {
+          "lat": 19.3166782,
+          "lng": -99.2186196
+        },
+        "location_type": "GEOMETRIC_CENTER",
+        "viewport": {
+          "northeast": {
+            "lat": 19.3183769802915,
+            "lng": -99.2168159697085
+          },
+          "southwest": {
+            "lat": 19.3156790197085,
+            "lng": -99.2195139302915
+          }
+        }
+      },
+      "place_id": "ChIJeZ14rZb_zYURDlz1MOwy7Zo",
+      "types": [
+        "route"
+      ]
+    },
+    {
+      "address_components": [
+        {
+          "long_name": "Jardines del Pedregal",
+          "short_name": "Jardines del Pedregal",
+          "types": [
+            "political",
+            "sublocality",
+            "sublocality_level_1"
+          ]
+        },
+        {
+          "long_name": "Ciudad de México",
+          "short_name": "México D.F.",
+          "types": [
+            "locality",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Ciudad de México",
+          "short_name": "CDMX",
+          "types": [
+            "administrative_area_level_1",
+            "political"
+          ]
+        },
+        {
+          "long_name": "México",
+          "short_name": "MX",
+          "types": [
+            "country",
+            "political"
+          ]
+        },
+        {
+          "long_name": "01900",
+          "short_name": "01900",
+          "types": [
+            "postal_code"
+          ]
+        }
+      ],
+      "formatted_address": "Jardines del Pedregal, 01900 Ciudad de México, CDMX, México",
+      "geometry": {
+        "bounds": {
+          "northeast": {
+            "lat": 19.3337206,
+            "lng": -99.1947042
+          },
+          "southwest": {
+            "lat": 19.3056818,
+            "lng": -99.2208427
+          }
+        },
+        "location": {
+          "lat": 19.3205819,
+          "lng": -99.2099873
+        },
+        "location_type": "APPROXIMATE",
+        "viewport": {
+          "northeast": {
+            "lat": 19.3337206,
+            "lng": -99.1947042
+          },
+          "southwest": {
+            "lat": 19.3056818,
+            "lng": -99.2208427
+          }
+        }
+      },
+      "place_id": "ChIJxbqHQez_zYURC023DLxszcs",
+      "types": [
+        "political",
+        "sublocality",
+        "sublocality_level_1"
+      ]
+    },
+    {
+      "address_components": [
+        {
+          "long_name": "01900",
+          "short_name": "01900",
+          "types": [
+            "postal_code"
+          ]
+        },
+        {
+          "long_name": "Jardines del Pedregal",
+          "short_name": "Jardines del Pedregal",
+          "types": [
+            "political",
+            "sublocality",
+            "sublocality_level_1"
+          ]
+        },
+        {
+          "long_name": "Ciudad de México",
+          "short_name": "México D.F.",
+          "types": [
+            "locality",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Ciudad de México",
+          "short_name": "CDMX",
+          "types": [
+            "administrative_area_level_1",
+            "political"
+          ]
+        },
+        {
+          "long_name": "México",
+          "short_name": "MX",
+          "types": [
+            "country",
+            "political"
+          ]
+        }
+      ],
+      "formatted_address": "Jardines del Pedregal, 01900 Ciudad de México, CDMX, México",
+      "geometry": {
+        "bounds": {
+          "northeast": {
+            "lat": 19.3337207,
+            "lng": -99.194713
+          },
+          "southwest": {
+            "lat": 19.3057451,
+            "lng": -99.2208867
+          }
+        },
+        "location": {
+          "lat": 19.3205752,
+          "lng": -99.2092897
+        },
+        "location_type": "APPROXIMATE",
+        "viewport": {
+          "northeast": {
+            "lat": 19.3337207,
+            "lng": -99.194713
+          },
+          "southwest": {
+            "lat": 19.3057451,
+            "lng": -99.2208867
+          }
+        }
+      },
+      "place_id": "ChIJPZ7EzQsA0oURqB86Hzo_Zss",
+      "types": [
+        "postal_code"
+      ]
+    },
+    {
+      "address_components": [
+        {
+          "long_name": "Álvaro Obregón",
+          "short_name": "Álvaro Obregón",
+          "types": [
+            "administrative_area_level_3",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Ciudad de México",
+          "short_name": "CDMX",
+          "types": [
+            "administrative_area_level_1",
+            "political"
+          ]
+        },
+        {
+          "long_name": "México",
+          "short_name": "MX",
+          "types": [
+            "country",
+            "political"
+          ]
+        }
+      ],
+      "formatted_address": "Álvaro Obregón, CDMX, México",
+      "geometry": {
+        "bounds": {
+          "northeast": {
+            "lat": 19.403743,
+            "lng": -99.1717061
+          },
+          "southwest": {
+            "lat": 19.2326098,
+            "lng": -99.324356
+          }
+        },
+        "location": {
+          "lat": 19.3605334,
+          "lng": -99.2267067
+        },
+        "location_type": "APPROXIMATE",
+        "viewport": {
+          "northeast": {
+            "lat": 19.403743,
+            "lng": -99.1717061
+          },
+          "southwest": {
+            "lat": 19.2326098,
+            "lng": -99.324356
+          }
+        }
+      },
+      "place_id": "ChIJsxIUR4oA0oURW1WtnNGK-zg",
+      "types": [
+        "administrative_area_level_3",
+        "political"
+      ]
+    },
+    {
+      "address_components": [
+        {
+          "long_name": "Ciudad de México",
+          "short_name": "México D.F.",
+          "types": [
+            "locality",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Ciudad de México",
+          "short_name": "CDMX",
+          "types": [
+            "administrative_area_level_1",
+            "political"
+          ]
+        },
+        {
+          "long_name": "México",
+          "short_name": "MX",
+          "types": [
+            "country",
+            "political"
+          ]
+        }
+      ],
+      "formatted_address": "Ciudad de México, CDMX, México",
+      "geometry": {
+        "bounds": {
+          "northeast": {
+            "lat": 19.5927571,
+            "lng": -98.9604482
+          },
+          "southwest": {
+            "lat": 19.1887101,
+            "lng": -99.3267771
+          }
+        },
+        "location": {
+          "lat": 19.4326077,
+          "lng": -99.133208
+        },
+        "location_type": "APPROXIMATE",
+        "viewport": {
+          "northeast": {
+            "lat": 19.5927571,
+            "lng": -98.9604482
+          },
+          "southwest": {
+            "lat": 19.1887101,
+            "lng": -99.3267771
+          }
+        }
+      },
+      "navigation_points": [
+        {
+          "location": {
+            "latitude": 19.4305936,
+            "longitude": -99.1371496
+          }
+        }
+      ],
+      "place_id": "ChIJB3UJ2yYAzoURQeheJnYQBlQ",
+      "types": [
+        "locality",
+        "political"
+      ]
+    },
+    {
+      "address_components": [
+        {
+          "long_name": "Ciudad de México",
+          "short_name": "CDMX",
+          "types": [
+            "administrative_area_level_1",
+            "political"
+          ]
+        },
+        {
+          "long_name": "México",
+          "short_name": "MX",
+          "types": [
+            "country",
+            "political"
+          ]
+        }
+      ],
+      "formatted_address": "Cd. de México, México",
+      "geometry": {
+        "bounds": {
+          "northeast": {
+            "lat": 19.5927571,
+            "lng": -98.9403027
+          },
+          "southwest": {
+            "lat": 19.0482366,
+            "lng": -99.3649242
+          }
+        },
+        "location": {
+          "lat": 19.2464696,
+          "lng": -99.1013498
+        },
+        "location_type": "APPROXIMATE",
+        "viewport": {
+          "northeast": {
+            "lat": 19.5927571,
+            "lng": -98.9403027
+          },
+          "southwest": {
+            "lat": 19.0482366,
+            "lng": -99.3649242
+          }
+        }
+      },
+      "place_id": "ChIJJyk1sTYAzoURW4rR6E6e_d4",
+      "types": [
+        "administrative_area_level_1",
+        "political"
+      ]
+    },
+    {
+      "address_components": [
+        {
+          "long_name": "México",
+          "short_name": "MX",
+          "types": [
+            "country",
+            "political"
+          ]
+        }
+      ],
+      "formatted_address": "México",
+      "geometry": {
+        "bounds": {
+          "northeast": {
+            "lat": 32.7187538,
+            "lng": -86.5887
+          },
+          "southwest": {
+            "lat": 14.3895,
+            "lng": -118.6523001
+          }
+        },
+        "location": {
+          "lat": 23.634501,
+          "lng": -102.552784
+        },
+        "location_type": "APPROXIMATE",
+        "viewport": {
+          "northeast": {
+            "lat": 32.7187538,
+            "lng": -86.5887
+          },
+          "southwest": {
+            "lat": 14.3895,
+            "lng": -118.6523001
+          }
+        }
+      },
+      "place_id": "ChIJU1NoiDs6BIQREZgJa760ZO0",
+      "types": [
+        "country",
+        "political"
+      ]
+    }
+  ],
+  "status": "OK"
+}

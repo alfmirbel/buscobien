@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cp \"D:/buscobien.net/lib/08_pantallas/tu_cuenta/grupos/grupos_view.dart\" \"D:/buscobien/lib/08_pantallas/tu_cuenta/grupos/grupos_view.dart\")",
+      "Bash(cp \"D:/buscobien.net/lib/08_pantallas/tu_cuenta/grupos/page_mis_grupos.dart\" \"D:/buscobien/lib/08_pantallas/tu_cuenta/grupos/page_mis_grupos.dart\")",
+      "Bash(cp \"D:/buscobien.net/lib/08_pantallas/tu_cuenta/grupos/page_descubrir_grupos.dart\" \"D:/buscobien/lib/08_pantallas/tu_cuenta/grupos/page_descubrir_grupos.dart\")",
+      "Bash(cp \"D:/buscobien.net/lib/08_pantallas/tu_cuenta/grupos/page_invitaciones_grupo.dart\" \"D:/buscobien/lib/08_pantallas/tu_cuenta/grupos/page_invitaciones_grupo.dart\")",
+      "Bash(cp \"D:/buscobien.net/lib/08_pantallas/tu_cuenta/grupos/page_detalle_grupo.dart\" \"D:/buscobien/lib/08_pantallas/tu_cuenta/grupos/page_detalle_grupo.dart\")",
+      "Bash(cp \"D:/buscobien.net/lib/08_pantallas/tu_cuenta/grupos/models/grupo_model.dart\" \"D:/buscobien/lib/08_pantallas/tu_cuenta/grupos/models/grupo_model.dart\")",
+      "Bash(cp \"D:/buscobien.net/lib/08_pantallas/tu_cuenta/grupos/models/invitacion_grupo_model.dart\" \"D:/buscobien/lib/08_pantallas/tu_cuenta/grupos/models/invitacion_grupo_model.dart\")",
+      "Bash(cp \"D:/buscobien.net/lib/08_pantallas/tu_cuenta/grupos/models/mensaje_grupo_model.dart\" \"D:/buscobien/lib/08_pantallas/tu_cuenta/grupos/models/mensaje_grupo_model.dart\")",
+      "Bash(cp \"D:/buscobien.net/lib/08_pantallas/tu_cuenta/grupos/providers/grupos_notifier.dart\" \"D:/buscobien/lib/08_pantallas/tu_cuenta/grupos/providers/grupos_notifier.dart\")",
+      "Bash(cp \"D:/buscobien.net/lib/08_pantallas/tu_cuenta/grupos/providers/grupos_invitaciones_provider.dart\" \"D:/buscobien/lib/08_pantallas/tu_cuenta/grupos/providers/grupos_invitaciones_provider.dart\")",
+      "Bash(cp \"D:/buscobien.net/lib/08_pantallas/tu_cuenta/grupos/providers/grupos_mensajes_provider.dart\" \"D:/buscobien/lib/08_pantallas/tu_cuenta/grupos/providers/grupos_mensajes_provider.dart\")",
+      "Bash(grep -v \"^models$\\\\|^providers$\")",
+      "Bash(cp \"D:/buscobien.net/lib/08_pantallas/tu_cuenta/grupos/data_grupos.dart\" \"D:/buscobien/lib/08_pantallas/tu_cuenta/grupos/data_grupos.dart\")",
+      "Bash(cp \"D:/buscobien.net/lib/08_pantallas/tu_cuenta/grupos/data_grupo_publicacion_servicio.dart\" \"D:/buscobien/lib/08_pantallas/tu_cuenta/grupos/data_grupo_publicacion_servicio.dart\")",
+      "Bash(cp \"D:/buscobien.net/lib/08_pantallas/tu_cuenta/grupos/pagina_inicial_grupos.dart\" \"D:/buscobien/lib/08_pantallas/tu_cuenta/grupos/pagina_inicial_grupos.dart\")",
+      "Bash(cp \"D:/buscobien.net/lib/08_pantallas/tu_cuenta/grupos/pagina_grupo_opciones.dart\" \"D:/buscobien/lib/08_pantallas/tu_cuenta/grupos/pagina_grupo_opciones.dart\")",
+      "Bash(cp \"D:/buscobien.net/lib/08_pantallas/tu_cuenta/grupos/pagina_grupo_crea_dialog.dart\" \"D:/buscobien/lib/08_pantallas/tu_cuenta/grupos/pagina_grupo_crea_dialog.dart\")",
+      "Bash(cp \"D:/buscobien.net/lib/08_pantallas/tu_cuenta/grupos/models/grupo.dart\" \"D:/buscobien/lib/08_pantallas/tu_cuenta/grupos/models/grupo.dart\")",
+      "Bash(cp \"D:/buscobien.net/lib/08_pantallas/tu_cuenta/grupos/models/grupo.freezed.dart\" \"D:/buscobien/lib/08_pantallas/tu_cuenta/grupos/models/grupo.freezed.dart\")",
+      "Bash(cp \"D:/buscobien.net/lib/08_pantallas/tu_cuenta/grupos/models/grupo.g.dart\" \"D:/buscobien/lib/08_pantallas/tu_cuenta/grupos/models/grupo.g.dart\")",
+      "Bash(flutter analyze *)",
+      "Bash(grep -c \"^\\\\s*//\" d:/buscobien/lib/12_localidades_user/provider_get_localidades_usuario.dart)"
+    ]
+  }
+}

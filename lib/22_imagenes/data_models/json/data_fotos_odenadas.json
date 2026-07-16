@@ -1,0 +1,20 @@
+{
+    "idListaFotos": "",
+    "idUsuario": "ab23c6dc3272de8afb68b18a5869b16f66a05e9b32ca56e7fe47fa7e8b3e1da8",
+    "idPropiedad": "ab23c6dc3272de8afb68b18a5869b16f66a05e9b32ca56e7fe47fa7e8b3e1da8",
+    "fotosOrden": [
+        {
+            "posicion": 0,
+            "idFoto": "ab23c6dc3272de8afb68b18a5869b16f66a05e9b32ca56e7fe47fa7e8b3e1da8"
+        },
+        {
+            "posicion": 1,
+            "idFoto": "ab23c6dc3272de8afb68b18a5869b16f66a05e9b32ca56e7fe47fa7e8b3e1da8"
+        },
+        {
+            "posicion": 2,
+            "idFoto": "ab23c6dc3272de8afb68b18a5869b16f66a05e9b32ca56e7fe47fa7e8b3e1da8"
+        }
+    ],
+    "timestamp": "20250810"
+}

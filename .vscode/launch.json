@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "name": "buscobien",
+      "type": "dart",
+      "request": "launch",
+      "program": "lib/main.dart",
+      "args": [
+        "--dart-define=GOOGLE_KEY=AIzaSyAVQnUD51iuK7_9kYlOTe2f47p80L-RIIE",
+        "--dart-define=GOOGLE_MAPS_KEY=AIzaSyDHhUqwfYGOSrUfN1WpvvoBpwu7Xe_s_AU"
+      ]
+    }
+  ]
+}

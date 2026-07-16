@@ -1,0 +1,78 @@
+UserPropertyListModel
+{
+   "lista": 
+   {
+      "listaId": "Id de la lista",
+      "userId": "amirelesb",
+      "listName": "Nombre de la lista",
+      "type": "6da338fa638ae4431ef0b57879c18b350f7ffde6d3d00b4ea0e78189860fdcf5",
+      "timestamp": "6da338fa638ae4431ef0b57879c18b350f7ffde6d3d00b4ea0e78189860fdcf5"
+   }
+}
+
+GetUserPropertyListModel
+{
+   "total_rows": 0,
+   "offset": 0,
+   "rows": [
+      {
+         "id": "2dc4d0446cac3c6d2fe4091d27a818b5",
+         "key": "amirelesb",
+         "value": 
+         {
+            "listaId": "Id de la lista",
+            "userId": "amirelesb",
+            "listName": "Nombre de la lista",
+            "type": "6da338fa638ae4431ef0b57879c18b350f7ffde6d3d00b4ea0e78189860fdcf5",
+            "timestamp": "6da338fa638ae4431ef0b57879c18b350f7ffde6d3d00b4ea0e78189860fdcf5"
+         }
+      }
+   ]
+}
+//------------------------------------------------------------------------
+ListaPropertyListModel
+{
+   "listapropiedad": 
+   {
+      "listapropiedadId": "Id del registro lista-propiedad",
+      "userId": "amirelesb",
+      "listaId": "Id de la lista",
+      "propertyId": "Id de la Propiedad",
+      "tipodeespacio": "normal, destacado, super...",
+      "type": "6da338fa638ae4431ef0b57879c18b350f7ffde6d3d00b4ea0e78189860fdcf5",
+      "timestamp": "6da338fa638ae4431ef0b57879c18b350f7ffde6d3d00b4ea0e78189860fdcf5"
+   }
+}
+
+GetListaPropertyListModel
+{
+   "total_rows": 0,
+   "offset": 0,
+   "rows": [
+      {
+         "id": "2dc4d0446cac3c6d2fe4091d27a818b5",
+         "key": "amirelesb",
+         "listapropiedad": 
+         {
+            "listapropiedadId": "Id del registro lista-propiedad",
+            "userId": "amirelesb",
+            "listaId": "Id de la lista",
+            "propertyId": "Id de la Propiedad",
+            "tipodeespacio": "normal, destacado, super...",
+            "type": "6da338fa638ae4431ef0b57879c18b350f7ffde6d3d00b4ea0e78189860fdcf5",
+            "timestamp": "6da338fa638ae4431ef0b57879c18b350f7ffde6d3d00b4ea0e78189860fdcf5"
+         }
+      }
+   ]
+}
+
+
+
+class UserPropertyListModel {
+   String id; // _id de CouchDB
+   String rev; // _rev de CouchDB
+   String userId;
+   String listName;
+   List<String> propertyIds;
+   String type; // Para identificar el doc en CouchDB
+   String createdAt;

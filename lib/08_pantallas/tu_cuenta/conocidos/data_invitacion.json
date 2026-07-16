@@ -1,0 +1,11 @@
+{
+  "_id": "487eeedd-7b40-47d7-95a8-89366d1ecb93",
+  "_rev": "2-83ff650d45469439fcbb79280ab0ca57",
+  "senderId": "",
+  "senderName": "",
+  "receiverId": "",
+  "receiverName": "Alfonso Mireles",
+  "status": "accepted",
+  "type": "invitation",
+  "timestamp": "2026-03-04T17:09:38.320758"
+}

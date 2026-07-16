@@ -1,0 +1,24 @@
+# Inventario de Componentes: `lib/40_security`
+
+Este documento contiene el inventario técnico exhaustivo y detallado de los componentes de los archivos del subdirectorio [lib/40_security](file:///D:/buscobien/lib/40_security).
+
+La siguiente tabla presenta a detalle cada una de las variables de configuración ambiental, mecanismos criptográficos (AES, MD5, SHA-1, SHA-256) y mapas de endpoints para CouchDB que residen en este módulo:
+
+---
+
+| Subdirectorio (si aplica) | Nombre del archivo | variables definidas en el archivo | clases | breve descripción de cada clase | variables de la clase | funciones o widgets definidos en la clase | breve descripción de cada función o widget en la clase | variables que utiliza | llamadas a otras clases o widgets |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| N/A | [direccionip.dart](file:///D:/buscobien/lib/40_security/direccionip.dart) | - `username` (const String)<br>- `password` (const String)<br>- `direccionip` (const String) | Ninguna | N/A | N/A | Ninguno | N/A | N/A | `String.fromEnvironment` |
+| N/A | [encriptar.dart](file:///D:/buscobien/lib/40_security/encriptar.dart) | - `key32` (Key)<br>- `iv16` (IV)<br>- `encrypter` (Encrypter)<br>- `ivString` (const String)<br>- `encrypted` (Encrypted)<br>- `decrypted` (String)<br>- `ivAES` (String, Deprecated)<br>- `keyAES` (String, Deprecated) | Ninguna | N/A | N/A | **1. Funciones Globales**:<br>- `decryptWithAES` (Deprecated)<br>- `encryptWithAES` (Deprecated)<br>- `initStringLocalStorage` (Deprecated) | **`decryptWithAES`**: Descifra datos cifrados con AES-256 utilizando el vector de inicialización `ivAES` y modo CBC.<br>**`encryptWithAES`**: Cifra texto plano mediante algoritmo AES-CBC usando la clave simétrica dada.<br>**`initStringLocalStorage`**: Inicializa asíncronamente `SharedPreferences` y guarda un par clave-valor persistente. | **`decryptWithAES`**: `key`, `encryptedData` (parámetros); `cipherKey`, `encryptService`, `initVector` (locales).<br><br>**`encryptWithAES`**: `key`, `plainText` (parámetros); `cipherKey`, `encryptService`, `initVector`, `encryptedData` (locales).<br><br>**`initStringLocalStorage`**: `varName`, `valueToSave` (parámetros); `prefs` (locales). | `Key.fromSecureRandom`, `IV.fromSecureRandom`, `Encrypter`, `AES`, `IV.fromUtf8`, `Key.fromUtf8`, `AESMode.cbc`, `SharedPreferences.getInstance` |
+| N/A | [generate_hash.dart](file:///D:/buscobien/lib/40_security/generate_hash.dart) | Ninguna | Ninguna | N/A | N/A | **1. Funciones Globales**:<br>- `generateMD5Hash`<br>- `generateSHA1Hash`<br>- `generateSHA256Hash`<br>- `validaPassword` | **`generateMD5Hash`**: Genera la firma digital MD5 de una cadena de texto en formato string.<br>**`generateSHA1Hash`**: Computa la representación hash SHA-1 de un texto de entrada.<br>**`generateSHA256Hash`**: Genera la firma unidireccional SHA-256 de 256 bits, utilizada para asegurar contraseñas en el servidor CouchDB.<br>**`validaPassword`**: Compara si una contraseña ingresada coincide con su contraparte hash almacenada. | **`generateMD5Hash`**: `input`, `bytes`, `md5Hash`.<br><br>**`generateSHA1Hash`**: `input`, `bytes`, `sha1Hash`.<br><br>**`generateSHA256Hash`**: `input`, `bytes`, `sha256Hash`.<br><br>**`validaPassword`**: `password`, `hashPassword`, `hashAValidar`. | `utf8.encode`, `md5.convert`, `sha1.convert`, `sha256.convert` |
+| N/A | [urls_endpoints_espacios.dart](file:///D:/buscobien/lib/40_security/urls_endpoints_espacios.dart) | - `endpointsCaptura` (final Map)<br>- `endpointsPublicados` (final Map) | Ninguna | N/A | N/A | Ninguno | N/A | N/A | Ninguna |
+
+---
+
+## Observaciones de Seguridad y Configuración
+
+- **Inyección de Credenciales**: El archivo `direccionip.dart` implementa de forma excelente la seguridad pasiva de credenciales de base de datos. Utiliza `String.fromEnvironment`, lo que permite evitar la exposición directa (hardcoding) de usuarios y contraseñas de CouchDB en el código fuente, inyectando estos secretos en tiempo de compilación.
+- **Criptografía Legacy vs Recomendada**:
+  - El archivo `encriptar.dart` contiene funciones marcadas con la anotación `@Deprecated` (`decryptWithAES`, `encryptWithAES`, `initStringLocalStorage`). Estas utilizaban un vector estático y una clave fija simétrica, lo cual es vulnerable. La arquitectura recomienda migrar al uso de un almacenamiento seguro por hardware como el paquete `flutter_secure_storage`.
+  - El archivo `generate_hash.dart` proporciona soporte de hash seguro SHA-256 mediante la librería `crypto`, el cual es utilizado activamente para hashear contraseñas locales y validar la sesión con CouchDB.
+- **Mapeo de CouchDB**: El archivo `urls_endpoints_espacios.dart` centraliza la traducción de los nombres lógicos de visibilidad inmobiliaria a sus correspondientes nombres físicos de base de datos en CouchDB (ejemplo: `"Superdestacados"` -> `buscobien_casas_comprados_super`), evitando redundancia en los servicios HTTP.
