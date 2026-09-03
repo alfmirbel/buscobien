@@ -72,16 +72,20 @@ class _PrincipalSliversMenuInicialState
       // ✅ FASE 2: Recuperar sesión persistida ANTES de inicializar menús.
       // Esto restaura userId, userName, nombrePerfil y flags de rol
       // desde FlutterSecureStorage si el usuario ya inició sesión antes.
-      await ref.read(sessionProvider.notifier).getSessionValuesFromLocalStorage();
+      await ref
+          .read(sessionProvider.notifier)
+          .getSessionValuesFromLocalStorage();
 
       // FASE 3 (26-05-18): Si la sesión fue restaurada, precarga los datos
       // completos del usuario en segundo plano. Así PaginaPerfilWidget los
       // encuentra listos (isUserDataLoaded = true) sin hacer otra petición HTTP.
       if (ref.read(sessionProvider).isAuthenticated) {
         ref.read(sessionProvider.notifier).getUserDataByNameInSessionData();
-        
+
         final currentUserId = ref.read(sessionProvider).sessionUserData.userId;
-        ref.read(classUserAvatarProvider.notifier).recuperaDatosDelAvatar(currentUserId);
+        ref
+            .read(classUserAvatarProvider.notifier)
+            .recuperaDatosDelAvatar(currentUserId);
       }
 
       _inicializarLogicaDeNegocio();
@@ -110,9 +114,7 @@ class _PrincipalSliversMenuInicialState
     debugPrintLevels(0, "- Inicializando Lógica de Negocio Post-Frame");
 
     // MENU INICIAL
-    ref
-        .read(menuInicialProvider.notifier)
-        .asignaNuevaOpcionSeleccionada(
+    ref.read(menuInicialProvider.notifier).asignaNuevaOpcionSeleccionada(
           ref,
           ref.read(menuInicialProvider).seleccionMenuInicial,
         );
@@ -121,9 +123,7 @@ class _PrincipalSliversMenuInicialState
         .restableceOpcionActualSeleccionada(ref);
 
     // MENU PRINCIPAL
-    ref
-        .read(menuPrincipalProvider.notifier)
-        .asignaNuevaOpcionSeleccionada(
+    ref.read(menuPrincipalProvider.notifier).asignaNuevaOpcionSeleccionada(
           ref,
           ref.read(menuPrincipalProvider).seleccionMenuPrincipal,
         );
@@ -143,9 +143,7 @@ class _PrincipalSliversMenuInicialState
         .restableceOpcionActualSeleccionada(ref);
 
     // MENU TIPO DE ESPACIO
-    ref
-        .read(menuTipoEspaciosProvider.notifier)
-        .asignaNuevaOpcionSeleccionada(
+    ref.read(menuTipoEspaciosProvider.notifier).asignaNuevaOpcionSeleccionada(
           ref,
           ref.read(menuTipoEspaciosProvider).seleccionMenuTipoEspacios,
         );
@@ -167,9 +165,7 @@ class _PrincipalSliversMenuInicialState
         .restableceOpcionActualSeleccionada(ref);
 
     // MENU TU CUENTA
-    ref
-        .read(menuTuCuentaProvider.notifier)
-        .asignaNuevaOpcionSeleccionada(
+    ref.read(menuTuCuentaProvider.notifier).asignaNuevaOpcionSeleccionada(
           ref,
           ref.read(menuTuCuentaProvider).seleccionMenuTuCuenta,
         );
@@ -249,9 +245,8 @@ class _PrincipalSliversMenuInicialState
         await locationNotifier.determinaUbicacion();
 
         if (mounted) {
-          final postalCode = ref
-              .read(localidadesPorCodigoPostalProvider)
-              .codigoPostal;
+          final postalCode =
+              ref.read(localidadesPorCodigoPostalProvider).codigoPostal;
 
           if (postalCode != 0 && mounted) {
             final result = await ref
@@ -334,7 +329,6 @@ class _PrincipalSliversMenuInicialState
     return Scaffold(
       appBar: appBarPrincipal(context, () {}, appName, ref),
       drawer: const MenuDrawer(),
-
       body: Row(
         children: [
           // 2. Contenido Principal
@@ -362,6 +356,7 @@ class _PrincipalSliversMenuInicialState
 
                     // CASO 1: ÍNDICE INICIAL 1 (Flujo de Propiedades)
                   ] else if (navState.indiceInicial == 1) ...[
+                    menuSuperiorMenuInicial(ref),
                     menuSuperiorMenuPrincipal(ref),
 
                     if (navState.indicePrincipal >= 0 &&

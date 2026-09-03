@@ -16,10 +16,18 @@
 
 ---
 
+## Documentos raíz
+
+| Archivo                              | Contenido principal                       |
+|--------------------------------------|-------------------------------------------|
+| `arquitectura_general_buscobien.md`  | Arquitectura general del sistema.         |
+| `stack_tecnologico.md`               | Stack tecnológico completo.               |
+| `dominios_modulos_archivos.md`       | Dominios, módulos y mapa de archivos.     |
+
 ## Directorio `00_indice/`
 
 | Archivo                           | Contenido principal                        |
-| --------------------------------- | ------------------------------------------ |
+|-----------------------------------|-------------------------------------------|
 | `indice_general_documentacion.md` | Índice maestro del repositorio documental. |
 
 ---
