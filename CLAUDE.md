@@ -40,7 +40,7 @@ Override at runtime with `/model <alias>` mid-session, or launch with `claude --
 - When you escalate to `opus` for a hard problem, **drop back to `sonnet`
   once you've decided the approach.** Implementation phase doesn't need it.
 - For a long architectural conversation, **`opusplan` is fine** — plan mode uses Opus, so the thinking phase already gets the right model.
-- If a session feels expensive and you're mostly mechanical edits,   `/model haiku` for that session.
+- If a session feels expensive and you're mostly mechanical edits, `/model haiku` for that session.
 - For "find me references to X across the codebase" or other large-context surveys, `sonnet[1m]` if the project has grown.
 
 ## How to use this brief
@@ -70,8 +70,8 @@ Conecta compradores, vendedores, agentes y desarrolladores en un espacio de bús
 ```
 Flutter App (iOS / Android / Web WASM / Windows)
     │
-    │  ✗ Flutter NUNCA se conecta directo a CouchDB
-    │  ✗ Flutter NUNCA tiene credenciales de CouchDB
+    │  ✗ (objetivo) Flutter NUNCA se conecta directo a CouchDB — hoy SÍ lo hace, ver nota
+    │  ✗ (objetivo) Flutter NUNCA tiene credenciales de CouchDB — hoy las lleva compiladas
     │  ✓ Flutter solo conoce la URL de la API Node.js
     │
     ▼
@@ -80,19 +80,26 @@ REST API (Node.js) ────► CouchDB (https://citigov.cloud:6984)
     └── Notificaciones push (FCM)
 ```
 
+> **Estado real (verificado en `lib/`, 2026-10-07):** hoy la app **sí** se conecta directo a CouchDB con Basic Auth (`COUCHDB_URL/USER/PASSWORD` compilados con `--dart-define`, paquete `http`; `dio` sin uso, sin interceptor JWT). El diagrama anterior es la arquitectura **objetivo**. Detalle en `_documentacion/04_arquitectura_y_diseno/arquitectura_general_buscobien.md`.
+
+
 ---
 
 ## Reglas de la UI
 
-- El archivo `D:\buscobien\_documentacion\antigravity_ui_rules.md` define las reglas
+- El archivo `D:\buscobien\_documentacion\05_desarrollo_y_especificaciones_tecnicas\antigravity_ui_rules.md` define las reglas
   a seguir en el diseño y desarrollo de los elementos de la UI.
 
 ---
 
 ## Documentación de arquitectura
 
-- `D:\buscobien\documentacion\arquitectura_navegacion.md` — arquitectura principal de la app.
-- `D:\buscobien\documentacion\especificacion_motor_social.md` — funciones de Red Social y Mis Conocidos.
+Toda la documentación está en `D:\buscobien\_documentacion\`, ordenada por etapas del SDLC (`00_indice` … `08_operacion_guias_y_despliegue`). Punto de entrada: `D:\buscobien\_documentacion\00_indice\indice_general_documentacion.md`.
+
+- `D:\buscobien\_documentacion\04_arquitectura_y_diseno\arquitectura_general_buscobien.md` — arquitectura principal de la app.
+- `D:\buscobien\_documentacion\04_arquitectura_y_diseno\arquitectura_navegacion.md` — arquitectura de navegación principal de la app.
+- `D:\buscobien\_documentacion\04_arquitectura_y_diseno\especificacion_motor_social.md` — funciones de Red Social y Mis Conocidos.
+- `D:\buscobien\_documentacion\06_modelo_de_datos_y_bd\buscobien_databases_complete.md` — bases de datos CouchDB (19).
 
 ---
 
@@ -311,7 +318,7 @@ flutter build windows      --dart-define-from-file=defines.json
 | Geolocalización     | GPS nativo `geolocator`  | GPS nativo               | Geolocation API (HTTPS)     | API Windows / manual          |
 | Notificaciones push | FCM                      | FCM                      | Web Push FCM                | `flutter_local_notifications` |
 | Cámara / archivos   | `image_picker`           | `image_picker`           | `image_picker` (file input) | `file_picker`                 |
-| Token JWT           | `flutter_secure_storage` | `flutter_secure_storage` | `shared_preferences`        | `shared_preferences`          |
+| Sesión (`SessionStorage`) | `flutter_secure_storage` | `flutter_secure_storage` | `shared_preferences`        | `flutter_secure_storage`      |
 
 ---
 
@@ -336,7 +343,7 @@ d:\buscobien\                        ← raíz del proyecto (Flutter en raíz)
 │   │   ├── ubicacion/               ← búsqueda por ubicación / mapa
 │   │   └── tu_cuenta/
 │   │       ├── conocidos/           ← Mis Conocidos (IMPLEMENTADO — 9 archivos)
-│   │       └── grupos/              ← Mis Grupos (PROTOTIPO — en desarrollo)
+│   │       └── grupos/              ← Mis Grupos (IMPLEMENTADO)
 │   ├── 10_user_login/               ← login y registro
 │   ├── 12_localidades_user/
 │   ├── 14_geolocalizacion/
@@ -356,6 +363,7 @@ d:\buscobien\                        ← raíz del proyecto (Flutter en raíz)
 ├── .env                             ← NO al repositorio
 ├── .env.example                     ← SÍ al repositorio
 ├── _infraestructura/                ← documentos de infraestructura (local)
+├── _documentacion/                  ← documentación por etapas SDLC (00_indice … 08_operacion_guias_y_despliegue)
 │
 └── api/                             ← Node.js backend (pendiente scaffolding)
     ├── src/
@@ -375,7 +383,7 @@ d:\buscobien\                        ← raíz del proyecto (Flutter en raíz)
 ### 1. Autenticación y perfil de usuario
 
 - Login, registro (`lib/10_user_login/`)
-- Sesión con JWT + FlutterSecureStorage
+- Sesión con `SessionStorage` (`flutter_secure_storage` en Android/iOS/Windows, `shared_preferences` en Web); sin JWT real todavía
 - Avatar de usuario (`lib/10_user_login/avatar/`)
 - Perfil (`lib/08_pantallas/perfil/pagina_perfil.dart`)
 
@@ -416,14 +424,14 @@ d:\buscobien\                        ← raíz del proyecto (Flutter en raíz)
 
 ## Inventario de componetes del sistema (implementados)
 
-- `D:\buscobien\documentacion\resumen_modulos_inventariados.md` — inventario de módulos y componentes, ligas a archivos con el detalle.
+- `D:\buscobien\_documentacion\05_desarrollo_y_especificaciones_tecnicas\inventario_componentes\resumen_modulos_inventariados.md` — inventario de módulos y componentes, ligas a archivos con el detalle.
 
 ---
 
 ## Convenciones Flutter / Dart
 
 - State management: Riverpod 3.x (riverpod_generator + build_runner para código generado)
-- HTTP client: Dio (con interceptor JWT automático)
+- HTTP client: paquete `http` en uso (Dio está en `pubspec.yaml` pero sin uso; no hay interceptor JWT)
 - Navegación: Navigator + MaterialPageRoute — rutas definidas en `lib/07_routes/app_routes.dart`
   - `AppRoutes.routeGenerate(settings)` como `onGenerateRoute` en MaterialApp
   - Parámetros entre pantallas via `routes_parameters.dart`
@@ -500,6 +508,8 @@ Thumbs.db
 - Al escribir tests: ejecutarlos después de generarlos y corregir fallas
 - Nunca incluir credenciales, tokens, API Keys ni archivos `.env` en commits
 - Al tener dudas sobre la arquitectura: preguntar antes de asumir
+
+- **Documentación**: al cambiar código de `lib/`, actualizar el SDD/Epic/Feature del módulo en `_documentacion/` y ejecutar `python _documentacion/00_indice/verificar_documentacion.py` (debe dar 0 errores). Afirmar solo lo verificado en el código; distinguir «estado real» de «objetivo».
 
 - Cada vez que una instrucción use la palabra await, dentro de un Widget con estado (StatefulWidget), grábate a fuego que la siguiente línea de código que modifique la interfaz visual (UI) debe estar protegida por un if (!mounted) return;.
   Ejemplo:

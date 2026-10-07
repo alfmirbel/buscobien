@@ -1,135 +1,85 @@
-# Índice General de Documentación — `/mnt/buscobien/_documentacion`
+# Índice General de Documentación — `D:\buscobien\_documentacion`
 
-**Última actualización:** 2026-07-25  
-**Alcance:** Inventario real de archivos y carpetas presentes en `/mnt/buscobien/_documentacion/`.
+**Última consolidación:** 2026-10-07  
+**Alcance:** repositorio único de documentación técnica de **BuscoBien** (Flutter + API Node.js + CouchDB), ordenado por las 8 etapas del ciclo de vida del desarrollo de sistemas (SDLC). Cada documento existe en un solo lugar.
 
----
-
-## Estructura general
-
-- `00_indice/` — Índices maestros y guías de navegación documental.
-- `00_inventario/` — Inventarios por módulo, reportes, análisis de código muerto, uso de CouchDB y hallazgos.
-- `01_EARS/` — Requerimientos EARS, BDD/EARS consolidado y documento `.docx` final unificado.
-- `02_BDD/` — Especificaciones BDD en Gherkin.
-- `03_SDD/` — SDDs generales y por feature, arquitectura, flujos, planificación y JSON.
-- `04_guias/` — Guías operativas, motor social, plan UI/UX y reglas de diseño.
+```mermaid
+flowchart LR
+    E1["01 Planeación"] --> E2["02 Requerimientos"] --> E3["03 Análisis funcional"] --> E4["04 Arquitectura y diseño"]
+    E4 --> E5["05 Desarrollo y especif. técnicas"] --> E6["06 Modelo de datos"] --> E7["07 Pruebas y calidad"] --> E8["08 Operación y despliegue"]
+```
 
 ---
 
-## Documentos raíz
+## Lectura obligatoria / acceso rápido
 
-| Archivo                              | Contenido principal                       |
-|--------------------------------------|-------------------------------------------|
-| `arquitectura_general_buscobien.md`  | Arquitectura general del sistema.         |
-| `stack_tecnologico.md`               | Stack tecnológico completo.               |
-| `dominios_modulos_archivos.md`       | Dominios, módulos y mapa de archivos.     |
-
-## Directorio `00_indice/`
-
-| Archivo                           | Contenido principal                        |
-|-----------------------------------|-------------------------------------------|
-| `indice_general_documentacion.md` | Índice maestro del repositorio documental. |
-
----
-
-## Directorio `00_inventario/`
-
-| Archivo                                                  | Contenido principal                               |
-| -------------------------------------------------------- | ------------------------------------------------- |
-| `modulos_inventariados.md`                               | Resumen de módulos inventariados.                 |
-| `resumen_modulos_inventariados.md`                       | Resumen ejecutivo de módulos.                     |
-| `reporte_archivos_buscobien.md`                          | Reporte general de archivos.                      |
-| `reporte_archivos_buscobien_inicial.md`                  | Reporte inicial de archivos.                      |
-| `reporte_cambios_hallazgos_ubicacion.md`                 | Cambios y hallazgos de ubicación.                 |
-| `reporte_modulos_localidades.md`                         | Reporte de módulos de localidades.                |
-| `dead_code_analysis.md`                                  | Análisis de código muerto.                        |
-| `USO_couchdb_databases.md`                               | Uso de bases de datos CouchDB.                    |
-| `inventario_01_home.md`                                  | Inventario de `lib/01_home`.                      |
-| `inventario_01_splash_screen.md`                         | Inventario de `lib/01_splash_screen`.             |
-| `inventario_02_principal_screen.md`                      | Inventario de `lib/02_principal_screen`.          |
-| `inventario_03_listas.md`                                | Inventario de `lib/03_listas`.                    |
-| `inventario_03_vistas.md`                                | Inventario de `lib/03_vistas`.                    |
-| `inventario_04_provider.md`                              | Inventario de `lib/04_provider`.                  |
-| `inventario_05_provider_menus.md`                        | Inventario de `lib/05_provider_menus`.            |
-| `inventario_07_routes.md`                                | Inventario de `lib/07_routes`.                    |
-| `inventario_08_pantallas_inicio.md`                      | Inventario de `lib/08_pantallas/inicio`.          |
-| `inventario_08_pantallas_maestro.md`                     | Inventario maestro de `lib/08_pantallas`.         |
-| `inventario_08_pantallas_perfil.md`                      | Inventario de `lib/08_pantallas/perfil`.          |
-| `inventario_08_pantallas_propiedades.md`                 | Inventario de `lib/08_pantallas/propiedades`.     |
-| `inventario_08_pantallas_tu_cuenta.md`                   | Inventario de `lib/08_pantallas/tu_cuenta`.       |
-| `inventario_08_pantallas_ubicacion.md`                   | Inventario de `lib/08_pantallas/ubicacion`.       |
-| `inventario_08_pantallas_widgets_comunes.md`             | Inventario de `lib/08_pantallas/widgets_comunes`. |
-| `inventario_10_user_login_avatar.md`                     | Inventario de avatar/login.                       |
-| `inventario_10_user_login_data_models.md`                | Inventario de modelos de login.                   |
-| `inventario_10_user_login_usuario_login.md`              | Inventario de login de usuario.                   |
-| `inventario_12_localidades_user.md`                      | Inventario de `lib/12_localidades_user`.          |
-| `inventario_14_geolocalizacion.md`                       | Inventario de `lib/14_geolocalizacion`.           |
-| `inventario_20_var_globales.md`                          | Inventario de `lib/20_var_globales`.              |
-| `inventario_22_imagenes.md`                              | Inventario de `lib/22_imagenes`.                  |
-| `inventario_22_imagenes_data_models.md`                  | Inventario de modelos de imágenes.                |
-| `inventario_22_imagenes_inicio_fotos_usuario.md`         | Inventario de fotos de usuario.                   |
-| `inventario_22_imagenes_tus_espacios_fotos_propiedad.md` | Inventario de fotos de propiedad.                 |
-| `inventario_40_security.md`                              | Inventario de `lib/40_security`.                  |
-| `inventario_41_connectivity.md`                          | Inventario de `lib/41_connectivity`.              |
-| `inventario_42_sistema_operativo.md`                     | Inventario de `lib/42_sistema_operativo`.         |
-| `inventario_60_global_widgets.md`                        | Inventario de `lib/60_global_widgets`.            |
+| Si buscas… | Ve a… |
+| :--- | :--- |
+| **Reglas de UI (Material 3)** — obligatorias antes de cualquier cambio visual | [`antigravity_ui_rules.md`](../05_desarrollo_y_especificaciones_tecnicas/antigravity_ui_rules.md) |
+| **Arquitectura general** (Riverpod + Freezed + Dio + API + CouchDB) | [`arquitectura_general_buscobien.md`](../04_arquitectura_y_diseno/arquitectura_general_buscobien.md) |
+| **Arquitectura de navegación** | [`arquitectura_navegacion.md`](../04_arquitectura_y_diseno/arquitectura_navegacion.md) |
+| **Motor social** (Conocidos, Grupos, mensajería) | [`especificacion_motor_social.md`](../04_arquitectura_y_diseno/especificacion_motor_social.md) |
+| **Stack y comandos de compilación** | [`stack_tecnologico.md`](../05_desarrollo_y_especificaciones_tecnicas/stack_tecnologico.md) |
+| **Mapa de módulos de `lib/`** | [`dominios_modulos_archivos.md`](../05_desarrollo_y_especificaciones_tecnicas/dominios_modulos_archivos.md) |
+| **Bases de datos CouchDB (35 referenciadas en código)** | [`buscobien_databases_complete.md`](../06_modelo_de_datos_y_bd/buscobien_databases_complete.md) |
+| **Resumen por módulo** | [`resumen_modulos_inventariados.md`](../05_desarrollo_y_especificaciones_tecnicas/inventario_componentes/resumen_modulos_inventariados.md) |
+| **Acceso SSH / servidor** | [`ssh_servidor_y_despliegue.md`](../08_operacion_guias_y_despliegue/ssh_servidor_y_despliegue.md) |
 
 ---
 
-## Directorio `01_EARS/`
+## Catálogo por etapa
 
-| Archivo                            | Contenido principal                           |
-| ---------------------------------- | --------------------------------------------- |
-| `Buscobien_EARS_Requirements.md`   | Requerimientos consolidados en notación EARS. |
-| `Buscobien_EARS_Requirements.docx` | Documento EARS en formato Word.               |
-| `buscobien_bdd_EARS.md`            | Consolidado BDD/EARS.                         |
+### 00 — `00_indice/`
+| Documento | Contenido |
+| :--- | :--- |
+| [`indice_general_documentacion.md`](indice_general_documentacion.md) | Este catálogo. |
+| [`indice_archivos_modelos.md`](indice_archivos_modelos.md) | Índice exhaustivo de modelos de datos y entidades Freezed de `lib/`. |
+| [`verificar_documentacion.py`](verificar_documentacion.py) | Script de verificación: contrasta la documentación con `lib/` (enlaces, inventarios, credenciales, IDs, bases de datos). |
+| [`GUIA_ESTANDAR_DOCUMENTACION_SDLC.md`](GUIA_ESTANDAR_DOCUMENTACION_SDLC.md) | Estándar reutilizable para generar y mantener esta documentación, con script de validación de enlaces. |
 
----
+### 01 — [`01_planeacion_y_estrategia/`](../01_planeacion_y_estrategia/README.md)
+- [`okrs_y_lean_canvas.md`](../01_planeacion_y_estrategia/okrs_y_lean_canvas.md) — Lean Canvas y OKRs.
+- [`plan_de_trabajo.md`](../01_planeacion_y_estrategia/plan_de_trabajo.md) — metodologías, estado de las capas documentales y definición de terminado.
 
-## Directorio `02_BDD/`
+### 02 — [`02_requerimientos/`](../02_requerimientos/README.md)
+- [`EARS_requerimientos_consolidados.md`](../02_requerimientos/EARS_requerimientos_consolidados.md) — patrones EARS y matriz de requerimientos.
+- [`epics_ears/`](../02_requerimientos/epics_ears/) — 26 Epics con requerimientos EARS, uno por módulo de `lib/`.
+- [`user_stories/`](../02_requerimientos/user_stories/) — 27 documentos de historias de usuario ([índice](../02_requerimientos/user_stories/00_indice_user_stories.md)).
 
-| Archivo            | Contenido principal                       |
-| ------------------ | ----------------------------------------- |
-| `buscobien_bdd.md` | Especificaciones BDD/Gherkin por feature. |
+### 03 — [`03_analisis_funcional/`](../03_analisis_funcional/README.md)
+- [`bdd_high_level_specs.md`](../03_analisis_funcional/bdd_high_level_specs.md) — resumen funcional de alto nivel.
+- [`matriz_trazabilidad_ears_bdd_sdd.md`](../03_analisis_funcional/matriz_trazabilidad_ears_bdd_sdd.md) — trazabilidad EARS ➔ BDD ➔ SDD.
+- [`reconciliacion_epics_sdd.md`](../03_analisis_funcional/reconciliacion_epics_sdd.md) — reconciliación Epics ↔ SDD ↔ Gherkin; scripts `mapeo_trazabilidad.py`, `etiquetar_features.py`, `generar_matriz_trazabilidad.py`.
+- [`features_analisis/`](../03_analisis_funcional/features_analisis/) — 48 `.feature` de análisis (por módulo y `transversales/`).
 
----
+### 04 — [`04_arquitectura_y_diseno/`](../04_arquitectura_y_diseno/README.md)
+- [`arquitectura_general_buscobien.md`](../04_arquitectura_y_diseno/arquitectura_general_buscobien.md), [`arquitectura_navegacion.md`](../04_arquitectura_y_diseno/arquitectura_navegacion.md), [`especificacion_motor_social.md`](../04_arquitectura_y_diseno/especificacion_motor_social.md).
+- [`arquitectura_c4.md`](../04_arquitectura_y_diseno/arquitectura_c4.md), [`contrato_api_actual.md`](../04_arquitectura_y_diseno/contrato_api_actual.md), [`modelo_de_amenazas.md`](../04_arquitectura_y_diseno/modelo_de_amenazas.md), [`adr/registro_decisiones.md`](../04_arquitectura_y_diseno/adr/registro_decisiones.md) — C4, interfaces reales, STRIDE y ADR.
+- [`buscobien_sdd_maestro.md`](../04_arquitectura_y_diseno/buscobien_sdd_maestro.md) — SDD maestro.
+- [`modulos_sdd/`](../04_arquitectura_y_diseno/modulos_sdd/) — 29 SDD detallados por módulo (incluye `07_routes`).
 
-## Directorio `03_SDD/`
+### 05 — [`05_desarrollo_y_especificaciones_tecnicas/`](../05_desarrollo_y_especificaciones_tecnicas/README.md)
+- [`stack_tecnologico.md`](../05_desarrollo_y_especificaciones_tecnicas/stack_tecnologico.md), [`dominios_modulos_archivos.md`](../05_desarrollo_y_especificaciones_tecnicas/dominios_modulos_archivos.md), [`antigravity_ui_rules.md`](../05_desarrollo_y_especificaciones_tecnicas/antigravity_ui_rules.md).
+- [`inventario_componentes/`](../05_desarrollo_y_especificaciones_tecnicas/inventario_componentes/) — vista arquitectónica por módulo con diagramas Mermaid (32 documentos, incluye reportes consolidados).
+- [`inventario_elementos/`](../05_desarrollo_y_especificaciones_tecnicas/inventario_elementos/) — tablas de 10 columnas por archivo fuente (26 documentos).
 
-| Archivo                                       | Contenido principal                          |
-| --------------------------------------------- | -------------------------------------------- |
-| `Buscobien_SDD.md`                            | SDD general del proyecto.                    |
-| `MotorSocial_SDD.md`                          | SDD del motor social.                        |
-| `TuCuenta_SDD.md`                             | SDD de Tu Cuenta.                            |
-| `01_motor_social.md`                          | Documento base del motor social.             |
-| `02_motor_social_mis_conocidos.md`            | SDD/feature Mis Conocidos.                   |
-| `03_motor_social_mis_grupos.md`               | SDD/feature Mis Grupos.                      |
-| `03_plan_implementacion_mis_grupos.md`        | Plan de implementación de Mis Grupos.        |
-| `03_requerimientos_mis_grupos.md`             | Requerimientos de Mis Grupos.                |
-| `especificacion_motor_social.md`              | Especificación del motor social.             |
-| `arquitectura_navegacion.md`                  | Arquitectura y reorganización de navegación. |
-| `auditoria_ui_ux_diseno_navegacion_flujos.md` | Auditoría UI/UX y flujos.                    |
-| `flujo_operacion_buscobien.md`                | Flujo de operación paso a paso.              |
-| `buscobien_sdd_openapi.json`                  | Especificación JSON del diseño/SDD.          |
+### 06 — [`06_modelo_de_datos_y_bd/`](../06_modelo_de_datos_y_bd/README.md)
+- [`bases_de_datos_en_codigo.md`](../06_modelo_de_datos_y_bd/bases_de_datos_en_codigo.md) — inventario generado de las bases referenciadas en `lib/`.
+- [`buscobien_databases_complete.md`](../06_modelo_de_datos_y_bd/buscobien_databases_complete.md) — diccionario de esquemas (19 de diseño), inventario de las 35 bases referenciadas en el código, convenciones de IDs, índices Mango y apéndice de uso en `lib/`.
 
----
+### 07 — [`07_pruebas_y_calidad/`](../07_pruebas_y_calidad/README.md)
+- [`estrategia_de_pruebas_y_smoke_tests.md`](../07_pruebas_y_calidad/estrategia_de_pruebas_y_smoke_tests.md).
+- [`gherkin_bdd_scenarios/`](../07_pruebas_y_calidad/gherkin_bdd_scenarios/) — 129 `.feature` con escenarios detallados por módulo y pantalla.
 
-## Directorio `04_guias/`
-
-| Archivo                                                           | Contenido principal                        |
-| ----------------------------------------------------------------- | ------------------------------------------ |
-| `antigravity_ui_rules.md`                                         | Reglas UI y convenciones de diseño.        |
-| `plan_trabajo_ui_ux_diseno_navegacion_flujos.md`                  | Plan de trabajo UI/UX y flujos.            |
-| `01_motor_social.md`                                              | Guía base del motor social.                |
-| `02_motor_social_mis_conocidos.md`                                | Guía de Mis Conocidos.                     |
-| `03_motor_social_mis_grupos.md`                                   | Guía de Mis Grupos.                        |
-| `03_plan_implementacion_mis_grupos.md`                            | Plan de implementación.                    |
-| `03_requerimientos_mis_grupos.md`                                 | Requerimientos del módulo.                 |
-| `GUIA Notificaciones entre Usuarios Tipos y Mejores Prácticas.md` | Guía de notificaciones y buenas prácticas. |
+### 08 — [`08_operacion_guias_y_despliegue/`](../08_operacion_guias_y_despliegue/README.md)
+- [`runbook_operacion.md`](../08_operacion_guias_y_despliegue/runbook_operacion.md), [`ssh_servidor_y_despliegue.md`](../08_operacion_guias_y_despliegue/ssh_servidor_y_despliegue.md), [`guia_motor_social_y_grupos.md`](../08_operacion_guias_y_despliegue/guia_motor_social_y_grupos.md), [`guia_notificaciones_entre_usuarios.md`](../08_operacion_guias_y_despliegue/guia_notificaciones_entre_usuarios.md), [`plan_trabajo_ui_ux_navegacion.md`](../08_operacion_guias_y_despliegue/plan_trabajo_ui_ux_navegacion.md).
 
 ---
 
-## Observaciones
+## Reglas de mantenimiento
 
-- Los documentos de `00_inventario/` cubren módulos de `lib/` desde `01_home` hasta `60_global_widgets`.
-- El documento unificado actualizado está en `01_EARS/Buscobien_EARS_Requirements.docx`.
+1. **Un solo lugar**: toda la documentación vive en `D:\buscobien\_documentacion\`; no se crean copias («- copia») ni carpetas paralelas.
+2. **Sin credenciales**: nunca se escriben contraseñas ni API keys; se usan `defines.json` / `--dart-define`.
+3. **Enlaces relativos** a archivos existentes (script de validación en la [guía estándar](GUIA_ESTANDAR_DOCUMENTACION_SDLC.md)).
+4. **UI**: todo cambio visual sigue [`antigravity_ui_rules.md`](../05_desarrollo_y_especificaciones_tecnicas/antigravity_ui_rules.md).
+5. **Alta de módulo nuevo**: agregar Epic EARS, User Stories, Feature, SDD, inventarios y escenarios Gherkin en su etapa, y actualizar este índice.

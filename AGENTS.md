@@ -1,7 +1,7 @@
 # AGENTS.md — BuscoBien
 
-Flutter app (real estate promotion platform, Mexico). Riverpod 3.x + Freezed + Dio + Google Maps.
-CouchDB via a separate Node.js API repo — Flutter never connects to CouchDB directly.
+Flutter app (real estate promotion platform, Mexico). Riverpod 3.x + Freezed + http + Google Maps.
+Target architecture: Flutter → separate Node.js API repo → CouchDB. **Actual state (verified in `lib/`, 2026-10-07): the app connects to CouchDB directly with Basic Auth** (`COUCHDB_URL/USER/PASSWORD` via `--dart-define`, `http` package).
 
 ## Build & run
 
@@ -24,7 +24,7 @@ flutter analyze                                                             # Li
 Flutter App → Node.js API (separate repo) → CouchDB (https://citigov.cloud:6984)
 ```
 
-- Flutter **never** has CouchDB credentials. All DB access goes through the API.
+- **Target:** Flutter never has CouchDB credentials. **Today:** 34 files use `direccionip` + `username`/`password`; treat this as a known critical security debt.
 - Backend is in a separate repo (Node.js + Express, `nano` for CouchDB, JWT auth). This repo is Flutter-only.
 - Mailer microservice at `server/buscobien-mailer/` (Node.js, runs on server via pm2 + Apache reverse proxy).
 
@@ -32,8 +32,8 @@ Flutter App → Node.js API (separate repo) → CouchDB (https://citigov.cloud:6
 
 - **Riverpod 3.x** with `riverpod_generator` — run `build_runner` after adding/editing providers with annotations.
 - **Freezed** + `json_serializable` for models. Generated files: `.freezed.dart`, `.g.dart`.
-- **Dio** for HTTP with JWT interceptor (auto-attaches token from secure storage).
-- JWT storage: `flutter_secure_storage` on iOS/Android, `shared_preferences` on Web/Windows.
+- HTTP uses the `http` package (32 files). `dio` is in `pubspec.yaml` but unused; there is no JWT interceptor yet.
+- Session storage (`SessionStorage`): `flutter_secure_storage` on Android/iOS/Windows, `shared_preferences` on Web.
 
 ### Code generation
 
@@ -52,7 +52,7 @@ Run after editing Freezed models or Riverpod provider annotations.
 ## Critical code rules
 
 1. **`if (!mounted) return;`** — required after **every `await`** in StatefulWidget code that updates UI.
-2. **No hardcoded colors** — always use the global `appTheme` ColorScheme from `lib/20_var_globales/var_color_themes.dart`. Read `_documentacion/antigravity_ui_rules.md` before any UI work.
+2. **No hardcoded colors** — always use the global `appTheme` ColorScheme from `lib/20_var_globales/var_color_themes.dart`. Read `_documentacion/05_desarrollo_y_especificaciones_tecnicas/antigravity_ui_rules.md` before any UI work.
 3. M3 widgets: `NavigationBar` (not `BottomNavigationBar`), `FilledButton` (not `RaisedButton`).
 4. Icon codepoints must be in range `0xe000`–`0xe900` — avoid `_outlined` variants in `0xee00+`.
 5. Views are dumb — no business logic in widgets. Use Riverpod notifiers.
@@ -73,12 +73,18 @@ Run after editing Freezed models or Riverpod provider annotations.
 
 ## Tests
 
-- One smoke test exists at `test/widget_test.dart`. Run with `flutter test`.
+- One test exists at `test/widget_test.dart` (the default Flutter counter template); it **currently fails** (verified 2026-10-07). Run with `flutter test`.
 - No integration test infrastructure.
 
 ## Reference docs (in-repo)
 
-- `_documentacion/antigravity_ui_rules.md` — M3 UI rules. Mandatory read before any UI change.
-- `_documentacion/arquitectura_navegacion.md` — navigation architecture.
-- `_documentacion/especificacion_motor_social.md` — social features (Conocidos, Grupos).
+Docs live in `_documentacion/`, organized by SDLC stage (`00_indice` … `08_operacion_guias_y_despliegue`). Start at `_documentacion/00_indice/indice_general_documentacion.md`.
+
+- `_documentacion/05_desarrollo_y_especificaciones_tecnicas/antigravity_ui_rules.md` — M3 UI rules. Mandatory read before any UI change.
+- `_documentacion/04_arquitectura_y_diseno/arquitectura_general_buscobien.md` — overall architecture.
+- `_documentacion/04_arquitectura_y_diseno/arquitectura_navegacion.md` — navigation architecture.
+- `_documentacion/04_arquitectura_y_diseno/especificacion_motor_social.md` — social features (Conocidos, Grupos).
+- `_documentacion/05_desarrollo_y_especificaciones_tecnicas/stack_tecnologico.md` — stack and build commands.
+- `_documentacion/06_modelo_de_datos_y_bd/buscobien_databases_complete.md` — the 19 CouchDB databases.
+- After changing `lib/`, update the module docs and run `python _documentacion/00_indice/verificar_documentacion.py` (must report 0 errors). Docs must match the code: state "actual" vs "target" explicitly.
 - `CLAUDE.md` — full project context (this file is a compact subset).
