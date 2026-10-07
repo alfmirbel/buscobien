@@ -97,3 +97,8 @@ windows/CMakeSettings.txt
 # Node / server
 server/node_modules/
 server/package-lock.json
+
+# Credenciales de compilación (--dart-define-from-file) y config local de agentes
+defines.json
+.claude/settings.local.json
+.kilo/
