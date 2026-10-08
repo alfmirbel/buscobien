@@ -340,7 +340,7 @@ class PaginaCarouselFotosWidgetState
 
     Navigator.pushNamed(
       context,
-      AppRoutes.agregafotopropiedad,
+      AppRoutes.agregamultiplesfotos,
       arguments: parameterGestionFoto,
     );
   }

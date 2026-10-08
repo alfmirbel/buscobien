@@ -5,6 +5,7 @@ import 'package:url_strategy/url_strategy.dart';
 
 import 'package:buscobien/07_routes/app_routes.dart';
 import 'package:buscobien/07_routes/deep_link_handler.dart';
+import 'package:buscobien/07_routes/pagina_route_error.dart';
 import 'package:buscobien/20_var_globales/var_color_themes.dart';
 import 'package:buscobien/20_var_globales/var_login.dart';
 import 'package:buscobien/20_var_globales/variables_globales.dart';
@@ -97,6 +98,12 @@ class _BuscoBienAppState extends State<BuscoBienApp> {
         debugPrintLevels(1, "3. BuscoBienApp onGenerateRoute(): $route");
         return routeGenerate(route);
       },
+      // Ruta sin pantalla asociada: muestra la página de error en lugar de fallar en silencio.
+      onUnknownRoute: (settings) => MaterialPageRoute(
+        settings: settings,
+        builder: (_) =>
+            PaginaDeError('Pantalla no encontrada: ${settings.name}'),
+      ),
     );
   }
 }

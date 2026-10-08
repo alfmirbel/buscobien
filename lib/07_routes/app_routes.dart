@@ -29,20 +29,15 @@ import '../60_global_widgets/debugprint.dart';
 
 class AppRoutes {
   static const main = "/";
-  static const home = "/home";
   static const splash = "/splash";
-  static const login = "/login";
   static const principal = "/principal";
   static const plataforma = "/plataforma";
-  static const opciones = "/opciones";
   static const sinconeccion = "/sinconeccion";
   static const checaconeccion = "/checaconeccion";
-  static const loginuser = "/loginuser";
   static const registro = "/registro";
   // static const buscalocalidad = "/buscalocalidad";
   static const listalocalidades = "/listalocalidades";
   static const localidades = "/localidades";
-  static const localidad = "/localidad";
   static const editaespacio = "/editaespacio";
   static const perfil = "/perfil";
   static const preferencias = "/preferencias";
@@ -51,26 +46,15 @@ class AppRoutes {
   static const compraespacios = "/compraespacios";
 
   static const carouselfotospropiedad = "/carouselfotospropiedad";
-  static const gestionfotopropiedad = "/gestionfotopropiedad";
 
-  static const agregafotopropiedad = "/agregafotopropiedad";
   static const fotospropiedad = "/fotospropiedad";
 
-  static const catalogotipotransaccion = "/catalogotipotransaccion";
-  //-----------------------------------------------------------------------------
-  static const filtrapropiedades = "/filtrapropiedades";
-  static const buscapropiedades = "/buscapropiedades";
-
-  static const generadatapropiedades = "/generadatapropiedades";
-  static const generadatausuarios = "/generadatausuarios";
-  static const generadatapromotores = "/generadatapromotores";
   //-----------------------------------------------------------------------------
 
-  static const gestionfotoscasa = "/gestionfotoscasa";
+  //-----------------------------------------------------------------------------
+
   static const fotospropiedadpaginada = "/fotospropiedadpaginada";
-  static const fotospropiedadminiaturas = "/fotospropiedadminiaturas";
 
-  static const fotosagregafotoalista = "/fotosagregafotoalista";
   static const agregamultiplesfotos = "/agregamultiplesfotos";
 
   //-----------------------------------------------------------------------------
@@ -163,7 +147,6 @@ Route? routeGenerate(RouteSettings settings) {
         LocalidadesListScreen(settings.arguments as int),
         settings: settings,
       );
-
 
     case AppRoutes.localidades:
       return navigateToRoute(

@@ -9,8 +9,8 @@ void main() {
       expect(routeGenerate(const RouteSettings(name: '/rutainexistente')), isNull);
     });
 
-    test('una constante de AppRoutes sin pantalla también devuelve null', () {
-      expect(routeGenerate(const RouteSettings(name: AppRoutes.filtrapropiedades)), isNull);
+    test('una ruta que ya no existe en AppRoutes (/login) también devuelve null', () {
+      expect(routeGenerate(const RouteSettings(name: '/login')), isNull);
     });
 
     test('las rutas sin argumentos devuelven un MaterialPageRoute con el mismo nombre', () {

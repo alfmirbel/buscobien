@@ -21,7 +21,6 @@ import '../20_var_globales/variables_globales.dart';
 import '../41_connectivity/connectivitycheck_provider.dart';
 import '../60_global_widgets/debugprint.dart';
 
-
 AppBar appBarPrincipal(
   BuildContext context,
   VoidCallback onTab, // Tipado más estricto para callbacks
@@ -117,7 +116,13 @@ AppBar appBarPrincipal(
         "*** ubicación: ${ubicacionState.permisodelocalizacion}",
       );
       (ubicacionState.permisodelocalizacion == 0)
-          ? PaginaDeError("Activa los permisos de ubicación")
+          ? Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) =>
+                    const PaginaDeError("Activa los permisos de ubicación"),
+              ),
+            )
           : Navigator.pushNamed(
               context,
               AppRoutes

@@ -232,12 +232,12 @@ Future<void> agregafoto(
   // Definir si es foto principal (si la lista está vacía, la primera es principal)
   parameterGestionFoto["fotoprincipal"] = (currentLength == 0);
 
-  debugPrintLevels(10, "CALL AppRoutes.fotosagregafotoalista");
+  debugPrintLevels(10, "CALL AppRoutes.agregamultiplesfotos");
 
   // Navegación asíncrona
   final seagregofoto = await Navigator.pushNamed(
     context,
-    AppRoutes.fotosagregafotoalista,
+    AppRoutes.agregamultiplesfotos,
     arguments: parameterGestionFoto,
   );
 
@@ -281,11 +281,11 @@ Future<void> agregamultiplesfotos(
 
   parameterGestionFoto["fotoprincipal"] = (currentLength == 0);
 
-  debugPrintLevels(10, "CALL AppRoutes.fotosagregafotoalista (Multiple)");
+  debugPrintLevels(10, "CALL AppRoutes.agregamultiplesfotos (Multiple)");
 
   final seagregofoto = await Navigator.pushNamed(
     context,
-    AppRoutes.fotosagregafotoalista,
+    AppRoutes.agregamultiplesfotos,
     arguments: parameterGestionFoto,
   );
 

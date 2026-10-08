@@ -66,7 +66,7 @@ class _PageCambioPasswordState extends ConsumerState<PageCambioPassword> {
       if (!mounted) return;
       Navigator.of(
         context,
-      ).pushNamedAndRemoveUntil(AppRoutes.login, (route) => false);
+      ).pushNamedAndRemoveUntil(AppRoutes.principal, (route) => false);
     } else {
       _docId = resultado.docId;
       setState(() {
@@ -127,7 +127,7 @@ class _PageCambioPasswordState extends ConsumerState<PageCambioPassword> {
     if (!mounted) return;
     Navigator.of(
       context,
-    ).pushNamedAndRemoveUntil(AppRoutes.login, (route) => false);
+    ).pushNamedAndRemoveUntil(AppRoutes.principal, (route) => false);
   }
 
   @override
