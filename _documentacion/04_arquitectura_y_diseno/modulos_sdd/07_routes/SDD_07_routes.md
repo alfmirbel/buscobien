@@ -90,7 +90,7 @@ flowchart TD
 ### 2.6 Argumentos y plantillas globales (`routes_parameters.dart`)
 - **DES-PAR-001:** El archivo deberá definir `ResultadoGuardaFoto {statusCode, idFoto}`, `ResultSaveFoto {resultadoEnFotos, resultadoEnEspacios}`, `ArgumentsLocalidad {cp}` y `ArgumentsListaLocalidad {listaLocalidades, cp}`.
 - **DES-PAR-002:** El archivo deberá definir 11 variables globales mutables: `parameterLocalidad`, `parametrosListaFotos`, `parameterEditaEspacio`, `parameterEditaFotos`, `inicializaValueGetCasa`, `parameterFotoPrincipal`, `parameterActualizaEspacio`, `parameterPaginaChecaConeccion`, `parameterCapturaFotosCasa`, `parameterPaginaMenuTipoTransaccion`, `parameterGestionFoto`.
-- **DES-PAR-003:** Las plantillas `ValueEspaciosCasaGet` (`parameterEditaEspacio`, `parameterEditaFotos`, `inicializaValueGetCasa`, `parameterActualizaEspacio`) deberán mantenerse duplicadas con valores iniciales; los datos de contacto que contienen son de ejemplo y están escritos en el código.
+- **DES-PAR-003:** Las plantillas `ValueEspaciosCasaGet` (`parameterEditaEspacio`, `parameterEditaFotos`, `inicializaValueGetCasa`, `parameterActualizaEspacio`) deberán mantenerse duplicadas con valores iniciales vacíos. Desde 2026-10-07 los campos de `datosdelcontactocasa` (nombre, teléfonos, correo) están vacíos en las tres plantillas (`parameterEditaEspacio`, `parameterEditaFotos`, `inicializaValueGetCasa`); antes contenían datos personales reales.
 - **DES-PAR-004:** El uso externo de estas variables se concentra en `22_imagenes` (≈100 referencias), además de `02_principal_screen` y `08_pantallas/tu_cuenta/tus_espacios`.
 
 ---
@@ -104,7 +104,7 @@ flowchart TD
 | Casts `as` y `!` sin validar | `TypeError` en ejecución | Argumentos tipados (DTO/Freezed) con validación |
 | Estado global mutable en `routes_parameters.dart` | Efectos cruzados entre pantallas | Reemplazar por argumentos inmutables o providers |
 | Web solo procesa la URL al arrancar | Cambios de URL posteriores no navegan | Aceptable si el enlace siempre abre la app; revisar si se agregan más deep links |
-| Datos de contacto de ejemplo escritos en el código | Posible dato personal real en el repositorio | Sustituir por valores ficticios |
+| ~~Datos de contacto reales escritos en las plantillas~~ | **Resuelto** en `routes_parameters.dart` (2026-10-07) | Persisten los mismos datos en `08_pantallas/tu_cuenta/tus_espacios/provider_espacios_casa_get.dart:1238-1243` y en el historial de git (ver T12 en el modelo de amenazas) |
 | `PaginaDeError` no se muestra | Falta retroalimentación al usuario sin permiso de ubicación | Usar `Navigator.push` / diálogo |
 
 ---
