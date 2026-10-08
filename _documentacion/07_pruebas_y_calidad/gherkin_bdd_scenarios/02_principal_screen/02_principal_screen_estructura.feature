@@ -31,7 +31,7 @@ Característica: Estructura y Enrutamiento de la Pantalla Principal
     Entonces el estado "indiceInicial" debe cambiar a "4"
     Y el sistema debe mostrar "PaginaPerfilWidget"
 
-  @REQ-PRIN-001 @REQ-PRIN-004 @mapeo-auto
+  @REQ-PRIN-001 @mapeo-auto
   Escenario: El scroll regresa al inicio al cambiar de sección
     Dado que el usuario ha hecho scroll hacia abajo en una sección
     Cuando el usuario cambia a una sección diferente del menú inicial

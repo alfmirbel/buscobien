@@ -7,7 +7,7 @@
 **Fecha:** 2026-08-13
 **Fuente:** Ingeniería inversa
 
-> **Advertencia de criticidad:** contiene los 2 archivos más grandes del proyecto (`form_update_espacio_comprado.dart` 6,689 líneas y `form_crea_ficha_captura_propiedad.dart` 4,692 líneas) y el AsyncNotifier más pesado (`provider_espacios_casa_get.dart` 3,865 líneas). Refactor urgente.
+> **Advertencia de criticidad:** contiene los 2 archivos más grandes del proyecto (tras MEJ-04) (`form_update_espacio_comprado.dart` 2.175 líneas y `form_crea_ficha_captura_propiedad.dart` 1.510 líneas) y el AsyncNotifier más pesado (`provider_espacios_casa_get.dart` 3,865 líneas). Refactor urgente.
 
 ---
 
@@ -19,7 +19,7 @@
 **Para** verlas, editarlas, publicarlas o eliminarlas en un mismo lugar.
 
 ### Conversation
-- `PaginaTusEspacios` (`pagina_tus_espacios.dart`, 442 líneas, ConsumerStatefulWidget con `TickerProviderStateMixin`) es la pantalla raíz de "Tu Cuenta > Tus Espacios".
+- `PaginaTusEspacios` (`pagina_tus_espacios.dart`, 438 líneas, ConsumerStatefulWidget con `TickerProviderStateMixin`) es la pantalla raíz de "Tu Cuenta > Tus Espacios".
 - `initState` dispara `postFrameCallback` que inicializa `menuTipoEspaciosProvider` con el `TickerProvider` y el `menuTipoEspaciosProvider.notifier` (instancia el `TabController` con 5 categorías: Normales, Destacados, Superdestacados, Oportunidades, Remates).
 - `provider_espacios_casa_get.ClassCompraEspaciosNotifierProvider` (AsyncNotifier, 3,865 líneas) lista `EspaciosCasa[]` filtrado por `idUsuario == currentUser` y `tipoEspacio` activo.
 - Cada tarjeta muestra foto principal (vía `22_imagenes` mini), precio, ubicación y estado (Pendiente publicación / Publicada / Vendida).
@@ -49,7 +49,7 @@
 **Para** capturar mi propiedad correctamente y publicarla al catálogo.
 
 ### Conversation
-- `CreaFichaCapturaPropiedad` (`form_crea_ficha_captura_propiedad.dart`, 3.075 líneas activas) es la tarjeta de cada propiedad; los campos por tipo de inmueble se capturan en el `Stepper` de `PaginaEditaEspacio`.
+- `CreaFichaCapturaPropiedad` (`form_crea_ficha_captura_propiedad.dart`, 1.510 líneas) es la tarjeta de cada propiedad; los campos por tipo de inmueble se capturan en el `Stepper` de `PaginaEditaEspacio`.
 - Secciones (implícitamente un wizard lineal sin separar en widgets Steps):
   1. **Tipo de inmueble** + **Tipo de transacción** (venta/renta).
   2. **Ubicación**: estado, municipio, calle, CP, entre calles — values derivados de `tabla_tipopropiedad_vs_campos.dart` matrices (`ubicaciongeneralMatriz`).
@@ -59,7 +59,7 @@
   6. **Contacto**: teléfono, email, nombre de contacto.
 - `tabla_tipopropiedad_vs_campos.dart` (544 líneas) define ~30 `List<String>` const (matrices por atributo). Las listas indexan por tipo inmueble, ej. `recamarasMatriz[0]` aplica a "Departamento", `recamarasMatriz[2]` podría ser vacío para "Terreno". Los campos no aplicables se ocultan en runtime.
 - `ConceptoEspacioRow` y `UbicacionEspacioRow` son clases anidadas para organizar sub-rows del formulario (concepto = descripción; ubicación = dirección + coords geográficas).
-- **Comentario crítico de deuda extrema:** 4,692 líneas en un único StatefulWidget. Lógica de validación + UI + persistencia + estado en un solo archivo. Testeabilidad cercana a cero. Refactor urgente a wizard con 7 `StepWidget`s separados — cada uno con test propio.
+- **Comentario crítico de deuda extrema:** 1.510 líneas en un único StatefulWidget. Lógica de validación + UI + persistencia + estado en un solo archivo. Testeabilidad cercana a cero. Refactor urgente a wizard con 7 `StepWidget`s separados — cada uno con test propio.
 
 ### Confirmation
 - ✓ Al tocar "Crear ficha", el formulario abre con campos dinámicos según tipo inmueble.
@@ -81,7 +81,7 @@
 **Para** que la propiedad quede visible en el catálogo.
 
 ### Conversation
-- `upsertEspacioPublicadoToCouchDB(tipoDeEspacio, datosPropiedadPublicar)` (`http_publica_propiedad.dart`, 767 líneas) construye el payload:
+- `upsertEspacioPublicadoToCouchDB(tipoDeEspacio, datosPropiedadPublicar)` (`http_publica_propiedad.dart`, 456 líneas) construye el payload:
   - `_id = fotoprincipal` si ya existe (update), o nuevo UUID si es alta.
   - `tipodeanuncio`: el tipo de transacción (venta/renta).
   - `fechadepublicacioncasa.dia/mes/anio`: actualizado al `DateTime.now()`.
@@ -112,12 +112,12 @@
 **Para** corregir y republicar sin recapturar todo.
 
 ### Conversation
-- `PaginaEditaEspacio` (`form_update_espacio_comprado.dart`, 6,689 líneas) es el formulario de edición — el **archivo más grande del proyecto**.
+- `PaginaEditaEspacio` (`form_update_espacio_comprado.dart`, 2.175 líneas) es el formulario de edición — el **archivo más grande del proyecto**.
 - En `initState`, fetcha el doc `EspaciosCasa` por `_id` (vía `provider_espacios_casa_get`) y precarga todos los `TextEditingController` / `StatefulWidget` state con valores existentes.
 - El wizard es idéntico a US-TUS-002 pero en modo edición (los campos activos dependen del tipo de inmueble original).
 - Tras submit, `upsertEspacioPublicadoToCouchDB` con el `_rev` actual; refleja cambios. Si el doc ya estaba publicado, también actualiza la DB publicados (sincronía via el mismo upsert).
 - `PaginaEditaEspacioState` mantiene state local (no ref watch) para evitar rebuild cascada mientras el usuario escribe.
-- **Comentario crítico de deuda extrema:** 6,689 líneas — probablemente duplicación masiva de la lógica de alta (`form_crea_ficha`) además de lógica adicional de precarga. Debería compartir componentes con el wizard de alta. Refactor urgente y crítico.
+- **Comentario crítico de deuda extrema:** 2.175 líneas (antes 6.689 con duplicación masiva comentada, eliminada en MEJ-04) de la lógica de alta (`form_crea_ficha`) además de lógica adicional de precarga. Debería compartir componentes con el wizard de alta. Refactor urgente y crítico.
 
 ### Confirmation
 - ✓ Al tocar "Editar", el formulario abre con todos los campos precargados del doc CouchDB.
@@ -186,11 +186,11 @@
 
 ## Notas de deuda técnica (priorizadas)
 
-1. **`form_update_espacio_comprado.dart` 6,689 líneas** — **más grande del proyecto**. Refactorcrítico: extraer en wizard con 7 StepWidgets y compartirlos con US-TUS-002.
-2. **`form_crea_ficha_captura_propiedad.dart` 4,692 líneas** — refactor al mismo wizard compartido con US-TUS-004.
+1. **`form_update_espacio_comprado.dart` 2.175 líneas** — **más grande del proyecto**. Refactorcrítico: extraer en wizard con 7 StepWidgets y compartirlos con US-TUS-002.
+2. **`form_crea_ficha_captura_propiedad.dart` 1.510 líneas** — refactor al mismo wizard compartido con US-TUS-004.
 3. **`provider_espacios_casa_get.dart` 3,865 líneas** — AsyncNotifier monolítico. Split en master-list, filtered-by-type, count, current-edit, etc.
 4. **`tabla_tipopropiedad_vs_campos.dart` hardcoded**: 30+ List const. Migrar a provider o config external.
-6. **`http_publica_propiedad.dart` 767 líneas** — función fat. Refactor a funciones puras (constructPayload, validate, sendPut, handle409, syncToPublished).
+6. **`http_publica_propiedad.dart` 456 líneas** — función fat. Refactor a funciones puras (constructPayload, validate, sendPut, handle409, syncToPublished).
 8. **Sin tests** — módulo de máxima criticidad (captura + publicación del catálogo) sin cobertura widget/unit. Refactor urgente prioritario.
 10. **`menuTipoEspaciosProvider` TabController sincronizado bidireccional** — también aplicable aquí (deuda ya documentada en `05_provider_menus`).
 

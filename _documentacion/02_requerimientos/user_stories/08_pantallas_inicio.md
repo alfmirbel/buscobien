@@ -17,7 +17,7 @@
 **Para** explorar las opciones más relevantes del momento.
 
 ### Conversation
-- `PaginaBuscaEspacios` (`pagina_inicio_busca_espacios.dart`, 515 líneas, ConsumerStatefulWidget) es la pantalla raíz de la sección Inicio en `PrincipalSliversMenuInicial`.
+- `PaginaBuscaEspacios` (`pagina_inicio_busca_espacios.dart`, 500 líneas, ConsumerStatefulWidget) es la pantalla raíz de la sección Inicio en `PrincipalSliversMenuInicial`.
 - En `postFrameCallback`: lee los providers de menú (`tipoEspacioProvider`, `nivelGobiernoProvider`, `tipoTransaccionProvider`) y dispara `findPropiedadesEstadosde10en10Provider.familia(skip:0, limit:10)`.
 - `WrapModernCardPropiedades` (`widget_wrap_modern_card.dart`, 639 líneas, StatefulWidget) recibe `EspaciosCasaGet.rows[]` y construye un `Wrap` de tarjetas (responsivo: 1/2/3 columnas según breakpoints de `var_color_widget`).
 - Cada tarjeta muestra:
@@ -46,7 +46,7 @@
 **Para** seguir descubriendo sin tener que tocar "siguiente página".
 
 ### Conversation
-- `PaginacionBusqueda` (`inicio_propiedades_providers.dart`, 212 líneas, anotado con `@riverpod` via build_runner) modela el estado de paginación: `skip`, `limit=10`, `totalDocs`.
+- `PaginacionBusqueda` (`inicio_propiedades_providers.dart`, 206 líneas, anotado con `@riverpod` via build_runner) modela el estado de paginación: `skip`, `limit=10`, `totalDocs`.
 - `SearchTerm` y `BusquedaPaginacion` (Freezed) son los modelos de estado.
 - `findPropiedadesEstadosde10en10Provider` es `FutureProvider.family<EspaciosCasaGet, ({int skip, ...filtros})>`.
 - Al llegar al final del `Wrap` (detectado via `ScrollController.position.maxScrollExtent`), `PaginacionBusqueda.increment()` aumenta `skip += 10` y reevalúa la family con nuevos parámetros — las cards se añaden en lugar de reemplazar.
@@ -97,11 +97,11 @@
 **Para** entender el alcance de mi búsqueda y ajustarla si es muy limitada.
 
 ### Conversation
-- `viewCountFilterPropiedadesProvider` (`http_view_count_filter_propiedades.dart`, 502 líneas) construye una Mango query de `count` sobre la vista CouchDB relevante (`data_count_view_documentos.dart` parsea el resultado).
+- `viewCountFilterPropiedadesProvider` (`http_view_count_filter_propiedades.dart`, 169 líneas) construye una Mango query de `count` sobre la vista CouchDB relevante (`data_count_view_documentos.dart` parsea el resultado).
 - `CountViewDoctos` y `RowCountViewDoctos` modelos JSON manuales (no Freezed) modelan la respuesta.
 - UI: `"Mostrando ${rows.length} de ${viewCount}"` junto al paginador. Si `viewCount == 0`, se muestra el estado `stateNone` con CTA "Limpiar filtros".
 - `VariablesViewQuery` (`data_get_valores_menus.dart`) encapsula los filtros activos enviados al view CouchDB.
-- **Comentario crítico:** el archivo `http_view_count_filter_propiedades.dart` (502 líneas) tiene **lógica fallback extensa** para múltiples endpoints — sostenido por el riesgo de que un endpoint principal esté caído. Deuda: encapsular en un cliente Dio genérico con interceptor de retry.
+- **Comentario crítico:** el archivo `http_view_count_filter_propiedades.dart` (169 líneas) tiene **lógica fallback extensa** para múltiples endpoints — sostenido por el riesgo de que un endpoint principal esté caído. Deuda: encapsular en un cliente Dio genérico con interceptor de retry.
 
 ### Confirmation
 - ✓ El contador aparece junto al paginado mostrando "Mostrando X de Y propiedades".
@@ -145,7 +145,7 @@
 **Para** seguir viendo propiedades aunque el endpoint principal esté caído.
 
 ### Conversation
-- `http_view_count_filter_propiedades.dart` (502 líneas) y `http_find_propiedades_10en10.dart` intentan primero el endpoint principal (con los filtros activos).
+- `http_view_count_filter_propiedades.dart` (169 líneas) y `http_find_propiedades_10en10.dart` intentan primero el endpoint principal (con los filtros activos).
 - Si falla (timeout ≥ N segundos, 500, 503), reintentan con un fallback configurado (probablemente derivado del cross-reference `endpointsCaptura`/`endpointsPublicados` de `40_security`).
 - `FutureBuilderStateWidgets.stateErrorFS(error)` muestra el error si todos los fallbacks fallan, con botón Reintentar que reinicia el provider.
 - **Comentario crítico:** el mecanismo fallback es **manual** (if-else de Dio.try/catch) — difficult de mantener cuando agregue nuevos endpoints. Refactor: usar un "EndpointResolver" que itere sobre una lista ordenada de endpoints y devuelva el primero exitoso.
@@ -163,7 +163,7 @@
 ## Notas de deuda técnica
 
 1. **`WrapModernCardPropiedades` 639 líneas**: monolito card + `_MeGustaButton` sub-stateful. Refactor: extraer `_MeGustaButton` a `60_global_widgets/me_gusta_button.dart` reutilizable.
-2. **`http_view_count_filter_propiedades.dart` 502 líneas**: lógica fallback extensa manual → refactor a `EndpointResolver` con lista.
+2. **`http_view_count_filter_propiedades.dart` 169 líneas**: lógica fallback extensa manual → refactor a `EndpointResolver` con lista.
 4. **Paginación manual**: sin `infinite_scroll_pagination` package → riesgo de race conditions.
 5. **`catalogo_otras_caracteristicas.dart` estático**: configurable sólo con edición de código.
 6. **`.g.dart` mezclados con fuente**: 4 archivos generated conviven con 11 fuente. Convención aceptada.

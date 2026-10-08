@@ -99,7 +99,7 @@ Característica: Gestión de Mis Grupos
     Cuando el usuario selecciona "Por invitación" en el campo Participación
     Entonces el sistema deberá establecer la participación del grupo como "invitacion"
 
-  @REQ-GPU-010 @REQ-GPU-015 @mapeo-auto
+  @REQ-GPU-004 @REQ-GPU-015 @mapeo-auto
   Escenario: Navegación a detalle de grupo
     Dado que el usuario visualiza la lista de sus grupos
     Cuando el usuario presiona la tarjeta de un grupo

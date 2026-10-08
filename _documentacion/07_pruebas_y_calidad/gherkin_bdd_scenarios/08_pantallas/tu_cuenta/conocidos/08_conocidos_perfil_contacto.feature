@@ -11,7 +11,7 @@ Característica: Perfil de Contacto y sus Publicaciones
     Y debe mostrar el nombre "María" en texto bold de tamaño 22
     Y el header debe tener color de fondo "appTheme.primary.withValues(alpha: 0.05)"
 
-  @REQ-CON-003 @REQ-CON-011 @mapeo-auto
+  @REQ-CON-011 @mapeo-auto
   Escenario: El perfil carga las propiedades del contacto
     Dado que el usuario está en "PagePerfilContacto"
     Cuando se monta la pantalla

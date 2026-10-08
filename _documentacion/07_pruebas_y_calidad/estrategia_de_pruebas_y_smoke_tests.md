@@ -1,7 +1,7 @@
 # Estrategia de Pruebas y Aseguramiento de Calidad (QA) — BuscoBien
 
 **Fase de SDLC:** Etapa 7 — Pruebas y Calidad de Software  
-**Revisión de exactitud:** 2026-10-07 (se ejecutó `flutter test`)
+**Revisión de exactitud:** 2026-10-07 (se ejecutó `flutter test`; actualizado tras MEJ-02)
 
 ---
 
@@ -9,14 +9,14 @@
 
 | Elemento | Estado verificado |
 | :--- | :--- |
-| Pruebas automatizadas | Un solo archivo, `test/widget_test.dart`, con la prueba de plantilla de Flutter «Counter increments smoke test» |
-| Resultado de `flutter test` | **Falla** (`+0 -1`): la prueba espera un contador `'0'` y un ícono `Symbols.add` que la app no tiene |
+| Pruebas automatizadas | 2 archivos, 9 pruebas: `test/seguridad_test.dart` (hashes con vectores conocidos, token de recuperación y expiración) y `test/rutas_test.dart` (`routeGenerate`) |
+| Resultado de `flutter test` | **Pasa** (`+9`, 2026-10-07). La prueba de plantilla del contador se eliminó (MEJ-02) |
 | Pruebas unitarias de providers/modelos | No existen |
 | Pruebas de integración | No existen |
 | Escenarios Gherkin | 129 archivos detallados con 1.023 escenarios (más 48 archivos de análisis) **documentales**, no ejecutables todavía |
 | Cobertura de código | No se mide |
 
-La suite no protege hoy ninguna regresión. Arreglar o reemplazar la prueba de plantilla es la primera acción.
+La suite cubre solo seguridad y rutas; no hay pruebas de providers, widgets ni integración. Siguiente paso: MEJ-23 y MEJ-25.
 
 ## 2. Estrategia objetivo (pirámide de pruebas)
 
@@ -54,6 +54,6 @@ Algunos escenarios describen comportamiento **deseado** que el código aún no t
 
 1. `flutter build web --wasm --dart-define-from-file=defines.json` termina con código 0.
 2. `flutter analyze` sin errores.
-3. `flutter test` pasa (hoy **no** pasa).
+3. `flutter test` pasa (hoy pasa: 9 pruebas).
 4. Cumplimiento de [`antigravity_ui_rules.md`](../05_desarrollo_y_especificaciones_tecnicas/antigravity_ui_rules.md).
 5. `python _documentacion/00_indice/verificar_documentacion.py` sin errores.

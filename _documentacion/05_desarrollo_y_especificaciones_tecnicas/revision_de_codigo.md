@@ -51,14 +51,14 @@ Severidad: **Alta** (defecto visible o bloquea mantenimiento), **Media**, **Baja
 
 | ID | Hallazgo | Evidencia | Sev. |
 | :--- | :--- | :--- | :--- |
-| H-01 | **Chat de grupo: todos los mensajes se dibujan como ajenos.** `_BurbujaMensaje` fija `final isMe = false;` y se construye solo con `msg`; el registro de cambios (`versiones.dart:41`) afirma que recibe `currentUserId`. Los 5 avisos `dead_code` de `page_chat_grupo.dart` (líneas 130–184) son consecuencia | `page_chat_grupo.dart:121-130, 109, 349` | **Alta** |
+| H-01 | **Chat de grupo: todos los mensajes se dibujan como ajenos.** `_BurbujaMensaje` fija `final isMe = false;` y se construye solo con `msg`; el registro de cambios (`versiones.dart:41`) afirma que recibe `currentUserId`. Los 5 avisos `dead_code` de `page_chat_grupo.dart` (líneas 130–184) son consecuencia | `page_chat_grupo.dart:114-124, 109, 349` | **Alta** |
 | H-02 | **Landings con botones inertes.** ≈30 manejadores vacíos (`onPressed: () {}`), texto «PROXIMAMENTE REGISTRO» y un formulario «Déjenos sus datos» (inmobiliarias) cuyo botón no envía nada | `03_vistas/pagina_*.dart` | Media |
 | H-03 | **Exportar PDF no es accesible.** `PdfGeneratorService` está implementado pero ningún archivo lo invoca | `pagina_detalle_propiedad_pdf.dart` | Media |
 | H-04 | **La ficha de propiedad no tiene «Contactar»**; «Compartir» y «Guardar en lista» viven en el carrusel de `22_imagenes`; `fromChatUserId` está declarado y sin uso | `pagina_detalle_propiedad.dart:32`, `pagina_carousel_fotos_usuario.dart:517-585` | Media |
-| H-05 | **`PaginaDeError` nunca se muestra:** se crea dentro de una expresión ternaria (permiso de ubicación) sin navegar | `principal_02_page_appbar.dart:123` | Media |
+| H-05 | **`PaginaDeError` nunca se muestra:** se crea dentro de una expresión ternaria (permiso de ubicación) sin navegar | `principal_02_page_appbar.dart:120` | Media |
 | H-06 | **Faltan operaciones:** eliminar miembro de un grupo, eliminar un contacto, y «alta de propiedad» fuera de la compra de espacios | `GruposNotifier`, `ConocidosNotifier` | Media |
 | H-07 | **Recuperación de contraseña por enlace en móvil no puede funcionar aún:** `assetlinks.json` y `apple-app-site-association` tienen valores de ejemplo; en Web solo se evalúa la URL al arrancar | `server/well-known/*`, `deep_link_handler.dart` | Media |
-| H-08 | **Rutas:** 16 de 38 constantes sin pantalla y sin `onUnknownRoute` (ruta desconocida devuelve `null`) | `app_routes.dart:259-260` | Baja |
+| H-08 | **Rutas:** 16 de 38 constantes sin pantalla y sin `onUnknownRoute` (ruta desconocida devuelve `null`) | `app_routes.dart:251-252` | Baja |
 | H-09 | **Archivos sin uso:** `ui_exceptions.dart`, `encriptar.dart` (AES, declarado obsoleto), `genera_cantidad_monetaria.dart`, `pagina_detalle_propiedad_pdf.dart` | referencias por nombre | Baja |
 
 ### 3.2 Pantallas de captura
@@ -91,7 +91,21 @@ Severidad: **Alta** (defecto visible o bloquea mantenimiento), **Media**, **Baja
 | H-23 | **Red:** 133 llamadas `http.*`, solo 14 con `.timeout(`; 407 usos de `statusCode` repartidos; sin capa común de errores/reintentos | búsqueda en `lib/` | Media |
 | H-24 | **Código muerto:** ≈10.100 líneas en bloques `/* */` con código, 12 imports sin uso, 7 variables sin uso, 5 `dead_code` | `flutter analyze`, conteo | Media |
 | H-25 | **Registro:** 1.288 llamadas a `debugPrintLevels`, algunas con argumentos de navegación (T10) | búsqueda | Baja |
+| H-27 | **Chat de grupo: las burbujas de propiedad y de lista no se dibujan.** `_BurbujaPropiedad` y `_BurbujaLista` devuelven `SizedBox.shrink()` en `page_chat_grupo.dart`; solo `page_chat_privado.dart` las implementa. El registro de cambios (`versiones.dart`) afirma lo contrario | `page_chat_grupo.dart` | Media |
 | H-26 | **Seguridad** (credenciales de CouchDB en el cliente, correo sin autenticación, etc.): ver T1–T13 | modelo de amenazas | **Crítica** (pendiente nginx + JWT) |
+
+## 3.5 Estado tras la Fase 0 (2026-10-07)
+
+| Hallazgo | Estado | Commit |
+| :--- | :--- | :--- |
+| H-01 chat de grupo (mensajes propios) | **Resuelto** (MEJ-01) | `33a80df` |
+| H-22 pruebas | **Parcial:** 9 pruebas verdes (seguridad y rutas); faltan providers, widgets e integración (MEJ-22…25) | `d902d39` |
+| H-24 código muerto | **Resuelto en lo medido:** 12 imports y 7 variables eliminados; ≈18.200 líneas de comentarios con código eliminadas (108 bloques `/* */` y 40 líneas `//`). Quedan comentarios descriptivos y líneas `//` sueltas | `d7a9e7d`, `594e138` |
+| H-21 APIs deprecadas | **Resuelto** (`RadioGroup`, `onReorderItem`); probar a mano | `4280f6c` |
+| H-09 archivos sin uso | Pendiente de decisión (MEJ-06) | — |
+| H-27 burbujas del chat de grupo | **Nuevo**, pendiente (MEJ-31) | — |
+
+Métricas actuales: `flutter analyze` = 0 hallazgos; `flutter test` = 9 pruebas verdes; `lib/` = 50.690 líneas (antes 68.875). Los números de línea citados en la documentación se reasignaron al nuevo código.
 
 ## 4. Fortalezas observadas
 

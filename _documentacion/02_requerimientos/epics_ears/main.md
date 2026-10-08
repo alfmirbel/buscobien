@@ -62,14 +62,14 @@ Usuario abre la app
 
 | ID | Tipo EARS | Requerimiento | Evidencia | Estado |
 |----|-----------|---------------|-----------|--------|
-| REQ-MAIN-001 | **Ubicuo** | El sistema inicializará `WidgetsFlutterBinding`, forzará orientación portrait-only y activará `setPathUrlStrategy()` antes de renderizar la app. | `lib\main.dart:14-20` | En código |
-| REQ-MAIN-002 | **Ubicuo** | El sistema envolverá la app en `ProviderScope` de Riverpod para inyección de dependencias y estado global. | `lib\main.dart:24` | En código |
-| REQ-MAIN-003 | **Ubicuo** | El sistema configurará `MaterialApp` con `useMaterial3: true`, tema basado en `appTheme` (ColorScheme global) y `NavigationBarThemeData` personalizado. | `lib\main.dart:52-93` | En código |
-| REQ-MAIN-004 | **Ubicuo** | El sistema expondrá un `GlobalKey<NavigatorState>` global (`navigatorKey`) para navegación programática desde deep links y providers. | `lib\main.dart:27` | En código |
-| REQ-MAIN-005 | **Evento** | Cuando la app inicie (`initState`), el sistema inicializará el manejador de deep links (`initDeepLinkHandler`) usando `navigatorKey`. | `lib\main.dart:38-42` | En código |
+| REQ-MAIN-001 | **Ubicuo** | El sistema inicializará `WidgetsFlutterBinding`, forzará orientación portrait-only y activará `setPathUrlStrategy()` antes de renderizar la app. | `lib\main.dart:13-19` | En código |
+| REQ-MAIN-002 | **Ubicuo** | El sistema envolverá la app en `ProviderScope` de Riverpod para inyección de dependencias y estado global. | `lib\main.dart:23` | En código |
+| REQ-MAIN-003 | **Ubicuo** | El sistema configurará `MaterialApp` con `useMaterial3: true`, tema basado en `appTheme` (ColorScheme global) y `NavigationBarThemeData` personalizado. | `lib\main.dart:51-92` | En código |
+| REQ-MAIN-004 | **Ubicuo** | El sistema expondrá un `GlobalKey<NavigatorState>` global (`navigatorKey`) para navegación programática desde deep links y providers. | `lib\main.dart:26` | En código |
+| REQ-MAIN-005 | **Evento** | Cuando la app inicie (`initState`), el sistema inicializará el manejador de deep links (`initDeepLinkHandler`) usando `navigatorKey`. | `lib\main.dart:37-41` | En código |
 | REQ-MAIN-006 | **Evento** | Cuando se reciba un deep link de recuperación (`/recuperar?token=X&perfil=Y`), el sistema navegará a `/cambiopassword` con argumentos `token` y `perfil`. | `lib\07_routes\deep_link_handler.dart` | En código |
-| REQ-MAIN-007 | **Estado** | Mientras la app esté ejecutándose, el sistema usará `routeGenerate` (de `app_routes.dart`) como `onGenerateRoute` para resolver todas las rutas nombradas. | `lib\main.dart:97-99` | En código |
-| REQ-MAIN-008 | **No Deseado** | Si falla la inicialización de `WidgetsFlutterBinding` o `setPathUrlStrategy`, el sistema no renderizará la app y propagará la excepción (crash visible). | `lib\main.dart:14-16` (sin try-catch) | Riesgo |
+| REQ-MAIN-007 | **Estado** | Mientras la app esté ejecutándose, el sistema usará `routeGenerate` (de `app_routes.dart`) como `onGenerateRoute` para resolver todas las rutas nombradas. | `lib\main.dart:96-98` | En código |
+| REQ-MAIN-008 | **No Deseado** | Si falla la inicialización de `WidgetsFlutterBinding` o `setPathUrlStrategy`, el sistema no renderizará la app y propagará la excepción (crash visible). | `lib\main.dart:13-15` (sin try-catch) | Riesgo |
 | REQ-MAIN-009 | **No Deseado** | Si `navigatorKey.currentState` es null al procesar deep link, el sistema no navegará y loggeará error (silencioso si nivel debug desactivado). | `lib\07_routes\deep_link_handler.dart:45-47` | Parcial |
 | REQ-MAIN-010 | **Complejo** | Mientras la app esté en primer plano, cuando ocurra un cambio de conectividad detectado por `checaConeccionesProvider`, el sistema reaccionará según el estado (ver epic `41_connectivity.md`). | `lib\41_connectivity\connectivitycheck_provider.dart` | En código |
 

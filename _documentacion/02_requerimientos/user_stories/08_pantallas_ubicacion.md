@@ -40,7 +40,7 @@
 **Para** identificar la ubicación exacta antes de buscar propiedades.
 
 ### Conversation
-- `PaginaBuscaLocalidadGMaps` (`pagina_busca_localidades_gmaps.dart`, 347 líneas, ConsumerStatefulWidget) recibe CP vía parámetro o permite ingresarlo.
+- `PaginaBuscaLocalidadGMaps` (`pagina_busca_localidades_gmaps.dart`, 288 líneas, ConsumerStatefulWidget) recibe CP vía parámetro o permite ingresarlo.
 - `TextFormField` para CP con validación estricta: regex `^[0-9]{5}$` (México).
 - Al buscar:
   1. Consulta local `data_sepomex_localidades` (Freezed) — datos oficiales SEPOMEX de México con CP, asentamiento, municipio, estado, lat, lng.

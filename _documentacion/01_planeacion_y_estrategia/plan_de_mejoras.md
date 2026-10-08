@@ -1,7 +1,7 @@
 # Plan de mejoras del código
 
 **Fecha:** 2026-10-07 · **Origen:** [`revision_de_codigo.md`](../05_desarrollo_y_especificaciones_tecnicas/revision_de_codigo.md) (hallazgos `H-NN`)  
-**Estado:** propuesta para aprobación; **ninguna tarea está ejecutada**. La migración de Flutter a *nginx + API + JWT* queda **fuera de este plan** hasta que esa configuración esté lista (Fase 5).
+**Estado (2026-10-07):** Fase 0 ejecutada salvo MEJ-06 (requiere tu decisión); el resto sigue como propuesta. La migración de Flutter a *nginx + API + JWT* queda **fuera de este plan** hasta que esa configuración esté lista (Fase 5).
 
 **Esfuerzo (relativo):** **S** ≤ medio día · **M** 1–3 días · **L** 1–2 semanas. **Prioridad:** P1 (hacer ya), P2 (siguiente), P3 (cuando haya espacio).  
 **Regla de entrega:** cada tarea termina con `flutter analyze` sin errores nuevos, `flutter test` verde y la documentación afectada actualizada (columna *Docs*), verificada con `verificar_documentacion.py`.
@@ -20,13 +20,15 @@ flowchart LR
 
 ## Fase 0 — Base limpia (primero: reduce ruido y riesgo)
 
+**Resultado:** `flutter analyze` pasó de 46 hallazgos a **0**; `flutter test` pasó de 1 prueba fallida a **9 pruebas en verde**; `lib/` pasó de 68.875 a 50.690 líneas (−18.200 líneas de código comentado). MEJ-05 cambia comportamiento de dos pantallas (esquema de colores y reordenar fotos): **probar a mano**. MEJ-06 queda pendiente.
+
 | ID | Tarea | Hallazgos | Esf. | Prior. | Criterio de aceptación | Docs |
 | :--- | :--- | :--- | :---: | :---: | :--- | :--- |
-| MEJ-01 | Corregir `_BurbujaMensaje`: recibir `currentUserId`, calcular `isMe`, alinear/colorear los mensajes propios | H-01 | S | **P1** | En un grupo, mis mensajes salen a la derecha y sin nombre; desaparecen los 5 `dead_code` de `page_chat_grupo.dart` | SDD_grupos, Gherkin `chat_grupo.feature` |
-| MEJ-02 | Sustituir la prueba de plantilla por una prueba de arranque real (o por una de `routeGenerate`) y dejar `flutter test` en verde | H-22 | S | **P1** | `flutter test` pasa | `estrategia_de_pruebas…` |
-| MEJ-03 | Eliminar imports sin uso, variables sin uso e imports innecesarios | H-24 | S | P1 | Avisos `unused_*`/`unnecessary_import` = 0 | — |
-| MEJ-04 | Eliminar el código comentado (≈10.100 líneas en bloques `/* */`) — git conserva el historial; empezar por `form_update_espacio_comprado` y `form_crea_ficha_captura_propiedad` | H-24, H-12 | M | P1 | Archivos sin versiones antiguas comentadas; la app compila y las pantallas afectadas se prueban a mano | Epics ESP-009, inventarios, `dominios_modulos_archivos` |
-| MEJ-05 | Migrar `Radio` a `RadioGroup` (`pagina_colores`) y `onReorder` → `onReorderItem` | H-21 | S | P2 | `deprecated_member_use` = 0 | SDD `04_provider`, `22_imagenes` |
+| MEJ-01 ✅ `33a80df` | Corregir `_BurbujaMensaje`: recibir `currentUserId`, calcular `isMe`, alinear/colorear los mensajes propios | H-01 | S | **P1** | En un grupo, mis mensajes salen a la derecha y sin nombre; desaparecen los 5 `dead_code` de `page_chat_grupo.dart` | SDD_grupos, Gherkin `chat_grupo.feature` |
+| MEJ-02 ✅ `d902d39` | Sustituir la prueba de plantilla por una prueba de arranque real (o por una de `routeGenerate`) y dejar `flutter test` en verde | H-22 | S | **P1** | `flutter test` pasa | `estrategia_de_pruebas…` |
+| MEJ-03 ✅ `d7a9e7d` | Eliminar imports sin uso, variables sin uso e imports innecesarios | H-24 | S | P1 | Avisos `unused_*`/`unnecessary_import` = 0 | — |
+| MEJ-04 ✅ `594e138` | Eliminar el código comentado (≈10.100 líneas en bloques `/* */`) — git conserva el historial; empezar por `form_update_espacio_comprado` y `form_crea_ficha_captura_propiedad` | H-24, H-12 | M | P1 | Archivos sin versiones antiguas comentadas; la app compila y las pantallas afectadas se prueban a mano | Epics ESP-009, inventarios, `dominios_modulos_archivos` |
+| MEJ-05 ✅ `4280f6c` | Migrar `Radio` a `RadioGroup` (`pagina_colores`) y `onReorder` → `onReorderItem` | H-21 | S | P2 | `deprecated_member_use` = 0 | SDD `04_provider`, `22_imagenes` |
 | MEJ-06 | Decidir y retirar archivos sin uso (`ui_exceptions`, `encriptar` tras confirmar que no hay datos cifrados, `genera_cantidad_monetaria`) | H-09 | S | P3 | Archivos eliminados o documentados como vigentes | inventarios, `40_security`, `indice_archivos_modelos` |
 
 ## Fase 1 — Funcionalidad: decidir y cerrar lo incompleto
@@ -40,6 +42,7 @@ Cada punto requiere una **decisión de producto** (implementar o retirar del alc
 | MEJ-09 | Mostrar `PaginaDeError`/diálogo cuando falte el permiso de ubicación y registrar `onUnknownRoute`; eliminar las 16 constantes de ruta sin pantalla | H-05, H-08 | S | P2 | Sin permiso se informa al usuario; ruta desconocida muestra la página de error | REQ-ROUT-006/012, SDD_07_routes, Gherkin `07_routes` |
 | MEJ-10 | Implementar «Eliminar miembro» (admin) y «Eliminar contacto», o retirarlos del alcance | H-06 | M | P3 | Operaciones disponibles con confirmación; Gherkin `@pendiente` pasa a verde | REQ-GPU-016, US-GPU, conocidos |
 | MEJ-11 | Landings (`03_vistas`): cablear o quitar botones y el formulario de inmobiliarias (enviar a un endpoint o a correo); quitar «PROXIMAMENTE» | H-02 | M | P2 | Ningún `onPressed: () {}` en pantallas publicadas | Epic/US `03_vistas` |
+| MEJ-31 | Implementar las burbujas de propiedad y de lista en el chat de grupo (hoy son `SizedBox.shrink()`); reutilizar las de `page_chat_privado.dart` en un widget compartido | H-27 | M | P2 | Tocar una propiedad o lista compartida en un grupo abre su detalle; escenarios `@pendiente` de `chat_grupo.feature` en verde | REQ-GPU-010, SDD_grupos, Gherkin |
 | MEJ-12 | Completar App Links/Universal Links (paquete definitivo, huella SHA-256, `TEAM_ID`) y verificar la recuperación de contraseña de extremo a extremo | H-07 | M | P2 | El enlace del correo abre la app en Android/iOS y cambia la contraseña | runbook §5, REQ-ROUT-007/008 |
 
 ## Fase 2 — Pantallas de captura
@@ -85,7 +88,7 @@ Cada punto requiere una **decisión de producto** (implementar o retirar del alc
 | Fase | Tareas | Esfuerzo aproximado | Depende de |
 | :--- | :--- | :--- | :--- |
 | 0 | MEJ-01…06 | ≈ 1 semana | — |
-| 1 | MEJ-07…12 | ≈ 2–3 semanas | Decisiones de producto |
+| 1 | MEJ-07…12, MEJ-31 | ≈ 2–3 semanas | Decisiones de producto |
 | 2 | MEJ-13…17 | ≈ 3–4 semanas | Fase 0 (código limpio) y MEJ-13 antes de MEJ-14 |
 | 3 | MEJ-18…21 | ≈ 3 semanas | Medición (MEJ-21) antes de optimizar |
 | 4 | MEJ-22…25 | continuo (≈ 1 semana inicial + 1 por flujo) | — |

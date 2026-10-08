@@ -4,7 +4,7 @@ Característica: Visualización de Propiedades en Mapa
   Quiero ver las propiedades inmobiliarias en un mapa interactivo
   Para explorar visualmente las opciones disponibles por zona
 
-  @REQ-GEO-002 @REQ-GEO-010 @mapeo-auto
+  @REQ-GEO-010 @mapeo-auto
   Escenario: Visualización de marcadores de propiedades con precio
     Dado que el usuario abre la pantalla de "Mapa de propiedades"
     Y existe una lista de propiedades con coordenadas válidas

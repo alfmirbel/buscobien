@@ -48,7 +48,7 @@
 **Para** no quedarme atascado y tener que navegar manualmente.
 
 ### Conversation
-- `pagina_sin_coneccion.dart` (169 líneas) expone `PaginaSinConeccion` (StatefulWidget).
+- `pagina_sin_coneccion.dart` (135 líneas) expone `PaginaSinConeccion` (StatefulWidget).
 - Renderiza:
   - Ícono grande `Symbols.wifi_off` con `appTheme.colorScheme.errorContainer`.
   - Mensaje "Sin conexión a Internet" + sub-mensaje "Verifica tu WiFi o datos móviles".

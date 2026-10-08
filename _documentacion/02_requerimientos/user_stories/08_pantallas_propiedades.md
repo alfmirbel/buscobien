@@ -17,7 +17,7 @@
 **Para** evaluar la propiedad antes de contactar.
 
 ### Conversation
-- `PaginaDetalleWidget` (`pagina_detalle_propiedad.dart`, 588 líneas, ConsumerStatefulWidget) recibe `idPropiedad` (via ruta/argumento).
+- `PaginaDetalleWidget` (`pagina_detalle_propiedad.dart`, 576 líneas, ConsumerStatefulWidget) recibe `idPropiedad` (via ruta/argumento).
 - initState dispara `findPropiendas([idPropiedad])` (Mango `$in`) — `data_find_propiedades.dart` modela la respuesta con `FindPropiedades { rows: List<Doc> }`.
 - Build del contenido:
   - `PaginaCarouselFotosUsuario` (de `22_imagenes`) en la parte superior con todas las fotos.
@@ -100,7 +100,7 @@
 **Para** enviarlo por email o guardarlo en mis documentos.
 
 ### Conversation
-- CTA "Exportar PDF" invoca `PdfGeneratorService.generate(propiedad)` (`pagina_detalle_propiedad_pdf.dart`, 311 líneas).
+- CTA "Exportar PDF" invoca `PdfGeneratorService.generate(propiedad)` (`pagina_detalle_propiedad_pdf.dart`, 306 líneas).
 - El servicio usa el paquete `pdf` (`pub.dev/packages/pdf`) para construir un `Document`:
   - Cabecera con branding Buscobien + logotipo.
   - Foto principal de la propiedad (bytes descargados vía HTTP y embebidos como `PdfImage`).

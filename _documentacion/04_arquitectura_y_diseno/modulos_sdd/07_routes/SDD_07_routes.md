@@ -2,7 +2,7 @@
 ## Especificación de diseño (EARS)
 
 **Directorio fuente:** `lib/07_routes`  
-**Archivos:** `app_routes.dart` (262 líneas), `deep_link_handler.dart` (56), `pagina_route_error.dart` (92), `routes_parameters.dart` (477)  
+**Archivos:** `app_routes.dart` (254 líneas), `deep_link_handler.dart` (56), `pagina_route_error.dart` (92), `routes_parameters.dart` (477)  
 **Arquitectura:** `Navigator` 1.0 con `onGenerateRoute` único; sin GoRouter ni Navigator 2.0  
 **Propósito:** catálogo de rutas con nombre, construcción de pantallas con argumentos tipados, deep link de recuperación de contraseña y plantillas globales de argumentos  
 **Revisión de exactitud:** 2026-10-07, contrastado con el código  
@@ -85,7 +85,7 @@ flowchart TD
 ### 2.5 Página de error
 - **DES-ERR-001:** `PaginaDeError(letrero)` deberá mostrar un `Scaffold` con `AppBar` de 40 px (`appTheme.error`), el título «Error en la aplicación», el texto «Ocurrio el siguiente problema», el `letrero`, «Vuelva a intentarlo» y un botón «Salir» que ejecuta `Navigator.of(context).pop()`.
 - **DES-ERR-002:** `PaginaDeError` no deberá estar registrada en `routeGenerate`.
-- **DES-ERR-003:** El único uso actual es `principal_02_page_appbar.dart:123`, donde el widget se crea dentro de una expresión ternaria cuyo resultado no se muestra; en la práctica la pantalla no se presenta.
+- **DES-ERR-003:** El único uso actual es `principal_02_page_appbar.dart:120`, donde el widget se crea dentro de una expresión ternaria cuyo resultado no se muestra; en la práctica la pantalla no se presenta.
 
 ### 2.6 Argumentos y plantillas globales (`routes_parameters.dart`)
 - **DES-PAR-001:** El archivo deberá definir `ResultadoGuardaFoto {statusCode, idFoto}`, `ResultSaveFoto {resultadoEnFotos, resultadoEnEspacios}`, `ArgumentsLocalidad {cp}` y `ArgumentsListaLocalidad {listaLocalidades, cp}`.

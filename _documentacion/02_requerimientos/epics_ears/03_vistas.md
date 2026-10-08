@@ -56,7 +56,7 @@ Usuario llega a landing page (Web/SEO/Referido)
 | REQ-VIST-005 | **Estado** | Mientras `pagina_usuarios.dart` muestre carrusel de propiedades, el sistema consumirá `findPropiedadesEstadosde10en10Provider` (paginado 10-en-10) y renderizará cards con fallback a endpoints alternativos. | `pagina_usuarios.dart:200-350` | En código |
 | REQ-VIST-006 | **No Deseado** | Si el usuario toque CTA en **Inmobiliarias**, **Market**, **Proveedores**, **Servicios**, **Asociaciones**, el sistema mostrará texto "PROXIMAMENTE..." o navegará a registro sin lógica real (placeholders). | 5 archivos: CTA sin `onPressed` real | Parcial |
 | REQ-VIST-007 | **Ubicuo** | El sistema usará `material_symbols_icons` (`Symbols.*)` para toda iconografía en landings. | Todos los archivos | En código |
-| REQ-VIST-008 | **Opcional** | Donde exista formulario de contacto (Inmobiliarias), el sistema usará `TextFormField` con validación básica y botón submit sin backend conectado. | `pagina_inmobiliarias.dart:300-350` | Parcial |
+| REQ-VIST-008 | **Opcional** | Donde exista formulario de contacto (Inmobiliarias), el sistema usará `TextFormField` con validación básica y botón submit sin backend conectado. | `pagina_inmobiliarias.dart:280-330` | Parcial |
 | REQ-VIST-009 | **Complejo** | Mientras el usuario esté en `pagina_usuarios.dart` y tenga conectividad, cuando haga scroll, el sistema cargará siguiente página de propiedades (`paramSkip += 10`) vía `findPropiedadesEstadosde10en10Provider`. | `pagina_usuarios.dart` paginación | En código |
 
 ---

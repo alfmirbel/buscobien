@@ -73,7 +73,7 @@ Run after editing Freezed models or Riverpod provider annotations.
 
 ## Tests
 
-- One test exists at `test/widget_test.dart` (the default Flutter counter template); it **currently fails** (verified 2026-10-07). Run with `flutter test`.
+- Tests live in `test/` (`seguridad_test.dart`, `rutas_test.dart`: 9 passing tests as of 2026-10-07). Run with `flutter test`; `flutter analyze` is clean.
 - No integration test infrastructure.
 
 ## Reference docs (in-repo)

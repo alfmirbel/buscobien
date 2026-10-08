@@ -96,7 +96,7 @@
 **Para** coordinar la búsqueda/compra/renta con múltiples miembros simultáneamente.
 
 ### Conversation
-- `PageChatGrupo` (`page_chat_grupo.dart`, 358 líneas, StatefulWidget) recibe `grupoId`.
+- `PageChatGrupo` (`page_chat_grupo.dart`, 355 líneas, StatefulWidget) recibe `grupoId`.
 - `MensajesGrupoNotifier` (`providers/grupos_mensajes_provider.dart`, 200 líneas) lista `MensajeGrupoModel[]` paginados por `grupoId`.
 - Burbujas por tipo:
   - **texto:** burbuja normal con avatar autor + nombre + timestamp.

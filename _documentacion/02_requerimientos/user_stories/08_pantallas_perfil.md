@@ -17,7 +17,7 @@
 **Para** visualizar y gestionar mi identidad pública en Buscobien.
 
 ### Conversation
-- `PaginaPerfilWidget` (`pagina_perfil.dart`, 698 líneas, ConsumerStatefulWidget) es la pantalla de la sección 4 de `PrincipalSliversMenuInicial`.
+- `PaginaPerfilWidget` (`pagina_perfil.dart`, 691 líneas, ConsumerStatefulWidget) es la pantalla de la sección 4 de `PrincipalSliversMenuInicial`.
 - `initState` dispara `postFrameCallback` con `recuperaDatosDelAvatar(userId)` para refrescar avatar base64 desde CouchDB (vía API).
 - `build()` consulta `sessionProvider` con `ref.watch`:
   - `isUserLoggedIn == false` → `_buildNoUserView` (icono `Symbols.person` + mensaje "Inicia sesión" + CTA "Ingresar" → `AppRoutes.login`).

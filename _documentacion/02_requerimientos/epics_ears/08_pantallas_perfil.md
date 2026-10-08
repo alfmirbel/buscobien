@@ -41,9 +41,9 @@ PaginaPerfilWidget (ConsumerStatefulWidget)
 
 | ID | Tipo EARS | Requerimiento | Evidencia | Estado |
 |----|-----------|---------------|-----------|--------|
-| REQ-PERF-001 | **Ubicuo** | El sistema expondrá `PaginaPerfilWidget` (ConsumerStatefulWidget, 698 líneas) como pantalla del hub perfil desde la sección 4 de `PrincipalSliversMenuInicial`. | `pagina_perfil.dart:1-698` | En código |
+| REQ-PERF-001 | **Ubicuo** | El sistema expondrá `PaginaPerfilWidget` (ConsumerStatefulWidget, 698 líneas) como pantalla del hub perfil desde la sección 4 de `PrincipalSliversMenuInicial`. | `pagina_perfil.dart:1-692` | En código |
 | REQ-PERF-002 | **Estado** | Mientras `isUserLoggedIn == false`, el sistema mostrará `_buildNoUserView` con icono `Symbols.person`, mensaje "Inicia sesión" y CTA a `AppRoutes.login`. | `pagina_perfil.dart:153-203` (`_buildNoUserView`) | En código |
-| REQ-PERF-003 | **Estado** | Mientras `isUserLoggedIn == true`, el sistema mostrará `_buildUserProfileView` con: avatar (base64 → Image.memory), nombre, rol, datos contacto (email/celular/RFC), CTAs a edición y gestión avatar. | `pagina_perfil.dart:204-342` (`_buildUserProfileView`) | En código |
+| REQ-PERF-003 | **Estado** | Mientras `isUserLoggedIn == true`, el sistema mostrará `_buildUserProfileView` con: avatar (base64 → Image.memory), nombre, rol, datos contacto (email/celular/RFC), CTAs a edición y gestión avatar. | `pagina_perfil.dart:204-336` (`_buildUserProfileView`) | En código |
 | REQ-PERF-004 | **Evento** | Cuando el usuario toque CTA "Editar perfil", el sistema navegará a la pantalla de edición correspondiente (de `10_user_login/usuario_registro` con datos pre-cargados). | `pagina_perfil.dart` (CTAs) | En código |
 | REQ-PERF-005 | **Evento** | Cuando el usuario toque CTA "Gestión avatar", el sistema navegará a `GestionAvatares` (de `10_user_login`). | (CTA en `_buildHeaderSection`) | En código |
 | REQ-PERF-006 | **Complejo** | Mientras la app esté en cualquier estado (logged-in/no-logged-in), el `PaginaPerfilWidget` escuchará cambios en `provider_session` (Riverpod) y reconstruirá al detectar login/logout. | `ConsumerStatefulWidget` + `ref.watch(sessionProvider)` | En código |

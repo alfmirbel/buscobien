@@ -71,7 +71,7 @@
 **Para** conservar propiedades interesantes organizadas.
 
 ### Conversation
-- `DialogSelectorListas` (`lista_select_lista_save_propiedad.dart`, 492 líneas) es un diálogo abierto desde la tarjeta/detalle de propiedad.
+- `DialogSelectorListas` (`lista_select_lista_save_propiedad.dart`, 479 líneas) es un diálogo abierto desde la tarjeta/detalle de propiedad.
 - Recibe `propertyId` y muestra `ListView` con `CheckboxListTile` por cada lista del usuario (`userListsProvider` filtrado por `idUsuario == currentUser`).
 - Las listas que ya contienen esa propiedad arrancan marcadas (fetch previo desde `provider_listas_propiedades`).
 - Al confirmar, ejecuta un **diff** entre el estado-checked-inicial y el estado-checked-final:
@@ -184,7 +184,7 @@
 **Para** revisarlas rápidamente sin esperas de paginación.
 
 ### Conversation
-- `PageDetalleLista` (`pagina_detalle_listas.dart`, 415 líneas) y `PageDetalleListaCompartida` (`pagina_detalle_lista_compartida.dart`, 156 líneas) reciben `listaId` y cargan las N propiedades asociadas.
+- `PageDetalleLista` (`pagina_detalle_listas.dart`, 388 líneas) y `PageDetalleListaCompartida` (`pagina_detalle_lista_compartida.dart`, 156 líneas) reciben `listaId` y cargan las N propiedades asociadas.
 - `propertiesDetailsProvider` es un `FutureProvider.family<List<PropiedadDoc>, List<String>>` que toma la lista de `propertyId[]` y hace un **Mango query** `{"selector": {"_id": {"$in": propertyIds}}}` → 1 sola petición que trae N documentos completos.
 - El widget `FutureBuilderStateWidgets` (ver `60_global_widgets/future_builder_state_widgets.dart`) maneja los 3 estados: `stateWaiting` (spinner), `stateError` (mensaje+retry), `stateNone` (mensaje "Lista vacía").
 - `WrapModernCardPropiedades` (componente global de `60_global_widgets`) recibe las propiedades e itera por tipo de espacio con tarjetas estilizadas M3.

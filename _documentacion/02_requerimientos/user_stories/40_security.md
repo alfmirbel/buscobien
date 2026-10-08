@@ -47,7 +47,7 @@
 **Para** que si la base de datos se compromete, mi contraseña no se filtre.
 
 ### Conversation
-- `generate_hash.dart` (38 líneas) expone 3 hashers genéricos: `generateMD5Hash`, `generateSHA1Hash`, `generateSHA256Hash` — todos disponibles, pero **sólo SHA-256** se usa para passwords por política.
+- `generate_hash.dart` (32 líneas) expone 3 hashers genéricos: `generateMD5Hash`, `generateSHA1Hash`, `generateSHA256Hash` — todos disponibles, pero **sólo SHA-256** se usa para passwords por política.
 - `validaPassword(passwordPlano, hashed)` calcula `generateSHA256Hash(passwordPlano)` y lo compara con `hashed` — **constante-time compare** deseable pero la implementación actual usa `==` plain (deuda menor).
 - Al registrarse, el password se convierte a `SHA-256(userId + pass)` y se almacena en `buscobien_usuarios` (ver `10_user_login/usuario_registro`). Para login, el hash del input se compara con el almacenado.
 - Los IDs de usuario (sea `_id` CouchDB) se construyen con `SHA-256(userId + pass)` para prevenir duplicados exactos (dos usuarios con mismas credenciales).
@@ -132,7 +132,7 @@
 **Para** que el equipo sepa la transición pendiente y por qué se hacen storage diferenciado.
 
 ### Conversation
-- `encriptar.dart` (55 líneas) tiene funciones marcadas `@Deprecated("use flutter_secure_storage")` que cifran/descifran AES-256 con `Key.fromSecureRandom(32)` + IV fijo `ivString` y persisten en `SharedPreferences`. **Inseguro** para producción (IV fijo permite ataques conocidos-plaintext). Funciona porque la migración a `flutter_secure_storage` está parcialmente completa.
+- `encriptar.dart` (51 líneas) tiene funciones marcadas `@Deprecated("use flutter_secure_storage")` que cifran/descifran AES-256 con `Key.fromSecureRandom(32)` + IV fijo `ivString` y persisten en `SharedPreferences`. **Inseguro** para producción (IV fijo permite ataques conocidos-plaintext). Funciona porque la migración a `flutter_secure_storage` está parcialmente completa.
 - En móvil (`10_user_login/usuario_login/session_storage.dart`), el JWT se guarda en `flutter_secure_storage` (keychain iOS / keystore Android).
 - En Web/WASM/Windows, `flutter_secure_storage` no tiene equivalente seguro → se cae a `shared_preferences` (NO seguro, pero no hay alternativa sin browser API específica).
 - **Comentario crítico:**政策和债务:

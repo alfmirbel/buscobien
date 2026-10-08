@@ -63,7 +63,7 @@ Característica: Ficha de Captura de Propiedad
     Entonces el sistema deberá mostrar el botón con estilo deshabilitado (color secundario)
     Y el sistema deberá impedir la acción de dejar de publicar
 
-  @REQ-ESP-012 @mapeo-auto
+  @REQ-ESP-012 @REQ-ESP-014 @mapeo-auto
   Escenario: Botón Eliminar espacio para propiedad sin publicar
     Dado que la propiedad tiene activa = 0
     Cuando el usuario presiona "Eliminar el espacio de publicación"

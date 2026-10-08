@@ -17,7 +17,7 @@
 | `08_pantallas_perfil` | [08_pantallas_perfil.md](08_pantallas_perfil.md) | 5 | 8 |
 | `08_pantallas_propiedades` | [08_pantallas_propiedades.md](08_pantallas_propiedades.md) | 8 | 12 |
 | `08_pantallas_tu_cuenta_conocidos` | [08_pantallas_tu_cuenta_conocidos.md](08_pantallas_tu_cuenta_conocidos.md) | 6 | 11 |
-| `08_pantallas_tu_cuenta_grupos` | [08_pantallas_tu_cuenta_grupos.md](08_pantallas_tu_cuenta_grupos.md) | 11 | 16 |
+| `08_pantallas_tu_cuenta_grupos` | [08_pantallas_tu_cuenta_grupos.md](08_pantallas_tu_cuenta_grupos.md) | 11 | 17 |
 | `08_pantallas_tu_cuenta_tus_espacios` | [08_pantallas_tu_cuenta_tus_espacios.md](08_pantallas_tu_cuenta_tus_espacios.md) | 10 | 14 |
 | `08_pantallas_ubicacion` | [08_pantallas_ubicacion.md](08_pantallas_ubicacion.md) | 4 | 8 |
 | `08_pantallas_widgets_comunes` | [08_pantallas_widgets_comunes.md](08_pantallas_widgets_comunes.md) | 5 | 7 |
@@ -144,7 +144,7 @@
 ### `08_pantallas_tu_cuenta_tus_espacios`
 
 - **US-TUS-001** — Ver hub central de "Tus Espacios" (mis propiedades) (cita: REQ-ESP-001, REQ-ESP-002, REQ-ESP-007)
-- **US-TUS-002** — Crear ficha de captura (alta de propiedad) usando wizard con campos por tipo inmueble (cita: REQ-ESP-003, REQ-ESP-005)
+- **US-TUS-002** — Alta de propiedad (compra de espacios) y ficha de captura por tipo de inmueble (cita: REQ-ESP-003, REQ-ESP-005)
 - **US-TUS-003** — Publicar propiedad a CouchDB vía API con manejo 409 (cita: REQ-ESP-006)
 - **US-TUS-004** — Editar ficha existente precargada (cita: REQ-ESP-004, REQ-ESP-006)
 - **US-TUS-005** — Comprar un espacio / adquirir propiedad de mercado secundario (cita: REQ-ESP-008)
