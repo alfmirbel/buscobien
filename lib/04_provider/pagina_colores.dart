@@ -21,6 +21,19 @@ class PaginaColores extends ConsumerStatefulWidget {
 }
 
 class PaginaColoresState extends ConsumerState<PaginaColores> {
+  // Esquema de color asociado a cada opción del grupo de radios (el índice es el valor de la opción).
+  static final List<ColorScheme> _esquemas = [
+    lightINE,
+    lightMC,
+    lightMOR,
+    lightPAN,
+    lightPRD,
+    lightPRI,
+    lightPT,
+    lightPVEM,
+    darkINE
+  ];
+
   @override
   Widget build(BuildContext context) {
     debugPrintLevels(1, " **************************************************");
@@ -52,307 +65,254 @@ class PaginaColoresState extends ConsumerState<PaginaColores> {
           child: Container(
             //alignment: Alignment.center,
             padding: const EdgeInsets.all(3),
-              color: appTheme.surface,
+            color: appTheme.surface,
             width: 300,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Selecciona el esquema de colores',
-                  style: TextStyle(
-                    color: appTheme.primary,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
+            child: RadioGroup<int>(
+              groupValue: ref.watch(coloresProvider).color,
+              onChanged: (value) {
+                if (value == null) return;
+                setState(() {
+                  ref.watch(coloresProvider).color = value;
+                  appTheme = _esquemas[value];
+                });
+              },
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Selecciona el esquema de colores',
+                    style: TextStyle(
+                      color: appTheme.primary,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 30),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Expanded(
-                      flex: 1,
-                      child: Radio(
-                        value: 0,
-                        activeColor: appTheme.primary,
-                        groupValue: ref.watch(coloresProvider).color,
-                        onChanged: (value) {
-                          setState(() {
-                            ref.watch(coloresProvider).color = value!;
-                            appTheme = lightINE;
-                          });
-                        },
-                      ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Text(
-                        'Opción 1: Rosa',
-                        style: TextStyle(
-                          color: appTheme.primary,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
+                  const SizedBox(height: 30),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Expanded(
+                        flex: 1,
+                        child: Radio<int>(
+                          value: 0,
+                          activeColor: appTheme.primary,
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Expanded(
-                      flex: 1,
-                      child: Radio(
-                        value: 1,
-                        activeColor: appTheme.primary,
-                        groupValue: ref.watch(coloresProvider).color,
-                        onChanged: (value) {
-                          setState(() {
-                            ref.watch(coloresProvider).color = value!;
-                            appTheme = lightMC;
-                          });
-                        },
-                      ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Text(
-                        'Opción 2: Naranja',
-                        style: TextStyle(
-                          color: appTheme.primary,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
+                      Expanded(
+                        flex: 3,
+                        child: Text(
+                          'Opción 1: Rosa',
+                          style: TextStyle(
+                            color: appTheme.primary,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Expanded(
-                      flex: 1,
-                      child: Radio(
-                        value: 2,
-                        activeColor: appTheme.primary,
-                        groupValue: ref.watch(coloresProvider).color,
-                        onChanged: (value) {
-                          setState(() {
-                            ref.watch(coloresProvider).color = value!;
-                            appTheme = lightMOR;
-                          });
-                        },
-                      ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Text(
-                        'Opción 3: Guinda',
-                        style: TextStyle(
-                          color: appTheme.primary,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Expanded(
-                      flex: 1,
-                      child: Radio(
-                        value: 3,
-                        activeColor: appTheme.primary,
-                        groupValue: ref.watch(coloresProvider).color,
-                        onChanged: (value) {
-                          setState(() {
-                            ref.watch(coloresProvider).color = value!;
-                            appTheme = lightPAN;
-                          });
-                        },
-                      ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Text(
-                        'Opción 4: Azul',
-                        style: TextStyle(
-                          color: appTheme.primary,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Expanded(
-                      flex: 1,
-                      child: Radio(
-                        value: 4,
-                        activeColor: appTheme.primary,
-                        groupValue: ref.watch(coloresProvider).color,
-                        onChanged: (value) {
-                          setState(() {
-                            ref.watch(coloresProvider).color = value!;
-                            appTheme = lightPRD;
-                          });
-                        },
-                      ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Text(
-                        'Opción 5: Amarillo',
-                        style: TextStyle(
-                          color: appTheme.primary,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Expanded(
-                      flex: 1,
-                      child: Radio(
-                        value: 5,
-                        activeColor: appTheme.primary,
-                        groupValue: ref.watch(coloresProvider).color,
-                        onChanged: (value) {
-                          setState(() {
-                            ref.watch(coloresProvider).color = value!;
-                            appTheme = lightPRI;
-                          });
-                        },
-                      ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Text(
-                        'Opción 6: Rojo',
-                        style: TextStyle(
-                          color: appTheme.primary,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Expanded(
-                      flex: 1,
-                      child: Radio(
-                        value: 6,
-                        activeColor: appTheme.primary,
-                        groupValue: ref.watch(coloresProvider).color,
-                        onChanged: (value) {
-                          setState(() {
-                            ref.watch(coloresProvider).color = value!;
-                            appTheme = lightPT;
-                          });
-                        },
-                      ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Text(
-                        'Opción 7: Rojo Fuerte',
-                        style: TextStyle(
-                          color: appTheme.primary,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Expanded(
-                      flex: 1,
-                      child: Radio(
-                        value: 7,
-                        activeColor: appTheme.primary,
-                        groupValue: ref.watch(coloresProvider).color,
-                        onChanged: (value) {
-                          setState(() {
-                            ref.watch(coloresProvider).color = value!;
-                            appTheme = lightPVEM;
-                          });
-                        },
-                      ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Text(
-                        'Opción 8: Verde',
-                        style: TextStyle(
-                          color: appTheme.primary,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Expanded(
-                      flex: 1,
-                      child: Radio(
-                        value: 8,
-                        activeColor: appTheme.primary,
-                        groupValue: ref.watch(coloresProvider).color,
-                        onChanged: (value) {
-                          setState(() {
-                            ref.watch(coloresProvider).color = value!;
-                            appTheme = darkINE;
-                          });
-                        },
-                      ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Text(
-                        'Opción 9: Obscuro',
-                        style: TextStyle(
-                          color: appTheme.primary,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 30),
-                TextButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: appTheme.primary,
+                    ],
                   ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text(
-                    'Regresar',
-                    style: TextStyle(color: appTheme.onPrimary),
-                    softWrap: false,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis, //
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Expanded(
+                        flex: 1,
+                        child: Radio<int>(
+                          value: 1,
+                          activeColor: appTheme.primary,
+                        ),
+                      ),
+                      Expanded(
+                        flex: 3,
+                        child: Text(
+                          'Opción 2: Naranja',
+                          style: TextStyle(
+                            color: appTheme.primary,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Expanded(
+                        flex: 1,
+                        child: Radio<int>(
+                          value: 2,
+                          activeColor: appTheme.primary,
+                        ),
+                      ),
+                      Expanded(
+                        flex: 3,
+                        child: Text(
+                          'Opción 3: Guinda',
+                          style: TextStyle(
+                            color: appTheme.primary,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Expanded(
+                        flex: 1,
+                        child: Radio<int>(
+                          value: 3,
+                          activeColor: appTheme.primary,
+                        ),
+                      ),
+                      Expanded(
+                        flex: 3,
+                        child: Text(
+                          'Opción 4: Azul',
+                          style: TextStyle(
+                            color: appTheme.primary,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Expanded(
+                        flex: 1,
+                        child: Radio<int>(
+                          value: 4,
+                          activeColor: appTheme.primary,
+                        ),
+                      ),
+                      Expanded(
+                        flex: 3,
+                        child: Text(
+                          'Opción 5: Amarillo',
+                          style: TextStyle(
+                            color: appTheme.primary,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Expanded(
+                        flex: 1,
+                        child: Radio<int>(
+                          value: 5,
+                          activeColor: appTheme.primary,
+                        ),
+                      ),
+                      Expanded(
+                        flex: 3,
+                        child: Text(
+                          'Opción 6: Rojo',
+                          style: TextStyle(
+                            color: appTheme.primary,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Expanded(
+                        flex: 1,
+                        child: Radio<int>(
+                          value: 6,
+                          activeColor: appTheme.primary,
+                        ),
+                      ),
+                      Expanded(
+                        flex: 3,
+                        child: Text(
+                          'Opción 7: Rojo Fuerte',
+                          style: TextStyle(
+                            color: appTheme.primary,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Expanded(
+                        flex: 1,
+                        child: Radio<int>(
+                          value: 7,
+                          activeColor: appTheme.primary,
+                        ),
+                      ),
+                      Expanded(
+                        flex: 3,
+                        child: Text(
+                          'Opción 8: Verde',
+                          style: TextStyle(
+                            color: appTheme.primary,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Expanded(
+                        flex: 1,
+                        child: Radio<int>(
+                          value: 8,
+                          activeColor: appTheme.primary,
+                        ),
+                      ),
+                      Expanded(
+                        flex: 3,
+                        child: Text(
+                          'Opción 9: Obscuro',
+                          style: TextStyle(
+                            color: appTheme.primary,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 30),
+                  TextButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: appTheme.primary,
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text(
+                      'Regresar',
+                      style: TextStyle(color: appTheme.onPrimary),
+                      softWrap: false,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis, //
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

@@ -184,7 +184,7 @@ class PropiedadesListaFotosPromotorState
                       ? const Center(child: Text("Sin fotos para mostrar"))
                       : ReorderableListView.builder(
                           itemCount: _listaVisualFotos.length,
-                          onReorder: _handleReorder,
+                          onReorderItem: _handleReorder,
                           itemBuilder: (context, index) {
                             final fotoItem = _listaVisualFotos[index];
                             // Usamos el ID como Key para evitar problemas al reordenar
@@ -267,11 +267,9 @@ class PropiedadesListaFotosPromotorState
   }
 
   /// Maneja el evento de Drag & Drop
+  // onReorderItem ya entrega newIndex ajustado tras quitar el elemento (a diferencia de onReorder).
   void _handleReorder(int oldIndex, int newIndex) {
     setState(() {
-      if (newIndex > oldIndex) {
-        newIndex -= 1;
-      }
       final item = _listaVisualFotos.removeAt(oldIndex);
       _listaVisualFotos.insert(newIndex, item);
 
