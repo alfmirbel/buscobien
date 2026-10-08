@@ -16,7 +16,7 @@ import '../../../60_global_widgets/debugprint.dart';
 import '../../../20_var_globales/var_color_widget.dart';
 import '../../../05_provider_menus/provider_menu_tipo_espacio.dart';
 import 'provider_espacios_casa_get.dart';
-import 'form_crea_ficha_captura_propiedad.dart';
+import 'ficha_propiedad_card.dart';
 
 //------------------------------------------------------------------------------
 // OPTIMIZADO
@@ -48,9 +48,7 @@ class PaginaTipoEspaciosState extends ConsumerState<PaginaTusEspacios>
       ref.read(menuTipoEspaciosProvider.notifier).inicializaController(this);
 
       final menuState = ref.read(menuTipoEspaciosProvider);
-      ref
-          .read(menuTipoEspaciosProvider.notifier)
-          .asignaNuevaOpcionSeleccionada(
+      ref.read(menuTipoEspaciosProvider.notifier).asignaNuevaOpcionSeleccionada(
             ref,
             menuState.seleccionMenuTipoEspacios,
           );
@@ -62,7 +60,9 @@ class PaginaTipoEspaciosState extends ConsumerState<PaginaTusEspacios>
       // Nota: Si resetEspaciosCasasGet limpia la lista que el future carga,
       // verifica si debe ir antes de la asignación del future.
       // Por ahora se mantiene aquí para no alterar lógica de negocio.
-      ref.read(espaciosCasaConListaFotosGetProvider.notifier).resetEspaciosCasasGet();
+      ref
+          .read(espaciosCasaConListaFotosGetProvider.notifier)
+          .resetEspaciosCasasGet();
       // Inicializamos el Future una sola vez al inicio
     });
   }
@@ -89,7 +89,6 @@ class PaginaTipoEspaciosState extends ConsumerState<PaginaTusEspacios>
         : "";
     // Obtener estado promotor
     final bool esPromotor = userData.esPromotor;
-
 
     debugPrintLevels(1, "*** 3. PaginaTusEspacios build");
     debugPrintLevels(1, "*** 3. PaginaTusEspacios build idUsuario: $idUsuario");
@@ -259,7 +258,6 @@ class PaginaTipoEspaciosState extends ConsumerState<PaginaTusEspacios>
           ),
         ),
         const SizedBox(height: 20),
-
         GestureDetector(
           onTap: () => dialogBoxFichaLogin(context, ref),
           child: Center(
@@ -292,9 +290,7 @@ class PaginaTipoEspaciosState extends ConsumerState<PaginaTusEspacios>
             ),
           ),
         ),
-
         const SizedBox(height: 20),
-
         GestureDetector(
           onTap: () => dialogBoxFichaLogin(context, ref),
           child: Center(
@@ -410,9 +406,9 @@ class PaginaTipoEspaciosState extends ConsumerState<PaginaTusEspacios>
                       (indexEspacios) {
                         return Container(
                           padding: const EdgeInsets.all(10),
-                            color: appTheme.surface,
+                          color: appTheme.surface,
                           width: 350,
-                          child: CreaFichaCapturaPropiedad(
+                          child: FichaPropiedadCard(
                             context,
                             indexEspacios,
                             ref
