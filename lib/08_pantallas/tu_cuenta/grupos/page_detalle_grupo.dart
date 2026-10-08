@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'providers/grupos_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 
@@ -52,6 +53,50 @@ class _PageDetalleGrupoState extends ConsumerState<PageDetalleGrupo>
   void dispose() {
     _tabController.dispose();
     super.dispose();
+  }
+
+  Future<void> _eliminarMiembro(MiembroGrupoModel miembro) async {
+    final confirmar = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Eliminar miembro'),
+        content: Text(
+          '¿Eliminar a ${miembro.usuarioNombre} del grupo "${_grupo.nombre}"?',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(false),
+            child: const Text('Cancelar'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.of(ctx).pop(true),
+            child: const Text('Eliminar'),
+          ),
+        ],
+      ),
+    );
+    if (confirmar != true || !mounted) return;
+
+    final actualizado = await ref
+        .read(gruposProvider.notifier)
+        .eliminarMiembro(_grupo.id, miembro.usuarioId);
+    if (!mounted) return;
+
+    if (actualizado != null) setState(() => _grupo = actualizado);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor:
+            actualizado != null ? appTheme.primary : appTheme.error,
+        content: Text(
+          actualizado != null
+              ? '${miembro.usuarioNombre} fue eliminado del grupo.'
+              : 'No se pudo eliminar al miembro. Inténtalo de nuevo.',
+          style: TextStyle(
+            color: actualizado != null ? appTheme.onPrimary : appTheme.onError,
+          ),
+        ),
+      ),
+    );
   }
 
   @override
@@ -144,6 +189,7 @@ class _PageDetalleGrupoState extends ConsumerState<PageDetalleGrupo>
             grupo: _grupo,
             currentUserId: widget.currentUserId,
             esAdmin: esAdmin,
+            onEliminar: _eliminarMiembro,
           ),
           ChatGrupoEmbebido(
             grupoId: _grupo.id,
@@ -235,78 +281,78 @@ class _PageDetalleGrupoState extends ConsumerState<PageDetalleGrupo>
                 child: Material(
                   color: appTheme.onSecondary,
                   child: FutureBuilder<List<List<Map<String, dynamic>>>>(
-                  future: Future.wait([futureUsuarios, futurePromotores]),
-                  builder: (context, snap) {
-                    if (snap.connectionState == ConnectionState.waiting) {
-                      return const SizedBox(
-                        height: 80,
-                        child: Center(child: CircularProgressIndicator()),
-                      );
-                    }
-                    final todos = [
-                      ...(snap.data?[0] ?? []),
-                      ...(snap.data?[1] ?? []),
-                    ];
-                    // Filtrar: no el usuario actual ni miembros actuales
-                    final disponibles = todos.where((u) {
-                      final id = (u['usuario']?['id_usuario'] ?? '') as String;
-                      return id.isNotEmpty &&
-                          id != widget.currentUserId &&
-                          !_grupo.esMiembro(id);
-                    }).toList();
-
-                    if (disponibles.isEmpty) {
-                      return const Padding(
-                        padding: EdgeInsets.all(16),
-                        child: Text(
-                          'No hay usuarios disponibles para invitar.',
-                        ),
-                      );
-                    }
-
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: disponibles.length,
-                      itemBuilder: (context, index) {
-                        final u =
-                            disponibles[index]['usuario']
-                                as Map<String, dynamic>;
-                        final id = (u['id_usuario'] ?? '') as String;
-                        final nombre =
-                            '${u['nombres'] ?? ''} ${u['apellidopaterno'] ?? ''}'
-                                .trim();
-                        nombres[id] = nombre;
-                        final sel = seleccionados.contains(id);
-
-                        return CheckboxListTile(
-                          dense: true,
-                          value: sel,
-                          onChanged: (v) {
-                            setDlgState(() {
-                              if (v == true) {
-                                seleccionados.add(id);
-                              } else {
-                                seleccionados.remove(id);
-                              }
-                            });
-                          },
-                          title: Text(
-                            nombre.isNotEmpty ? nombre : id,
-                            style: TextStyle(
-                              color: appTheme.onPrimaryContainer,
-                              fontSize: 12,
-                            ),
-                          ),
-                          activeColor: appTheme.primary,
-                          checkColor: appTheme.onPrimary,
+                    future: Future.wait([futureUsuarios, futurePromotores]),
+                    builder: (context, snap) {
+                      if (snap.connectionState == ConnectionState.waiting) {
+                        return const SizedBox(
+                          height: 80,
+                          child: Center(child: CircularProgressIndicator()),
                         );
-                      },
-                    );
-                  },
+                      }
+                      final todos = [
+                        ...(snap.data?[0] ?? []),
+                        ...(snap.data?[1] ?? []),
+                      ];
+                      // Filtrar: no el usuario actual ni miembros actuales
+                      final disponibles = todos.where((u) {
+                        final id =
+                            (u['usuario']?['id_usuario'] ?? '') as String;
+                        return id.isNotEmpty &&
+                            id != widget.currentUserId &&
+                            !_grupo.esMiembro(id);
+                      }).toList();
+
+                      if (disponibles.isEmpty) {
+                        return const Padding(
+                          padding: EdgeInsets.all(16),
+                          child: Text(
+                            'No hay usuarios disponibles para invitar.',
+                          ),
+                        );
+                      }
+
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: disponibles.length,
+                        itemBuilder: (context, index) {
+                          final u = disponibles[index]['usuario']
+                              as Map<String, dynamic>;
+                          final id = (u['id_usuario'] ?? '') as String;
+                          final nombre =
+                              '${u['nombres'] ?? ''} ${u['apellidopaterno'] ?? ''}'
+                                  .trim();
+                          nombres[id] = nombre;
+                          final sel = seleccionados.contains(id);
+
+                          return CheckboxListTile(
+                            dense: true,
+                            value: sel,
+                            onChanged: (v) {
+                              setDlgState(() {
+                                if (v == true) {
+                                  seleccionados.add(id);
+                                } else {
+                                  seleccionados.remove(id);
+                                }
+                              });
+                            },
+                            title: Text(
+                              nombre.isNotEmpty ? nombre : id,
+                              style: TextStyle(
+                                color: appTheme.onPrimaryContainer,
+                                fontSize: 12,
+                              ),
+                            ),
+                            activeColor: appTheme.primary,
+                            checkColor: appTheme.onPrimary,
+                          );
+                        },
+                      );
+                    },
+                  ),
                 ),
               ),
-            ),
-            actions: [
+              actions: [
                 TextButton(
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.fromLTRB(3, 0, 3, 0),
@@ -355,9 +401,8 @@ class _PageDetalleGrupoState extends ConsumerState<PageDetalleGrupo>
                                     ? 'Invitación${ok > 1 ? 'es' : ''} enviada${ok > 1 ? 's' : ''} ($ok)'
                                     : 'Error al enviar invitaciones',
                               ),
-                              backgroundColor: ok > 0
-                                  ? appTheme.primary
-                                  : appTheme.error,
+                              backgroundColor:
+                                  ok > 0 ? appTheme.primary : appTheme.error,
                             ),
                           );
                         },
@@ -467,7 +512,7 @@ class _TarjetaPublicacion extends ConsumerWidget {
     final esAutor = pub.autorId == currentUserId;
 
     return Card(
-        color: appTheme.surface,
+      color: appTheme.surface,
       margin: const EdgeInsets.symmetric(vertical: 5),
       elevation: 1,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -589,11 +634,13 @@ class _TabMiembros extends StatelessWidget {
   final GrupoModel grupo;
   final String currentUserId;
   final bool esAdmin;
+  final void Function(MiembroGrupoModel miembro) onEliminar;
 
   const _TabMiembros({
     required this.grupo,
     required this.currentUserId,
     required this.esAdmin,
+    required this.onEliminar,
   });
 
   @override
@@ -660,7 +707,14 @@ class _TabMiembros extends StatelessWidget {
           ),
           trailing: m.rol == 'admin'
               ? Icon(Symbols.star, color: appTheme.primary, size: 18)
-              : null,
+              : (esAdmin && !isMe)
+                  ? IconButton(
+                      tooltip: 'Eliminar del grupo',
+                      icon: Icon(Symbols.person_remove,
+                          color: appTheme.error, size: 20),
+                      onPressed: () => onEliminar(m),
+                    )
+                  : null,
         );
       },
     );
@@ -882,7 +936,7 @@ class _TarjetaAviso extends ConsumerWidget {
     final esAutor = aviso.autorId == currentUserId;
 
     return Card(
-        color: appTheme.surface,
+      color: appTheme.surface,
       margin: const EdgeInsets.symmetric(vertical: 5),
       elevation: 1,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),

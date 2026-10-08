@@ -14,10 +14,10 @@ import 'package:buscobien/08_pantallas/tu_cuenta/grupos/models/grupo_model.dart'
 // =============================================================================
 
 Map<String, String> get _authHeaders => {
-  'Authorization':
-      'Basic ${base64Encode(utf8.encode('$username:$password'))}',
-  'Content-Type': 'application/json',
-};
+      'Authorization':
+          'Basic ${base64Encode(utf8.encode('$username:$password'))}',
+      'Content-Type': 'application/json',
+    };
 
 const String _dbGrupos = 'buscobien_grupos';
 
@@ -55,10 +55,13 @@ class GruposNotifier extends AsyncNotifier<List<GrupoModel>> {
         final data = jsonDecode(utf8.decode(response.bodyBytes));
         final docs = data['docs'] as List<dynamic>;
         state = AsyncValue.data(
-          docs.map((e) => GrupoModel.fromJson(e as Map<String, dynamic>)).toList(),
+          docs
+              .map((e) => GrupoModel.fromJson(e as Map<String, dynamic>))
+              .toList(),
         );
       } else {
-        debugPrintLevels(1, 'GruposNotifier.cargarMisGrupos error: ${response.statusCode}');
+        debugPrintLevels(
+            1, 'GruposNotifier.cargarMisGrupos error: ${response.statusCode}');
         state = const AsyncValue.data([]);
       }
     } catch (e, st) {
@@ -139,7 +142,8 @@ class GruposNotifier extends AsyncNotifier<List<GrupoModel>> {
         state = AsyncValue.data([...listaActual, nuevo]);
         return true;
       }
-      debugPrintLevels(1, 'GruposNotifier.crearGrupo error: ${response.statusCode} ${response.body}');
+      debugPrintLevels(1,
+          'GruposNotifier.crearGrupo error: ${response.statusCode} ${response.body}');
       return false;
     } catch (e) {
       debugPrintLevels(1, 'GruposNotifier.crearGrupo exception: $e');
@@ -148,7 +152,8 @@ class GruposNotifier extends AsyncNotifier<List<GrupoModel>> {
   }
 
   // Agrega un miembro al grupo. Obtiene el _rev vigente antes de hacer PUT.
-  Future<bool> agregarMiembro(String grupoId, MiembroGrupoModel nuevoMiembro) async {
+  Future<bool> agregarMiembro(
+      String grupoId, MiembroGrupoModel nuevoMiembro) async {
     try {
       // 1. Obtener documento actual para tener el _rev vigente
       final getUrl = Uri.parse('$direccionip/$_dbGrupos/$grupoId');
@@ -177,9 +182,7 @@ class GruposNotifier extends AsyncNotifier<List<GrupoModel>> {
         // Refrescar estado local
         final listaActual = state.value ?? [];
         state = AsyncValue.data(
-          listaActual
-              .map((g) => g.id == grupoId ? grupoActual : g)
-              .toList(),
+          listaActual.map((g) => g.id == grupoId ? grupoActual : g).toList(),
         );
         return true;
       }
@@ -187,6 +190,48 @@ class GruposNotifier extends AsyncNotifier<List<GrupoModel>> {
     } catch (e) {
       debugPrintLevels(1, 'GruposNotifier.agregarMiembro exception: $e');
       return false;
+    }
+  }
+
+  /// Elimina a un miembro del grupo (solo lo debe invocar un administrador).
+  /// Devuelve el grupo actualizado, o null si no se pudo: el grupo no existe,
+  /// el usuario no es miembro, el miembro es administrador o falló la escritura.
+  Future<GrupoModel?> eliminarMiembro(String grupoId, String usuarioId) async {
+    try {
+      final getUrl = Uri.parse('$direccionip/$_dbGrupos/$grupoId');
+      final getResponse = await http.get(getUrl, headers: _authHeaders);
+      if (getResponse.statusCode != 200) return null;
+
+      final grupoActual = GrupoModel.fromJson(
+        jsonDecode(utf8.decode(getResponse.bodyBytes)) as Map<String, dynamic>,
+      );
+
+      final objetivo =
+          grupoActual.miembros.where((m) => m.usuarioId == usuarioId).toList();
+      if (objetivo.isEmpty || objetivo.first.rol == 'admin') return null;
+
+      grupoActual.miembros =
+          grupoActual.miembros.where((m) => m.usuarioId != usuarioId).toList();
+
+      final putResponse = await http.put(
+        getUrl,
+        headers: _authHeaders,
+        body: grupoModelToJson(grupoActual),
+      );
+      if (putResponse.statusCode != 200 && putResponse.statusCode != 201) {
+        debugPrintLevels(1,
+            'GruposNotifier.eliminarMiembro error: ${putResponse.statusCode}');
+        return null;
+      }
+
+      final listaActual = state.value ?? [];
+      state = AsyncValue.data(
+        listaActual.map((g) => g.id == grupoId ? grupoActual : g).toList(),
+      );
+      return grupoActual;
+    } catch (e) {
+      debugPrintLevels(1, 'GruposNotifier.eliminarMiembro exception: $e');
+      return null;
     }
   }
 
@@ -207,7 +252,8 @@ class GruposNotifier extends AsyncNotifier<List<GrupoModel>> {
         );
         return true;
       }
-      debugPrintLevels(1, 'GruposNotifier.actualizarGrupo error: ${response.statusCode}');
+      debugPrintLevels(
+          1, 'GruposNotifier.actualizarGrupo error: ${response.statusCode}');
       return false;
     } catch (e) {
       debugPrintLevels(1, 'GruposNotifier.actualizarGrupo exception: $e');
@@ -218,8 +264,8 @@ class GruposNotifier extends AsyncNotifier<List<GrupoModel>> {
 
 final gruposProvider =
     AsyncNotifierProvider<GruposNotifier, List<GrupoModel>>(() {
-      return GruposNotifier();
-    });
+  return GruposNotifier();
+});
 
 // Provider separado para la pantalla Descubrir — grupos públicos.
 // No afecta el estado de "mis grupos" del usuario.

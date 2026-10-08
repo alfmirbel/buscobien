@@ -24,6 +24,44 @@ class _PageMisContactosState extends ConsumerState<PageMisContactos> {
     });
   }
 
+  Future<void> _confirmarEliminar(String documentoId, String nombre) async {
+    final confirmar = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Eliminar contacto'),
+        content: Text('¿Eliminar a $nombre de tus contactos?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(false),
+            child: const Text('Cancelar'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.of(ctx).pop(true),
+            child: const Text('Eliminar'),
+          ),
+        ],
+      ),
+    );
+    if (confirmar != true || !mounted) return;
+
+    final ok = await ref
+        .read(conocidosProvider.notifier)
+        .eliminarContacto(documentoId);
+    if (!mounted) return;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: ok ? appTheme.primary : appTheme.error,
+        content: Text(
+          ok
+              ? '$nombre ya no está en tus contactos.'
+              : 'No se pudo eliminar el contacto. Inténtalo de nuevo.',
+          style: TextStyle(color: ok ? appTheme.onPrimary : appTheme.onError),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final asyncContactos = ref.watch(
@@ -71,16 +109,15 @@ class _PageMisContactosState extends ConsumerState<PageMisContactos> {
                 final inv = contactos[index];
                 final isSender = inv.solicitanteId == widget.currentUserId;
                 final targetId = isSender ? inv.receptorId : inv.solicitanteId;
-                final targetName = isSender
-                    ? inv.receptorNombre
-                    : inv.solicitanteNombre;
+                final targetName =
+                    isSender ? inv.receptorNombre : inv.solicitanteNombre;
 
                 return Card(
                   margin: const EdgeInsets.symmetric(
                     horizontal: 16,
                     vertical: 6,
                   ),
-                    color: appTheme.surface,
+                  color: appTheme.surface,
                   elevation: 1,
                   child: ListTile(
                     leading: CircleAvatar(
@@ -112,6 +149,15 @@ class _PageMisContactosState extends ConsumerState<PageMisContactos> {
                               ),
                             ),
                           ),
+                        ),
+                        IconButton(
+                          tooltip: 'Eliminar contacto',
+                          icon: Icon(
+                            Symbols.person_remove,
+                            color: appTheme.error,
+                          ),
+                          onPressed: () =>
+                              _confirmarEliminar(inv.id, targetName),
                         ),
                         IconButton(
                           icon: Icon(Symbols.chat, color: appTheme.primary),

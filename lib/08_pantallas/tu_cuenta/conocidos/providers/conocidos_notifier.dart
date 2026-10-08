@@ -16,9 +16,10 @@ import '../models/conocido.dart';
 const String _dbInvitaciones = 'buscobien_invitaciones';
 
 Map<String, String> get _authHeaders => {
-  'Authorization': 'Basic ${base64Encode(utf8.encode('$username:$password'))}',
-  'Content-Type': 'application/json',
-};
+      'Authorization':
+          'Basic ${base64Encode(utf8.encode('$username:$password'))}',
+      'Content-Type': 'application/json',
+    };
 
 // =============================================================================
 // NOTIFIER PRINCIPAL
@@ -66,7 +67,8 @@ class ConocidosNotifier extends AsyncNotifier<List<Conocido>> {
       final docs = data['docs'] as List<dynamic>;
       return docs.map((e) => _fromCouchDb(e as Map<String, dynamic>)).toList();
     }
-    debugPrintLevels(1, 'ConocidosNotifier._fetchConocidos error: ${response.statusCode}');
+    debugPrintLevels(
+        1, 'ConocidosNotifier._fetchConocidos error: ${response.statusCode}');
     return [];
   }
 
@@ -79,25 +81,34 @@ class ConocidosNotifier extends AsyncNotifier<List<Conocido>> {
       receptorId: doc['receiverId'] ?? '',
       receptorNombre: doc['receiverName'] ?? '',
       estado: _parseEstado(doc['status'] ?? 'pending'),
-      fechaActualizacion: DateTime.tryParse(doc['timestamp'] ?? '') ?? DateTime.now(),
+      fechaActualizacion:
+          DateTime.tryParse(doc['timestamp'] ?? '') ?? DateTime.now(),
     );
   }
 
   InvitacionEstado _parseEstado(String status) {
     switch (status) {
-      case 'accepted': return InvitacionEstado.aceptado;
-      case 'rejected': return InvitacionEstado.rechazado;
-      case 'blocked':  return InvitacionEstado.bloqueado;
-      default:         return InvitacionEstado.pendiente;
+      case 'accepted':
+        return InvitacionEstado.aceptado;
+      case 'rejected':
+        return InvitacionEstado.rechazado;
+      case 'blocked':
+        return InvitacionEstado.bloqueado;
+      default:
+        return InvitacionEstado.pendiente;
     }
   }
 
   String _statusStr(InvitacionEstado estado) {
     switch (estado) {
-      case InvitacionEstado.aceptado:  return 'accepted';
-      case InvitacionEstado.rechazado: return 'rejected';
-      case InvitacionEstado.bloqueado: return 'blocked';
-      case InvitacionEstado.pendiente: return 'pending';
+      case InvitacionEstado.aceptado:
+        return 'accepted';
+      case InvitacionEstado.rechazado:
+        return 'rejected';
+      case InvitacionEstado.bloqueado:
+        return 'blocked';
+      case InvitacionEstado.pendiente:
+        return 'pending';
     }
   }
 
@@ -131,7 +142,8 @@ class ConocidosNotifier extends AsyncNotifier<List<Conocido>> {
         }
         return true;
       }
-      debugPrintLevels(1, 'enviarInvitacion error: ${response.statusCode} ${response.body}');
+      debugPrintLevels(
+          1, 'enviarInvitacion error: ${response.statusCode} ${response.body}');
       return false;
     } catch (e) {
       debugPrintLevels(1, 'enviarInvitacion exception: $e');
@@ -174,7 +186,8 @@ class ConocidosNotifier extends AsyncNotifier<List<Conocido>> {
         }
         return true;
       }
-      debugPrintLevels(1, 'agregarContactoAceptado error: ${response.statusCode}');
+      debugPrintLevels(
+          1, 'agregarContactoAceptado error: ${response.statusCode}');
       return false;
     } catch (e) {
       debugPrintLevels(1, 'agregarContactoAceptado exception: $e');
@@ -183,17 +196,57 @@ class ConocidosNotifier extends AsyncNotifier<List<Conocido>> {
   }
 
   // Acepta o rechaza una invitación. Obtiene el _rev vigente antes del PUT.
-  Future<void> responderInvitacion(String documentoId, InvitacionEstado nuevoEstado) async {
+  /// Elimina un contacto: borra el documento de la invitación aceptada.
+  /// Devuelve true si se borró (o ya no existía) y lo quita del estado local.
+  Future<bool> eliminarContacto(String documentoId) async {
+    try {
+      final url = Uri.parse('$direccionip/$_dbInvitaciones/$documentoId');
+      final getResponse = await http.get(url, headers: _authHeaders);
+      if (getResponse.statusCode == 404) {
+        _quitarDelEstado(documentoId);
+        return true;
+      }
+      if (getResponse.statusCode != 200) return false;
+
+      final doc = jsonDecode(utf8.decode(getResponse.bodyBytes))
+          as Map<String, dynamic>;
+      final rev = doc['_rev'] as String? ?? '';
+      final delete = await http.delete(
+        Uri.parse('$direccionip/$_dbInvitaciones/$documentoId?rev=$rev'),
+        headers: _authHeaders,
+      );
+      if (delete.statusCode == 200 || delete.statusCode == 202) {
+        _quitarDelEstado(documentoId);
+        return true;
+      }
+      debugPrintLevels(1, 'eliminarContacto error: ${delete.statusCode}');
+      return false;
+    } catch (e) {
+      debugPrintLevels(1, 'eliminarContacto exception: $e');
+      return false;
+    }
+  }
+
+  void _quitarDelEstado(String documentoId) {
+    final listaActual = state.value ?? [];
+    state =
+        AsyncValue.data(listaActual.where((c) => c.id != documentoId).toList());
+  }
+
+  Future<void> responderInvitacion(
+      String documentoId, InvitacionEstado nuevoEstado) async {
     try {
       final getUrl = Uri.parse('$direccionip/$_dbInvitaciones/$documentoId');
       final getResponse = await http.get(getUrl, headers: _authHeaders);
       if (getResponse.statusCode != 200) return;
 
-      final doc = jsonDecode(utf8.decode(getResponse.bodyBytes)) as Map<String, dynamic>;
+      final doc = jsonDecode(utf8.decode(getResponse.bodyBytes))
+          as Map<String, dynamic>;
       doc['status'] = _statusStr(nuevoEstado);
 
       final putUrl = Uri.parse('$direccionip/$_dbInvitaciones/$documentoId');
-      final putResponse = await http.put(putUrl, headers: _authHeaders, body: jsonEncode(doc));
+      final putResponse =
+          await http.put(putUrl, headers: _authHeaders, body: jsonEncode(doc));
 
       if (putResponse.statusCode == 200 || putResponse.statusCode == 201) {
         final listaActual = state.value ?? [];
@@ -204,7 +257,8 @@ class ConocidosNotifier extends AsyncNotifier<List<Conocido>> {
           }).toList(),
         );
       } else {
-        debugPrintLevels(1, 'responderInvitacion error: ${putResponse.statusCode}');
+        debugPrintLevels(
+            1, 'responderInvitacion error: ${putResponse.statusCode}');
       }
     } catch (e) {
       debugPrintLevels(1, 'responderInvitacion exception: $e');
@@ -214,8 +268,8 @@ class ConocidosNotifier extends AsyncNotifier<List<Conocido>> {
 
 final conocidosProvider =
     AsyncNotifierProvider<ConocidosNotifier, List<Conocido>>(() {
-      return ConocidosNotifier();
-    });
+  return ConocidosNotifier();
+});
 
 // =============================================================================
 // PROVIDERS DERIVADOS
@@ -223,28 +277,28 @@ final conocidosProvider =
 
 final conocidosAceptadosProvider =
     Provider.family<AsyncValue<List<Conocido>>, String>((ref, currentUserId) {
-      return ref.watch(conocidosProvider).whenData((lista) {
-        return lista
-            .where(
-              (c) =>
-                  c.estado == InvitacionEstado.aceptado &&
-                  (c.solicitanteId == currentUserId ||
-                      c.receptorId == currentUserId),
-            )
-            .toList();
-      });
-    });
+  return ref.watch(conocidosProvider).whenData((lista) {
+    return lista
+        .where(
+          (c) =>
+              c.estado == InvitacionEstado.aceptado &&
+              (c.solicitanteId == currentUserId ||
+                  c.receptorId == currentUserId),
+        )
+        .toList();
+  });
+});
 
 final invitacionesRecibidasProvider =
     Provider.family<AsyncValue<List<Conocido>>, String>((ref, currentUserId) {
-      return ref.watch(conocidosProvider).whenData((lista) {
-        return lista.where((c) => c.receptorId == currentUserId).toList();
-      });
-    });
+  return ref.watch(conocidosProvider).whenData((lista) {
+    return lista.where((c) => c.receptorId == currentUserId).toList();
+  });
+});
 
 final invitacionesEnviadasProvider =
     Provider.family<AsyncValue<List<Conocido>>, String>((ref, currentUserId) {
-      return ref.watch(conocidosProvider).whenData((lista) {
-        return lista.where((c) => c.solicitanteId == currentUserId).toList();
-      });
-    });
+  return ref.watch(conocidosProvider).whenData((lista) {
+    return lista.where((c) => c.solicitanteId == currentUserId).toList();
+  });
+});
