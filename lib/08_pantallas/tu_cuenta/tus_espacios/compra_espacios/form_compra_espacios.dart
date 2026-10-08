@@ -1,5 +1,6 @@
 //import 'package:buscobien/08_pantallas/propiedades/tus_propiedades/form_captura_propiedad.dart';
 import 'package:flutter/material.dart';
+import '../../../../60_global_widgets/campo_texto.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import '../../../../10_user_login/usuario_login/provider_session.dart';
@@ -32,6 +33,7 @@ class PaginaCompraEspaciosState extends ConsumerState<PaginaCompraEspacios> {
   String idUsuario = "";
 
   final GlobalKey<FormState> formKeyCompraEspacio = GlobalKey<FormState>();
+  bool _comprando = false; // evita registrar la compra dos veces
 
   @override
   void initState() {
@@ -51,6 +53,41 @@ class PaginaCompraEspaciosState extends ConsumerState<PaginaCompraEspacios> {
         .setCampoEspacioCompra(ref, "idUsuario", idUsuario);
 
     super.initState();
+  }
+
+  Future<void> _comprar() async {
+    final formulario = formKeyCompraEspacio.currentState;
+    if (formulario == null || _comprando || !formulario.validate()) return;
+    formulario.save();
+    setState(() => _comprando = true);
+
+    int estado = 0;
+    try {
+      estado = await ref
+          .read(compraDeEspaciosProvider.notifier)
+          .writeCompraEspaciosToCouchDB(ref);
+      debugPrintLevels(2, "Pagina Compra Espacios writeCompraEspaciosToCouchDB status: $estado");
+    } catch (e) {
+      debugPrintLevels(1, "Pagina Compra Espacios exception: $e");
+    }
+    if (!mounted) return;
+
+    await showMessageDialog(
+      context,
+      "Compra Espacios",
+      codigoCouchDB.containsKey(estado)
+          ? codigoCouchDB[estado]!.label
+          : (estado == 0 ? "No se pudo registrar la compra. Inténtalo de nuevo." : "Se generaron los espacios."),
+      estado == 0 ? appTheme.error : appTheme.primary,
+      TextAlign.center,
+      "Salir",
+    );
+    if (!mounted) return;
+    if (estado == 0) {
+      setState(() => _comprando = false);
+    } else {
+      Navigator.pop(context);
+    }
   }
 
   //-----------------------------------------------------------------------------
@@ -163,56 +200,31 @@ class PaginaCompraEspaciosState extends ConsumerState<PaginaCompraEspacios> {
                 children: [
                   renglonCapturaGet(
                     "noDeEspaciosNormales",
-                    buildCampoCompraEspacioCasa(
-                      ref,
-                      "noDeEspaciosNormales",
-                      "",
-                      30,
-                    ),
+                    buildCampoCompraEspacioCasa(ref, "noDeEspaciosNormales"),
                     Alignment.topLeft,
                     300,
                   ),
                   renglonCapturaGet(
                     "noDeEspaciosDestacados",
-                    buildCampoCompraEspacioCasa(
-                      ref,
-                      "noDeEspaciosDestacados",
-                      "",
-                      30,
-                    ),
+                    buildCampoCompraEspacioCasa(ref, "noDeEspaciosDestacados"),
                     Alignment.topLeft,
                     300,
                   ),
                   renglonCapturaGet(
                     "noDeEspaciosSuperdestacados",
-                    buildCampoCompraEspacioCasa(
-                      ref,
-                      "noDeEspaciosSuperdestacados",
-                      "",
-                      30,
-                    ),
+                    buildCampoCompraEspacioCasa(ref, "noDeEspaciosSuperdestacados"),
                     Alignment.topLeft,
                     300,
                   ),
                   renglonCapturaGet(
                     "noDeEspaciosOportunidades",
-                    buildCampoCompraEspacioCasa(
-                      ref,
-                      "noDeEspaciosOportunidades",
-                      "",
-                      30,
-                    ),
+                    buildCampoCompraEspacioCasa(ref, "noDeEspaciosOportunidades"),
                     Alignment.topLeft,
                     300,
                   ),
                   renglonCapturaGet(
                     "noDeEspaciosRemates",
-                    buildCampoCompraEspacioCasa(
-                      ref,
-                      "noDeEspaciosRemates",
-                      "",
-                      30,
-                    ),
+                    buildCampoCompraEspacioCasa(ref, "noDeEspaciosRemates"),
                     Alignment.topLeft,
                     300,
                   ),
@@ -253,56 +265,31 @@ class PaginaCompraEspaciosState extends ConsumerState<PaginaCompraEspacios> {
                 children: [
                   renglonCapturaGet(
                     "totalEspacioNormal",
-                    buildCampoCompraEspacioCasa(
-                      ref,
-                      "totalEspacioNormal",
-                      "",
-                      30,
-                    ),
+                    buildCampoCompraEspacioCasa(ref, "totalEspacioNormal"),
                     Alignment.topLeft,
                     300,
                   ),
                   renglonCapturaGet(
                     "totalEspacioDestacado",
-                    buildCampoCompraEspacioCasa(
-                      ref,
-                      "totalEspacioDestacado",
-                      "",
-                      30,
-                    ),
+                    buildCampoCompraEspacioCasa(ref, "totalEspacioDestacado"),
                     Alignment.topLeft,
                     300,
                   ),
                   renglonCapturaGet(
                     "totalEspacioSuperdestacado",
-                    buildCampoCompraEspacioCasa(
-                      ref,
-                      "totalEspacioSuperdestacado",
-                      "",
-                      30,
-                    ),
+                    buildCampoCompraEspacioCasa(ref, "totalEspacioSuperdestacado"),
                     Alignment.topLeft,
                     300,
                   ),
                   renglonCapturaGet(
                     "totalEspaciosOportunidades",
-                    buildCampoCompraEspacioCasa(
-                      ref,
-                      "totalEspaciosOportunidades",
-                      "",
-                      30,
-                    ),
+                    buildCampoCompraEspacioCasa(ref, "totalEspaciosOportunidades"),
                     Alignment.topLeft,
                     300,
                   ),
                   renglonCapturaGet(
                     "totalEspaciosRemates",
-                    buildCampoCompraEspacioCasa(
-                      ref,
-                      "totalEspaciosRemates",
-                      "",
-                      30,
-                    ),
+                    buildCampoCompraEspacioCasa(ref, "totalEspaciosRemates"),
                     Alignment.topLeft,
                     300,
                   ),
@@ -317,13 +304,13 @@ class PaginaCompraEspaciosState extends ConsumerState<PaginaCompraEspacios> {
                 children: [
                   renglonCapturaGet(
                     "impuestos",
-                    buildCampoCompraEspacioCasa(ref, "impuestos", "", 30),
+                    buildCampoCompraEspacioCasa(ref, "impuestos"),
                     Alignment.topLeft,
                     300,
                   ),
                   renglonCapturaGet(
                     "granTotal",
-                    buildCampoCompraEspacioCasa(ref, "granTotal", "", 30),
+                    buildCampoCompraEspacioCasa(ref, "granTotal"),
                     Alignment.topLeft,
                     300,
                   ),
@@ -351,18 +338,13 @@ class PaginaCompraEspaciosState extends ConsumerState<PaginaCompraEspacios> {
                 children: [
                   renglonCapturaGet(
                     "medioDePago",
-                    buildCampoCompraEspacioCasa(ref, "medioDePago", "", 30),
+                    buildCampoCompraEspacioCasa(ref, "medioDePago"),
                     Alignment.topLeft,
                     300,
                   ),
                   renglonCapturaGet(
                     "referenciaDePago",
-                    buildCampoCompraEspacioCasa(
-                      ref,
-                      "referenciaDePago",
-                      "",
-                      30,
-                    ),
+                    buildCampoCompraEspacioCasa(ref, "referenciaDePago"),
                     Alignment.topLeft,
                     500,
                   ),
@@ -402,48 +384,7 @@ class PaginaCompraEspaciosState extends ConsumerState<PaginaCompraEspacios> {
                         backgroundColor: appTheme.primary,
                         minimumSize: const Size(150, 40),
                       ),
-                      onPressed: () async {
-                        if (formKeyCompraEspacio.currentState!.validate()) {
-                          debugPrintLevels(
-                            2,
-                            "Pagina Compra Espacios writeCompraEspaciosToCouchDB status",
-                          );
-
-                          formKeyCompraEspacio.currentState!.save();
-                          await ref
-                              .read(compraDeEspaciosProvider.notifier)
-                              .writeCompraEspaciosToCouchDB(ref)
-                              .then((onValue) async {
-                                debugPrintLevels(
-                                  2,
-                                  "Pagina Compra Espacios writeCompraEspaciosToCouchDB status: $onValue",
-                                );
-                                if (codigoCouchDB.containsKey(onValue)) {
-                                  //  (BuildContext context)  =>  showMessageDialog(
-                                  await showMessageDialog(
-                                    // ignore: use_build_context_synchronously
-                                    context,
-                                    "Compra Espacios",
-                                    codigoCouchDB[onValue]!.label,
-                                    appTheme.primary,
-                                    TextAlign.center,
-                                    "Salir",
-                                  );
-                                } else {
-                                  await showMessageDialog(
-                                    // ignore: use_build_context_synchronously
-                                    context,
-                                    "Compra Espacios",
-                                    "Se generaron los espacios.",
-                                    appTheme.primary,
-                                    TextAlign.center,
-                                    "Salir",
-                                  );
-                                }
-                                Navigator.pop(context);
-                              });
-                        }
-                      },
+                      onPressed: _comprando ? null : _comprar,
                     ),
                   ),
                 ],
@@ -460,57 +401,24 @@ class PaginaCompraEspaciosState extends ConsumerState<PaginaCompraEspacios> {
 //-----------------------------------------------------------------------------+
 
 // Create a Form widget.-----------------------------------------------
-Widget buildCampoCompraEspacioCasa(
-  WidgetRef ref,
-  String nombreVariable,
-  String expRegular,
-  int numchar,
-) {
-  final compraEspaciosProvider = ref.read(compraDeEspaciosProvider.notifier);
-  debugPrintLevels(1, " **************************************************");
-  debugPrintLevels(1, "  3. PaginaCompraEspacios buildCampoCompraEspacioCasa");
-  debugPrintLevels(1, " **************************************************");
+/// Tipo de dato de cada campo de la compra: cantidades enteras o importes.
+TipoCampo _tipoCampoCompra(String nombre) {
+  if (nombre.startsWith('noDeEspacios') || nombre.startsWith('mesesContratados')) {
+    return TipoCampo.entero;
+  }
+  if (nombre.startsWith('totalEspacio') || nombre == 'impuestos' || nombre == 'granTotal') {
+    return TipoCampo.dinero;
+  }
+  return TipoCampo.texto;
+}
 
-  return SizedBox(
-    //height: 50,
-    child: TextFormField(
-      initialValue: compraEspaciosProvider.getCampoEspacioCompra(
-        ref,
-        nombreVariable,
-      ),
-      style: TextStyle(
-        color: appTheme.primary,
-        fontSize: tamanoLetra,
-        fontWeight: FontWeight.normal,
-      ),
-      minLines: 1,
-      maxLines: 8,
-      maxLength: numchar,
-      decoration: InputDecoration(
-        border: const OutlineInputBorder(gapPadding: 1.0),
-        filled: true,
-        fillColor: appTheme.onPrimary,
-        labelText:
-            " ${compraEspaciosProvider.getNombreDelCampoCompraEspacio(nombreVariable)} ",
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        isDense: true,
-        contentPadding: const EdgeInsets.fromLTRB(10, 15, 10, 15),
-      ),
-      validator: (String? value) {
-        if (value!.isEmpty) {
-          return 'El campo es obligatorio';
-        }
-        return null;
-      },
-      onSaved: (String? value) {
-        value = value?.toUpperCase();
-        compraEspaciosProvider.setCampoEspacioCompra(
-          ref,
-          nombreVariable,
-          value!,
-        );
-        //ref.read(folioProvider).clavefoliodeventa = value!;
-      },
-    ),
+Widget buildCampoCompraEspacioCasa(WidgetRef ref, String nombreVariable) {
+  final compraEspaciosProvider = ref.read(compraDeEspaciosProvider.notifier);
+  return CampoTexto(
+    etiqueta: compraEspaciosProvider.getNombreDelCampoCompraEspacio(nombreVariable),
+    valorInicial: compraEspaciosProvider.getCampoEspacioCompra(ref, nombreVariable),
+    tipo: _tipoCampoCompra(nombreVariable),
+    obligatorio: true,
+    onChanged: (v) => compraEspaciosProvider.setCampoEspacioCompra(ref, nombreVariable, v.toUpperCase()),
   );
 }

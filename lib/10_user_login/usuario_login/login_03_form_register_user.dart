@@ -1,3 +1,4 @@
+import '../../60_global_widgets/campo_texto.dart';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -674,6 +675,36 @@ class RegisterScreenUsersState extends ConsumerState<RegisterScreenUsers> {
     }
   }
 
+  TipoCampo _tipoRegistro(String nombreVariable) {
+    switch (nombreVariable) {
+      case "correoelectronico":
+        return TipoCampo.correo;
+      case "numerocelular":
+        return TipoCampo.telefono;
+      default:
+        return TipoCampo.texto;
+    }
+  }
+
+  /// Todos los campos del registro son obligatorios; la clave exige 8 a 20 caracteres.
+  String? _validaRegistro(String nombreVariable, String? value) {
+    final error = Validadores.validar(
+      _tipoRegistro(nombreVariable),
+      value,
+      esObligatorio: true,
+      etiqueta: 'El campo',
+    );
+    if (error != null) return error;
+    final largo = value!.trim().length;
+    if (nombreVariable == "claveacceso") {
+      if (largo < 8) return 'La clave debe tener al menos 8 caracteres';
+      if (largo > 20) return 'La clave debe tener máximo 20 caracteres';
+    } else if (largo > 80) {
+      return 'El campo es muy largo.';
+    }
+    return null;
+  }
+
   Widget buildCampoFormUser(String nombreVariable, String expReg) {
     // debugPrintLevels(2, "buildCampoFormUser $nombreVariable");
     return SizedBox(
@@ -746,25 +777,9 @@ class RegisterScreenUsersState extends ConsumerState<RegisterScreenUsers> {
         autovalidateMode: AutovalidateMode.always,
         textAlignVertical: TextAlignVertical.bottom,
         //style: TextStyle(color: appTheme.primary, fontSize: tamanoLetra),
-        validator: (String? value) {
-          if (isEmpty(value)) {
-            return 'El campo es obligatorio';
-          } else {
-            if (isTooLong(value)) {
-              return "El campo es muy largo.";
-            } else {
-              if (isTooLong(value)) {
-                return "El campo es muy corto.";
-              } else {
-                if (!RegExp(expReg).hasMatch(value!)) {
-                  return 'El formato no es válido';
-                } else {
-                  return null;
-                }
-              }
-            }
-          }
-        },
+        keyboardType: _tipoRegistro(nombreVariable).teclado,
+        inputFormatters: _tipoRegistro(nombreVariable).filtros,
+        validator: (String? value) => _validaRegistro(nombreVariable, value),
         onChanged: (String? value) {
           ref
               .read(sessionProvider.notifier)
