@@ -8,16 +8,7 @@
 ---
 
 ## 1. Inventario de Archivos del Módulo
-
-| Archivo | Tipo | Rol |
-|---|---|---|
-| `principal_sliver_screen_menus_inicio.dart` | Fuente — Widget con Estado Reactivo (`ConsumerStatefulWidget`) | Widget raíz de la pantalla principal; gestiona la navegación por `HomeState`, listeners de conectividad, inicialización síncrona de controladores, carga de sesión y ubicación en segundo plano |
-| `principal_00_inicio.dart` | Fuente — Widget con Estado (`ConsumerStatefulWidget`) | Página de inicio / landing page; renderiza fondo con imagen, degradado, encabezado y grid de tarjetas de opciones con navegación a landing pages |
-| `principal_02_page_appbar.dart` | Fuente — Función de Widget y Widgets Auxiliares | Construye la `AppBar` principal con botones de conectividad, localización, filtros, búsqueda, notificaciones, ayuda y usuario; incluye diálogo de login y navegación por perfil |
-| `principal_03_page_drawer.dart` | Fuente — Widget con Estado (`ConsumerWidget`) | Implementa el menú lateral (`Drawer`) con opciones de salir, navegación, preferencias, configuración, acerca de y contacto |
-| `00_principales_opciones.dart` | Fuente — Modelo de Datos y Datos Estáticos | Define el modelo `MenuOption`, la lista `menuOpciones` y la lista `listaLandingPages` que alimentan la página de inicio |
-
----
+Archivos del módulo (5): ver [`inventario_02_principal_screen.md`](../../../05_desarrollo_y_especificaciones_tecnicas/inventario_componentes/inventario_02_principal_screen.md), que describe cada componente. No se repite aquí para evitar divergencias.
 
 ## 2. Requerimientos Ubicuos (Ubiquitous)
 

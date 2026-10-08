@@ -20,6 +20,21 @@
 
 ---
 
+## 🧩 Qué va en cada documento (regla anti-duplicación)
+
+| Documento | Responde | No debe contener |
+| :--- | :--- | :--- |
+| **Epic** (`epics_ears/`) | *Qué* debe hacer el módulo (requerimientos EARS con evidencia en código y estado) y su deuda técnica | Pasos de UI ni diseño interno |
+| **Historia** (`user_stories/`) | *Para quién y por qué*, con criterios de aceptación | Tablas de trazabilidad (las genera la matriz), listas de deuda ya presentes en la Epic |
+| **SDD** (`modulos_sdd/`) | *Cómo* se resuelve (diseño: clases, flujos, decisiones) | Inventario de archivos (está en `inventario_componentes/`) ni requerimientos de negocio (están en la Epic) |
+| **Inventarios** | *Qué hay* en el código, archivo por archivo | Descripción de comportamiento de negocio |
+| **Matriz / índices generados** | Relaciones y listados | Nada editado a mano |
+| **Gherkin** | Comportamiento verificable por escenario | Texto de requisitos (solo el tag `@REQ-*`) |
+
+Regla: un hecho vive en un solo documento; los demás lo enlazan. Los índices y la matriz se **generan** (`generar_indice_historias.py`, `generar_matriz_trazabilidad.py`, `generar_bases_de_datos_en_codigo.py`).
+
+---
+
 ## 🧭 Metodologías: cuáles se usan y cuáles se recomiendan
 
 | Necesidad | Método adoptado | Valoración | Recomendación |
@@ -253,7 +268,7 @@ if ($brokenLinks.Count -gt 0) { $brokenLinks | Format-Table -AutoSize }
 | Los 129 `.feature` detallados y los 48 de análisis solapan en tema | Doble mantenimiento | Conservar los detallados como pruebas; reducir los de análisis a uno por módulo o fusionarlos |
 | Solo existe una prueba (plantilla de contador) y **falla**; frente a 199 archivos `.dart` | Escenarios sin ejecución y sin red de seguridad | Reemplazarla y seguir la pirámide de [`estrategia_de_pruebas_y_smoke_tests.md`](../07_pruebas_y_calidad/estrategia_de_pruebas_y_smoke_tests.md) |
 | Inventarios de componentes y elementos describen lo mismo con distinto formato | Redundancia y desfase | Generar los de elementos; dejar los de componentes solo para módulos nivel A |
-| Épicas, historias y SDD por módulo repiten información | Volumen alto (~70 % del peso total) | Mantener plantillas con secciones obligatorias y quitar texto genérico |
+| Épicas, historias y SDD por módulo aún repiten parte de la información (la «Conversation» de las historias reescribe el requerimiento; los «Mapas» de las Epics y los diagramas de flujo de los SDD son vistas del mismo flujo) | Volumen alto; riesgo de divergencia | Ya se eliminaron las secciones duplicadas (ver «Qué va en cada documento»); al editar, enlazar en lugar de copiar |
 | `indice_archivos_modelos.md` pesa ~170 KB | Difícil de leer y mantener | Generarlo automáticamente o dividirlo por módulo |
 | **Crítico (pendiente de decisión):** la documentación afirmaba que Flutter no toca CouchDB y usa Dio + JWT; el código usa `http` con Basic Auth y credenciales de administrador compiladas en 34 archivos (corregido en los documentos; sigue siendo deuda de seguridad en el código) | Riesgo de seguridad y documentación engañosa | Migrar a API Node.js tras nginx con JWT (objetivo; pendiente de la configuración de nginx y JWT) y mantener `verificar_documentacion.py` para contrastar afirmaciones con `lib/` |
 | Contrato OpenAPI de la API Node.js objetivo | Riesgo de desalineación Flutter–API cuando exista la API | Publicar OpenAPI en el repo backend y enlazarlo desde [`contrato_api_actual.md`](../04_arquitectura_y_diseno/contrato_api_actual.md) |

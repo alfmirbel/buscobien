@@ -50,14 +50,6 @@
 
 ---
 
-## Resumen matriz
-
-| US | Escenarios BDD | Archivos principales |
-|----|----------------|----------------------|
-| US-OS-001 (detección runtime) | 4 plataformas + web | `detecta_os.dart` |
-
----
-
 ## Notas de deuda técnica
 
 1. **`setCheckPlataformaProvider(ref)` muta el estado del `StateProvider` directamente vía `ref.read`**: debería ser un método del Notifier / nuevo provider. Patrón mutación-flush anti-Riverpod 3.x.

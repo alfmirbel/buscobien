@@ -8,27 +8,7 @@
 ---
 
 ## 1. Inventario de Archivos del Módulo
-
-| Archivo | Tipo | Rol |
-|---|---|---|
-| `conocidos_view.dart` | Fuente — Widget con Estado (`StatefulWidget`) | Vista raíz del módulo; orquesta la navegación entre Contactos, Invitaciones y Descubrir mediante `NavigationBar` |
-| `page_mis_contactos.dart` | Fuente — Widget con Estado (`ConsumerStatefulWidget`) | Muestra la lista de contactos aceptados con acciones de perfil y chat |
-| `page_invitaciones.dart` | Fuente — Widget (`ConsumerWidget`) | Muestra invitaciones recibidas y enviadas con tabs; permite aceptar/rechazar |
-| `page_descubrir_usuarios.dart` | Fuente — Widget (`ConsumerWidget`) | Muestra listado de usuarios y promotores disponibles para invitar |
-| `page_perfil_contacto.dart` | Fuente — Widget (`ConsumerWidget`) | Muestra el perfil público de un contacto y sus propiedades publicadas |
-| `page_chat_privado.dart` | Fuente — Widget con Estado (`ConsumerStatefulWidget`) | Chat privado en tiempo real con mensajes de texto, propiedad y lista |
-| `providers/conocidos_notifier.dart` | Fuente — Riverpod `AsyncNotifierProvider` | Gestiona invitaciones de contacto: carga, envío, respuesta y estado |
-| `provider_mensajes.dart` | Fuente — Riverpod `AsyncNotifierProvider.family` | Gestiona mensajes de chat con `_changes` feed continuo de CouchDB |
-| `social_providers.dart` | Fuente — Riverpod `FutureProvider` | Providers legacy para listar usuarios, promotores y chat |
-| `models/conocido.dart` | Fuente — Modelo Freezed | Define `Conocido` con `InvitacionEstado` (pendiente, aceptado, rechazado, bloqueado) |
-| `models/conocido.freezed.dart` | Generado | Código generado por Freezed |
-| `models/conocido.g.dart` | Generado | Código generado por `json_serializable` |
-| `invitacion_model.dart` | Fuente — Modelo | Modelo legacy de invitación con campos `_id`, `_rev`, sender/receiver, status |
-| `mensaje_model.dart` | Fuente — Modelo | Modelo de mensaje de chat con tipo, propiedadId, listaCompartidaId |
-| `data_invitacion.json` | Datos | Datos estáticos de invitaciones |
-| `data_mensajes.json` | Datos | Datos estáticos de mensajes |
-
----
+Archivos del módulo (14): ver [`inventario_08_pantallas_maestro.md`](../../../../../05_desarrollo_y_especificaciones_tecnicas/inventario_componentes/inventario_08_pantallas_maestro.md), que describe cada componente. No se repite aquí para evitar divergencias.
 
 ## 2. Requerimientos Ubicuos (Ubiquitous)
 

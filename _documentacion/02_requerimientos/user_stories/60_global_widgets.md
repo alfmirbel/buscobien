@@ -184,26 +184,14 @@
 
 ---
 
-## Resumen matriz
-
-| US | Epic Req | Escenarios BDD | Archivos principales |
-|----|----------|----------------|----------------------|
-| US-GW-001 (form widgets base) | REQ-GW-001, 002, 003, 011 | varios | `bottom_fijo.dart` |
-| US-GW-002 (FutureBuilder states) | REQ-GW-008 | loader/error/empty | `future_builder_state_widgets.dart` |
-| US-GW-003 (logging 21 niveles) | REQ-GW-005 | 1 | `debugprint.dart` |
-| US-GW-004 (showMessageDialog) | REQ-GW-007 | 1 | `dialogbox_mensaje_general.dart` |
-| US-GW-005 (footer derechos) | REQ-GW-006 | 1 | `derechos_reservados.dart` |
-| US-GW-006 (montos demo) | REQ-GW-009 | 1 | `genera_cantidad_monetaria.dart` |
-| US-GW-007 (deuda isHidden*) | REQ-GW-010 | — | `bottom_fijo.dart` |
-
----
-
 ## Notas de deuda técnica
 
 1. **Variables globales `isHidden*`** en `MyTextFieldPassword`: afectan múltiples instancias. Fix trivial: mover a `State`.
 2. **21 booleanos de `debugprint.dart`**: no config-drive; requieren recompilar. Migrar a `package:logging` jerárquico.
-3. **`generaCantidad` no determinístico**: sin `Random.seed` → no testeable.
 4. **`showMessageDialog` firma larga (6 params)**: refactor a `config` dataclass.
 5. **`derechosReservados` año "2026" hardcoded**: debería derivarse `DateTime.now().year`.
 6. **`stateError` callback `onRetry` no expuesto**: hardcodeado en consumidores. Deuda de API.
 7. **Sin tests** para ninguno de los 6 archivos/8 widgets globales.
+
+> Las demás notas de deuda técnica están en la Epic del módulo (`../epics_ears/60_global_widgets.md`).
+

@@ -54,14 +54,7 @@ PaginaPerfilWidget (ConsumerStatefulWidget)
 
 ## Trazabilidad a Código
 
-| Componente | Archivo | Líneas |
-|------------|---------|--------|
-| `PaginaPerfilWidget` (State) | `pagina_perfil.dart` | 1-698 |
-| `initState` (PostFrameCallback con `recuperaDatosDelAvatar`) | `pagina_perfil.dart:42-62` | 42-62 |
-| `_buildNoUserView` | `pagina_perfil.dart` | 153-203 |
-| `_buildUserProfileView` | `pagina_perfil.dart` | 204-342 |
-| `_buildHeaderSection (nombre, rol, avatar)` | `pagina_perfil.dart` | 343-451 |
-| `_buildInfoCard / _buildProfileRow / _buildSectionTitle / _buildDivider` | `pagina_perfil.dart` | 452-538 |
+La evidencia de cada requerimiento (archivo y líneas) está en la columna **Evidencia** de la tabla de requerimientos; no hay archivos adicionales que listar.
 
 ---
 

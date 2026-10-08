@@ -66,15 +66,7 @@ Usuario lanza app
 
 ## Trazabilidad a Código
 
-| Componente | Archivo | Líneas Clave |
-|------------|---------|--------------|
-| `SplashPage` (ConsumerStatefulWidget) | `splash_page.dart` | 23-180 |
-| `_SplashPageState._startSplashTimer` | `splash_page.dart` | 50-58 |
-| `_attemptNavigation` / `_navigateToErrorPage` | `splash_page.dart` | 60-78 |
-| `build` con `ref.listen` reactivo | `splash_page.dart` | 80-130 |
-| `GlassMorphismContainer2` / `GlassBox` | `glass_objects.dart` | 122-220 |
-| `buildBackgroundShapes` (6 imágenes) | `glass_objects.dart` | 14-120 |
-| `AppVersion` model + `historialDeVersiones` | `versiones.dart` | 6-63 |
+La evidencia de cada requerimiento (archivo y líneas) está en la columna **Evidencia** de la tabla de requerimientos; no hay archivos adicionales que listar.
 
 ---
 

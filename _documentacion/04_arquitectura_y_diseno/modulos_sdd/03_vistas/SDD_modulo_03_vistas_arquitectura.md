@@ -8,20 +8,7 @@
 ---
 
 ## 1. Inventario de Archivos del Módulo
-
-| Archivo | Tipo | Rol |
-|---|---|---|
-| `pagina_usuarios.dart` | Fuente — Widget sin Estado (`ConsumerWidget`) | Landing page "Buscar" (`LandingBusquedaPage`); incluye buscador de Código Postal, carrusel de propiedades destacadas, categorías rápidas y CTAs |
-| `pagina_promotores.dart` | Fuente — Widget sin Estado (`ConsumerWidget`) | Landing page "Promotores" (`LandingAgentesPage`); incluye hero profesional, estadísticas, grid de herramientas pro y footer CTA |
-| `pagina_propietarios.dart` | Fuente — Widget sin Estado (`ConsumerWidget`) | Landing page "Propietarios" (`LandingPropietariosPage`); incluye hero, beneficios, pasos, testimonio y CTA final |
-| `pagina_hospedaje.dart` | Fuente — Widget sin Estado (`ConsumerWidget`) | Landing page "Anfitriones" (`LandingHospedajePage`); incluye hero, beneficios, pasos y CTA |
-| `pagina_servicios.dart` | Fuente — Widget sin Estado (`ConsumerWidget`) | Landing page "Servicios" (`LandingServiciosPage`); incluye hero, categorías de servicios, propuesta de valor y pasos |
-| `pagina_market.dart` | Fuente — Widget sin Estado (`ConsumerWidget`) | Landing page "Tienda/Market" (`LandingMarketPage`); incluye hero showroom, categorías de productos, contextual commerce y beneficios retail |
-| `pagina_proveedores.dart` | Fuente — Widget sin Estado (`ConsumerWidget`) | Landing page "Proveedores" (`LandingProveedoresPage01`); incluye hero, categorías de productos, estrategia "Shop the Look" y herramientas de marketing |
-| `pagina_asociaciones.dart` | Fuente — Widget sin Estado (`ConsumerWidget`) | Landing page "Asociaciones" (`LandingAsociacionesPage`); incluye hero institucional, grid de aliados, beneficios y eventos |
-| `pagina_inmobiliarias.dart` | Fuente — Widget sin Estado (`ConsumerWidget`) | Landing page "Inmobiliarias" (`LandingInmobiliariasPage`); incluye hero enterprise, grid de features, banner API y formulario de contacto |
-
----
+Archivos del módulo (9): ver [`inventario_03_vistas.md`](../../../05_desarrollo_y_especificaciones_tecnicas/inventario_componentes/inventario_03_vistas.md), que describe cada componente. No se repite aquí para evitar divergencias.
 
 ## 2. Requerimientos Ubicuos (Ubiquitous)
 

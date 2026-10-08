@@ -59,13 +59,11 @@ Usuario en Mi Cuenta → Localidades
 
 ## Trazabilidad a Código
 
+La evidencia de cada requerimiento (archivo y líneas) está en la columna **Evidencia** de la tabla anterior. Archivos adicionales no citados en ella:
+
 | Componente | Archivo | Líneas |
 |------------|---------|--------|
-| `UsuarioLocalidades` (@freezed) | `data_user_localidad.dart` | 1-25 |
 | `UsuarioLocalidadesGet` / `RowsUserLocal` | `data_user_localidad_get.dart` | 1-30 |
-| `LocalidadesRepository` | `localidades_repository.dart` | 1-120 |
-| `ClassUserLocalNotifierProvider` | `provider_get_localidades_usuario.dart` | 1-150 |
-| `getUserLocalidadesFutureProvider` | `provider_get_localidades_usuario.dart` | 140-150 |
 
 ---
 

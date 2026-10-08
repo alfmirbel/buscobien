@@ -8,13 +8,7 @@
 ---
 
 ## 1. Inventario de Archivos del Módulo
-
-| Archivo | Tipo | Rol |
-|---|---|---|
-| `pagina_colores.dart` | Fuente — Widget con Estado (`ConsumerStatefulWidget`) | Pantalla de selección de esquema de colores; renderiza 9 opciones con `Radio` buttons, actualiza `appTheme` globalmente |
-| `provider_preferencias.dart` | Fuente — Riverpod `StateProvider` | Gestiona el estado de preferencia de color mediante `SelectColorProvider` (índice + etiqueta) |
-
----
+Archivos del módulo (2): ver [`inventario_04_provider.md`](../../../05_desarrollo_y_especificaciones_tecnicas/inventario_componentes/inventario_04_provider.md), que describe cada componente. No se repite aquí para evitar divergencias.
 
 ## 2. Requerimientos Ubicuos (Ubiquitous)
 

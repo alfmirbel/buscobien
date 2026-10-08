@@ -8,12 +8,7 @@
 ---
 
 ## 1. Inventario de Archivos del Módulo
-
-| Archivo | Tipo | Rol |
-|---|---|---|
-| `widget_letrero_tipo_transaccion.dart` | Fuente — Widget Función | Renderiza el precio de una propiedad formateado según su tipo de transacción (Venta, Renta, Venta/Renta, Traspaso) |
-
----
+Archivos del módulo (1): ver [`inventario_08_pantallas_widgets_comunes.md`](../../../../05_desarrollo_y_especificaciones_tecnicas/inventario_componentes/inventario_08_pantallas_widgets_comunes.md), que describe cada componente. No se repite aquí para evitar divergencias.
 
 ## 2. Requerimientos Ubicuos (Ubiquitous)
 

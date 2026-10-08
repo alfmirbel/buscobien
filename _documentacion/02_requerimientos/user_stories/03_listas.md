@@ -21,7 +21,7 @@
 - `PageMisListas` (`pagina_mis_listas.dart`, 1,222 líneas) es el hub central, Stateful, con un `TabBar(length:3)`.
 - **Tab 1 — Propias:** consume `userListsProvider` (`UserListsNotifier`), filtra `idUsuario == currentUser`. Cada item admite: crear, ver detalle (`PageDetalleLista`), borrar (`Dismissible` con confirmación), compartir (→ US-LIST-004), editar nombre.
 - **Tab 2 — Recibidas:** consume `listasCompartidasProvider` (`ListasCompartidasNotifier`) filtra `usuarioDestinoId == currentUser`. Cada item abre `PageDetalleListaCompartida`.
-- **Tab 3 — Enviadas:** mismo provider filtra `usuarioOrigenId == currentUser`. Permite cancelar/ocultar una compartición (DELETE en `buscobien_listas_compartidas`).
+- **Tab 3 — Enviadas:** mismo provider filtra `usuarioOrigenId == currentUser`. Permite cancelar/ocultar una compartición (DELETE en `buscobien_listas_compartidas_usuarios`).
 - **Comentario crítico:** `PageMisListas` acumula 1,222 líneas (2-3x lo normal) por incluir la lógica de creación y borrado inline — debería extraerse a métodos en el Notifier correspondiente. Deuda de refactor.
 
 ### Confirmation
@@ -103,9 +103,9 @@
 - **Limite:** máximo 5 destinatarios (`CheckboxListTile` multi-select guardado en `Set<String>` con length check). Validación UI antes de confirmar.
 - Acciones realizadas como una "operación" lógica (no transaccional en CouchDB):
   1. Copia las propiedades de la lista origen a `buscobien_listas_compartidas_usuarios` con nuevo `_id = UUID()` (`tipo:'lista'`).
-  2. Crea un documento de referencia en `buscobien_listas_compartidas` con `{ listaOrigenId, usuarioOrigenId, usuarioDestinoId, timestamp }`.
+  2. Crea un documento de referencia en `buscobien_listas_compartidas_usuarios` con `{ listaOrigenId, usuarioOrigenId, usuarioDestinoId, timestamp }`.
   3. `mensajesChatProvider.enviar(tipo:'lista', payloadDoc)` larga un mensaje de notificación a cada destinatario.
-- **Anti-duplicado:** antes de insertar, chequea que no exista combinación idéntica `listaOrigenId + usuarioDestinoId` en `buscobien_listas_compartidas`. Si existe, **silent skip** (no falla el batch, sigue con otros destinatarios).
+- **Anti-duplicado:** antes de insertar, chequea que no exista combinación idéntica `listaOrigenId + usuarioDestinoId` en `buscobien_listas_compartidas_usuarios`. Si existe, **silent skip** (no falla el batch, sigue con otros destinatarios).
 - **Comentario:** el batch no es atómico — si falla 3/5 destinatarios, los 2 exitosos están guardados y sólo esos reciben notificación. El SnackBar de confirmación detalla "Compartido con 2 de 5". Se planea introducir `_bulk_docs` de CouchDB para atomicidad.
 
 ### Confirmation
@@ -200,20 +200,6 @@
 - ✓ Feature BDD: escenario "Detalle lista con bulk fetch $in Mango".
 
 **Trazabilidad:** `pagina_detalle_listas.dart` (`PageDetalleLista`), `pagina_detalle_lista_compartida.dart` (`PageDetalleListaCompartida`), `provider_listas_propiedades.dart`, `60_global_widgets/future_builder_state_widgets.dart` (no parte de 03_listas pero consumido)
-
----
-
-## Resumen matriz US vs Requirements (mapear cuando el Epic se enriquezca)
-
-| US | Acción principal | DBs CouchDB afectadas |
-|----|-----------------|----------------------|
-| US-LIST-001 (Hub 3 tabs) | Read usuarios recibidos/enviados | `buscobien_usuarios_listas`, `buscobien_listas_compartidas` |
-| US-LIST-002 (Crear lista) | POST lista propia | `buscobien_usuarios_listas` |
-| US-LIST-003 (Selector guardar) | diff post/delete | `buscobien_listas_propiedades` |
-| US-LIST-004 (Compartir lista) | Batch crear + notificar | `buscobien_listas_compartidas`, `buscobien_listas_compartidas_usuarios`, `buscobien_mensajes` (chat) |
-| US-LIST-005 (Comp. propiedad) | Post conocidos y grupos | `buscobien_propiedades_compartidas_conocidos`, `buscobien_grupos_publicaciones`, `buscobien_mensajes`, `buscobien_grupos_mensajes` |
-| US-LIST-006 (Me gusta) | Post/DELETE idempotente + auto-crea Favoritas | `buscobien_megusta_propiedades`, `buscobien_usuarios_listas`, `buscobien_listas_propiedades`, `buscobien_usuarios` |
-| US-LIST-007 (Detalle lista) | Mango `$in` bulk fetch | `buscobien_propiedades_publicadas_*`, `buscobien_propiedades_publicados_*` (fallback) |
 
 ---
 

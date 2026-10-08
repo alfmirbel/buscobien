@@ -50,13 +50,10 @@ Desarrollador usa widget en card
 
 ## Trazabilidad a Código
 
+La evidencia de cada requerimiento (archivo y líneas) está en la columna **Evidencia** de la tabla anterior. Archivos adicionales no citados en ella:
+
 | Componente | Archivo | Líneas |
 |------------|---------|--------|
-| `letrerprecio()` — switch tipodetransaccion | `widget_letrero_tipo_transaccion.dart` | 6-50 |
-| Caso "Venta" | `widget_letrero_tipo_transaccion.dart` | 9-17 |
-| Caso "Renta" | `widget_letrero_tipo_transaccion.dart` | 19-27 |
-| Caso "Venta/Renta" | `widget_letrero_tipo_transaccion.dart` | 29-37 |
-| Caso "Traspaso" | `widget_letrero_tipo_transaccion.dart` | 39-48 |
 | Color `appTheme.onPrimaryContainer` | `var_color_themes.dart` | — |
 
 ---

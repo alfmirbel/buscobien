@@ -65,15 +65,7 @@ Desarrollador construye pantalla
 
 ## Trazabilidad a Código
 
-| Componente | Archivo | Líneas |
-|------------|---------|--------|
-| `MyButton` / `MyTextField` / `SquareTile` | `bottom_fijo.dart` | 10-95 |
-| `MyTextFieldPassword` (globals `isHidden*`) | `bottom_fijo.dart` | 97-160 |
-| `debugPrintLevels` + 21 level flags | `debugprint.dart` | 1-50 |
-| `derechosReservadosClaro/Obscuro` | `derechos_reservados.dart` | 1-20 |
-| `showMessageDialog` | `dialogbox_mensaje_general.dart` | 1-40 |
-| `state*` FutureBuilder helpers (8 funcs) | `future_builder_state_widgets.dart` | 1-100 |
-| `generaCantidad` / `formatoCantidad` | `genera_cantidad_monetaria.dart` | 1-40 |
+La evidencia de cada requerimiento (archivo y líneas) está en la columna **Evidencia** de la tabla de requerimientos; no hay archivos adicionales que listar.
 
 ---
 

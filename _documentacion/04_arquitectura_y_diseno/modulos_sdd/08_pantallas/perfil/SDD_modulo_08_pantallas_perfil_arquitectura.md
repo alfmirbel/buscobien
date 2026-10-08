@@ -8,12 +8,7 @@
 ---
 
 ## 1. Inventario de Archivos del Módulo
-
-| Archivo | Tipo | Rol |
-|---|---|---|
-| `pagina_perfil.dart` | Fuente — Widget con Estado (`ConsumerStatefulWidget`) | Pantalla de perfil de usuario; muestra datos personales, dirección, perfil profesional (si es promotor), avatar y botón de cierre de sesión |
-
----
+Archivos del módulo (1): ver [`inventario_08_pantallas_perfil.md`](../../../../05_desarrollo_y_especificaciones_tecnicas/inventario_componentes/inventario_08_pantallas_perfil.md), que describe cada componente. No se repite aquí para evitar divergencias.
 
 ## 2. Requerimientos Ubicuos (Ubiquitous)
 

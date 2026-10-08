@@ -57,16 +57,11 @@ provider_localidades_del_cp (AsyncNotifier, 109 líneas) — datos SEPOMEX por C
 
 ## Trazabilidad a Código
 
+La evidencia de cada requerimiento (archivo y líneas) está en la columna **Evidencia** de la tabla anterior. Archivos adicionales no citados en ella:
+
 | Componente | Archivo | Líneas |
 |------------|---------|--------|
-| `PaginaPrincipalListaLocalidades`, `State` | `pagina_principal_localidades.dart` | 483 |
-| `PaginaBuscaLocalidadGMaps`, `State` | `pagina_busca_localidades_gmaps.dart` | 347 |
-| `LocalidadesListScreen`, `State` | `screen_maestro_localidades.dart` | 443 |
-| `ClassLocalidadesNotifierProvider` (AsyncNotifier) | `provider_localidades_del_cp.dart` | 109 |
-| `FindLocalidadXcp`, `Doc` | `data_localidad_find.dart` | 42 |
-| `LocalidadCp` (Freezed) | `data_sepomex_localidades.dart` | 23 |
 | (generados) `data_sepomex_localidades.freezed.dart`, `.g.dart` | — | 559 |
-| `LocalidadesGet`, `RowLocalidadesGet`, `ValueLocalidadesGet` | `data_sepomex_localidades_get_cp.dart` | 89 |
 
 ---
 

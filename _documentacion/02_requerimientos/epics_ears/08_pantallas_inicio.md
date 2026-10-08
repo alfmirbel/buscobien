@@ -59,19 +59,11 @@ HTTP via API Node.js → CouchDB
 
 ## Trazabilidad a Código
 
+La evidencia de cada requerimiento (archivo y líneas) está en la columna **Evidencia** de la tabla anterior. Archivos adicionales no citados en ella:
+
 | Componente | Archivo | Líneas |
 |------------|---------|--------|
-| `PaginaBuscaEspacios` (UI principal) | `pagina_inicio_busca_espacios.dart` | 515 |
-| `WrapModernCardPropiedades` + `_MeGustaButton` | `widget_wrap_modern_card.dart` | 639 |
-| `PaginacionBusqueda` provider (con `@riverpod`) | `inicio_propiedades_providers.dart` | 212 |
 | `findPropiedades10en10` HTTP | `http_find_propiedades_10en10.dart` | 149 |
-| `viewCountFilterPropiedades` HTTP (con fallback) | `http_view_count_filter_propiedades.dart` | 502 |
-| Modelos: `EspaciosCasa`, `Fechadecasa`, `Ubicacioncasa`, `Datosadicionalescasa`, `Datosdelcontactocasa` | `data_espacios_casas.dart` | 393 |
-| `EspaciosCasaGet`, `RowEspaciosCasaGet`, `ValueEspaciosCasaGet` | `data_espacios_casas_get.dart` | 90 |
-| `CountViewDoctos`, `RowCountViewDoctos` | `data_count_view_documentos.dart` | 50 |
-| `BusquedaPaginacion`, `SearchTerm` (Freezed) | `clase_busqueda_estado.dart` | 20 |
-| `VariablesViewQuery` | `data_get_valores_menus.dart` | 14 |
-| Catálogo otras características | `catalogo_otras_caracteristicas.dart` | 83 |
 
 ---
 

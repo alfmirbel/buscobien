@@ -71,26 +71,15 @@ GruposView (3 tabs: Mis Grupos / Descubrir / Invitaciones)
 
 ## Trazabilidad a Código
 
+La evidencia de cada requerimiento (archivo y líneas) está en la columna **Evidencia** de la tabla anterior. Archivos adicionales no citados en ella:
+
 | Componente | Ruta | Líneas |
 |------------|-----|--------|
-| `GruposView` | `grupos_view.dart` | 101 |
-| `PageMisGrupos`, `_PageMisGruposState`, `_GrupoCard` | `page_mis_grupos.dart` | 482 |
-| `PageDescubrirGrupos`, `_GrupoDescubrirCard` | `page_descubrir_grupos.dart` | 325 |
-| `PageDetalleGrupo` + 6 sub-widgets | `page_detalle_grupo.dart` | 993 |
-| `PageInvitacionesGrupo` + 4 sub-widgets | `page_invitaciones_grupo.dart` | 352 |
-| `PageChatGrupo` + 5 sub-widgets + `ChatGrupoEmbebido` | `page_chat_grupo.dart` | 358 |
-| `Grupo` (Freezed), `MiembroGrupo` (Freezed) | `models/grupo.dart` | 34 |
-| `GrupoModel`, `MiembroGrupoModel` | `models/grupo_model.dart` | 111 |
 | `InvitacionGrupoModel` | `models/invitacion_grupo_model.dart` | 69 |
 | `MensajeGrupoModel` | `models/mensaje_grupo_model.dart` | 69 |
 | `PublicacionGrupoModel` | `models/publicacion_grupo_model.dart` | 61 |
 | `AvisoGrupoModel` | `models/aviso_grupo_model.dart` | 52 |
 | (generados) `grupo.freezed.dart`, `grupo.g.dart` | `models/` | 782 + 47 |
-| `GruposNotifier` | `providers/grupos_notifier.dart` | 249 |
-| `GruposInvitacionesNotifier` | `providers/grupos_invitaciones_provider.dart` | 280 |
-| `MensajesGrupoNotifier` | `providers/grupos_mensajes_provider.dart` | 200 |
-| `PublicacionesGrupoNotifier` | `providers/publicaciones_grupo_provider.dart` | 168 |
-| `AvisosGrupoNotifier` | `providers/avisos_grupo_provider.dart` | 133 |
 
 ---
 

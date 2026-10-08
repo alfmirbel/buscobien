@@ -194,34 +194,19 @@
 
 ---
 
-## Resumen matriz
-
-| US | Epic Req | Escenarios BDD | Archivos principales |
-|----|----------|----------------|----------------------|
-| US-GPU-001 (Mis Grupos) | REQ-GPU-002, 003 | 2 | `page_mis_grupos.dart`, `providers/grupos_notifier.dart` |
-| US-GPU-002 (Detalle 4 tabs) | REQ-GPU-004, 005, 006 | 5 | `page_detalle_grupo.dart` (993 lines) |
-| US-GPU-003 (Membresías) | REQ-GPU-007, 008 | 5 | `page_descubrir_grupos.dart`, `page_invitaciones_grupo.dart`, `providers/grupos_invitaciones_provider.dart` |
-| US-GPU-004 (Chat grupal burbujas) | REQ-GPU-009, 010, 012 | 3 | `page_chat_grupo.dart`, `providers/grupos_mensajes_provider.dart` |
-| US-GPU-005 (Avisos admin) | REQ-GPU-006 | 2 | `page_detalle_grupo.dart` `_TabAvisos`, `providers/avisos_grupo_provider.dart` |
-| US-GPU-006 (PublicacionesGrupo) | REQ-GPU-005 | 1 | `page_detalle_grupo.dart` `_TabPublicaciones`, `providers/publicaciones_grupo_provider.dart` |
-| US-GPU-007 (Hub 3 tabs) | REQ-GPU-002 | 1 | `grupos_view.dart` |
-
----
-
 ## Notas de deuda técnica
 
 1. **`PageDetalleGrupo` 993 líneas** con 6 sub-widgets anidados. Refactor: extraer cada `_TabX` a archivo propio `tabs/tab_*.dart` subordinados.
-2. **Duplicación `_BurbujaPropiedad`/`_BurbujaLista`** con `page_chat_privado.dart` (conocidos). Refactor: `60_global_widgets/burbuja_propiedad_lista.dart` reutilizable. Documentado en US-CON-005.
-3. **2 modelos para Grupo**: `Grupo` (Freezed) y `GrupoModel` (json manual) — duplicidad de representación. Unificar.
 4. **`ChatGrupoEmbebido` buen patrón reutilizable** — candidato a `60_global_widgets/chat_embebido.dart` para futuros módulos.
 5. **Providers legacy** sin `@riverpod` annotation (GruposNotifier, GruposInvitacionesNotifier, MensajesGrupoNotifier, AvisosGrupoNotifier, PublicacionesGrupoNotifier). Riverpod 3.x deprecó. Migración con `build_runner` pendiente.
-6. **Sin tests** de ningún archivo (6 pages + 8 models + 5 providers).
 7. **Acoplamiento con `03_listas`** (`page_compartir_con_grupo.dart` ya usa `publicacionesGrupoProvider` y `buscobien_grupos_publicaciones` — ver US-LIST-005 de 03_listas). Documentado.
 8. **Acoplamiento con `08_pantallas/propiedades`** (`PaginaDetalleWidget` navigation desde `_BurbujaPropiedad` y `_TarjetaPublicacion`).
 9. **DBs CouchDB involucradas** (transversal `07_data_base`): `buscobien_grupos` (los miembros viven en su arreglo `miembros`), `buscobien_grupos_invitaciones`, `buscobien_grupos_mensajes`, `buscobien_grupos_publicaciones`, `buscobien_grupos_avisos`.
 10. **Sincronía tab Invitaciones badge**: requiere `GruposInvitacionesNotifier` count de pendientes reactivamente — implementado via `ref.watch` del AsyncNotifier.
 
 ---
+
+> Las demás notas de deuda técnica están en la Epic del módulo (`../epics_ears/08_pantallas_tu_cuenta_grupos.md`).
 
 ## Historias incorporadas en la revisión de exactitud (2026-10-07)
 

@@ -70,14 +70,10 @@ App navega a /principal
 
 ## Trazabilidad a Código
 
+La evidencia de cada requerimiento (archivo y líneas) está en la columna **Evidencia** de la tabla anterior. Archivos adicionales no citados en ella:
+
 | Componente | Archivo | Líneas |
 |------------|---------|--------|
-| `PrincipalSliversMenuInicial` | `principal_sliver_screen_menus_inicio.dart` | 1-350 |
-| 7 TabControllers init | `principal_sliver_screen_menus_inicio.dart` | 90-120 |
-| PostFrame secuencia sesión | `principal_sliver_screen_menus_inicio.dart` | 140-180 |
-| `appBarPrincipal` function | `principal_02_page_appbar.dart` | 10-130 |
-| `MenuDrawer` widget | `principal_03_page_drawer.dart` | 1-150 |
-| `PageInicio` landing | `principal_00_inicio.dart` | 1-200 |
 | `listaLandingPages` + `menuOpciones` | `00_principales_opciones.dart` | 1-50 |
 
 ---

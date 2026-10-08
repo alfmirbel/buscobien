@@ -127,22 +127,12 @@
 
 ---
 
-## Resumen matriz
-
-| US | Epic Req | Escenarios BDD | Archivos principales |
-|----|----------|----------------|-----------------------|
-| US-PERF-001 (ver perfil completo) | REQ-PERF-001 a 003, 007, 008 | 3 | `pagina_perfil.dart` |
-| US-PERF-002 (editar perfil) | REQ-PERF-004 | 1 | `pagina_perfil.dart` (CTA) + `10_user_login/usuario_registro` |
-| US-PERF-003 (gestión avatar) | REQ-PERF-005 | 1 | `pagina_perfil.dart` (CTA) + `10_user_login/usuario_avatar` |
-| US-PERF-004 (reactividad login/logout) | REQ-PERF-006 | 1 | `pagina_perfil.dart` (ConsumerStatefulWidget) |
-| US-PERF-005 (deuda sesión parcial) | REQ-PERF-007 (parcial) | 1 | `pagina_perfil.dart` |
-
----
-
 ## Notas de deuda técnica
 
 1. **698 líneas en 1 archivo** con 6 builders privados. Refactor: extraer `ProfileHeader`, `ProfileInfoCard`, `ProfileRow` a `60_global_widgets`.
 2. **`_buildProfileRow` no valida null** — deuda menor, fix trivial `value ?? "Sin dato"`.
 3. **`recuperaDatosDelAvatar` en `initState`**: debería migrar a un `FutureProvider.family` para evitar llamadas imperativas y aprovechar caching Riverpod.
 4. **Acoplamiento con `10_user_login`** vía `provider_session` y navegación a `usuario_registro`/`GestionAvatares` — esperado y documentado.
-5. **Sin tests**: ningún widget test del perfil.
+
+> Las demás notas de deuda técnica están en la Epic del módulo (`../epics_ears/08_pantallas_perfil.md`).
+

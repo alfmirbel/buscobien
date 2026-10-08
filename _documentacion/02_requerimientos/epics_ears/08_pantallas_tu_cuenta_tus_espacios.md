@@ -64,18 +64,7 @@ PaginaTusEspacios (ConsumerStatefulWidget)
 
 ## Trazabilidad a Código
 
-| Componente | Archivo | Líneas |
-|------------|---------|--------|
-| `PaginaTusEspacios`, `PaginaTipoEspaciosState` | `pagina_tus_espacios.dart` | 442 |
-| `ConceptoEspacioRow`, `UbicacionEspacioRow`, `CreaFichaCapturaPropiedad` (Stateful) | `form_crea_ficha_captura_propiedad.dart` | 4,692 |
-| `PaginaEditaEspacio`, `PaginaEditaEspacioState` | `form_update_espacio_comprado.dart` | 6,689 |
-| `upsertEspacioPublicadoToCouchDB` | `http_publica_propiedad.dart` | 767 |
-| `ListaEspaciosCasa`, `ClassCompraEspaciosNotifierProvider` (AsyncNotifier) | `provider_espacios_casa_get.dart` | 3,865 |
-| 30+ `List<String>` const (matriz campos por tipo) | `tabla_tipopropiedad_vs_campos.dart` | 544 |
-| `CompraEspacio`, `FechaDe` | `compra_espacios/data_compra_espacios.dart` | 138 |
-| `CompraEspacioGet`, `RowCompraEspacio`, `ValueCompraEspacio` | `compra_espacios/data_compra_espacios_get.dart` | 89 |
-| `PaginaCompraEspacios`, `PaginaCompraEspaciosState` | `compra_espacios/form_compra_espacios.dart` | 521 |
-| `ClassCompraEspaciosNotifierProvider` | `compra_espacios/provider_compra_espacios.dart` | 675 |
+La evidencia de cada requerimiento (archivo y líneas) está en la columna **Evidencia** de la tabla de requerimientos; no hay archivos adicionales que listar.
 
 ---
 

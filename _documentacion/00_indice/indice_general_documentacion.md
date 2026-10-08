@@ -44,7 +44,7 @@ flowchart LR
 ### 02 — [`02_requerimientos/`](../02_requerimientos/README.md)
 - [`EARS_requerimientos_consolidados.md`](../02_requerimientos/EARS_requerimientos_consolidados.md) — patrones EARS y matriz de requerimientos.
 - [`epics_ears/`](../02_requerimientos/epics_ears/) — 26 Epics con requerimientos EARS, uno por módulo de `lib/`.
-- [`user_stories/`](../02_requerimientos/user_stories/) — 27 documentos de historias de usuario ([índice](../02_requerimientos/user_stories/00_indice_user_stories.md)).
+- [`user_stories/`](../02_requerimientos/user_stories/) — 129 historias de usuario en 27 archivos (índice generado) ([índice](../02_requerimientos/user_stories/00_indice_user_stories.md)).
 
 ### 03 — [`03_analisis_funcional/`](../03_analisis_funcional/README.md)
 - [`bdd_high_level_specs.md`](../03_analisis_funcional/bdd_high_level_specs.md) — resumen funcional de alto nivel.

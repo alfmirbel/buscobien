@@ -62,12 +62,10 @@ Usuario interactúa con menús (NavigationBar, SliverAppBar, Drawer)
 
 ## Trazabilidad a Código
 
+La evidencia de cada requerimiento (archivo y líneas) está en la columna **Evidencia** de la tabla anterior. Archivos adicionales no citados en ella:
+
 | Componente | Archivo | Líneas |
 |------------|---------|--------|
-| `HomeState` (@freezed) | `home_state.dart` | 1-30 |
-| `HomeNavigation` (@riverpod Notifier) | `home_navigation_provider.dart` | 1-70 |
-| `actualizarX` methods (con version++) | `home_navigation_provider.dart` | 35-65 |
-| `setX` methods (sin version++) | `home_navigation_provider.dart` | 25-33 |
 | Generated: `home_state.freezed.dart` | `.freezed.dart` | codegen |
 | Generated: `home_navigation_provider.g.dart` | `.g.dart` | codegen |
 

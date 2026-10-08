@@ -150,18 +150,6 @@
 
 ---
 
-## Resumen matriz
-
-| US | Epic Req | Escenarios BDD | Archivos principales |
-|----|----------|----------------|----------------------|
-| US-SEC-001 (creds compile-time) | REQ-SEC-001 | 1 | `direccionip.dart` |
-| US-SEC-002 (SHA-256 password) | REQ-SEC-002, 007, 009 | 2 | `generate_hash.dart` |
-| US-SEC-003 (token reset 1h) | REQ-SEC-003, 004 | 1 | `generate_reset_token.dart` |
-| US-SEC-004 (5 tipos → 10 DBs) | REQ-SEC-005 | 1 | `urls_endpoints_espacios.dart` |
-| US-SEC-005 (AES legacy + storage) | REQ-SEC-006, 008 | 1 | `encriptar.dart` + `10_user_login/session_storage` |
-
----
-
 ## Notas de deuda técnica
 
 1. **`encriptar.dart` AES-256 IV fijo**: inseguro. Migración a `flutter_secure_storage` en curso; removal del archivo planificado.

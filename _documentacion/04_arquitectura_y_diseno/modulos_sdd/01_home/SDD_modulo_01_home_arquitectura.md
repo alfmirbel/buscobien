@@ -8,16 +8,7 @@
 ---
 
 ## 1. Inventario de Archivos del Módulo
-
-| Archivo | Tipo | Rol |
-|---|---|---|
-| `home_state.dart` | Fuente — Modelo Freezed | Define la estructura de datos inmutable del estado de navegación |
-| `home_navigation_provider.dart` | Fuente — Riverpod Notifier | Define la lógica de mutación del estado de navegación |
-| `home_state.freezed.dart` | Generado — Freezed | Implementaciones `copyWith`, `==`, `hashCode`, `toString` |
-| `home_navigation_provider.g.dart` | Generado — Riverpod Generator | Provider global `homeNavigationProvider` y clase abstracta `_$HomeNavigation` |
-| `inventario_01_home.md` | Documentación | Inventario técnico de componentes (mantenido por el equipo) |
-
----
+Archivos del módulo (4): ver [`inventario_01_home.md`](../../../05_desarrollo_y_especificaciones_tecnicas/inventario_componentes/inventario_01_home.md), que describe cada componente. No se repite aquí para evitar divergencias.
 
 ## 2. Requerimientos Ubicuos (Ubiquitous)
 

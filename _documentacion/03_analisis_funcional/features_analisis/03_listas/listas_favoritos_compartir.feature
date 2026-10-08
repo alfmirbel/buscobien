@@ -7,7 +7,7 @@ Característica: Listas de Favoritos, Compartidas y Me Gusta
 
   Antecedentes:
     Dado que 7 DBs CouchDB separan casos de uso:
-    buscobien_usuarios_listas, buscobien_listas_propiedades, buscobien_listas_compartidas,
+    buscobien_usuarios_listas, buscobien_listas_propiedades, buscobien_listas_compartidas_usuarios,
     buscobien_listas_compartidas_usuarios, buscobien_propiedades_compartidas_conocidos,
     buscobien_grupos_publicaciones, buscobien_megusta_propiedades
     Y 5 providers Notifier/AsyncNotifier gestionan estado reactivo
@@ -42,7 +42,7 @@ Característica: Listas de Favoritos, Compartidas y Me Gusta
     Cuando selecciona hasta 5 conocidos/grupos y confirma
     Entonces ListasCompartidasNotifier.compartirLista():
     - Copia propiedades a buscobien_listas_compartidas_usuarios
-    - Crea registro en buscobien_listas_compartidas (origen, destino, timestamp)
+    - Crea registro en buscobien_listas_compartidas_usuarios (origen, destino, timestamp)
     - Anti-duplicado: mismo listaOrigenId + usuarioDestinoId → silent skip
     - mensajesChatProvider.enviar(tipo:'lista') notifica a destinatarios
 

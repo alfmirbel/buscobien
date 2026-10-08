@@ -285,54 +285,7 @@
 ---
 
 ## 11. Estructura de Archivos
-
-```
-lib/22_imagenes/
-├── variables_imagenes.dart                                    # Constantes de dimensiones (300x200, 200x125, 10)
-├── inicio_fotos_usuario/
-│   ├── pagina_carousel_fotos_usuario.dart                     # Carrusel completo (300x200)
-│   └── pagina_carousel_fotos_usuario_mini.dart                # Carrusel mini (200x125)
-├── data_models/
-│   ├── data_fotos_casa.dart                                   # Modelo FotosCasa y FotosCasaClass
-│   ├── data_fotos_casa_get.dart                               # Modelo wrapper para respuesta GET
-│   ├── data_fotos_casa_get_ids.dart                            # Modelo wrapper para lista de IDs
-│   ├── data_fotos_ordenadas.dart                              # Modelo ListaFotosOrdenadas y FotosOrden
-│   ├── data_fotos_get_ids_fotos_user_prop.dart                 # Modelo GetIdsFotosUserProp
-│   ├── data_cuenta_fotos.dart                                  # Modelo CuentaFotos
-│   ├── data_couchdb_post_return.dart                          # Modelo ResultadoGuardaFoto
-│   ├── data_fotos_lista_fotos_iduser_idprop.dart               # Modelo lista de fotas
-│   └── json/                                                   # Datos de ejemplo JSON
-├── tus_espacios_fotos_propiedad/
-│   ├── image_file_structure.dart                              # Clase PlatformFileNoFinal
-│   ├── funciones_compress_image.dart                           # Compresión multiplataforma
-│   └── manejo_de_fotos/
-│       ├── opciones_menu_fotos/
-│       │   ├── pagina_fotos_menu_opciones.dart                 # Pantalla principal con tabs
-│       │   ├── pagina_lista_fotos_listado.dart                 # Modo listado reordenable
-│       │   ├── pagina_lista_fotos_cuadros.dart                 # Modo cuadrícula
-│       │   └── pagina_lista_fotos_carousel.dart                # Modo carrusel
-│       ├── futures_y_providers/
-│       │   ├── future_funciones_fotos.dart                     # Funciones de foto (CRUD, navegación)
-│       │   ├── future_get_fotos_by_idpr_orden.dart             # Future para fotos ordenadas
-│       │   ├── future_recupera_ids_fotos_propiedad.dart        # Future para recuperar IDs
-│       │   ├── future_update_fotos_orden.dart                  # Future para actualizar orden
-│       │   ├── future_put_fotos_orden.dart                     # Future para crear orden
-│       │   ├── http_funciones_gestion_foto.dart                # Funciones HTTP de gestión de fotos
-│       │   ├── provider_get_fotos_ids_user_propiedad.dart      # Provider de IDs de fotos
-│       │   └── provider_get_lista_fotos_ordenadas.dart         # Provider de orden de fotos
-│       ├── lista_ids_fotos/
-│       │   └── data_fotos_get_ids_fotos_user_prop.dart         # Modelo GetIdsFotosUserProp
-│       ├── lista_fotos_ordenadas/
-│       │   ├── provider_get_lista_fotos_ordenadas.dart         # Provider de orden
-│       │   ├── data_fotos_ordenadas_get_idpropiedad.dart       # Modelo wrapper orden
-│       │   └── clase_listas_fotos_propiedad.dart               # Clases auxiliares
-│       └── datos_fotos/
-│           ├── data_cuenta_fotos.dart                          # Modelo CuentaFotos
-│           ├── data_fotos_lista_fotos_iduser_idprop.dart       # Modelo lista fotos
-│           └── data_couchdb_post_return.dart                   # Modelo resultado POST
-```
-
----
+Archivos del módulo (27): ver [`inventario_22_imagenes.md`](../../../05_desarrollo_y_especificaciones_tecnicas/inventario_componentes/inventario_22_imagenes.md), que describe cada componente. No se repite aquí para evitar divergencias.
 
 ## 12. Dependencias Técnicas
 

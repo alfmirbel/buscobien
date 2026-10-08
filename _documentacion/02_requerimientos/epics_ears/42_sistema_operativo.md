@@ -70,15 +70,7 @@ App inicia / Usuario navega a "Detectar Plataforma"
 
 ## Trazabilidad a Código
 
-| Componente | Archivo | Líneas |
-|------------|---------|--------|
-| `ElementoPlataforma` class | `detecta_os.dart` | 6-15 |
-| `initialTiposElementoPlataforma` | `detecta_os.dart` | 17-25 |
-| `checaPlataformaProvider` | `detecta_os.dart` | 45-50 |
-| `setCheckPlataformaProvider(ref)` | `detecta_os.dart` | 52-80 |
-| `plataformasCompressWeb` / `CompressWin` | `detecta_os.dart` | 35-42 |
-| `PaginaDetectaPlataforma` widget | `detecta_os.dart` | 82-130 |
-| `listaNombrePlataforma` (7 items) | `detecta_os.dart` | 27-33 |
+La evidencia de cada requerimiento (archivo y líneas) está en la columna **Evidencia** de la tabla de requerimientos; no hay archivos adicionales que listar.
 
 ---
 

@@ -57,14 +57,7 @@ Usuario abre Preferencias (/preferencias)
 
 ## Trazabilidad a Código
 
-| Componente | Archivo | Líneas |
-|------------|---------|--------|
-| `SelectColorProvider` class | `provider_preferencias.dart` | 6-9 |
-| `coloresProvider` (StateProvider) | `provider_preferencias.dart` | 11-15 |
-| `iniciaColor` default | `provider_preferencias.dart` | 14 |
-| `PaginaColores` widget | `pagina_colores.dart` | 1-80 |
-| `build()` con 9 RadioListTiles | `pagina_colores.dart` | 35-55 |
-| `appTheme` global (consumidor) | `var_color_themes.dart` | 63 |
+La evidencia de cada requerimiento (archivo y líneas) está en la columna **Evidencia** de la tabla de requerimientos; no hay archivos adicionales que listar.
 
 ---
 

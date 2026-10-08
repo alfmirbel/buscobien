@@ -168,26 +168,11 @@
 
 ---
 
-## Resumen matriz
-
-| US | Epic Req | Escenarios BDD | Archivos principales |
-|----|----------|----------------|----------------------|
-| US-CON-001 (Mis Contactos) | REQ-CON-002, 003 | 1 | `page_mis_contactos.dart`, `providers/conocidos_notifier.dart`, `models/conocido.dart` |
-| US-CON-002 (Descubrir + Invitar) | REQ-CON-004, 005 | 2 | `page_descubrir_usuarios.dart`, `social_providers.dart`, `invitacion_model.dart` |
-| US-CON-003 (Aceptar/Rechazar) | REQ-CON-005, 006, 010 | 2 | `page_invitaciones.dart`, `social_providers.dart` |
-| US-CON-004 (Perfil contacto) | REQ-CON-011 | 2 | `page_perfil_contacto.dart`, `providers/conocidos_notifier.dart` |
-| US-CON-005 (Chat 1:1 + burbujas) | REQ-CON-007, 008, 009 | 4 | `page_chat_privado.dart`, `provider_mensajes.dart`, `mensaje_model.dart` |
-| US-CON-006 (Hub 3 tabs) | REQ-CON-002 | implícito | `conocidos_view.dart` |
-
----
-
 ## Notas de deuda técnica
 
-1. **Inconsistencia modelo:** `Conocido` Freezed, pero `MensajeModel` y `InvitacionModel` json manual. Homogenizar a Freezed.
 2. **Inconsistencia estructura:** providers repartidos (`provider_mensajes.dart` en raíz, `social_providers.dart` en raíz, `conocidos_notifier.dart` en `providers/`). Unificar.
-3. **Transaccionalidad `aceptarInvitacion`:** si falla la mitad, queda estado inconsistente. Refactor: `_bulk_docs` CouchDB o saga.
-4. **`_BurbujaPropiedad` / `_BurbujaLista` duplicados** con `PageChatGrupo` (grupos). Refactor: extraer a `60_global_widgets/burbuja_propiedad_lista.dart` reutilizable.
-5. **Providers legacy (`StateNotifier`, `Notifier`)** sin `@riverpod` annotation — Riverpod 3.x los deprecó.
 6. **Privacidad perfil contacto:** datos públicos vs privados deben ser subset configurable — deuda de producto.
 7. **Sin tests** de ningún archivo.
-8. **Acoplamiento con `03_listas` y `08_pantallas/propiedades`** — esperado y documentado.
+
+> Las demás notas de deuda técnica están en la Epic del módulo (`../epics_ears/08_pantallas_tu_cuenta_conocidos.md`).
+

@@ -184,13 +184,7 @@
 ---
 
 ## 11. Estructura de Archivos
-
-```
-lib/42_sistema_operativo/
-└── detecta_os.dart    # Detección de plataforma, provider Riverpod, pantalla de sistema operativo
-```
-
----
+Archivos del módulo (1): ver [`inventario_42_sistema_operativo.md`](../../../05_desarrollo_y_especificaciones_tecnicas/inventario_componentes/inventario_42_sistema_operativo.md), que describe cada componente. No se repite aquí para evitar divergencias.
 
 ## 12. Dependencias Técnicas
 

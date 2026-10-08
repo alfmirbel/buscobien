@@ -145,21 +145,8 @@
 
 ---
 
-## Resumen matriz
-
-| US | Epic Req | Escenarios BDD | Archivos principales |
-|----|----------|----------------|----------------------|
-| US-PROP-001 (detalle completo) | REQ-PROP-001, 002, 003, 008 | 3 | `pagina_detalle_propiedad.dart`, `data_find_propiedades.dart` |
-| US-PROP-002 (contactar promotor) | REQ-PROP-004 | 2 | `pagina_detalle_propiedad.dart` + `08_pantallas/tu_cuenta/conocidos` |
-| US-PROP-003 (compartir/guardar) | REQ-PROP-005, 006 | 2 | `pagina_detalle_propiedad.dart` + `03_listas/*` |
-| US-PROP-004 (exportar PDF) | REQ-PROP-007, 009 | 1 | `pagina_detalle_propiedad_pdf.dart` |
-| US-PROP-005 (Me Gusta en ficha) | REQ-PROP-003 | 1 | `pagina_detalle_propiedad.dart` (`_MeGustaButtonFicha`) |
-
----
-
 ## Notas de deuda técnica
 
-1. **`pagina_detalle_propiedad.dart` 588 líneas** con 2 sub-widgets anidados → refactor: extraer `_FotoItemWidget` y `_MeGustaButtonFicha` fuera del `PaginaDetalleWidgetState`.
 2. **`_MeGustaButtonFicha` duplicado con `_MeGustaButton`**: refactor a `60_global_widgets/me_gusta_button.dart` reutilizable.
 3. **`PdfGeneratorService` acoplado a `EspaciosCasa`**: parametrizar plantilla para reusar en otros reportes (listas, fichas de grupo).
 4. **Sin fallback de DB**: si la propiedad está en `buscobien_casas_comprados_*` pero no en `buscobien_publicados_*`, el detalle no la encuentra. Deuda menor.
@@ -168,6 +155,8 @@
 7. **Sin tests**.
 
 ---
+
+> Las demás notas de deuda técnica están en la Epic del módulo (`../epics_ears/08_pantallas_propiedades.md`).
 
 ## Historias incorporadas en la revisión de exactitud (2026-10-07)
 

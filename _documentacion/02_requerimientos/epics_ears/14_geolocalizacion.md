@@ -61,15 +61,7 @@ Usuario navega a /mapapropiedades (con EspaciosCasaGet arg)
 
 ## Trazabilidad a Código
 
-| Componente | Archivo | Líneas |
-|------------|---------|--------|
-| `GOOGLE_KEY` / `GOOGLE_MAPS_KEY` | `app_keys.dart` | 5-7 |
-| `PaginaMapaPropiedades` | `google_map_mapa_propiedades.dart` | 1-350 |
-| `_cargarMarcadores` + custom bitmap | `google_map_mapa_propiedades.dart` | 100-180 |
-| `_ajustarCamaraPorNombreNivelGobierno` | `google_map_mapa_propiedades.dart` | 200-300 |
-| Modelos Geocoding API | `google_map_place_data.dart` | 1-200 |
-| `ClassLocalidadesNotifierProvider` | `provider_actual_place.dart` | 1-180 |
-| `determinaUbicacion` (platform switch) | `provider_actual_place.dart` | 60-120 |
+La evidencia de cada requerimiento (archivo y líneas) está en la columna **Evidencia** de la tabla de requerimientos; no hay archivos adicionales que listar.
 
 ---
 

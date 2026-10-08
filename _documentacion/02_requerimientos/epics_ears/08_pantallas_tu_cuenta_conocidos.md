@@ -64,21 +64,11 @@ ConocidosView (Consumer widget)
 
 ## Trazabilidad a Código
 
+La evidencia de cada requerimiento (archivo y líneas) está en la columna **Evidencia** de la tabla anterior. Archivos adicionales no citados en ella:
+
 | Componente | Archivo | Líneas |
 |------------|---------|--------|
-| `ConocidosView` (ConsumerStateful) | `conocidos_view.dart` | 71 |
-| `MensajeModel` | `mensaje_model.dart` | 61 |
-| `InvitacionModel` | `invitacion_model.dart` | 59 |
-| `Conocido` (Freezed) | `models/conocido.dart` | (n/a) |
 | `Conocido.freezed.dart`, `Conocido.g.dart` | `models/` (generados) | — |
-| `PageChatPrivado` + `_BurbujaPropiedad` + `_BurbujaLista` | `page_chat_privado.dart` | 398 |
-| `PageDescubrirUsuarios` | `page_descubrir_usuarios.dart` | 173 |
-| `PageInvitaciones` | `page_invitaciones.dart` | 162 |
-| `PageMisContactos` | `page_mis_contactos.dart` | 140 |
-| `PagePerfilContacto` | `page_perfil_contacto.dart` | 159 |
-| `MensajesChatNotifier` | `provider_mensajes.dart` | 225 |
-| `InvitacionesNotifier` | `social_providers.dart` | 217 |
-| `ConocidosNotifier` | `providers/conocidos_notifier.dart` | (n/a) |
 
 ---
 

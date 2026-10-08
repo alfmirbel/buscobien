@@ -8,22 +8,7 @@
 ---
 
 ## 1. Inventario de Archivos del Módulo
-
-| Archivo | Tipo | Rol |
-|---|---|---|
-| `pagina_principal_localidades.dart` | Fuente — Widget con Estado (`ConsumerStatefulWidget`) | Pantalla principal de localidades del usuario; muestra localidades guardadas y botones para buscar/localización |
-| `screen_maestro_localidades.dart` | Fuente — Widget con Estado (`ConsumerStatefulWidget`) | Pantalla maestra de localidades por código postal (`LocalidadesListScreen`); lista resultados con opción de guardar |
-| `pagina_busca_localidades_gmaps.dart` | Fuente — Widget con Estado (`ConsumerStatefulWidget`) | Pantalla de búsqueda de localidades por CP con mapa Google Maps integrado |
-| `provider_localidades_del_cp.dart` | Fuente — Riverpod `NotifierProvider` | Gestiona localidades por código postal (`localidadesPorCodigoPostalProvider`); obtiene, selecciona y resetea localidades |
-| `data_sepomex_localidades.dart` | Fuente — Modelo de Datos | Define modelos de localidades SEPOMEX (`LocalidadesGet`, `RowLocalidadesGet`, `ValueLocalidadesGet`) |
-| `data_sepomex_localidades_get_cp.dart` | Fuente — Modelo de Datos | Define modelo de respuesta de localidades por CP |
-| `data_sepomex_localidades.freezed.dart` | Generado | Código generado por Freezed para modelos de localidades |
-| `data_sepomex_localidades.g.dart` | Generado | Código generado por `json_serializable` |
-| `data_localidad_find.dart` | Fuente — Modelo de Datos | Define modelo para búsqueda de localidades |
-| `data_models/` | Directorio | Contiene modelos adicionales de localidades |
-| `pagina_detalle_propiedad_pdf.dart` | Fuente — Servicio | Generación de PDF de propiedades (relacionado con detalles) |
-
----
+Archivos del módulo (10): ver [`inventario_08_pantallas_maestro.md`](../../../../05_desarrollo_y_especificaciones_tecnicas/inventario_componentes/inventario_08_pantallas_maestro.md), que describe cada componente. No se repite aquí para evitar divergencias.
 
 ## 2. Requerimientos Ubicuos (Ubiquitous)
 

@@ -57,16 +57,7 @@ App necesita credenciales / hash / token / endpoint
 
 ## Trazabilidad a Código
 
-| Componente | Archivo | Líneas |
-|------------|---------|--------|
-| Credenciales env (`String.fromEnvironment`) | `direccionip.dart` | 5-7 |
-| AES-256 `Encrypter` + key/IV random | `encriptar.dart` | 10-25 |
-| `@Deprecated` AES functions + SharedPrefs | `encriptar.dart` | 27-55 |
-| MD5/SHA1/SHA256 + `validaPassword` | `generate_hash.dart` | 1-25 |
-| `generateResetToken` (UUID→SHA256) | `generate_reset_token.dart` | 10-20 |
-| `generateTokenExpiry` (UTC+1h ISO8601) | `generate_reset_token.dart` | 22-25 |
-| `isTokenValid` (parse ISO8601 UTC) | `generate_reset_token.dart` | 27-32 |
-| `endpointsCaptura` / `endpointsPublicados` maps | `urls_endpoints_espacios.dart` | 5-20 |
+La evidencia de cada requerimiento (archivo y líneas) está en la columna **Evidencia** de la tabla de requerimientos; no hay archivos adicionales que listar.
 
 ---
 

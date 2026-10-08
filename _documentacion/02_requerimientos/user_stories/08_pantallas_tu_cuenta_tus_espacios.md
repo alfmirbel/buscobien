@@ -182,33 +182,19 @@
 
 ---
 
-## Resumen matriz
-
-| US | Epic Req | Escenarios BDD | Archivos principales | Líneas |
-|----|----------|----------------|----------------------|--------|
-| US-TUS-001 (hub) | REQ-ESP-001, 002, 007 | 2 | `pagina_tus_espacios.dart`, `provider_espacios_casa_get.dart` | 442 + 3865 |
-| US-TUS-002 (alta) | REQ-ESP-003, 005 | 2 | `form_crea_ficha_captura_propiedad.dart`, `tabla_tipopropiedad_vs_campos.dart` | 4,692 + 544 |
-| US-TUS-003 (publicar) | REQ-ESP-006 | 3 | `http_publica_propiedad.dart` | 767 |
-| US-TUS-004 (editar) | REQ-ESP-004, 006 | 2 | `form_update_espacio_comprado.dart` | 6,689 |
-| US-TUS-005 (comprar) | REQ-ESP-008 | 1 | `compra_espacios/` (4 archivos) | ~1,423 |
-| US-TUS-006 (deuda config) | REQ-ESP-005, 010 | 1 | `tabla_tipopropiedad_vs_campos.dart` | 544 |
-
----
-
 ## Notas de deuda técnica (priorizadas)
 
 1. **`form_update_espacio_comprado.dart` 6,689 líneas** — **más grande del proyecto**. Refactorcrítico: extraer en wizard con 7 StepWidgets y compartirlos con US-TUS-002.
 2. **`form_crea_ficha_captura_propiedad.dart` 4,692 líneas** — refactor al mismo wizard compartido con US-TUS-004.
 3. **`provider_espacios_casa_get.dart` 3,865 líneas** — AsyncNotifier monolítico. Split en master-list, filtered-by-type, count, current-edit, etc.
 4. **`tabla_tipopropiedad_vs_campos.dart` hardcoded**: 30+ List const. Migrar a provider o config external.
-5. **No usa Freezed** para `ListaEspaciosCasa`, `CompraEspacio`. Inconsistencia con el resto.
 6. **`http_publica_propiedad.dart` 767 líneas** — función fat. Refactor a funciones puras (constructPayload, validate, sendPut, handle409, syncToPublished).
-7. **Sub-feature `compra_espacios/` mezclada en `tus_espacios`** — debería vivir en módulo de transferencias / mercado secundario. Deuda arquitectura.
 8. **Sin tests** — módulo de máxima criticidad (captura + publicación del catálogo) sin cobertura widget/unit. Refactor urgente prioritario.
-9. **Acoplamiento transversal:** `22_imagenes` (subida fotos), `12_localidades_user` (ubicación), `14_geolocalizacion` (coords), `40_security` (endpoints/espacios), `60_global_widgets` (state, debugprint, monto). Documentado.
 10. **`menuTipoEspaciosProvider` TabController sincronizado bidireccional** — también aplicable aquí (deuda ya documentada en `05_provider_menus`).
 
 ---
+
+> Las demás notas de deuda técnica están en la Epic del módulo (`../epics_ears/08_pantallas_tu_cuenta_tus_espacios.md`).
 
 ## Historias incorporadas en la revisión de exactitud (2026-10-07)
 

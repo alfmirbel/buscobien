@@ -74,16 +74,7 @@ App inicia
 
 ## Trazabilidad a Código
 
-| Componente | Archivo | Líneas |
-|------------|---------|--------|
-| `AppRoutes` constants (38) | `app_routes.dart` | 30-84 |
-| `routeGenerate` switch (22 cases + default) | `app_routes.dart` | 103-260 |
-| `navigateToRoute` wrapper | `app_routes.dart` | 89-100 |
-| `initDeepLinkHandler` | `deep_link_handler.dart` | 9-16 |
-| `_handleWebInitialUri` / `_handleMobileDeepLinks` | `deep_link_handler.dart` | 18-36 |
-| `_navigateIfRecovery` (token+perfil) | `deep_link_handler.dart` | 38-55 |
-| `PaginaDeError` | `pagina_route_error.dart` | 5-92 |
-| DTOs y plantillas globales mutables | `routes_parameters.dart` | 9-477 |
+La evidencia de cada requerimiento (archivo y líneas) está en la columna **Evidencia** de la tabla de requerimientos; no hay archivos adicionales que listar.
 
 ---
 

@@ -8,15 +8,7 @@
 ---
 
 ## 1. Inventario de Archivos del Módulo
-
-| Archivo | Tipo | Rol |
-|---|---|---|
-| `splash_page.dart` | Fuente — Widget con Estado Reactivo (`ConsumerStatefulWidget`) | Controla el temporizador de duración mínima, la escucha reactiva de conectividad, la lógica de navegación y la composición visual del splash screen |
-| `glass_objects.dart` | Fuente — Helpers de UI y Widgets Sin Estado | Construye el fondo con degradado, figuras flotantes con imágenes de propiedades y los contenedores de efecto glassmorphism (`GlassMorphismContainer2`, `GlassMorphismContainer`, `GlassBox`) |
-| `versiones.dart` | Fuente — Modelo de Datos y Datos Estáticos | Define el modelo `AppVersion`, el historial `historialDeVersiones` y el getter `versionActual` para mostrar la versión en el splash |
-| `inventario_01_splash_screen.md` | Documentación | Inventario técnico de componentes, análisis de flujo y arquitectura visual del módulo |
-
----
+Archivos del módulo (3): ver [`inventario_01_splash_screen.md`](../../../05_desarrollo_y_especificaciones_tecnicas/inventario_componentes/inventario_01_splash_screen.md), que describe cada componente. No se repite aquí para evitar divergencias.
 
 ## 2. Requerimientos Ubicuos (Ubiquitous)
 

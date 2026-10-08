@@ -157,10 +157,9 @@
 
 ## Notas de deuda técnica (consolidadas del Epic)
 
-1. **5 niveles de subcarpetas** en `tus_espacios_fotos_propiedad` dificultan navegación y testing.
-2. **Dos providers `ClassListaFotosCasaNotifierProvider`** con mismo nombre en `futures_y_providers/` y `lista_fotos_ordenadas/` — colisión de nombres (uno IDs, otro orden).
 3. **`flutter_image_compress` es nativo** — no funciona en Web/WASM; el flujo Web es fallback sin compresión (deuda).
-4. **`CarouselSlider` v5+** — breaking change `CarouselController` → `CarouselSliderController`.
 5. **Sin tests** de compresión, subida, reorden ni carousel — la única prueba existente es el smoke test.
-6. **Manejo de errores HTTP** genérico (SnackBar) sin diferenciar tipos (red, auth, server, quota).
 7. **`buttonSelectOpcionFotos`** estado local mutable que debería ser provider Riverpod.
+
+> Las demás notas de deuda técnica están en la Epic del módulo (`../epics_ears/22_imagenes.md`).
+

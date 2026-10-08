@@ -77,14 +77,7 @@ Usuario abre la app
 
 ## Trazabilidad a Código
 
-| Componente | Archivo | Línea |
-|------------|---------|-------|
-| `main()` entry point | `lib\main.dart` | 14-25 |
-| `BuscoBienApp` widget | `lib\main.dart` | 29-103 |
-| `_BuscoBienAppState.initState` | `lib\main.dart` | 36-43 |
-| `MaterialApp` config M3 | `lib\main.dart` | 52-93 |
-| `navigatorKey` global | `lib\main.dart` | 27 |
-| `lcwc` debug counter | `lib\main.dart` | 21 |
+La evidencia de cada requerimiento (archivo y líneas) está en la columna **Evidencia** de la tabla de requerimientos; no hay archivos adicionales que listar.
 
 ---
 

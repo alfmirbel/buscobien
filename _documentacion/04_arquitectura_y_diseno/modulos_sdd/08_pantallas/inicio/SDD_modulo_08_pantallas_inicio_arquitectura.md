@@ -8,26 +8,7 @@
 ---
 
 ## 1. Inventario de Archivos del Módulo
-
-| Archivo | Tipo | Rol |
-|---|---|---|
-| `pagina_inicio_busca_espacios.dart` | Fuente — Widget con Estado (`ConsumerStatefulWidget`) | Pantalla principal de búsqueda de propiedades; orquesta filtros, paginación, grid de resultados y navegación reactiva |
-| `clase_busqueda_estado.dart` | Fuente — Riverpod `@riverpod` | Define providers `BusquedaPaginacion` y `SearchTerm` para gestión de paginación y término de búsqueda |
-| `clase_busqueda_estado.g.dart` | Generado | Código generado por `riverpod_annotation` para `clase_busqueda_estado.dart` |
-| `inicio_propiedades_providers.dart` | Fuente — Riverpod `@riverpod` | Define providers `PaginacionBusqueda` y `currentQuery`; consolida valores de menús en `VariablesViewQuery` |
-| `inicio_propiedades_providers.g.dart` | Generado | Código generado por `riverpod_annotation` para `inicio_propiedades_providers.dart` |
-| `http_find_propiedades_10en10.dart` | Fuente — Riverpod `@riverpod` | Provider que ejecuta la consulta HTTP a CouchDB para obtener propiedades paginadas (10 en 10) |
-| `http_find_propiedades_10en10.g.dart` | Generado | Código generado por `riverpod_annotation` |
-| `http_view_count_filter_propiedades.dart` | Fuente — Riverpod `@riverpod` | Provider que obtiene el conteo total de propiedades que coinciden con los filtros actuales |
-| `http_view_count_filter_propiedades.g.dart` | Generado | Código generado por `riverpod_annotation` |
-| `widget_wrap_modern_card.dart` | Fuente — Widget | Renderiza cada propiedad como tarjeta moderna en el grid `Wrap` |
-| `data_espacios_casas.dart` | Fuente — Modelo de Datos | Define el modelo `EspaciosCasaGet` y `RowGetEspaciosCasa` para respuesta de propiedades |
-| `data_espacios_casas_get.dart` | Fuente — Modelo de Datos | Define `DataGetValoresMenus` y estructuras relacionadas para valores de menú |
-| `data_count_view_documentos.dart` | Fuente — Modelo de Datos | Modelo para el conteo de documentos/propiedades |
-| `data_get_valores_menus.dart` | Fuente — Modelo de Datos | Define `VariablesViewQuery` y estructuras para consolidar filtros de menú |
-| `catalogo_otras_caracteristicas.dart` | Fuente — Datos/Constantes | Catálogo de características adicionales para propiedades |
-
----
+Archivos del módulo (12): ver [`inventario_08_pantallas_maestro.md`](../../../../05_desarrollo_y_especificaciones_tecnicas/inventario_componentes/inventario_08_pantallas_maestro.md), que describe cada componente. No se repite aquí para evitar divergencias.
 
 ## 2. Requerimientos Ubicuos (Ubiquitous)
 

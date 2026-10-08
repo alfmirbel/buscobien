@@ -59,13 +59,7 @@ PaginaDetalleWidget (ConsumerStatefulWidget)
 
 ## Trazabilidad a Código
 
-| Componente | Archivo | Líneas |
-|------------|---------|--------|
-| `FindPropiedades`, `Doc` | `data_find_propiedades.dart` | 58 |
-| `PaginaDetalleWidget`, `PaginaDetalleWidgetState` | `pagina_detalle_propiedad.dart` | 1-200 aprox |
-| `_FotoItemWidget` | `pagina_detalle_propiedad.dart` | (anidado) |
-| `_MeGustaButtonFicha` | `pagina_detalle_propiedad.dart` | (anidado) |
-| `PdfGeneratorService` | `pagina_detalle_propiedad_pdf.dart` | 1-311 |
+La evidencia de cada requerimiento (archivo y líneas) está en la columna **Evidencia** de la tabla de requerimientos; no hay archivos adicionales que listar.
 
 ---
 

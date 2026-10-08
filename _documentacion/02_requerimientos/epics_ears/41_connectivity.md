@@ -67,15 +67,7 @@ requeridas
 
 ## Trazabilidad a Código
 
-| Componente | Archivo | Líneas |
-|------------|---------|--------|
-| `ElementoDeConeccion` model | `connectivitycheck_provider.dart` | 10-20 |
-| `ChecaConeccionesNotifier` (AsyncNotifier) | `connectivitycheck_provider.dart` | 22-95 |
-| `build()` + stream subscription | `connectivitycheck_provider.dart` | 25-40 |
-| `_logicaAsignaConectividad` (switch mapping) | `connectivitycheck_provider.dart` | 55-78 |
-| `rutaConectividad` global | `connectivitycheck_provider.dart` | 30 |
-| `PaginaChecaInternet` (widget demo) | `connectivitycheck_provider.dart` | 97-130 |
-| `PaginaSinConeccion` (auto-retry) | `pagina_sin_coneccion.dart` | 1-50 |
+La evidencia de cada requerimiento (archivo y líneas) está en la columna **Evidencia** de la tabla de requerimientos; no hay archivos adicionales que listar.
 
 ---
 

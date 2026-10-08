@@ -114,17 +114,6 @@
 
 ---
 
-## Resumen matriz
-
-| US | Epic Req | Escenarios BDD | Landings implicadas |
-|----|----------|----------------|---------------------|
-| US-VIST-001 (estructrura común) | REQ-VIST-001, 002, 007 | 2 | 9 landings |
-| US-VIST-002 (CTA funcional promotor/propietario/hospedaje) | REQ-VIST-003 | 3 | promotores, propietarios, hospedaje |
-| US-VIST-003 (búsqueda CP + carrusel) | REQ-VIST-004, 005, 009 | 2 | pagina_usuarios |
-| US-VIST-004 (5 placeholders) | REQ-VIST-006, 008 | 2 | inmobiliarias, market, proveedores, servicios, asociaciones |
-
----
-
 ## Notas de deuda técnica (del Epic + análisis)
 
 1. **9 páginas, 1 patrón**: copy-paste intensivo. Refactor a `LandingTemplate(config)`.

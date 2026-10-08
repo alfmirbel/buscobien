@@ -75,36 +75,28 @@
 
 ## Trazabilidad a Código
 
+La evidencia de cada requerimiento (archivo y líneas) está en la columna **Evidencia** de la tabla anterior. Archivos adicionales no citados en ella:
+
 | Componente | Archivo | Función |
 |------------|---------|---------|
 | **Modelos** | `data_models/data_fotos_casa.dart` | `FotosCasa`, `FotosCasaClass` (doc CouchDB) |
 | | `data_models/data_fotos_casa_get.dart` | `FotosCasaGet`, `ValueFotosCasaGet` (vista) |
 | | `data_models/data_fotos_casa_get_ids.dart` | `FotosCasaGetIDs`, `ValueFotosCasaGetIDs` (IDs) |
 | | `data_models/data_fotos_ordenadas.dart` | `ListaFotosOrdenadas`, `FotosOrden` (orden custom) |
-| **Carousel Usuario** | `inicio_fotos_usuario/pagina_carousel_fotos_usuario.dart` | `PaginaCarouselFotosUsuario` (full) |
-| | `inicio_fotos_usuario/pagina_carousel_fotos_usuario_mini.dart` | `PaginaCarouselFotosMini` (compacta) |
-| **Gestión Propiedad** | `tus_espacios_fotos_propiedad/manejo_de_fotos/opciones_menu_fotos/pagina_fotos_menu_opciones.dart` | `PaginaFotosPropiedad` (tabs 3 vistas) |
-| | `.../pagina_lista_fotos_carousel.dart` | Vista Carousel (swipe fullscreen) |
-| | `.../pagina_lista_fotos_cuadros.dart` | Vista Cuadros (grid + reorder) |
-| | `.../pagina_lista_fotos_listado.dart` | Vista Listado (ReorderableListView) |
-| | `.../fotos_de_la_propiedad/pagina_agrega_multiples_fotos.dart` | `AgregaMultiplesFotos` (subida múltiple) |
 | | `.../futures_y_providers/future_funciones_fotos.dart` | Helpers: `base64ToFile`, `getMimeType` |
 | | `.../futures_y_providers/future_get_fotos_by_idpr_orden.dart` | GET fotos ordenadas |
 | | `.../futures_y_providers/future_recupera_ids_fotos_propiedad.dart` | GET IDs fotos propiedad |
-| | `.../futures_y_providers/http_funciones_gestion_foto.dart` | HTTP: upload, delete, update |
 | | `.../futures_y_providers/provider_get_fotos_ids_user_propiedad.dart` | `ClassListaFotosCasaNotifierProvider` (AsyncNotifier) |
 | | `.../lista_fotos_ordenadas/clase_listas_fotos_propiedad.dart` | `ListasFotosPropiedad` (helper orden) |
 | | `.../lista_fotos_ordenadas/data_fotos_ordenadas_get_idpropiedad.dart` | `ListaFotosOrdenadasGetIdPropiedad` (GET orden) |
-| | `.../lista_fotos_ordenadas/future_put_fotos_orden.dart` | PUT crear orden |
- | | `.../lista_fotos_ordenadas/future_update_fotos_orden.dart` | PUT actualizar orden |
 | | `.../lista_fotos_ordenadas/provider_get_lista_fotos_ordenadas.dart` | `ClassListaFotosCasaNotifierProvider` (orden) |
 | | `.../lista_ids_fotos/data_fotos_get_ids_fotos_user_prop.dart` | `GetIdsFotosUserProp` (IDs) |
-| **Utilidades** | `funciones_compress_image.dart` | `compressImage()` (quality 70%, max 1920px) |
 | | `image_file_structure.dart` | `PlatformFileNoFinal` (wrapper FilePicker) |
-| | `variables_imagenes.dart` | Constantes globales |
 | | `datos_fotos/data_couchdb_post_return.dart` | `CouchDbReturnValue` (POST response) |
 | | `datos_fotos/data_cuenta_fotos.dart` | `CuentaFotos` (contador) |
 | | `datos_fotos/data_fotos_lista_fotos_iduser_idprop.dart` | `ListaFotosIdsPropiedadGet` (lista IDs) |
+
+ | | `.../lista_fotos_ordenadas/future_update_fotos_orden.dart` | PUT actualizar orden |
 
 ---
 

@@ -8,14 +8,7 @@
 ---
 
 ## 1. Inventario de Archivos del Módulo
-
-| Archivo | Tipo | Rol |
-|---|---|---|
-| `pagina_detalle_propiedad.dart` | Fuente — Widget con Estado (`ConsumerStatefulWidget`) | Pantalla de detalle de propiedad; muestra foto principal, galería, datos de propiedad, precios, ubicación, contacto, características adicionales y botón Me Gusta |
-| `pagina_detalle_propiedad_pdf.dart` | Fuente — Servicio (`PdfGeneratorService`) | Genera y descarga PDF de la propiedad con formato carta, incluyendo imágenes, datos y galería |
-| `data_find_propiedades.dart` | Fuente — Modelo de Datos | Define modelos para búsqueda y obtención de propiedades |
-
----
+Archivos del módulo (3): ver [`inventario_08_pantallas_propiedades.md`](../../../../05_desarrollo_y_especificaciones_tecnicas/inventario_componentes/inventario_08_pantallas_propiedades.md), que describe cada componente. No se repite aquí para evitar divergencias.
 
 ## 2. Requerimientos Ubicuos (Ubiquitous)
 

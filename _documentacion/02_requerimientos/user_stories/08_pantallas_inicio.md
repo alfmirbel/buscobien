@@ -160,25 +160,13 @@
 
 ---
 
-## Resumen matriz
-
-| US | Epic Req | Escenarios BDD | Archivos principales |
-|----|----------|----------------|----------------------|
-| US-INI-001 (catálogo tarjetas) | REQ-INI-002, 005 | 1 | `pagina_inicio_busca_espacios.dart`, `widget_wrap_modern_card.dart` |
-| US-INI-002 (paginación 10-en-10) | REQ-INI-001, 003 | 1 | `inicio_propiedades_providers.dart`, `http_find_propiedades_10en10.dart` |
-| US-INI-003 (Me Gusta en card) | REQ-INI-004 | 1 | `widget_wrap_modern_card.dart` |
-| US-INI-004 (contador total) | REQ-INI-007 | 1 | `http_view_count_filter_propiedades.dart`, `data_count_view_documentos.dart` |
-| US-INI-005 (filtro otras características) | REQ-INI-006 | 1 | `catalogo_otras_caracteristicas.dart` |
-| US-INI-006 (fallback HTTP) | REQ-INI-007 | 1 | `http_view_count_filter_propiedades.dart`, `http_find_propiedades_10en10.dart` |
-
----
-
 ## Notas de deuda técnica
 
 1. **`WrapModernCardPropiedades` 639 líneas**: monolito card + `_MeGustaButton` sub-stateful. Refactor: extraer `_MeGustaButton` a `60_global_widgets/me_gusta_button.dart` reutilizable.
 2. **`http_view_count_filter_propiedades.dart` 502 líneas**: lógica fallback extensa manual → refactor a `EndpointResolver` con lista.
-3. **`EspaciosCasa` no usa Freezed**: modelo manual json_serializable. Inconsistencia con `BusquedaPaginacion` que sí es Freezed.
 4. **Paginación manual**: sin `infinite_scroll_pagination` package → riesgo de race conditions.
 5. **`catalogo_otras_caracteristicas.dart` estático**: configurable sólo con edición de código.
 6. **`.g.dart` mezclados con fuente**: 4 archivos generated conviven con 11 fuente. Convención aceptada.
-7. **Sin tests**.
+
+> Las demás notas de deuda técnica están en la Epic del módulo (`../epics_ears/08_pantallas_inicio.md`).
+

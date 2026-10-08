@@ -85,16 +85,6 @@
 
 ---
 
-## Resumen matriz
-
-| US | Epic Req | Escenarios BDD | Archivos principales |
-|----|----------|----------------|-----------------------|
-| US-PROV-001 (selección 9 temas) | REQ-PROV-001, 003, 004 | 1-2 | `pagina_colores.dart`, `provider_preferencias.dart` |
-| US-PROV-002 (default lightPAN) | REQ-PROV-005, 007 | 1 | `provider_preferencias.dart`, `var_color_themes.dart` |
-| US-PROV-003 (deuda persistencia) | REQ-PROV-006 | — | (transversal con `main.dart`) |
-
----
-
 ## Notas de deuda técnica
 
 1. **`appTheme` es top-level mutable**: el cambio reactivo funciona por re-build cascada desde `MaterialApp`, no por suscripción honesta a un `Provider<ColorScheme>`. Migración pendiente a `appThemeProvider` real.

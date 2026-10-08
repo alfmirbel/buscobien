@@ -67,17 +67,7 @@ Desarrollador escribe widget
 
 ## Trazabilidad a Código
 
-| Componente | Archivo | Líneas |
-|------------|---------|--------|
-| `appTheme` global + 18 ColorScheme | `var_color_themes.dart` | 1-80 |
-| Breakpoints + helpers responsive | `var_color_widget.dart` | 1-35 |
-| 30+ constantes UI + 40+ vars mutables | `variables_globales.dart` | 1-80 |
-| TextStyles + AppBar factories | `var_de_estilo_widgets.dart` | 1-50 |
-| 150+ ElementosMenus (Symbols) | `var_elementos_menus.dart` | 1-550 |
-| `formatChatTimestamp` | `format_chat_timestamp.dart` | 1-25 |
-| CouchDB error codes ES/EN | `couchdb_errors.dart` | 1-60 |
-| UI exceptions doc + loginPrimaryBrand | `ui_exceptions.dart` | 1-15 |
-| `appName`, icons login | `var_login.dart` | 1-10 |
+La evidencia de cada requerimiento (archivo y líneas) está en la columna **Evidencia** de la tabla de requerimientos; no hay archivos adicionales que listar.
 
 ---
 

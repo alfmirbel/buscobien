@@ -220,18 +220,7 @@ No aplica.
 ---
 
 ## 10. Estructura de Archivos
-
-```
-lib/60_global_widgets/
-├── genera_cantidad_monetaria.dart     # Formateo y generación de cantidades monetarias
-├── future_builder_state_widgets.dart  # Widgets de estado para FutureBuilder (con y sin dimensiones)
-├── dialogbox_mensaje_general.dart     # Función showMessageDialog para AlertDialog genérico
-├── derechos_reservados.dart           # Widgets de copyright claro y oscuro
-├── debugprint.dart                    # Sistema de debug por niveles 0-20
-├── bottom_fijo.dart                   # MyButton, MyTextField, MyTextFieldPassword, SquareTile
-```
-
----
+Archivos del módulo (6): ver [`inventario_60_global_widgets.md`](../../../05_desarrollo_y_especificaciones_tecnicas/inventario_componentes/inventario_60_global_widgets.md), que describe cada componente. No se repite aquí para evitar divergencias.
 
 ## 11. Dependencias Técnicas
 

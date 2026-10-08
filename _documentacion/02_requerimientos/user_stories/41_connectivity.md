@@ -67,15 +67,6 @@
 
 ---
 
-## Resumen matriz
-
-| US | Escenarios BDD | Archivos principales |
-|----|----------------|---------------------|
-| US-CONN-001 (detección reactiva) | 4 estados de conectividad | `connectivitycheck_provider.dart` |
-| US-CONN-002 (pantalla + auto-recovery) | 1 flujo offline/online | `pagina_sin_coneccion.dart` |
-
----
-
 ## Notas de deuda técnica
 
 1. **`rutaConectividad` variable global mutable** — debería ser `Provider<String>` que escuche a `checaConeccionesProvider`.

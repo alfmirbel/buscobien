@@ -56,7 +56,7 @@ Usuario en Mi Cuenta → Listas (PageMisListas)
 | REQ-LIST-002 | **Ubicuo** | El sistema expondrá `PageMisListas` como hub central con TabBar 3 tabs: **Propias** (crear/borrar/ver/compartir), **Recibidas** (filtradas `listasCompartidasProvider` donde `usuarioDestinoId == currentUser`), **Enviadas** (donde `usuarioOrigenId == currentUser`). | `lib\03_listas\pagina_mis_listas.dart` | En código |
 | REQ-LIST-003 | **Evento** | Cuando el usuario cree lista en tab Propias, el sistema generará `listaId = SHA1(userId + timestamp + random)`, guardará en `buscobien_usuarios_listas` y actualizará `UserListsNotifier`. | `provider_user_lists.dart:createList()` | En código |
 | REQ-LIST-004 | **Evento** | Cuando el usuario agregue propiedad a lista (`DialogSelectorListas` → checkboxes), el sistema invocará `ClassListaPropiedadesProvider.addPropiedadALista()` → guarda en `buscobien_listas_propiedades` (relación N:M). | `lista_select_lista_save_propiedad.dart`, `provider_listas_propiedades.dart` | En código |
-| REQ-LIST-005 | **Evento** | Cuando el usuario comparta **lista** con contactos (máx 5), el sistema copiará propiedades a `buscobien_listas_compartidas_usuarios` + creará registro en `buscobien_listas_compartidas` + enviará notificación chat (`mensajesChatProvider.enviar(tipo:'lista')`). | `provider_listas_compartidas.dart:compartirLista()` | En código |
+| REQ-LIST-005 | **Evento** | Cuando el usuario comparta **lista** con contactos (máx 5), el sistema copiará propiedades a `buscobien_listas_compartidas_usuarios` + creará registro en `buscobien_listas_compartidas_usuarios` + enviará notificación chat (`mensajesChatProvider.enviar(tipo:'lista')`). | `provider_listas_compartidas.dart:compartirLista()` | En código |
 | REQ-LIST-006 | **Evento** | Cuando el usuario comparta **propiedad** con conocido/grupo, el sistema creará doc en `buscobien_propiedades_compartidas_conocidos` / `buscobien_grupos_publicaciones` + notificación chat. | `page_compartir_con_conocido.dart`, `page_compartir_con_grupo.dart` | En código |
 | REQ-LIST-007 | **Evento** | Cuando el usuario haga **toggle Me Gusta** en propiedad, el sistema creará/borrará en `buscobien_megusta_propiedades`; si es primer "me gusta", auto-creará lista "Favoritas" y agregará propiedad (`_agregarPropiedadAFavoritas` anti-duplicado). | `provider_me_gusta.dart:toggleMeGusta()` | En código |
 | REQ-LIST-008 | **Estado** | Mientras `PageDetalleLista` muestre propiedades, el sistema hará bulk fetch via `propertiesDetailsProvider` (FutureProvider.family con `$in` Mango query) y renderizará `WrapModernCardPropiedades` con fallback a endpoints alternativos. | `pagina_detalle_listas.dart`, `provider_user_lists.dart` | En código |
@@ -68,35 +68,20 @@ Usuario en Mi Cuenta → Listas (PageMisListas)
 
 ## Trazabilidad a Código
 
+La evidencia de cada requerimiento (archivo y líneas) está en la columna **Evidencia** de la tabla anterior. Archivos adicionales no citados en ella:
+
 | Componente | Archivo | Función clave |
 |------------|---------|---------------|
 | `Lista` / `Listapropiedad` models | `data_user_list_model.dart`, `data_lista_propiedad.dart` | DTOs |
 | `ListaCompartidaModel` / `MeGustaModel` | `models/lista_compartida_model.dart`, `models/me_gusta_model.dart` | Compartidos |
-| `PageMisListas` (hub 3 tabs) | `pagina_mis_listas.dart` | UI central |
 | `PageDetalleLista` / `PageDetalleListaCompartida` | `pagina_detalle_listas.dart`, `pagina_detalle_lista_compartida.dart` | Detalle |
-| `DialogSelectorListas` | `lista_select_lista_save_propiedad.dart` | Selector checkboxes |
-| `PageCompartirConConocido/Grupo` | `page_compartir_con_conocido.dart`, `page_compartir_con_grupo.dart` | Compartir |
-| `UserListsNotifier` | `provider_user_lists.dart` | CRUD listas usuario |
-| `ClassListaPropiedadesProvider` | `provider_listas_propiedades.dart` | Relaciones lista-propiedad |
-| `ListasCompartidasNotifier` | `provider_listas_compartidas.dart` | Compartir listas |
-| `MeGustaNotifier` | `provider_me_gusta.dart` | Toggle favoritos |
 | `PropiedadesCompartidasConocidosNotifier` | `provider_propiedades_compartidas_conocidos.dart` | Compartir props |
 
 ---
 
 ## Bases de Datos CouchDB Involucradas
 
-| DB | Propósito |
-|----|-----------|
-| `buscobien_usuarios_listas` | Listas propias del usuario (doc por lista) |
-| `buscobien_listas_propiedades` | Relación N:M lista ↔ propiedad |
-| `buscobien_listas_compartidas` | Metadato compartición (origen, destino, timestamp) |
-| `buscobien_listas_compartidas_usuarios` | Props copiadas para usuario destino |
-| `buscobien_propiedades_compartidas_conocidos` | Props compartidas 1:1 con conocido |
-| `buscobien_grupos_publicaciones` | Props/publicaciones en grupo |
-| `buscobien_megusta_propiedades` | Me gusta por usuario-propiedad |
-
----
+Ver el inventario generado desde el código: [`bases_de_datos_en_codigo.md`](../../06_modelo_de_datos_y_bd/bases_de_datos_en_codigo.md) (listas: `buscobien_usuarios_listas`, `buscobien_listas_propiedades`, `buscobien_listas_compartidas_usuarios`, `buscobien_listas_prop_compartidas`; me gusta: `buscobien_megusta_propiedades`; compartir: `buscobien_propiedades_compartidas_conocidos`, `buscobien_grupos_publicaciones`).
 
 ## Notas de Arquitectura
 

@@ -76,11 +76,12 @@ Usuario abre app → /login (dialogBoxFichaLogin)
 
 ---
 
-## Trazabilidad a Código — Data Models
+## Trazabilidad a Código
+
+La evidencia de cada requerimiento (archivo y líneas) está en la columna **Evidencia** de la tabla anterior. Archivos adicionales no citados en ella:
 
 | Modelo | Archivo | Entidad |
 |--------|---------|---------|
-| `AuthState` | `data_models/auth_state.dart` | Estado unificado sesión |
 | `GetIdUserPass` / `ValueIdUserPass` | `data_models/data_get_id_user_pass.dart` | Login response |
 | `GetUserData` / `ValueGetUserData` / `Usuario` | `data_models/data_get_user.dart` | Usuario completo |
 | `UserDataPromotor` | `data_models/data_user_promotor.dart` | Campos extra promotor |
@@ -88,20 +89,13 @@ Usuario abre app → /login (dialogBoxFichaLogin)
 
 ---
 
-## Trazabilidad a Código — Usuario Login
+## Trazabilidad a Código
+
+La evidencia de cada requerimiento (archivo y líneas) está en la columna **Evidencia** de la tabla anterior. Archivos adicionales no citados en ella:
 
 | Componente | Archivo | Función clave |
 |------------|---------|---------------|
 | `SessionData` | `usuario_login/data_session.dart` | Estado sesión inmutable |
-| `dialogBoxFichaLogin` | `usuario_login/dialogbox_login.dart` | Dialog con LoginPage |
-| `LoginPage` | `usuario_login/login_01_login_page.dart` | Form login + `_handleLogin` |
-| `RegisterScreenUsers` | `usuario_login/login_03_form_register_user.dart` | Registro 12 campos + PDF TyC |
-| `PageCambioPassword` | `usuario_login/page_cambio_password.dart` | Token validation + strength |
-| `PageSolicitarRecuperacion` | `usuario_login/page_solicitar_recuperacion.dart` | Email + perfil → token + email |
-| `PasswordRecoveryRepository` | `usuario_login/password_recovery_repository.dart` | HTTP: buscar, guardar token, validar, actualizar, enviar email |
-| `SessionNotifier` | `usuario_login/provider_session.dart` | **20+ métodos** estado sesión |
-| `SessionRepository` | `usuario_login/session_repository.dart` | HTTP puro: getUserData, login, writeUser |
-| `SessionStorage` | `usuario_login/session_storage.dart` | Factory mobile/web secure storage |
 | `textos_tc_ap.dart` | `usuario_login/textos_tc_ap.dart` | TyC (13 secc) + Privacidad (7) + Visor PDF |
 
 ---

@@ -184,11 +184,5 @@
 ---
 
 ## 11. Estructura de Archivos
+Archivos del módulo (4): ver [`inventario_12_localidades_user.md`](../../../05_desarrollo_y_especificaciones_tecnicas/inventario_componentes/inventario_12_localidades_user.md), que describe cada componente. No se repite aquí para evitar divergencias.
 
-```
-lib/12_localidades_user/
-├── data_user_localidad.dart                 # Modelo UsuarioLocalidades (Freezed)
-├── data_user_localidad_get.dart             # Modelos wrapper UsuarioLocalidadesGet, RowsUserLocal
-├── provider_get_localidades_usuario.dart    # NotifierProvider y FutureProvider
-└── localidades_repository.dart              # Repositorio HTTP para operaciones CRUD
-```

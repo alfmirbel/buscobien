@@ -196,14 +196,7 @@
 ---
 
 ## 11. Estructura de Archivos
-
-```
-lib/41_connectivity/
-├── pagina_sin_coneccion.dart            # Pantalla de error sin conexión
-├── connectivitycheck_provider.dart      # Provider Riverpod + widget de diagnóstico
-```
-
----
+Archivos del módulo (2): ver [`inventario_41_connectivity.md`](../../../05_desarrollo_y_especificaciones_tecnicas/inventario_componentes/inventario_41_connectivity.md), que describe cada componente. No se repite aquí para evitar divergencias.
 
 ## 12. Dependencias Técnicas
 

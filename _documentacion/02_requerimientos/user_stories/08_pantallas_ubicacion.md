@@ -111,23 +111,12 @@
 
 ---
 
-## Resumen matriz
-
-| US | Epic Req | Escenarios BDD | Archivos principales |
-|----|----------|----------------|----------------------|
-| US-UBIC-001 (hub localidades usuario) | REQ-UBIC-004 | 1 | `pagina_principal_localidades.dart`, `provider_localidades_del_cp.dart` |
-| US-UBIC-002 (buscar CP + Google Maps) | REQ-UBIC-005, 007, 008 | 4 | `pagina_busca_localidades_gmaps.dart`, `data_sepomex_localidades.dart` |
-| US-UBIC-003 (vista maestra duplicada) | REQ-UBIC-006 | 1 | `screen_maestro_localidades.dart`, `pagina_principal_localidades.dart` |
-| US-UBIC-004 (filtrar catálogo por CP) | REQ-UBIC-007 | 1 | `data_localidad_find.dart`, interacciona con `08_pantallas/inicio` |
-
----
-
 ## Notas de deuda técnica
 
 1. **Duplicación `screen_maestro_localidades` vs `pagina_principal_localidades`** — unificar en `LocalidadesHub` con modos usuario/maestra.
-2. **Inconsistencia Freezed/json manual**: `data_sepomex_localidades.dart` Freezed; `data_sepomex_localidades_get_cp.dart` y `data_localidad_find.dart` json manual. Migrar a Freezed.
-3. **Provider legacy**: `ClassLocalidadesNotifierProvider` usa `AsyncNotifier` sin `@riverpod`.
 4. **Google Maps API key**: debe inyectarse via `--dart-define-from-file=defines.json` — confirmar que no está hardcodeada en `pagina_busca_localidades_gmaps.dart`.
-5. **`data_models/data_sepomex_id.json`** suelto — debería ser asset o provisto por provider.
 6. **Sin tests** de ninguno de los 7 archivos fuente.
 7. **Acoplamiento transversal**: `ubicacion` → `inicio` (catálogo filtrado) y `03_vistas/pagina_usuarios.dart` (códigoPostalBusquedaProvider).
+
+> Las demás notas de deuda técnica están en la Epic del módulo (`../epics_ears/08_pantallas_ubicacion.md`).
+

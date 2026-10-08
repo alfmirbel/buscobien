@@ -8,27 +8,7 @@
 ---
 
 ## 1. Inventario de Archivos del Módulo
-
-| Archivo | Tipo | Rol |
-|---|---|---|
-| `variables_menus.dart` | Fuente — Constantes | Define dimensiones globales de menús: `menuToolbarHeight`, `menuTabIconSize`, `menuTabLabelSize`, etc. |
-| `provider_menu_inicial.dart` | Fuente — Riverpod `StateNotifierProvider` | Gestiona el menú inicial (Inicio, Propiedades, Ubicación, Mi Cuenta, Perfil) con 5 tabs |
-| `provider_menu_principal.dart` | Fuente — Riverpod `StateNotifierProvider` | Gestiona el sub-menú de Propiedades (Todas, Casas, Departamentos, Otros) con 4 tabs |
-| `provider_menu_nivel_gobierno.dart` | Fuente — Riverpod `StateNotifierProvider` | Gestiona el filtro de nivel de gobierno (Nacional, Estado, Municipio, C.P., Localidad) con 5 tabs |
-| `provider_menu_tipo_espacio.dart` | Fuente — Riverpod `StateNotifierProvider` | Gestiona el filtro de tipo de espacio (Normales, Destacados, Superdestacados, Oportunidades, Remates) con 5 tabs |
-| `provider_menu_tipo_de_transaccion.dart` | Fuente — Riverpod `StateNotifierProvider` | Gestiona el filtro de tipo de transacción (Todas, Venta, Renta, Venta/Renta, Traspaso) con 5 tabs |
-| `provider_menu_tu_cuenta.dart` | Fuente — Riverpod `StateNotifierProvider` | Gestiona el menú de Mi Cuenta para promotores (Espacios, Listas, Grupos, Conocidos) con 4 tabs |
-| `provider_menu_tu_cuenta_usuario.dart` | Fuente — Riverpod `StateNotifierProvider` | Gestiona el menú de Mi Cuenta para usuarios (Listas, Grupos, Conocidos) con 3 tabs |
-| `appbar_sliver_menu_inicial.dart` | Fuente — Widget (`SliverAppBar`) | Renderiza el menú inicial como `SliverAppBar` con `ButtonsTabBar`, `pinned: true` |
-| `appbar_sliver_menu_principal.dart` | Fuente — Widget (`SliverAppBar`) | Renderiza el sub-menú de Propiedades como `SliverAppBar` con `ButtonsTabBar`, `pinned: false, floating: true` |
-| `appbar_sliver_menu_nivel_gobierno.dart` | Fuente — Widget (`ConsumerWidget` + `SliverAppBar`) | Renderiza el menú de nivel de gobierno con etiquetas dinámicas de localidad |
-| `appbar_sliver_menu_tipo_espacio.dart` | Fuente — Widget (`ConsumerWidget` + `SliverAppBar`) | Renderiza el menú de tipo de espacio como `SliverAppBar` con `ButtonsTabBar`, `floating: true` |
-| `appbar_menu_tu_cuenta.dart` | Fuente — Widget (`ConsumerWidget` + `SliverAppBar`) | Renderiza el menú de Mi Cuenta para promotores, `pinned: true` |
-| `appbar_menu_tu_cuenta_usuario.dart` | Fuente — Widget (`ConsumerWidget` + `SliverAppBar`) | Renderiza el menú de Mi Cuenta para usuarios, `pinned: true` |
-| `appbar_menu_tipo_transaccion_inferior.dart` | Fuente — Widget con Estado (`ConsumerStatefulWidget`) | Renderiza el menú inferior de tipo de transacción en un `Container` con `ButtonsTabBar` |
-| `dropdown_menu_principal_propiedades.dart` | Fuente — Widget con Estado (`ConsumerStatefulWidget`) | Renderiza un `DropdownButton` para seleccionar tipo de propiedad, con lista completa o reducida |
-
----
+Archivos del módulo (16): ver [`inventario_05_provider_menus.md`](../../../05_desarrollo_y_especificaciones_tecnicas/inventario_componentes/inventario_05_provider_menus.md), que describe cada componente. No se repite aquí para evitar divergencias.
 
 ## 2. Requerimientos Ubicuos (Ubiquitous)
 
