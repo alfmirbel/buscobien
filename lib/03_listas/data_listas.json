@@ -3,7 +3,7 @@ UserPropertyListModel
    "lista": 
    {
       "listaId": "Id de la lista",
-      "userId": "amirelesb",
+      "userId": "",
       "listName": "Nombre de la lista",
       "type": "6da338fa638ae4431ef0b57879c18b350f7ffde6d3d00b4ea0e78189860fdcf5",
       "timestamp": "6da338fa638ae4431ef0b57879c18b350f7ffde6d3d00b4ea0e78189860fdcf5"
@@ -17,11 +17,11 @@ GetUserPropertyListModel
    "rows": [
       {
          "id": "2dc4d0446cac3c6d2fe4091d27a818b5",
-         "key": "amirelesb",
+         "key": "",
          "value": 
          {
             "listaId": "Id de la lista",
-            "userId": "amirelesb",
+            "userId": "",
             "listName": "Nombre de la lista",
             "type": "6da338fa638ae4431ef0b57879c18b350f7ffde6d3d00b4ea0e78189860fdcf5",
             "timestamp": "6da338fa638ae4431ef0b57879c18b350f7ffde6d3d00b4ea0e78189860fdcf5"
@@ -35,7 +35,7 @@ ListaPropertyListModel
    "listapropiedad": 
    {
       "listapropiedadId": "Id del registro lista-propiedad",
-      "userId": "amirelesb",
+      "userId": "",
       "listaId": "Id de la lista",
       "propertyId": "Id de la Propiedad",
       "tipodeespacio": "normal, destacado, super...",
@@ -51,11 +51,11 @@ GetListaPropertyListModel
    "rows": [
       {
          "id": "2dc4d0446cac3c6d2fe4091d27a818b5",
-         "key": "amirelesb",
+         "key": "",
          "listapropiedad": 
          {
             "listapropiedadId": "Id del registro lista-propiedad",
-            "userId": "amirelesb",
+            "userId": "",
             "listaId": "Id de la lista",
             "propertyId": "Id de la Propiedad",
             "tipodeespacio": "normal, destacado, super...",
