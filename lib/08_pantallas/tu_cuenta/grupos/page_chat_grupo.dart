@@ -106,7 +106,10 @@ class _PageChatGrupoState extends ConsumerState<PageChatGrupo> {
                   padding: const EdgeInsets.all(12),
                   itemCount: mensajes.length,
                   itemBuilder: (context, index) =>
-                      _BurbujaMensaje(msg: mensajes[index]),
+                      _BurbujaMensaje(
+                    msg: mensajes[index],
+                    currentUserId: widget.currentUserId,
+                  ),
                 );
               },
             ),
@@ -120,12 +123,13 @@ class _PageChatGrupoState extends ConsumerState<PageChatGrupo> {
 
 class _BurbujaMensaje extends StatelessWidget {
   final MensajeGrupoModel msg;
+  final String currentUserId;
 
-  const _BurbujaMensaje({required this.msg});
+  const _BurbujaMensaje({required this.msg, required this.currentUserId});
 
   @override
   Widget build(BuildContext context) {
-    final isMe = false;
+    final isMe = msg.senderId == currentUserId;
     return Align(
       alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
       child: ConstrainedBox(
@@ -346,7 +350,10 @@ class _ChatGrupoEmbebidoState extends ConsumerState<ChatGrupoEmbebido> {
                 padding: const EdgeInsets.all(12),
                 itemCount: mensajes.length,
                 itemBuilder: (context, index) =>
-                    _BurbujaMensaje(msg: mensajes[index]),
+                    _BurbujaMensaje(
+                    msg: mensajes[index],
+                    currentUserId: widget.currentUserId,
+                  ),
               );
             },
           ),
