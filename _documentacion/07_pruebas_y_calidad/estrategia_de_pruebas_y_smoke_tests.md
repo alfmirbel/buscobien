@@ -9,8 +9,8 @@
 
 | Elemento | Estado verificado |
 | :--- | :--- |
-| Pruebas automatizadas | 2 archivos, 9 pruebas: `test/seguridad_test.dart` (hashes con vectores conocidos, token de recuperación y expiración) y `test/rutas_test.dart` (`routeGenerate`) |
-| Resultado de `flutter test` | **Pasa** (`+9`, 2026-10-07). La prueba de plantilla del contador se eliminó (MEJ-02) |
+| Pruebas automatizadas | 5 archivos, 16 pruebas: `seguridad_test` (hashes y token de recuperación), `rutas_test` (`routeGenerate`), `widgets_test` (`PaginaDeError`, `BotonAccionPropiedad`), `grupos_notifier_test` y `conocidos_notifier_test` (eliminar miembro/contacto con `MockClient`) |
+| Resultado de `flutter test` | **Pasa** (`+16`, 2026-10-07). La prueba de plantilla del contador se eliminó (MEJ-02) |
 | Pruebas unitarias de providers/modelos | No existen |
 | Pruebas de integración | No existen |
 | Escenarios Gherkin | 129 archivos detallados con 1.023 escenarios (más 48 archivos de análisis) **documentales**, no ejecutables todavía |
@@ -54,6 +54,6 @@ Algunos escenarios describen comportamiento **deseado** que el código aún no t
 
 1. `flutter build web --wasm --dart-define-from-file=defines.json` termina con código 0.
 2. `flutter analyze` sin errores.
-3. `flutter test` pasa (hoy pasa: 9 pruebas).
+3. `flutter test` pasa (hoy pasa: 16 pruebas).
 4. Cumplimiento de [`antigravity_ui_rules.md`](../05_desarrollo_y_especificaciones_tecnicas/antigravity_ui_rules.md).
 5. `python _documentacion/00_indice/verificar_documentacion.py` sin errores.

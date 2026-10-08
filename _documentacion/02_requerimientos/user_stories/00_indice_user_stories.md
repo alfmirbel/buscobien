@@ -15,9 +15,9 @@
 | `07_routes` | [07_routes.md](07_routes.md) | 4 | 17 |
 | `08_pantallas_inicio` | [08_pantallas_inicio.md](08_pantallas_inicio.md) | 6 | 8 |
 | `08_pantallas_perfil` | [08_pantallas_perfil.md](08_pantallas_perfil.md) | 5 | 8 |
-| `08_pantallas_propiedades` | [08_pantallas_propiedades.md](08_pantallas_propiedades.md) | 8 | 12 |
-| `08_pantallas_tu_cuenta_conocidos` | [08_pantallas_tu_cuenta_conocidos.md](08_pantallas_tu_cuenta_conocidos.md) | 6 | 11 |
-| `08_pantallas_tu_cuenta_grupos` | [08_pantallas_tu_cuenta_grupos.md](08_pantallas_tu_cuenta_grupos.md) | 11 | 17 |
+| `08_pantallas_propiedades` | [08_pantallas_propiedades.md](08_pantallas_propiedades.md) | 8 | 13 |
+| `08_pantallas_tu_cuenta_conocidos` | [08_pantallas_tu_cuenta_conocidos.md](08_pantallas_tu_cuenta_conocidos.md) | 6 | 12 |
+| `08_pantallas_tu_cuenta_grupos` | [08_pantallas_tu_cuenta_grupos.md](08_pantallas_tu_cuenta_grupos.md) | 11 | 18 |
 | `08_pantallas_tu_cuenta_tus_espacios` | [08_pantallas_tu_cuenta_tus_espacios.md](08_pantallas_tu_cuenta_tus_espacios.md) | 10 | 14 |
 | `08_pantallas_ubicacion` | [08_pantallas_ubicacion.md](08_pantallas_ubicacion.md) | 4 | 8 |
 | `08_pantallas_widgets_comunes` | [08_pantallas_widgets_comunes.md](08_pantallas_widgets_comunes.md) | 5 | 7 |

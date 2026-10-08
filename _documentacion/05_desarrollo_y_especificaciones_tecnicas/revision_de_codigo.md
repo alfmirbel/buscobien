@@ -107,6 +107,24 @@ Severidad: **Alta** (defecto visible o bloquea mantenimiento), **Media**, **Baja
 
 Métricas actuales: `flutter analyze` = 0 hallazgos; `flutter test` = 9 pruebas verdes; `lib/` = 50.690 líneas (antes 68.875). Los números de línea citados en la documentación se reasignaron al nuevo código.
 
+## 3.6 Estado tras la Fase 1 (2026-10-07)
+
+| Hallazgo | Estado | Commit |
+| :--- | :--- | :--- |
+| H-02 landings con botones inertes | **Diferido por decisión:** se mantienen como marcadores de posición (roadmap) | — |
+| H-03 exportar PDF | **Resuelto** (MEJ-07): botón en el `AppBar` y en la barra de acciones | `764cbfc` |
+| H-04 acciones de la ficha | **Resuelto** (MEJ-08): `BarraAccionesPropiedad` (contacto, teléfono, correo, mensaje, guardar, compartir, PDF) | `764cbfc` |
+| H-05 `PaginaDeError` | **Resuelto** (MEJ-09): se muestra por permiso de ubicación y por `onUnknownRoute` | `29751ea` |
+| H-06 eliminar miembro / contacto | **Resuelto** (MEJ-10) | `f16cba5` |
+| H-07 deep links | **Bloqueado** (MEJ-12): faltan `applicationId` definitivo, SHA-256 y `TEAM_ID` | — |
+| H-08 rutas muertas | **Resuelto** (MEJ-09): 16 constantes eliminadas | `29751ea` |
+| H-27 burbujas del chat de grupo | **Resuelto** (MEJ-31) | `7e3c8ce` |
+| **H-28** (nuevo) tras cambiar la contraseña (o con enlace inválido) se navegaba a `/login`, ruta inexistente | **Resuelto**: ahora `/principal` | `29751ea` |
+| **H-29** (nuevo) agregar/editar foto desde la lista y el carrusel navegaba a `/fotosagregafotoalista` y `/agregafotopropiedad`, sin pantalla | **Resuelto**: usan `/agregamultiplesfotos` (mismos parámetros); probar a mano | `29751ea` |
+| **H-30** (nuevo) `PaginaDetalleWidget` se mostraba sin `Scaffold` (sin botón de regreso ni `Material`) | **Resuelto** en MEJ-08 | `764cbfc` |
+
+Métricas actuales: `flutter analyze` = 0 hallazgos; `flutter test` = 16 pruebas verdes.
+
 ## 4. Fortalezas observadas
 
 - Estructura modular clara (`NN_modulo`) y nombres consistentes; los 199 archivos están inventariados.

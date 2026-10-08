@@ -37,7 +37,6 @@ Característica: Detalle de Propiedad y Visualización de Información
     Entonces el sistema debe retornar "SizedBox.shrink()"
     Y no debe mostrar ninguna fila de precio
 
-  @REQ-PROP-004 @mapeo-auto
   Escenario: El detalle muestra la sección Datos de la Propiedad
     Dado que el usuario abre el detalle de una propiedad
     Cuando se renderiza la sección de datos
@@ -51,7 +50,6 @@ Característica: Detalle de Propiedad y Visualización de Información
     Y debe mostrar Colonia, Ciudad, Municipio y C.P.
     Y cada campo debe tener un "maxWidth" específico (Dirección: 700, Colonía/Municipio/CP: 350)
 
-  @REQ-PROP-004 @mapeo-auto
   Escenario: El detalle muestra la sección Datos del contacto
     Dado que la propiedad tiene datos de contacto
     Cuando se renderiza la sección de contacto

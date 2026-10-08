@@ -9,7 +9,7 @@ Funcionalidad: Detalle de propiedad y exportación PDF
     Dado que el usuario navega desde catálogo/listas/carousel a PaginaDetalleWidget con idPropiedad
     Y el sistema usa findPropiedades([idPropiedad]) (Mango $in) para obtener el documento completo
 
-  @REQ-PROP-002 @mapeo-auto
+  @REQ-PROP-002 @REQ-PROP-007 @mapeo-auto
   Escenario: Carga del detalle con fotos carousel + ficha
     Dado que PaginaDetalleWidget se inicializa con idPropiedad="propiedad:uuid-001"
     Cuando findPropiedades.future resuelve con un Doc válido
@@ -30,12 +30,14 @@ Funcionalidad: Detalle de propiedad y exportación PDF
     Entonces abre o crea conversación en buscobien_mensajes con el promotor
     Y navega a pantalla de chat
 
+  @REQ-PROP-005 @mapeo-auto
   Escenario: CTA Compartir
     Dado que el usuario toca "Compartir"
     Cuando se abre el bottom sheet
     Entonces ofrece Compartir con Conocido / Compartir con Grupo / Cancelar
     Y navega a PageCompartirConConocido o PageCompartirConGrupo (en 03_listas)
 
+  @REQ-PROP-006 @mapeo-auto
   Escenario: CTA Guardar en lista
     Dado que el usuario toca "Guardar en lista"
     Cuando se abre DialogSelectorListas (de 03_listas)
@@ -49,7 +51,7 @@ Funcionalidad: Detalle de propiedad y exportación PDF
     Y POST/DELETE a buscobien_megusta_propiedades
     Y el corazón cambia de outline a filled (o viceversa)
 
-  @REQ-PROP-007 @REQ-PROP-009 @mapeo-auto
+  @REQ-PROP-007 @mapeo-auto
   Escenario: CTA Exportar PDF
     Dado que el usuario toca "Exportar PDF"
     Cuando PdfGeneratorService.generate(propiedad) se ejecuta

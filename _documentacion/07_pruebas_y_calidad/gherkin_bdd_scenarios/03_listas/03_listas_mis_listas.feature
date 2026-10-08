@@ -4,7 +4,7 @@ Característica: Gestión de Mis Listas
   Quiero ver y administrar mis listas de propiedades
   Para organizar los inmuebles de interés y compartirlos con otros usuarios
 
-  @REQ-LIST-002 @mapeo-auto
+  @REQ-LIST-002 @REQ-LIST-011 @mapeo-auto
   Escenario: Un usuario sin sesión ve la vista de invitado en Mis Listas
     Dado que el usuario no ha iniciado sesión (userId vacío)
     Cuando navega a la sección "Mis Listas"

@@ -4,7 +4,7 @@ Característica: Detalle y exportación de propiedad
   Quiero ver la ficha completa de una propiedad y exportarla a PDF
   Para consultar o compartir la información relevante
 
-  @REQ-PROP-002 @REQ-PROP-004 @mapeo-auto
+  @REQ-PROP-002 @mapeo-auto
   Escenario: Visualización del detalle de propiedad
     Dado que el usuario abre una propiedad desde el listado
     Cuando se renderiza la pantalla de detalle

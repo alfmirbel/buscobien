@@ -7,20 +7,20 @@ Característica: Miembros del Grupo
   Antecedentes:
     Dado que el usuario se encuentra en la pestaña "Miembros" del detalle de grupo
 
-  @REQ-GPU-015 @mapeo-auto
+  @REQ-GPU-015 @REQ-GPU-018 @mapeo-auto
   Escenario: Visualización de lista de miembros
     Dado que el grupo tiene miembros registrados
     Cuando el usuario abre la pestaña "Miembros"
     Entonces el sistema deberá mostrar una lista con todos los miembros
     Y cada miembro deberá mostrar su nombre y rol
 
-  @REQ-GPU-001 @REQ-GPU-015 @mapeo-auto
+  @REQ-GPU-018 @mapeo-auto
   Escenario: Estado vacío de miembros
     Dado que el grupo no tiene miembros registrados
     Cuando el usuario abre la pestaña "Miembros"
     Entonces el sistema deberá mostrar el mensaje "No hay miembros registrados."
 
-  @REQ-GPU-015 @REQ-GPU-016 @mapeo-auto
+  @REQ-GPU-015 @REQ-GPU-018 @mapeo-auto
   Escenario: Indicador de administrador
     Dado que el grupo tiene un administrador
     Cuando el usuario visualiza la lista de miembros
@@ -39,6 +39,7 @@ Característica: Miembros del Grupo
     Cuando el usuario visualiza su propio nombre en la lista
     Entonces el sistema deberá mostrar un chip con el texto "Tú"
 
+  @REQ-GPU-018 @mapeo-auto
   Escenario: Avatar con inicial del miembro
     Dado que el usuario visualiza la lista de miembros
     Cuando observa el avatar de un miembro

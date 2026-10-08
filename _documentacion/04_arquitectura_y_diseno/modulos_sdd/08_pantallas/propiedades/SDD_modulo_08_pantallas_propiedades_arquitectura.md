@@ -56,6 +56,23 @@ Cuando el PDF se genere exitosamente, el sistema deberá ejecutar `Printing.layo
 
 ---
 
+### 3.1 Barra de acciones y estructura de la pantalla (MEJ-07, MEJ-08)
+
+**SDD-DET-070**
+El sistema deberá mostrar la ficha dentro de un `Scaffold` con `AppBar` (título «Ficha: <clave>», botón de regreso y botón de exportar PDF) y fondo `appTheme.primaryContainer`.
+
+**SDD-DET-071**
+El sistema deberá mostrar bajo la foto principal la `BarraAccionesPropiedad` con las acciones Contacto (diálogo con los datos), Teléfono (solo Android/iOS), Correo, Mensaje, Guardar, Compartir y PDF (`acciones_propiedad.dart`).
+
+**SDD-DET-072**
+Cuando el usuario toque «Mensaje», el sistema deberá pedir inicio de sesión (`dialogBoxFichaLogin`) si no hay sesión, verificar que el promotor tenga `idusuariocontacto`, agregarlo como contacto aceptado y enviar un mensaje predefinido con los datos de la propiedad.
+
+**SDD-DET-073**
+Cuando el usuario toque «Guardar» o «Compartir», el sistema deberá pedir inicio de sesión si no hay sesión; «Guardar» abre `DialogSelectorListas` y «Compartir» ofrece compartir con un conocido o en un grupo.
+
+**SDD-DET-074**
+Cuando el usuario toque «PDF», el sistema deberá mostrar «Generando PDF…», consultar los ids de fotos si la ficha no los trae (llegada desde un chat), invocar `PdfGeneratorService.generarYDescargarPDF` y, si falla, mostrar un mensaje de error.
+
 ## 4. Requerimientos Controlados por Estados (State-Driven)
 
 **SDD-DET-031**

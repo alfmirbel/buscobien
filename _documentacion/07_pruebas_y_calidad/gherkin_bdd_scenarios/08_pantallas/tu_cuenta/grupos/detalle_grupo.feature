@@ -20,7 +20,7 @@ Característica: Detalle de Grupo
     Cuando el usuario presiona el menú de opciones y selecciona "Info del grupo"
     Entonces el sistema deberá mostrar un diálogo con el objetivo, descripción, privacidad, participación y creador del grupo
 
-  @REQ-GPU-015 @mapeo-auto
+  @REQ-GPU-015 @REQ-GPU-018 @mapeo-auto
   Escenario: Invitar miembros (solo administrador)
     Dado que el usuario es administrador del grupo
     Cuando el usuario presiona el ícono de invitar miembro en el AppBar

@@ -9,17 +9,17 @@
 
 **Card:**  
 Como **desarrollador**  
-Quiero **una sola fuente de verdad para las 22 rutas con pantalla (38 constantes) y sus argumentos**  
+Quiero **una sola fuente de verdad para las 22 rutas con pantalla y sus argumentos**  
 Para **navegar deterministamente entre pantallas**
 
 **Conversation:**  
-`AppRoutes` define 38 `static const String` (22 con `case` activo; ej: `/principal`, `/registro`, `/mapapropiedades`). `routeGenerate(RouteSettings)` es switch único en `MaterialApp.onGenerateRoute`. Cada case castea `settings.arguments as TipoEsperado` y devuelve `MaterialPageRoute` con la pantalla correcta. DTOs en `routes_parameters.dart` proveen defaults/plantillas para edición de espacio, lista fotos, etc.
+`AppRoutes` define 22 `static const String` (todas con `case` activo; ej: `/principal`, `/registro`, `/mapapropiedades`). `routeGenerate(RouteSettings)` es switch único en `MaterialApp.onGenerateRoute`. Cada case castea `settings.arguments as TipoEsperado` y devuelve `MaterialPageRoute` con la pantalla correcta. DTOs en `routes_parameters.dart` proveen defaults/plantillas para edición de espacio, lista fotos, etc.
 
 **Confirmation:**
 - [ ] `Navigator.pushNamed(context, AppRoutes.editaespacio, arguments: espaciocasaGet)` abre `PaginaEditaEspacio`
 - [ ] `Navigator.pushNamed(context, AppRoutes.mapapropiedades, arguments: espaciosCasaGet)` abre `PaginaMapaPropiedades`
 - [ ] `routeGenerate` loggea cada navegación vía `debugPrintLevels(1-3, ...)`
-- [ ] Rutas sin argumentos funcionan (`/principal`, `/login`)
+- [ ] Rutas sin argumentos funcionan (`/principal`, `/registro`)
 
 ---
 
@@ -54,8 +54,8 @@ Para **no quedar en pantalla en blanco**
 `PaginaDeError` muestra `AppBar` rojo + mensaje + botón "Salir". Default case en `routeGenerate` retorna `null` — **riesgo de pantalla negra sin fallback explícito**. Argumentos incorrectos lanzan `TypeError` en cast sin `is` check previo.
 
 **Confirmation:**
-- [ ] Navegar a ruta inexistente idealmente → `PaginaDeError` (PENDIENTE implementar fallback en default case)
-- [ ] Actualmente default case retorna `null` (mejora propuesta)
+- [x] Navegar a una ruta inexistente muestra `PaginaDeError` (`onUnknownRoute`, MEJ-09)
+- [x] `routeGenerate` devuelve `null` en el `default` y `MaterialApp` delega en `onUnknownRoute`
 - [ ] Si `arguments` tipo incorrecto → `TypeError` runtime (mejora propuesta: añadir `is` check)
 
 ---

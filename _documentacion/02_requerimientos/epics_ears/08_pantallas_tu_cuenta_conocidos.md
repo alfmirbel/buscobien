@@ -59,6 +59,7 @@ ConocidosView (Consumer widget)
 | REQ-CON-009 | **Evento** | Cuando el receptor toque una `_BurbujaPropiedad`/_BurbujaLista en el chat, el sistema navegará a `PaginaDetalleWidget` (de `08_pantallas/propiedades`) o `PageDetalleLista` (de `03_listas`). | `page_chat_privado.dart` tap handlers | En código |
 | REQ-CON-010 | **No Deseado** | Si el GET o el PUT de `responderInvitacion` no devuelven 200/201 o lanzan excepción, el sistema solo registra el error con `debugPrintLevels` y **no avisa al usuario**; el estado local no cambia. | `providers/conocidos_notifier.dart:186-212` | Riesgo |
 | REQ-CON-011 | **Complejo** | Mientras el usuario esté en `PagePerfilContacto`, el sistema leerá `provider_session` del contacto, mostrará avatar/nombre/datos públicos y CTAs condicionales (Invitar si no conocidos, Chatear si ya conocidos, Eliminar si son conocidos). | `page_perfil_contacto.dart:159` | En código |
+| REQ-CON-012 | **Evento** | Cuando el usuario toque «Eliminar contacto» en Mis Contactos y confirme, el sistema llamará `ConocidosNotifier.eliminarContacto(inv.id)`: GET del documento para obtener `_rev`, `DELETE ?rev=` y quitarlo del estado local; si el documento ya no existe lo da por eliminado. Los mensajes del chat no se borran. | `conocidos_notifier.dart` (`eliminarContacto`), `page_mis_contactos.dart` | En código (MEJ-10) |
 
 ---
 

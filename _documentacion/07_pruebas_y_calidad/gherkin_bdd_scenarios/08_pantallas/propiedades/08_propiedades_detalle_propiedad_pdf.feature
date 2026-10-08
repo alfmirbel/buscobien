@@ -51,7 +51,7 @@ Característica: Generación y Descarga de PDF de Propiedad
     Entonces el sistema debe mostrar "Ubicación" como título bold
     Y debe mostrar calle, colonia/ciudad y C.P. en formato de lista con viñetas
 
-  @REQ-PROP-004 @mapeo-auto
+  @REQ-PROP-007 @REQ-PROP-009 @mapeo-auto
   Escenario: El PDF muestra la sección de Contacto
     Dado que se genera el PDF
     Entonces el sistema debe mostrar "Contacto" como título bold
@@ -64,7 +64,6 @@ Característica: Generación y Descarga de PDF de Propiedad
     Entonces el sistema debe incluir solo las primeras 12 fotos en la galería
     Y cada foto debe estar en un contenedor de 150x100 con "BoxFit.cover"
 
-  @REQ-PROP-009 @mapeo-auto
   Escenario: El PDF muestra la clave de propiedad en el pie de página
     Dado que se genera el PDF
     Entonces el sistema debe mostrar "Clave de propiedad: [clave]" alineado a la derecha

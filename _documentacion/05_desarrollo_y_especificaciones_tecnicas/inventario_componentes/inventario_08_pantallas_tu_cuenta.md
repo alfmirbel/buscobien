@@ -62,3 +62,11 @@ Este documento contiene el inventario completo y detallado de los archivos, mode
 3. **Arquitectura de Gestión de Estado (Riverpod 2.0):**
    - **`AsyncNotifier`**: Implementado con éxito en `conocidos_notifier.dart` y `grupos_notifier.dart`. Permite cargar datos de CouchDB de forma asíncrona manejando automáticamente los estados de carga (`loading`), error (`error`) y éxito (`data`), maximizando la legibilidad y mantenimiento del código.
    - **`Family Providers`**: Utilizados de forma elegante en `mensajesChatProvider` y `mensajesGrupoProvider` para mantener canales de comunicación aislados por chat/grupo sin mezclar estados.
+
+---
+
+## Archivos incorporados (2026-10-07, MEJ-31)
+
+| Subdirectorio | Nombre del archivo | Tipo de componente | Nombre del componente | Parámetros que requiere | Variables que utiliza | Variables internas | Estilos que le aplican |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| `tu_cuenta` | `burbujas_chat.dart` | Widgets (`StatelessWidget`) | `BurbujaPropiedadChat`, `BurbujaListaChat` | `propiedadId`/`listaCompartidaId`, `nombre` | `direccionip`, `username`/`password` (consulta `buscobien_espacios/<id>` por HTTP), `PaginaDetalleWidget`, `PageDetalleListaCompartida` | `_verPropiedad()`, `_verLista()` | `appTheme` |

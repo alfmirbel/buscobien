@@ -152,8 +152,8 @@
 ### 5.1 Chat en Tiempo Real
 - **DES-OPT-001:** Donde el módulo de chat grupal esté incluido, el sistema deberá establecer una conexión continua `_changes` con CouchDB para recibir mensajes en tiempo real.
 - **DES-OPT-002:** Donde el módulo de chat grupal esté incluido, el sistema deberá mostrar la burbuja de mensaje con el nombre del remitente, el contenido y la marca de tiempo formateada.
-- **DES-OPT-003:** Donde el tipo de mensaje sea `propiedad`, el sistema deberá renderizar una burbuja especial para propiedades (actualmente placeholder).
-- **DES-OPT-004:** Donde el tipo de mensaje sea `lista`, el sistema deberá renderizar una burbuja especial para listas compartidas (actualmente placeholder).
+- **DES-OPT-003:** Donde el tipo de mensaje sea `propiedad`, el sistema deberá renderizar una burbuja de propiedad (`BurbujaPropiedadChat`): nombre y «Toca para ver la ficha», que abre `PaginaDetalleWidget`.
+- **DES-OPT-004:** Donde el tipo de mensaje sea `lista`, el sistema deberá renderizar una burbuja de lista (`BurbujaListaChat`): nombre y «Toca para ver las propiedades», que abre `PageDetalleListaCompartida`.
 
 ### 5.2 Publicaciones de Propiedades
 - **DES-OPT-005:** Donde el módulo de publicaciones esté incluido, el sistema deberá permitir compartir propiedades del usuario en el grupo con paginación de 10 elementos por página.

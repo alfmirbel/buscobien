@@ -8,12 +8,12 @@ Característica: Catálogo de rutas y resolución con routeGenerate
     Dado que `MaterialApp` usa `routeGenerate` como `onGenerateRoute` y `AppRoutes.main` como `initialRoute`
 
   @REQ-ROUT-001
-  Escenario: AppRoutes declara 38 constantes y solo 22 tienen pantalla
+  Escenario: Todas las constantes de AppRoutes tienen pantalla
     Dado que la clase `AppRoutes` define constantes `static const String`
     Cuando se cuentan las constantes y los `case` de `routeGenerate`
-    Entonces existen 38 constantes de ruta
-    Y 22 de ellas tienen un `case` activo
-    Y las otras 16 (por ejemplo "/home", "/login", "/filtrapropiedades") no tienen pantalla asociada
+    Entonces existen 22 constantes de ruta
+    Y las 22 tienen un `case` activo
+    Y las 16 constantes que no tenían pantalla (por ejemplo "/home", "/login") se eliminaron
 
   @REQ-ROUT-002
   Escenario: La app arranca en la ruta inicial

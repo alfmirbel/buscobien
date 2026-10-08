@@ -14,7 +14,7 @@ Funcionalidad: Pantalla Perfil de usuario
     Dado que sessionProvider indica isUserLoggedIn == false
     Cuando PaginaPerfilWidget se renderiza
     Entonces muestra _buildNoUserView con ícono Symbols.person
-    Y mensaje "Inicia sesión" + CTA "Ingresar" que navega a AppRoutes.login
+    Y mensaje "Inicia sesión" + CTA "Ingresar" que abre el diálogo de inicio de sesión
 
   @REQ-PERF-003 @mapeo-auto
   Escenario: Usuario logueado ve su perfil completo

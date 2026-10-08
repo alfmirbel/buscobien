@@ -41,7 +41,7 @@ Característica: Chat Grupal
 
   # NOTA (2026-10-07): el código actual no cumple este escenario (isMe fijo en false); ver MEJ-01 en plan_de_mejoras.md.
   @pendiente
-  @REQ-GPU-010 @REQ-GPU-011 @mapeo-auto
+  @REQ-GPU-010 @mapeo-auto
   Escenario: Visualización de burbuja de mensaje propio
     Dado que el usuario envió un mensaje en el chat
     Cuando el usuario visualiza el mensaje en la lista
@@ -49,7 +49,7 @@ Característica: Chat Grupal
     Y mostrar el contenido del mensaje
     Y mostrar la marca de tiempo formateada
 
-  @REQ-GPU-017 @mapeo-auto
+  @REQ-GPU-010 @REQ-GPU-017 @mapeo-auto
   Escenario: Visualización de burbuja de mensaje de otro
     Dado que otro usuario envió un mensaje en el chat
     Cuando el usuario visualiza el mensaje en la lista
@@ -58,21 +58,19 @@ Característica: Chat Grupal
     Y mostrar el contenido del mensaje
     Y mostrar la marca de tiempo formateada
 
-  # NOTA (2026-10-07): en el chat de grupo _BurbujaPropiedad/_BurbujaLista son marcadores vacíos (SizedBox.shrink); solo están implementadas en el chat privado. Ver MEJ-31.
-  @pendiente
+  # Implementado en MEJ-31 (burbujas_chat.dart).
   @REQ-GPU-010 @REQ-GPU-011 @mapeo-auto
   Escenario: Burbuja de tipo propiedad
     Dado que se recibe un mensaje con tipo "propiedad"
     Cuando el usuario visualiza el mensaje
-    Entonces el sistema deberá mostrar una burbuja especial para propiedades (placeholder)
+    Entonces el sistema deberá mostrar una burbuja de propiedad con el nombre y "Toca para ver la ficha"
 
-  # NOTA (2026-10-07): en el chat de grupo _BurbujaPropiedad/_BurbujaLista son marcadores vacíos (SizedBox.shrink); solo están implementadas en el chat privado. Ver MEJ-31.
-  @pendiente
-  @REQ-GPU-010 @REQ-GPU-011 @mapeo-auto
+  # Implementado en MEJ-31 (burbujas_chat.dart).
+  @REQ-GPU-010 @mapeo-auto
   Escenario: Burbuja de tipo lista
     Dado que se recibe un mensaje con tipo "lista"
     Cuando el usuario visualiza el mensaje
-    Entonces el sistema deberá mostrar una burbuja especial para listas compartidas (placeholder)
+    Entonces el sistema deberá mostrar una burbuja de lista con el nombre y "Toca para ver las propiedades"
 
   Escenario: Envío con tecla Enter
     Dado que el usuario se encuentra en el chat

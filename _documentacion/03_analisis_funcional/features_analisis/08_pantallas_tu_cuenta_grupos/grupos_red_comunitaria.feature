@@ -40,7 +40,7 @@ Funcionalidad: Grupos — Red social comunitaria (grupos, membresías, avisos, c
     Entonces muestra las propiedades/publicaciones compartidas en el grupo
     Y cada card es _TarjetaPublicacion con miniatura + precio + (quién compartió)
 
-  @REQ-GPU-013 @REQ-GPU-015 @mapeo-auto
+  @REQ-GPU-015 @REQ-GPU-018 @mapeo-auto
   Escenario: Tab Miembros
     Dado que el usuario está en _TabMiembros
     Cuando GruposNotifier.listaMiembros(grupoId) se consulta
@@ -70,7 +70,7 @@ Funcionalidad: Grupos — Red social comunitaria (grupos, membresías, avisos, c
     Y barra input permite texto + "Compartir propiedad" + "Compartir lista"
     Y cada mensaje tiene etiqueta autor (avatar+nombre) y timestamp
 
-  @REQ-GPU-010 @REQ-GPU-011 @mapeo-auto
+  @REQ-GPU-010 @mapeo-auto
   Escenario: Compartir propiedad/lista en chat grupal
     Dado que el usuario en PageChatGrupo toca "Compartir propiedad"
     Cuando selecciona una propiedad de "Tus Espacios"
@@ -124,11 +124,9 @@ Funcionalidad: Grupos — Red social comunitaria (grupos, membresías, avisos, c
     Entonces muestra el chat funcional sin abrir pantalla completa
     Y reutiliza MensajesGrupoNotifier
 
-  # NOTA (2026-10-07): funcionalidad no implementada; GruposNotifier no expone eliminarMiembro.
-  @pendiente
-  @REQ-GPU-013 @REQ-GPU-015 @mapeo-auto
+  @REQ-GPU-018
   Escenario: Eliminar miembro (admin)
-    Dado que el admin tap "Eliminar" en un miembro
-    Cuando confirmación + GruposNotifier.eliminarMiembro (propuesto)
+    Dado que el admin toca "Eliminar del grupo" en un miembro no administrador
+    Cuando confirma el diálogo y se ejecuta GruposNotifier.eliminarMiembro
     Entonces se elimina al miembro del arreglo miembros de buscobien_grupos
     Y crea mensaje_grupo "XY fue eliminado del grupo"

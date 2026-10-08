@@ -1,7 +1,7 @@
 # Plan de mejoras del código
 
 **Fecha:** 2026-10-07 · **Origen:** [`revision_de_codigo.md`](../05_desarrollo_y_especificaciones_tecnicas/revision_de_codigo.md) (hallazgos `H-NN`)  
-**Estado (2026-10-07):** Fase 0 ejecutada salvo MEJ-06 (requiere tu decisión); el resto sigue como propuesta. La migración de Flutter a *nginx + API + JWT* queda **fuera de este plan** hasta que esa configuración esté lista (Fase 5).
+**Estado (2026-10-07):** Fase 0 ejecutada salvo MEJ-06 (requiere decisión). Fase 1 ejecutada salvo MEJ-11 (diferida por decisión: las landings se mantienen inertes, están en el roadmap) y MEJ-12 (bloqueada: faltan datos del propietario). Fases 2–5 siguen como propuesta. La migración de Flutter a *nginx + API + JWT* queda **fuera de este plan** hasta que esa configuración esté lista (Fase 5).
 
 **Esfuerzo (relativo):** **S** ≤ medio día · **M** 1–3 días · **L** 1–2 semanas. **Prioridad:** P1 (hacer ya), P2 (siguiente), P3 (cuando haya espacio).  
 **Regla de entrega:** cada tarea termina con `flutter analyze` sin errores nuevos, `flutter test` verde y la documentación afectada actualizada (columna *Docs*), verificada con `verificar_documentacion.py`.
@@ -33,17 +33,21 @@ flowchart LR
 
 ## Fase 1 — Funcionalidad: decidir y cerrar lo incompleto
 
+**Decisiones (2026-10-07):** se implementa la exportación a PDF; las landings (`03_vistas`) se mantienen inertes porque esas secciones están en el roadmap; el resto (acciones de la ficha, eliminar miembro/contacto, ruta de error) se implementó según la propuesta del plan.
+**Resultado:** `flutter analyze` sin hallazgos; **16 pruebas en verde** (antes 9). Durante la fase se encontraron y corrigieron tres defectos de navegación que la revisión no había detectado: tras cambiar la contraseña la app navegaba a `/login` (ruta inexistente), agregar/editar foto navegaba a rutas sin pantalla, y la ficha de propiedad se mostraba sin `Scaffold` (ni botón de regreso). **Probar a mano:** ficha (barra de acciones y PDF en Web y móvil), eliminar miembro/contacto, agregar/editar foto desde las vistas de lista y carrusel, y el flujo completo de recuperación de contraseña.
+**Pendiente en MEJ-12:** el lado de la app ya está configurado (`AndroidManifest.xml` con `autoVerify` para `https://buscobien.net/recuperar` y `Runner.entitlements` con `applinks:buscobien.net`); faltan el `applicationId` definitivo (hoy `com.example.buscobien`), la huella SHA-256 del certificado de firma y el `TEAM_ID` de Apple en los archivos de `server/well-known/`, y publicarlos en `https://buscobien.net/.well-known/`.
+
 Cada punto requiere una **decisión de producto** (implementar o retirar del alcance) antes de programar.
 
 | ID | Tarea | Hallazgos | Esf. | Prior. | Criterio de aceptación | Docs |
 | :--- | :--- | :--- | :---: | :---: | :--- | :--- |
-| MEJ-07 | Cablear «Exportar PDF» en la ficha de propiedad (botón → `PdfGeneratorService.generarYDescargarPDF`) **o** eliminar el servicio | H-03 | M | P2 | Desde la ficha se genera el PDF en Web y móvil, o el código se retira | REQ-PROP-007, US-PROP-004, Gherkin |
-| MEJ-08 | Unificar las acciones de la ficha: «Contactar», «Compartir», «Guardar en lista» en `PaginaDetalleWidget` (reutilizar los diálogos de `03_listas`) y usar `fromChatUserId` | H-04 | M | P2 | Las tres acciones disponibles en la ficha; el carrusel las reutiliza sin duplicar | REQ-PROP-004..006, US-PROP-003 |
-| MEJ-09 | Mostrar `PaginaDeError`/diálogo cuando falte el permiso de ubicación y registrar `onUnknownRoute`; eliminar las 16 constantes de ruta sin pantalla | H-05, H-08 | S | P2 | Sin permiso se informa al usuario; ruta desconocida muestra la página de error | REQ-ROUT-006/012, SDD_07_routes, Gherkin `07_routes` |
-| MEJ-10 | Implementar «Eliminar miembro» (admin) y «Eliminar contacto», o retirarlos del alcance | H-06 | M | P3 | Operaciones disponibles con confirmación; Gherkin `@pendiente` pasa a verde | REQ-GPU-016, US-GPU, conocidos |
-| MEJ-11 | Landings (`03_vistas`): cablear o quitar botones y el formulario de inmobiliarias (enviar a un endpoint o a correo); quitar «PROXIMAMENTE» | H-02 | M | P2 | Ningún `onPressed: () {}` en pantallas publicadas | Epic/US `03_vistas` |
-| MEJ-31 | Implementar las burbujas de propiedad y de lista en el chat de grupo (hoy son `SizedBox.shrink()`); reutilizar las de `page_chat_privado.dart` en un widget compartido | H-27 | M | P2 | Tocar una propiedad o lista compartida en un grupo abre su detalle; escenarios `@pendiente` de `chat_grupo.feature` en verde | REQ-GPU-010, SDD_grupos, Gherkin |
-| MEJ-12 | Completar App Links/Universal Links (paquete definitivo, huella SHA-256, `TEAM_ID`) y verificar la recuperación de contraseña de extremo a extremo | H-07 | M | P2 | El enlace del correo abre la app en Android/iOS y cambia la contraseña | runbook §5, REQ-ROUT-007/008 |
+| MEJ-07 ✅ `764cbfc` | Cablear «Exportar PDF» en la ficha de propiedad (botón → `PdfGeneratorService.generarYDescargarPDF`) **o** eliminar el servicio | H-03 | M | P2 | Desde la ficha se genera el PDF en Web y móvil, o el código se retira | REQ-PROP-007, US-PROP-004, Gherkin |
+| MEJ-08 ✅ `764cbfc` | Unificar las acciones de la ficha: «Contactar», «Compartir», «Guardar en lista» en `PaginaDetalleWidget` (reutilizar los diálogos de `03_listas`) y usar `fromChatUserId` | H-04 | M | P2 | Las tres acciones disponibles en la ficha; el carrusel las reutiliza sin duplicar | REQ-PROP-004..006, US-PROP-003 |
+| MEJ-09 ✅ `29751ea` | Mostrar `PaginaDeError`/diálogo cuando falte el permiso de ubicación y registrar `onUnknownRoute`; eliminar las 16 constantes de ruta sin pantalla | H-05, H-08 | S | P2 | Sin permiso se informa al usuario; ruta desconocida muestra la página de error | REQ-ROUT-006/012, SDD_07_routes, Gherkin `07_routes` |
+| MEJ-10 ✅ `f16cba5` | Implementar «Eliminar miembro» (admin) y «Eliminar contacto», o retirarlos del alcance | H-06 | M | P3 | Operaciones disponibles con confirmación; Gherkin `@pendiente` pasa a verde | REQ-GPU-016, US-GPU, conocidos |
+| MEJ-11 ⏸ diferida | Landings (`03_vistas`): cablear o quitar botones y el formulario de inmobiliarias (enviar a un endpoint o a correo); quitar «PROXIMAMENTE» | H-02 | M | P2 | Ningún `onPressed: () {}` en pantallas publicadas | Epic/US `03_vistas` |
+| MEJ-31 ✅ `7e3c8ce` | Implementar las burbujas de propiedad y de lista en el chat de grupo (hoy son `SizedBox.shrink()`); reutilizar las de `page_chat_privado.dart` en un widget compartido | H-27 | M | P2 | Tocar una propiedad o lista compartida en un grupo abre su detalle; escenarios `@pendiente` de `chat_grupo.feature` en verde | REQ-GPU-010, SDD_grupos, Gherkin |
+| MEJ-12 ⛔ bloqueada | Completar App Links/Universal Links (paquete definitivo, huella SHA-256, `TEAM_ID`) y verificar la recuperación de contraseña de extremo a extremo | H-07 | M | P2 | El enlace del correo abre la app en Android/iOS y cambia la contraseña | runbook §5, REQ-ROUT-007/008 |
 
 ## Fase 2 — Pantallas de captura
 

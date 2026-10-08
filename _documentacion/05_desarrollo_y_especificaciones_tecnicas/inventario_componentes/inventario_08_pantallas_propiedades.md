@@ -46,3 +46,11 @@ Este subdirectorio contiene 3 archivos de código fuente:
    - Se recuperan todos los IDs de fotos de CouchDB asociados al inmueble (`recuperaIdsFotosDePropiedades`).
    - Se consulta el catálogo de orden personalizado (`recuperaFotosOrdenadasIdProperty`).
    Si existe un orden personalizado definido por el usuario promotor, la galería lo aplica inmediatamente. Si no existe un orden, autogenera el acomodo secuencial por defecto en tiempo de ejecución de manera limpia.
+
+---
+
+## Archivos incorporados (2026-10-07, MEJ-07/08)
+
+| Subdirectorio | Nombre del archivo | Tipo de componente | Nombre del componente | Parámetros que requiere | Variables que utiliza | Variables internas | Estilos que le aplican |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| `08_pantallas/propiedades` | `acciones_propiedad.dart` | Funciones y widgets reutilizables | `mostrarDialogContacto`, `llamarAlPromotor`, `escribirAlPromotor`, `enviarMensajeAlPromotor`, `guardarEnLista`, `compartirPropiedad`, `exportarFichaPdf`, `BarraAccionesPropiedad`, `BotonAccionPropiedad` | `BuildContext`, `WidgetRef`, `EspaciosCasa` / `ValueEspaciosCasaGet`, `GetIdsFotosUserProp` | `sessionProvider`, `conocidosProvider`, `enviarMensajeDirecto`, `DialogSelectorListas`, `PageCompartirConConocido/Grupo`, `PdfGeneratorService`, `url_launcher` | Mensajes por `SnackBar`; la hoja de «Compartir» usa `showModalBottomSheet` | `appTheme` |

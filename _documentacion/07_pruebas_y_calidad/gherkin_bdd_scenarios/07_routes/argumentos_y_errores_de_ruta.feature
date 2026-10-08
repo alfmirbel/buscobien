@@ -23,12 +23,12 @@ Característica: Argumentos de ruta y manejo de rutas inválidas
   Escenario: Una ruta sin case devuelve null
     Cuando `routeGenerate` recibe la ruta "/rutainexistente"
     Entonces devuelve `null`
-    Y la aplicación no muestra una pantalla de error dedicada
+    Y `MaterialApp` usa `onUnknownRoute` y muestra `PaginaDeError` con el nombre de la ruta
 
   @REQ-ROUT-006
-  Escenario: Una constante de AppRoutes sin case se comporta como ruta desconocida
-    Cuando `routeGenerate` recibe la ruta "/filtrapropiedades"
-    Entonces devuelve `null` porque la constante no tiene `case`
+  Escenario: Una ruta eliminada de AppRoutes se comporta como ruta desconocida
+    Cuando `routeGenerate` recibe la ruta "/login"
+    Entonces devuelve `null` porque ya no existe esa ruta
 
   @REQ-ROUT-016
   Escenario: Falta el argumento obligatorio de /editaespacio

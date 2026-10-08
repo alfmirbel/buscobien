@@ -52,7 +52,7 @@
 - CTA "Contactar" en `PaginaDetalleWidget` invoca `mensajesChatProvider` (de `08_pantallas/tu_cuenta/conocidos`) para crear/abrir conversación con el promotor.
 - Si la conversación no existe, se crea un doc en `buscobien_mensajes` con `_id = SHA1(userIdOrigen + userIdDestino)`.
 - Navega a la pantalla de chat (en `08_pantallas/tu_cuenta/conocidos`).
-- Validación de sesión previa: si el usuario no está logueado, redirect a `AppRoutes.login`.
+- Validación de sesión previa: si el usuario no está logueado, se abre el diálogo de inicio de sesión (`dialogBoxFichaLogin`).
 - **Comentario:** el promotor del documento `propiedad:idPropiedad` se obtiene del campo `idusuario` dentro del doc — acoplamiento con `10_user_login`/`usuario_couchdb`.
 
 ### Confirmation
@@ -67,7 +67,7 @@
 
 ## US-PROP-003: Compartir o guardar la propiedad en una lista
 
-> **Nota de exactitud (2026-10-07):** en el código actual el botón «Compartir / Guardar en lista» está en el carrusel de fotos de `22_imagenes`, no en `PaginaDetalleWidget`; ver `REQ-PROP-005` y `REQ-PROP-006`.
+> **Actualización (MEJ-08):** la ficha incorpora «Guardar» y «Compartir» en `BarraAccionesPropiedad`; el carrusel conserva su menú.
 
 ### Card
 **Como** usuario
@@ -92,7 +92,7 @@
 
 ## US-PROP-004: Generar y compartir PDF de la ficha técnica de la propiedad
 
-> **Nota de exactitud (2026-10-07):** `PdfGeneratorService` está implementado pero ningún archivo de `lib/` lo invoca; la exportación no es accesible al usuario (ver `REQ-PROP-007`). Decisión pendiente: cablearlo o retirarlo del alcance.
+> **Actualización (MEJ-07):** la exportación a PDF ya es accesible desde la ficha (`exportarFichaPdf`).
 
 ### Card
 **Como** usuario que quiere archivar o compartir una propiedad offline

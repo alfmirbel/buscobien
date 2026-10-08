@@ -21,7 +21,7 @@ Característica: Descubrimiento de Grupos Públicos
     Y el mensaje "Error al cargar grupos"
     Y un botón "Reintentar" para volver a cargar
 
-  @REQ-GPU-003 @mapeo-auto
+  @REQ-GPU-003 @REQ-GPU-018 @mapeo-auto
   Escenario: Filtrado de grupos donde ya soy miembro
     Dado que el usuario ya es miembro de algunos grupos públicos
     Cuando se cargan los grupos públicos

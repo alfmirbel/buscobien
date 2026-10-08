@@ -73,7 +73,7 @@
 - **Aceptar / Rechazar (receptor):** Tab 3 Invitaciones (`PageInvitacionesGrupo` 352 líneas) lista invitaciones pendientes filtradas por `currentUser` y `estado='pendiente'`. Aceptar actualiza la invitación en `buscobien_grupos_invitaciones` y agrega al usuario al arreglo `miembros` del documento del grupo en `buscobien_grupos`.
 - **Unirse (grupo público):** `PageDescubrirGrupos` muestra grupos públicos con CTA "Unirse" → `GruposNotifier.unirseAlGrupo(grupoId)` crea doc miembro con rol `miembro` (sin aprobación).
 - **Unirse (grupo privado):** CTA "Solicitar unirse" crea `invitacion_grupo` tipo `request` con estado pendiente → el admin ve la solicitud en tab Invitaciones y decide.
-- **Eliminar miembro (admin):** **no implementado** en el código actual (`GruposNotifier` expone `cargarMisGrupos`, `cargarGruposPublicos`, `crearGrupo`, `agregarMiembro`, `actualizarGrupo`).
+- **Eliminar miembro (admin):** `GruposNotifier.eliminarMiembro` (GET + PUT del grupo sin ese miembro) con botón y confirmación en la pestaña Miembros; no se pueden eliminar administradores (MEJ-10).
 - `InvitacionGrupoModel` (`models/invitacion_grupo_model.dart`, 69 líneas) tipa el documento con: `idGrupo`, `idOrigen`, `idDestino`, `estado` (pendiente/aceptada/rechazada/request), `timestamp`, `tipo` (invitacion/request).
 
 ### Confirmation
@@ -260,7 +260,7 @@ Quiero **ver la información del grupo, sus miembros y las opciones de mi rol**
 Para **participar o administrar el grupo**
 
 **Conversation:**  
-El detalle muestra nombre y número de miembros, lista de miembros con rol e «Info del grupo». Solo el administrador ve el ícono de invitar, el chip «Admin» y «Editar grupo». Eliminar miembros no está implementado.
+El detalle muestra nombre y número de miembros, lista de miembros con rol e «Info del grupo». Solo el administrador ve el ícono de invitar, el chip «Admin» y «Editar grupo». El administrador puede eliminar miembros no administradores (con confirmación).
 
 **Confirmation:**
 - [ ] Un miembro no ve «Editar grupo» ni el ícono de invitar

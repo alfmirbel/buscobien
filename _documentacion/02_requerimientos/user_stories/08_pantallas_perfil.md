@@ -30,7 +30,7 @@
 
 ### Confirmation
 - ✓ Al iniciar sesión, la sección 4 muestra avatar + nombre + rol + datos contacto.
-- ✓ Si no hay sesión, muestra el CTA "Ingresar" → navega a `AppRoutes.login`.
+- ✓ Si no hay sesión, muestra el CTA "Ingresar" → abre el diálogo de inicio de sesión (`dialogBoxFichaLogin`).
 - ✓ Si el avatar base64 falla o está vacío, fallback a `CircleAvatar` con `Symbols.person`.
 - ✓ `appTheme` se usa exclusivamente (sin Colors hardcodeados).
 - ✓ Feature BDD: escenarios "Usuario no logueado", "Usuario logueado", "Recuperación avatar".

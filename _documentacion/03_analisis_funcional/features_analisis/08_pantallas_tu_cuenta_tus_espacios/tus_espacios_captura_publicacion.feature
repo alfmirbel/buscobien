@@ -21,7 +21,7 @@ Funcionalidad: Tus Espacios — Captura y Publicación de Propiedades
   # NOTA (2026-10-07): CreaFichaCapturaPropiedad es la tarjeta de la propiedad, no un formulario de alta;
   # el alta ocurre al comprar espacios y los campos se capturan en PaginaEditaEspacio (Stepper).
   @pendiente
-  @REQ-ESP-003 @REQ-ESP-005 @mapeo-auto
+  @REQ-ESP-005 @REQ-ESP-010 @mapeo-auto
   Escenario: Crear ficha de captura (alta de propiedad)
     Dado que el usuario toca "Crear ficha de captura" (acción que no existe en el código actual)
     Cuando se abre el formulario de captura propuesto

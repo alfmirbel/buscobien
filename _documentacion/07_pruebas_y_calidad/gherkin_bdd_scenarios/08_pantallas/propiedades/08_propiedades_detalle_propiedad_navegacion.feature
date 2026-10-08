@@ -17,7 +17,6 @@ Característica: Búsqueda y Navegación a Detalle de Propiedad
     Entonces el sistema debe navegar a "PaginaDetalleWidget"
     Y debe pasar la propiedad seleccionada y sus IDs de fotos
 
-  @REQ-PROP-004 @mapeo-auto
   Escenario: El usuario navega al detalle desde un chat
     Dado que el usuario está en una conversación de chat
     Cuando presiona una propiedad compartida en el chat

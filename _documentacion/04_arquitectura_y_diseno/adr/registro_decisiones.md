@@ -29,7 +29,7 @@
 - **Consecuencias:** archivos `*.freezed.dart`/`*.g.dart`. Algunos modelos (p. ej. `FindPropiedades`, modelos de grupos) usan JSON manual: inconsistencia conocida.
 
 ## ADR-003 — `Navigator` 1.0 con `onGenerateRoute`
-- **Contexto:** `lib/07_routes/app_routes.dart` define 38 constantes y un `switch` único; no se usa GoRouter ni Navigator 2.0.
+- **Contexto:** `lib/07_routes/app_routes.dart` define 22 constantes y un `switch` único; no se usa GoRouter ni Navigator 2.0.
 - **Decisión:** rutas con nombre y argumentos mediante `settings.arguments`.
 - **Consecuencias:** argumentos sin tipado estático (casts `as`), ruta desconocida devuelve `null`; ver [`SDD_07_routes.md`](../modulos_sdd/07_routes/SDD_07_routes.md).
 

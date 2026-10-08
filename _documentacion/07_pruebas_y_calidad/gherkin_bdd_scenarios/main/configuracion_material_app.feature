@@ -23,7 +23,7 @@ Característica: Configuración de MaterialApp
     Cuando el sistema construye `MaterialApp`
     Entonces el sistema establece el título de la app como "buscobien"
 
-  @REQ-MAIN-003 @mapeo-auto
+  @REQ-MAIN-003 @REQ-MAIN-007 @mapeo-auto
   Escenario: Ruta inicial de la aplicación
     Dado que el usuario abre la aplicación por primera vez
     Cuando el sistema construye `MaterialApp`

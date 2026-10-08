@@ -171,7 +171,7 @@ MaterialApp
 │   ├── "/registro" → RegisterScreenUsers
 │   ├── "/perfil" → PaginaPerfilWidget
 │   ├── "/preferencias" → PaginaColores
-│   ├── ... (38 constantes, 22 con pantalla)
+│   ├── ... (22 constantes)
 │   └── default → null
 └── Deep Link Handler
     ├── Web: Uri.base → /recuperar?token=X&perfil=Y

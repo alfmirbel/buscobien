@@ -79,6 +79,15 @@ Respuesta esperada: `{"success":true,"message":"Correo enviado"}`. Hoy la app ll
 
 ## 5. Deep links (recuperación de contraseña)
 
+**Estado en la app (verificado):** `AndroidManifest.xml` declara un `intent-filter` con `autoVerify` para `https://buscobien.net/recuperar` y `ios/Runner/Runner.entitlements` incluye `applinks:buscobien.net`. Falta el lado del servidor:
+
+1. Definir el `applicationId` definitivo (hoy `com.example.buscobien`, valor de plantilla) y el Bundle ID de iOS.
+2. Obtener la huella SHA-256 del certificado de firma: `keytool -list -v -keystore <keystore>` (o, con Play App Signing, la huella de «Firma de la app» en Play Console) y ponerla en `assetlinks.json`.
+3. Poner el `TEAM_ID` de Apple en `apple-app-site-association` (`TEAM_ID.<bundle id>`).
+4. Publicar ambos archivos en `https://buscobien.net/.well-known/` (sin redirecciones, `Content-Type: application/json`) y verificar con el *Digital Asset Links tester* de Google y `curl`.
+5. Probar de extremo a extremo: solicitar recuperación → abrir el enlace del correo en el móvil → cambiar la contraseña.
+
+
 | Elemento | Archivo | Pendiente |
 | :--- | :--- | :--- |
 | Android App Links | `server/well-known/assetlinks.json` | Paquete definitivo (hoy `com.example.buscobien`) y huella SHA-256 real |

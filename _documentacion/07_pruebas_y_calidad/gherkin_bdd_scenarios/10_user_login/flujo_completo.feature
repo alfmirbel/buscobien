@@ -46,8 +46,7 @@ Característica: Flujos Completos de Autenticación
     Cuando Juan ingresa una nueva contraseña segura
     Y confirma la nueva contraseña
     Y presiona "Guardar"
-    Entonces el sistema deberá actualizar la contraseña en CouchDB
-    Y el sistema deberá navegar a la pantalla de login
+    \1\n    Y el sistema deberá navegar a la pantalla principal (el inicio de sesión es un diálogo)
     Cuando Juan inicia sesión con la nueva contraseña
     Entonces el sistema deberá autenticarlo exitosamente
 

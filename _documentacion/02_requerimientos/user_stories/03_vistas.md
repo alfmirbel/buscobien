@@ -1,5 +1,7 @@
 # User Stories — Landing Pages por Actor / Catálogos Públicos (03_vistas)
 
+> **Decisión (2026-10-07):** las páginas de actor de `03_vistas` son marcadores de posición con botones inertes; sus secciones (registro, acceso, formularios) están en el roadmap de implementación y por ahora **se mantienen sin funcionalidad** (MEJ-11 diferida).
+
 **Directorio:** `lib\03_vistas\` (9 archivos `.dart`, 9 landings por actor)
 **Epic asociado:** [`02_requerimientos/epics_ears/03_vistas.md`](../epics_ears/03_vistas.md)
 **Feature BDD:** [`03_analisis_funcional/features_analisis/landing_pages_por_actor.feature`](../../03_analisis_funcional/features_analisis/03_vistas/landing_pages_por_actor.feature) (10 escenarios)

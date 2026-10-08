@@ -15,9 +15,9 @@
 ```mermaid
 flowchart TD
     M["main.dart<br>MaterialApp(initialRoute '/', onGenerateRoute)"] --> RG["routeGenerate(RouteSettings)"]
-    RG -->|"22 case activos"| NR["navigateToRoute(screen, settings)"]
+    RG -->|"22 case"| NR["navigateToRoute(screen, settings)"]
     NR --> MPR["MaterialPageRoute(settings)"]
-    RG -->|"nombre sin case"| NULL["return null (sin fallback)"]
+    RG -->|"nombre sin case"| NULL["return null → onUnknownRoute → PaginaDeError"]
     DL["initDeepLinkHandler(navigatorKey)"] -->|"Web: Uri.base (una vez)"| NIR["_navigateIfRecovery"]
     DL -->|"Android/iOS/Desktop: AppLinks inicial + stream"| NIR
     NIR -->|"/recuperar + token + perfil"| PN["navigatorKey.pushNamed('/cambiopassword', {token, perfil})"]
@@ -26,7 +26,7 @@ flowchart TD
 
 | Archivo | Responsabilidad |
 | :--- | :--- |
-| `app_routes.dart` | Clase `AppRoutes` (38 constantes), `navigateToRoute` y `routeGenerate`. |
+| `app_routes.dart` | Clase `AppRoutes` (22 constantes), `navigateToRoute` y `routeGenerate`. |
 | `deep_link_handler.dart` | Detecta enlaces `/recuperar?token=…&perfil=…` y navega a cambio de contraseña. |
 | `pagina_route_error.dart` | Widget `PaginaDeError(letrero)` de error genérico. |
 | `routes_parameters.dart` | Clases de resultado/argumentos y variables globales de plantilla de argumentos. |
@@ -36,9 +36,9 @@ flowchart TD
 ## 2. Requisitos de diseño
 
 ### 2.1 Catálogo de rutas (`AppRoutes`)
-- **DES-ROUT-001:** El sistema deberá declarar las rutas como `static const String` en la clase `AppRoutes`, con 38 constantes.
-- **DES-ROUT-002:** El sistema deberá resolver mediante `case` únicamente 22 de ellas: `main`, `splash`, `principal`, `plataforma`, `sinconeccion`, `checaconeccion`, `registro`, `listalocalidades`, `localidades`, `editaespacio`, `perfil`, `preferencias`, `gestionavatar`, `compraespacios`, `carouselfotospropiedad`, `fotospropiedad`, `fotospropiedadpaginada`, `agregamultiplesfotos`, `mapapropiedades`, `listaspropiedades`, `solicitarRecuperacion`, `cambioPassword`.
-- **DES-ROUT-003:** Las 16 constantes restantes (`home`, `login`, `opciones`, `loginuser`, `localidad`, `gestionfotopropiedad`, `agregafotopropiedad`, `catalogotipotransaccion`, `filtrapropiedades`, `buscapropiedades`, `generadatapropiedades`, `generadatausuarios`, `generadatapromotores`, `gestionfotoscasa`, `fotospropiedadminiaturas`, `fotosagregafotoalista`) no tienen pantalla asociada y deberán considerarse reservadas u obsoletas.
+- **DES-ROUT-001:** El sistema deberá declarar las rutas como `static const String` en la clase `AppRoutes`, con 22 constantes.
+- **DES-ROUT-002:** El sistema deberá resolver mediante `case` las 22 constantes: `main`, `splash`, `principal`, `plataforma`, `sinconeccion`, `checaconeccion`, `registro`, `listalocalidades`, `localidades`, `editaespacio`, `perfil`, `preferencias`, `gestionavatar`, `compraespacios`, `carouselfotospropiedad`, `fotospropiedad`, `fotospropiedadpaginada`, `agregamultiplesfotos`, `mapapropiedades`, `listaspropiedades`, `solicitarRecuperacion`, `cambioPassword`.
+- **DES-ROUT-003:** Las 16 constantes que no tenían pantalla (`home`, `login`, `opciones`, `loginuser`, `localidad`, `gestionfotopropiedad`, `agregafotopropiedad`, `catalogotipotransaccion`, `filtrapropiedades`, `buscapropiedades`, `generadatapropiedades`, `generadatausuarios`, `generadatapromotores`, `gestionfotoscasa`, `fotospropiedadminiaturas`, `fotosagregafotoalista`) se eliminaron en MEJ-09; los flujos que las usaban (`/login` tras cambiar la contraseña, agregar/editar foto) se redirigieron a `/principal` y `/agregamultiplesfotos`.
 
 ### 2.2 Tabla de rutas activas
 
@@ -70,7 +70,7 @@ flowchart TD
 - **DES-ROUT-004:** El sistema deberá registrar `routeGenerate` como `onGenerateRoute` de `MaterialApp` y usar `AppRoutes.main` como `initialRoute`.
 - **DES-ROUT-005:** Cuando `routeGenerate` reciba un nombre con `case`, deberá construir la ruta con `navigateToRoute(screen, settings:)`, que devuelve `MaterialPageRoute` conservando los `settings`.
 - **DES-ROUT-006:** `routeGenerate` deberá registrar con `debugPrintLevels(1)` el nombre y los argumentos de cada ruta, y `navigateToRoute` con nivel 2 el nombre.
-- **DES-ROUT-007:** Cuando el nombre no tenga `case`, `routeGenerate` deberá devolver `null`; `MaterialApp` no define `onUnknownRoute`, por lo que no hay pantalla de error para rutas desconocidas.
+- **DES-ROUT-007:** Cuando el nombre no tenga `case`, `routeGenerate` deberá devolver `null` y `MaterialApp` deberá usar `onUnknownRoute`, que muestra `PaginaDeError` con el nombre de la ruta.
 - **DES-ROUT-008:** Cada `case` con argumentos deberá convertirlos con `as <Tipo>` sin verificación previa; un argumento ausente o de otro tipo deberá lanzar `TypeError` en tiempo de ejecución.
 - **DES-ROUT-009:** Cuando la ruta sea `/cambiopassword`, `routeGenerate` deberá leer `args['token']!` y `args['perfil']!` de un `Map<String, String>`.
 
@@ -84,8 +84,8 @@ flowchart TD
 
 ### 2.5 Página de error
 - **DES-ERR-001:** `PaginaDeError(letrero)` deberá mostrar un `Scaffold` con `AppBar` de 40 px (`appTheme.error`), el título «Error en la aplicación», el texto «Ocurrio el siguiente problema», el `letrero`, «Vuelva a intentarlo» y un botón «Salir» que ejecuta `Navigator.of(context).pop()`.
-- **DES-ERR-002:** `PaginaDeError` no deberá estar registrada en `routeGenerate`.
-- **DES-ERR-003:** El único uso actual es `principal_02_page_appbar.dart:120`, donde el widget se crea dentro de una expresión ternaria cuyo resultado no se muestra; en la práctica la pantalla no se presenta.
+- **DES-ERR-002:** `PaginaDeError` deberá usarse desde `onUnknownRoute` (`main.dart`); no está registrada como ruta con nombre.
+- **DES-ERR-003:** `principal_02_page_appbar.dart` deberá mostrar `PaginaDeError("Activa los permisos de ubicación")` con `Navigator.push` cuando falte el permiso de ubicación.
 
 ### 2.6 Argumentos y plantillas globales (`routes_parameters.dart`)
 - **DES-PAR-001:** El archivo deberá definir `ResultadoGuardaFoto {statusCode, idFoto}`, `ResultSaveFoto {resultadoEnFotos, resultadoEnEspacios}`, `ArgumentsLocalidad {cp}` y `ArgumentsListaLocalidad {listaLocalidades, cp}`.
@@ -99,13 +99,13 @@ flowchart TD
 
 | Riesgo | Impacto | Recomendación |
 | :--- | :--- | :--- |
-| `default: return null` sin `onUnknownRoute` | Ruta desconocida falla sin pantalla de error | Definir `onUnknownRoute` que muestre `PaginaDeError` |
-| 16 constantes sin pantalla | Rutas muertas confunden a quien lee el código | Eliminarlas o implementarlas |
+| ~~`default: return null` sin `onUnknownRoute`~~ | **Resuelto** (MEJ-09) | — |
+| ~~16 constantes sin pantalla~~ | **Resuelto** (MEJ-09): eliminadas | — |
 | Casts `as` y `!` sin validar | `TypeError` en ejecución | Argumentos tipados (DTO/Freezed) con validación |
 | Estado global mutable en `routes_parameters.dart` | Efectos cruzados entre pantallas | Reemplazar por argumentos inmutables o providers |
 | Web solo procesa la URL al arrancar | Cambios de URL posteriores no navegan | Aceptable si el enlace siempre abre la app; revisar si se agregan más deep links |
 | ~~Datos de contacto reales escritos en las plantillas~~ | **Resuelto** (2026-10-07): vaciado también en el resto de `lib/` | Solo permanecen en el historial de git (ver T12 en el modelo de amenazas) |
-| `PaginaDeError` no se muestra | Falta retroalimentación al usuario sin permiso de ubicación | Usar `Navigator.push` / diálogo |
+| ~~`PaginaDeError` no se muestra~~ | **Resuelto** (MEJ-09) | — |
 
 ---
 

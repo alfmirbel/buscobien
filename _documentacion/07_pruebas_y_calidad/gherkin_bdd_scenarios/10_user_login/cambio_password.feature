@@ -19,7 +19,7 @@ Característica: Cambio de Contraseña
   Escenario: Token inválido o expirado
     Dado que el usuario abre un enlace con token inválido o expirado
     Entonces el sistema deberá mostrar un mensaje "El enlace de recuperación no es válido o ya expiró. Solicita uno nuevo desde la pantalla de inicio de sesión"
-    Y el sistema deberá navegar a la pantalla de login
+    Y el sistema deberá navegar a la pantalla principal (el inicio de sesión es un diálogo)
 
   Escenario: Visualización de indicador de fortaleza de contraseña
     Dado que el usuario se encuentra en la pantalla de cambio de contraseña
@@ -40,7 +40,7 @@ Característica: Cambio de Contraseña
     Y el sistema deberá generar el hash SHA-256 de la nueva contraseña
     Y el sistema deberá actualizar la contraseña en CouchDB
     Y el sistema deberá mostrar un mensaje "Tu contraseña ha sido actualizada correctamente. Inicia sesión con tu nueva contraseña"
-    Y el sistema deberá navegar a la pantalla de login
+    Y el sistema deberá navegar a la pantalla principal (el inicio de sesión es un diálogo)
 
   Escenario: Error al actualizar contraseña
     Dado que el usuario ha ingresado una nueva contraseña válida

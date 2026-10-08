@@ -90,11 +90,11 @@ Funcionalidad: Conocidos — Red social privada (contactos, invitaciones, chat 1
     Entonces navega a PaginaDetalleWidget (de 08_pantallas/propiedades)
     Y al regresar, sigue en el chat
 
-  @REQ-CON-003 @mapeo-auto
+  @REQ-CON-012 @mapeo-auto
   Escenario: Eliminar contacto
-    Dado que el usuario tap "Eliminar" en PagePerfilContacto
-    Cuando confirmación dialog aparece
-    Entonces DELETE los 2 doc busco_conocidos_usuarios (bidireccional)
+    Dado que el usuario toca "Eliminar contacto" en Mis Contactos
+    Cuando confirma el diálogo y se ejecuta ConocidosNotifier.eliminarContacto
+    Entonces se hace DELETE del documento de la invitación en buscobien_invitaciones
     Y el contacto desaparece de Mis Contactos reactivamente
 
   Escenario: Transaccionalidad aceptar (deuda)

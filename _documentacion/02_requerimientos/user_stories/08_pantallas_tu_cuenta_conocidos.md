@@ -101,7 +101,7 @@
   - **Son conocidos:** "Chatear" (navega a `PageChatPrivado`), "Eliminar de contactos" (DELETE bidireccional).
   - **No son conocidos, hay invitación pendiente:** muestra "Pendiente", CTAs deshabilitados.
   - **No son conocidos, no invitación:** "Invitar" (crea nueva invitación).
-- **Eliminar contacto:** no se encontró una operación de borrado en el código actual (`ConocidosNotifier`: `cargar`, `enviarInvitacion`, `agregarContactoAceptado`, `responderInvitacion`).
+- **Eliminar contacto:** `ConocidosNotifier.eliminarContacto(inv.id)` (GET + DELETE con `_rev`) con botón y confirmación en Mis Contactos; los mensajes del chat se conservan (MEJ-10).
 - **Comentario:** los datos públicos mostrados deben ser subset controlado del `User` (no mostrar email ni teléfono salvo si el usuario los configuró públicos — deuda de privacidad).
 
 ### Confirmation

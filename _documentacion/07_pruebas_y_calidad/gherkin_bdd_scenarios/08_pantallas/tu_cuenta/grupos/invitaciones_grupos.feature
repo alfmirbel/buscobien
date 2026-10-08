@@ -89,6 +89,7 @@ Característica: Gestión de Invitaciones a Grupos
     Entonces el sistema deberá impedir el envío duplicado
     Y mostrar un mensaje indicando que ya existe una solicitud pendiente
 
+  @REQ-GPU-018 @mapeo-auto
   Escenario: Filtrado de usuarios no disponibles para invitar
     Dado que el diálogo de invitar miembros está abierto
     Entonces el sistema deberá excluir al usuario actual de la lista

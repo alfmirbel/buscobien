@@ -18,13 +18,12 @@ Característica: Página de error genérica
     Entonces se ejecuta `Navigator.of(context).pop()`
 
   @REQ-ROUT-012
-  Escenario: PaginaDeError no está registrada como ruta
-    Cuando se navega a cualquier ruta desconocida
-    Entonces `PaginaDeError` no se muestra porque `routeGenerate` no la referencia
+  Escenario: Una ruta desconocida muestra PaginaDeError
+    Cuando se navega a una ruta que `routeGenerate` no reconoce
+    Entonces `onUnknownRoute` muestra `PaginaDeError` con "Pantalla no encontrada: <ruta>"
 
   @REQ-ROUT-012
-  Escenario: Sin permiso de ubicación el widget se crea pero no se muestra
+  Escenario: Sin permiso de ubicación se muestra el aviso
     Dado que `permisodelocalizacion` es 0 en la barra principal
     Cuando el usuario toca la opción que requiere ubicación
-    Entonces se crea `PaginaDeError("Activa los permisos de ubicación")` dentro de una expresión
-    Y la pantalla no se presenta al usuario
+    Entonces se abre `PaginaDeError("Activa los permisos de ubicación")` con `Navigator.push`

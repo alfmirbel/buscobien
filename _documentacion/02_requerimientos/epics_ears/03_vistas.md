@@ -1,5 +1,7 @@
 # Epic: Landing Pages por Actor / Catálogos Públicos (03_vistas)
 
+> **Decisión (2026-10-07):** las páginas de actor de `03_vistas` son marcadores de posición con botones inertes; sus secciones (registro, acceso, formularios) están en el roadmap de implementación y por ahora **se mantienen sin funcionalidad** (MEJ-11 diferida).
+
 **Directorio:** `lib\03_vistas\`  
 **Archivos:** `pagina_asociaciones.dart`, `pagina_hospedaje.dart`, `pagina_inmobiliarias.dart`, `pagina_market.dart`, `pagina_promotores.dart`, `pagina_propietarios.dart`, `pagina_proveedores.dart`, `pagina_servicios.dart`, `pagina_usuarios.dart`  
 **Fecha:** 2026-08-12  

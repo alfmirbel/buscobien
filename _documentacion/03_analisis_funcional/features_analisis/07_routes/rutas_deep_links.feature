@@ -6,7 +6,7 @@ Característica: Sistema de Rutas y Deep Links
   Para acceder directo a funcionalidades (ej. recuperación password)
 
   Antecedentes:
-    Dado que AppRoutes define 38 constantes de ruta, 22 con pantalla (ej: "/principal", "/registro", "/cambiopassword")
+    Dado que AppRoutes define 22 constantes de ruta, todas con pantalla (ej: "/principal", "/registro", "/cambiopassword")
     Y routeGenerate es el onGenerateRoute único en MaterialApp
     Y navigatorKey global permite navegación programática
 
@@ -30,6 +30,7 @@ Característica: Sistema de Rutas y Deep Links
     Cuando routeGenerate resuelve "/sinconeccion"
     Entonces pasa settings.arguments as String a PaginaSinConeccion
 
+  @REQ-ROUT-006 @mapeo-auto
   Escenario: Ruta desconocida retorna null (riesgo)
     Dado que el usuario navega a "/ruta-inexistente"
     Cuando routeGenerate no encuentra case匹配

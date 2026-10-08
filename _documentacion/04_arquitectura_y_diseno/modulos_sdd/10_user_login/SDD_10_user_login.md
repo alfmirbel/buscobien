@@ -77,13 +77,13 @@
 
 ### 2.6 Cambio de Contraseña
 - **DES-CAM-001:** Cuando el usuario abra el enlace de recuperación, el sistema deberá validar el token contra CouchDB.
-- **DES-CAM-002:** Cuando el token sea inválido o haya expirado, el sistema deberá mostrar un mensaje de error y navegar a login.
+\1navegar a la pantalla principal (`/principal`; el inicio de sesión es un diálogo).
 - **DES-CAM-003:** Cuando el token sea válido, el sistema deberá mostrar el formulario de nueva contraseña.
 - **DES-CAM-004:** Cuando el usuario escriba una contraseña, el sistema deberá calcular y mostrar el nivel de fortaleza.
 - **DES-CAM-005:** Cuando el usuario presione "Guardar", el sistema deberá validar que las contraseñas coincidan.
 - **DES-CAM-006:** Cuando el usuario guarde exitosamente, el sistema deberá generar el hash SHA-256 de la nueva contraseña.
 - **DES-CAM-007:** Cuando el usuario guarde exitosamente, el sistema deberá actualizar la contraseña en CouchDB.
-- **DES-CAM-008:** Cuando el cambio sea exitoso, el sistema deberá navegar a la pantalla de login.
+\1navegar a la pantalla principal (`/principal`; el inicio de sesión es un diálogo).
 - **DES-CAM-009:** Cuando ocurra un error al actualizar, el sistema deberá mostrar un mensaje de error.
 
 ---
