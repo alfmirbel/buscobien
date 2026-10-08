@@ -12,6 +12,9 @@ import '../../../20_var_globales/var_color_themes.dart';
 import '../../../20_var_globales/var_color_widget.dart';
 import '../../../20_var_globales/variables_globales.dart';
 import 'tabla_tipopropiedad_vs_campos.dart';
+import '../../../60_global_widgets/campo_texto.dart';
+import 'edicion/acceso_campos.dart';
+import 'edicion/campos_edicion.dart';
 
 // CORECCIÓN EE ERROR
 //------------------------------------------------------------------------------
@@ -45,6 +48,7 @@ class PaginaEditaEspacioState extends ConsumerState<PaginaEditaEspacio>
   late ValueEspaciosCasaGet propiedad;
 
   final formKeyEspacioComprado = GlobalKey<FormState>();
+  bool _guardando = false; // evita enviar dos veces el mismo guardado
   String tipoDePropiedad = otrosTiposDeInmueble[0];
   String tipoDeTransaccion = "Venta";
 
@@ -129,75 +133,87 @@ class PaginaEditaEspacioState extends ConsumerState<PaginaEditaEspacio>
         backgroundColor: appTheme.primary,
         minimumSize: const Size(150, 40),
       ),
-      onPressed: () async {
-        if (formKeyEspacioComprado.currentState!.validate()) {
-          formKeyEspacioComprado.currentState!.save();
-
-          // 1. Obtener índice actual
-          int indexAnterior = ref
-              .read(espaciosCasaConListaFotosGetProvider.notifier)
-              .getIndexEspaciosCasas();
-
-          // 2. Buscar índice basado en ID (por seguridad)
-          int index = ref
-              .read(espaciosCasaConListaFotosGetProvider)
-              .espaciosCasas
-              .rows
-              .indexWhere(
-                (propiedadEnLista) =>
-                    propiedadEnLista.value.espacioscasa.idPropiedad ==
-                    propiedad.espacioscasa.idPropiedad,
-              );
-          // EL INDICE ES LA PROPIEDAD ACTUAL EN LA LISTA
-          // REGRESA -1 SI NO SE ENCONTRO LA POSICIÓN
-          // SI LA ENCONTRO, ACTUALIZA EL INDICE CON SU POSICIÓN
-          if (index != -1) {
-            ref
-                .read(espaciosCasaConListaFotosGetProvider.notifier)
-                .setIndexEspaciosCasas(index);
-          }
-          // 3. ACTUALIZAR EL ESTADO EN RIVERPOD
-          // COPIANDO TODA LA PROPIEDAD EN LA POSICIÓN INDEX
-          ref
-              .read(espaciosCasaConListaFotosGetProvider.notifier)
-              .setEspaciosCasasGet(propiedad);
-
-          debugPrintLevels(5, "05. PaginaEditaEspacio Guarda cambios ");
-
-          // 4. Guardar en Base de Datos
-          await ref
-              .read(espaciosCasaConListaFotosGetProvider.notifier)
-              .updatePropiedadCasaGetToCouchDB()
-              .then((resultado) async {
-                // Restaurar índice si es necesario
-                ref
-                    .read(espaciosCasaConListaFotosGetProvider.notifier)
-                    .setIndexEspaciosCasas(indexAnterior);
-
-                debugPrintLevels(
-                  5,
-                  "06. PaginaEditaEspacio Resultado de Update espacio: $resultado",
-                );
-
-                if (mounted) {
-                  await showMessageDialog(
-                    context,
-                    "Actualiza propiedad",
-                    "Se actualizó correctamente",
-                    appTheme.primary,
-                    TextAlign.center,
-                    "Salir",
-                  );
-                  Navigator.of(context).pop();
-                }
-              });
-        }
-      },
-      child: Text(
-        'Guardar',
-        style: TextStyle(fontSize: 14, color: appTheme.onPrimary),
-      ),
+      onPressed: _guardando ? null : _guardar,
+      child: _guardando
+          ? SizedBox(
+              width: 18,
+              height: 18,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: appTheme.onPrimary,
+              ),
+            )
+          : Text(
+              'Guardar',
+              style: TextStyle(fontSize: 14, color: appTheme.onPrimary),
+            ),
     );
+  }
+
+  Future<void> _guardar() async {
+    final formulario = formKeyEspacioComprado.currentState;
+    if (formulario == null || _guardando) return;
+
+    if (!formulario.validate()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: appTheme.error,
+          content: Text(
+            'Revisa los campos marcados en rojo (pueden estar en otros pasos).',
+            style: TextStyle(color: appTheme.onError),
+          ),
+        ),
+      );
+      return;
+    }
+    formulario.save();
+    setState(() => _guardando = true);
+
+    final notifier = ref.read(espaciosCasaConListaFotosGetProvider.notifier);
+    int resultado = 0;
+    try {
+      // 1. Índice actual y posición de esta propiedad en la lista (por id)
+      final indexAnterior = notifier.getIndexEspaciosCasas();
+      final index = ref
+          .read(espaciosCasaConListaFotosGetProvider)
+          .espaciosCasas
+          .rows
+          .indexWhere(
+            (p) =>
+                p.value.espacioscasa.idPropiedad ==
+                propiedad.espacioscasa.idPropiedad,
+          );
+      if (index != -1) notifier.setIndexEspaciosCasas(index);
+
+      // 2. Copiar la propiedad editada al estado de Riverpod y guardar en CouchDB
+      notifier.setEspaciosCasasGet(propiedad);
+      debugPrintLevels(5, "05. PaginaEditaEspacio Guarda cambios ");
+      resultado = await notifier.updatePropiedadCasaGetToCouchDB();
+      notifier.setIndexEspaciosCasas(indexAnterior);
+      debugPrintLevels(
+          5, "06. PaginaEditaEspacio Resultado de Update espacio: $resultado");
+    } catch (e) {
+      debugPrintLevels(1, "PaginaEditaEspacio guardar exception: $e");
+    }
+    if (!mounted) return;
+
+    final exito = resultado == 200 || resultado == 201;
+    await showMessageDialog(
+      context,
+      "Actualiza propiedad",
+      exito
+          ? "Se actualizó correctamente"
+          : "No se pudo guardar la propiedad (código $resultado). Revisa tu conexión e inténtalo de nuevo.",
+      exito ? appTheme.primary : appTheme.error,
+      TextAlign.center,
+      exito ? "Salir" : "Cerrar",
+    );
+    if (!mounted) return;
+    if (exito) {
+      Navigator.of(context).pop();
+    } else {
+      setState(() => _guardando = false);
+    }
   }
 
   // CORRECCIÓN AQUI: Se cambia pushReplacementNamed por Navigator.pop
@@ -234,689 +250,71 @@ class PaginaEditaEspacioState extends ConsumerState<PaginaEditaEspacio>
 
   // --- CONSTRUCCIÓN DE PASOS (Steps) ---
 
-  Step _buildPasoPropiedad() {
-    return Step(
-      title: Text((screenWidth > verticalWidth) ? "" : "Propiedad"),
-      label: Text(
-        (screenWidth > verticalWidth) ? "Propiedad" : "",
-        style: TextStyle(
-          color: appTheme.primary,
-          fontWeight: (pasosActivar[0]) ? FontWeight.bold : FontWeight.normal,
-          fontSize: 10,
-        ),
-      ),
-      content: Column(
-        children: [
-          Center(
-            child: Text(
-              "Datos de la propiedad",
-              style: TextStyle(
-                color: appTheme.primary,
-                fontSize: fontSizeTituloPagina,
-                fontWeight: FontWeight.bold,
-                fontFamily: "Comfortaa",
-              ),
-            ),
-          ),
-          const SizedBox(height: 20),
-          Wrap(
-            crossAxisAlignment: WrapCrossAlignment.start,
-            spacing: 20,
-            runSpacing: 10,
-            alignment: WrapAlignment.start,
-            children: [
-              // Dropdown Tipo Propiedad
-              _buildDropdown(
-                value: tipoDePropiedad,
-                items: listaTipoInmuebles,
-                onChanged: (newValue) {
-                  if (newValue != null) {
-                    setState(() {
-                      tipoDePropiedad = newValue;
-                      setCampoEspaciosCasasGet(
-                        propiedad,
-                        "tipodepropiedad",
-                        tipoDePropiedad,
-                      );
-                    });
-                  }
-                },
-              ),
-              // Dropdown Tipo Transacción
-              _buildDropdown(
-                value: tipoDeTransaccion,
-                items: listaTiposDeTransaccion,
-                onChanged: (newValue) {
-                  if (newValue != null) {
-                    setState(() {
-                      tipoDeTransaccion = newValue;
-                      setCampoEspaciosCasasGet(
-                        propiedad,
-                        "tipodetransaccion",
-                        tipoDeTransaccion,
-                      );
-                    });
-                  }
-                },
-              ),
-              // Campos dinámicos
-              renglonCapturaGet(
-                "clavedelapropiedad",
-                buildCampoTextoGet(
-                  propiedad,
-                  ref,
-                  "clavedelapropiedad",
-                  "",
-                  20,
-                  true,
-                ),
-                Alignment.topLeft,
-                300,
-              ),
-              renglonCapturaGet(
-                "tipodeanuncio",
-                buildCampoTextoGet(
-                  propiedad,
-                  ref,
-                  "tipodeanuncio",
-                  "",
-                  50,
-                  false,
-                ),
-                Alignment.topLeft,
-                300,
-              ),
-              renglonCapturaGet(
-                "tipodetransaccion",
-                buildCampoTextoGet(
-                  propiedad,
-                  ref,
-                  "tipodetransaccion",
-                  "",
-                  50,
-                  true,
-                ),
-                Alignment.topLeft,
-                300,
-              ),
-              renglonCapturaGet(
-                "nombredelapropiedad",
-                buildCampoTextoGet(
-                  propiedad,
-                  ref,
-                  "nombredelapropiedad",
-                  "",
-                  50,
-                  true,
-                ),
-                Alignment.topLeft,
-                300,
-              ),
-              renglonCapturaGet(
-                "inmobiliaria",
-                buildCampoTextoGet(
-                  propiedad,
-                  ref,
-                  "inmobiliaria",
-                  "",
-                  80,
-                  true,
-                ),
-                Alignment.topLeft,
-                300,
-              ),
-              renglonCapturaGet(
-                "inmobiliariaimagen",
-                buildCampoTextoGet(
-                  propiedad,
-                  ref,
-                  "inmobiliariaimagen",
-                  "",
-                  80,
-                  true,
-                ),
-                Alignment.topLeft,
-                300,
-              ),
-              renglonCapturaGet(
-                "linkinmobiliaria",
-                buildCampoTextoGet(
-                  propiedad,
-                  ref,
-                  "linkinmobiliaria",
-                  "",
-                  80,
-                  true,
-                ),
-                Alignment.topLeft,
-                300,
-              ),
-              renglonCapturaGet(
-                "sloganinmobiliaria",
-                buildCampoTextoGet(
-                  propiedad,
-                  ref,
-                  "sloganinmobiliaria",
-                  "",
-                  80,
-                  true,
-                ),
-                Alignment.topLeft,
-                300,
-              ),
-              renglonCapturaGet(
-                "ubicaciongeneral",
-                buildCampoTextoGet(
-                  propiedad,
-                  ref,
-                  "ubicaciongeneral",
-                  "",
-                  80,
-                  true,
-                ),
-                Alignment.topLeft,
-                300,
-              ),
-              renglonCapturaGet(
-                "descripcion",
-                buildCampoTextoGet(propiedad, ref, "descripcion", "", 80, true),
-                Alignment.topLeft,
-                300,
-              ),
-              renglonCapturaGet(
-                "letreropromocional",
-                buildCampoTextoGet(
-                  propiedad,
-                  ref,
-                  "letreropromocional",
-                  "",
-                  80,
-                  true,
-                ),
-                Alignment.topLeft,
-                300,
-              ),
-              if (metrosdeterrenoMatriz.contains(tipoDePropiedad))
-                renglonCapturaGet(
-                  "metrosdeterreno",
-                  buildCampoTextoGet(
-                    propiedad,
-                    ref,
-                    "metrosdeterreno",
-                    "",
-                    250,
-                    true,
-                  ),
-                  Alignment.topLeft,
-                  300,
-                ),
-              if (metrosconstruidosMatriz.contains(tipoDePropiedad))
-                renglonCapturaGet(
-                  "metrosconstruidos",
-                  buildCampoTextoGet(
-                    propiedad,
-                    ref,
-                    "metrosconstruidos",
-                    "",
-                    250,
-                    true,
-                  ),
-                  Alignment.topLeft,
-                  300,
-                ),
-              if (recamarasMatriz.contains(tipoDePropiedad))
-                renglonCapturaGet(
-                  "recamaras",
-                  buildCampoTextoGet(propiedad, ref, "recamaras", "", 20, true),
-                  Alignment.topLeft,
-                  300,
-                ),
-              if (banosMatriz.contains(tipoDePropiedad))
-                renglonCapturaGet(
-                  "banos",
-                  buildCampoTextoGet(propiedad, ref, "banos", "", 10, true),
-                  Alignment.topLeft,
-                  300,
-                ),
-              if (mediosbanosMatriz.contains(tipoDePropiedad))
-                renglonCapturaGet(
-                  "mediosbanos",
-                  buildCampoTextoGet(
-                    propiedad,
-                    ref,
-                    "mediosbanos",
-                    "",
-                    50,
-                    true,
-                  ),
-                  Alignment.topLeft,
-                  300,
-                ),
-              if (cuartosdeservicioMatriz.contains(tipoDePropiedad))
-                renglonCapturaGet(
-                  "cuartosdeservicio",
-                  buildCampoTextoGet(
-                    propiedad,
-                    ref,
-                    "cuartosdeservicio",
-                    "",
-                    80,
-                    true,
-                  ),
-                  Alignment.topLeft,
-                  300,
-                ),
-              if (estacionamientosMatriz.contains(tipoDePropiedad))
-                renglonCapturaGet(
-                  "estacionamientos",
-                  buildCampoTextoGet(
-                    propiedad,
-                    ref,
-                    "estacionamientos",
-                    "",
-                    80,
-                    true,
-                  ),
-                  Alignment.topLeft,
-                  300,
-                ),
-              if (estacionamientoscubiertosMatriz.contains(tipoDePropiedad))
-                renglonCapturaGet(
-                  "estacionamientoscubiertos",
-                  buildCampoTextoGet(
-                    propiedad,
-                    ref,
-                    "estacionamientoscubiertos",
-                    "",
-                    80,
-                    true,
-                  ),
-                  Alignment.topLeft,
-                  300,
-                ),
-              if (elementosadicionalescasaMatriz.contains(tipoDePropiedad))
-                renglonCapturaGet(
-                  "elementosadicionalescasa",
-                  buildCampoTextoGet(
-                    propiedad,
-                    ref,
-                    "elementosadicionalescasa",
-                    "",
-                    250,
-                    true,
-                  ),
-                  Alignment.topLeft,
-                  300,
-                ),
-            ],
-          ),
-          const SizedBox(height: 20),
-          Wrap(
-            crossAxisAlignment: WrapCrossAlignment.center,
-            spacing: 20,
-            runSpacing: 10,
-            alignment: WrapAlignment.center,
-            children: [
-              botonGuardar(context),
-              _botonNavegacion('Siguiente', _siguientePaso),
-            ],
-          ),
-          const SizedBox(height: 20),
-          botonSalir(context),
-        ],
-      ),
-      isActive: pasosActivar[0],
-    );
-  }
+  static const _titulosPaso = [
+    "Datos de la propiedad",
+    "Precio y costos de la propiedad",
+    "Dirección de la propiedad",
+    "Datos adicionales",
+    "Datos del promotor",
+  ];
+  static const _etiquetasPaso = [
+    "Propiedad",
+    "Precio",
+    "Ubicación",
+    "Adicionales",
+    "Contacto",
+  ];
 
-  Step _buildPasoPrecio() {
-    return Step(
-      title: Text((screenWidth > verticalWidth) ? "" : "Precio"),
-      label: Text(
-        (screenWidth > verticalWidth) ? "Precio" : "",
-        style: TextStyle(
-          color: appTheme.primary,
-          fontWeight: (pasosActivar[1]) ? FontWeight.bold : FontWeight.normal,
-          fontSize: 10,
+  Step _buildPasoPropiedad() => _buildPaso(0, camposPropiedad, encabezado: [
+        // Dropdown Tipo Propiedad
+        _buildDropdown(
+          value: tipoDePropiedad,
+          items: listaTipoInmuebles,
+          onChanged: (newValue) {
+            if (newValue != null) {
+              setState(() {
+                tipoDePropiedad = newValue;
+                setCampoEspaciosCasasGet(
+                    propiedad, "tipodepropiedad", tipoDePropiedad);
+              });
+            }
+          },
         ),
-      ),
-      content: Column(
-        children: [
-          Center(
-            child: Text(
-              "Precio y costos de la propiedad",
-              style: TextStyle(
-                color: appTheme.primary,
-                fontSize: fontSizeTituloPagina,
-                fontWeight: FontWeight.bold,
-                fontFamily: "Comfortaa",
-              ),
-            ),
-          ),
-          const SizedBox(height: 20),
-          Wrap(
-            crossAxisAlignment: WrapCrossAlignment.start,
-            spacing: 20,
-            runSpacing: 10,
-            alignment: WrapAlignment.start,
-            children: [
-              if ([
-                    "Venta",
-                    "Venta/Renta",
-                    "Traspaso",
-                  ].contains(tipoDeTransaccion) &&
-                  precioventaMatriz.contains(tipoDePropiedad))
-                renglonCapturaGet(
-                  "precioventa",
-                  buildCampoTextoGet(
-                    propiedad,
-                    ref,
-                    "precioventa",
-                    "",
-                    80,
-                    true,
-                  ),
-                  Alignment.topLeft,
-                  300,
-                ),
-              if (["Renta", "Venta/Renta"].contains(tipoDeTransaccion) &&
-                  preciorentaMatriz.contains(tipoDePropiedad))
-                renglonCapturaGet(
-                  "preciorenta",
-                  buildCampoTextoGet(
-                    propiedad,
-                    ref,
-                    "preciorenta",
-                    "",
-                    80,
-                    true,
-                  ),
-                  Alignment.topLeft,
-                  300,
-                ),
-              if (["Renta", "Venta/Renta"].contains(tipoDeTransaccion) &&
-                  mantenimientoMatriz.contains(tipoDePropiedad))
-                renglonCapturaGet(
-                  "mantenimiento",
-                  buildCampoTextoGet(
-                    propiedad,
-                    ref,
-                    "mantenimiento",
-                    "",
-                    80,
-                    true,
-                  ),
-                  Alignment.topLeft,
-                  300,
-                ),
-              if (monedaMatriz.contains(tipoDePropiedad))
-                renglonCapturaGet(
-                  "moneda",
-                  buildCampoTextoGet(propiedad, ref, "moneda", "", 30, true),
-                  Alignment.topLeft,
-                  300,
-                ),
-              renglonCapturaGet(
-                "condicionesdeventa",
-                buildCampoTextoGet(
-                  propiedad,
-                  ref,
-                  "condicionesdeventa",
-                  "",
-                  30,
-                  true,
-                ),
-                Alignment.topLeft,
-                300,
-              ),
-              if (linkvideoMatriz.contains(tipoDePropiedad))
-                renglonCapturaGet(
-                  "linkvideo",
-                  buildCampoTextoGet(propiedad, ref, "linkvideo", "", 30, true),
-                  Alignment.topLeft,
-                  300,
-                ),
-            ],
-          ),
-          const SizedBox(height: 20),
-          Wrap(
-            crossAxisAlignment: WrapCrossAlignment.center,
-            spacing: 20,
-            runSpacing: 10,
-            alignment: WrapAlignment.center,
-            children: [
-              _botonNavegacion('Anterior', _anteriorPaso),
-              botonGuardar(context),
-              _botonNavegacion('Siguiente', _siguientePaso),
-            ],
-          ),
-          const SizedBox(height: 20),
-          botonSalir(context),
-        ],
-      ),
-      isActive: pasosActivar[1],
-    );
-  }
+        // Dropdown Tipo Transacción
+        _buildDropdown(
+          value: tipoDeTransaccion,
+          items: listaTiposDeTransaccion,
+          onChanged: (newValue) {
+            if (newValue != null) {
+              setState(() {
+                tipoDeTransaccion = newValue;
+                setCampoEspaciosCasasGet(
+                    propiedad, "tipodetransaccion", tipoDeTransaccion);
+              });
+            }
+          },
+        ),
+      ]);
 
-  Step _buildPasoUbicacion() {
-    return Step(
-      title: Text((screenWidth > verticalWidth) ? "" : "Ubicación"),
-      label: Text(
-        (screenWidth > verticalWidth) ? "Ubicación" : "",
-        style: TextStyle(
-          color: appTheme.primary,
-          fontWeight: (pasosActivar[2]) ? FontWeight.bold : FontWeight.normal,
-          fontSize: 10,
-        ),
-      ),
-      content: Column(
-        children: [
-          Center(
-            child: Text(
-              "Dirección de la propiedad",
-              style: TextStyle(
-                color: appTheme.primary,
-                fontSize: fontSizeTituloPagina,
-                fontWeight: FontWeight.bold,
-                fontFamily: "Comfortaa",
-              ),
-            ),
-          ),
-          const SizedBox(height: 20),
-          Wrap(
-            crossAxisAlignment: WrapCrossAlignment.start,
-            spacing: 20,
-            runSpacing: 10,
-            alignment: WrapAlignment.start,
-            children: [
-              renglonCapturaGet(
-                "pais",
-                buildCampoTextoGet(propiedad, ref, "pais", "", 30, false),
-                Alignment.topLeft,
-                300,
-              ),
-              renglonCapturaGet(
-                "estado",
-                buildCampoTextoGet(propiedad, ref, "estado", "", 30, true),
-                Alignment.topLeft,
-                300,
-              ),
-              renglonCapturaGet(
-                "municipio",
-                buildCampoTextoGet(propiedad, ref, "municipio", "", 30, true),
-                Alignment.topLeft,
-                300,
-              ),
-              renglonCapturaGet(
-                "ciudad",
-                buildCampoTextoGet(propiedad, ref, "ciudad", "", 30, true),
-                Alignment.topLeft,
-                300,
-              ),
-              renglonCapturaGet(
-                "zona",
-                buildCampoTextoGet(propiedad, ref, "zona", "", 30, true),
-                Alignment.topLeft,
-                300,
-              ),
-              renglonCapturaGet(
-                "asentamiento",
-                buildCampoTextoGet(
-                  propiedad,
-                  ref,
-                  "asentamiento",
-                  "",
-                  30,
-                  true,
-                ),
-                Alignment.topLeft,
-                300,
-              ),
-              renglonCapturaGet(
-                "codigopostal",
-                buildCampoTextoGet(
-                  propiedad,
-                  ref,
-                  "codigopostal",
-                  "",
-                  30,
-                  true,
-                ),
-                Alignment.topLeft,
-                300,
-              ),
-              renglonCapturaGet(
-                "tipo",
-                buildCampoTextoGet(propiedad, ref, "tipo", "", 30, true),
-                Alignment.topLeft,
-                300,
-              ),
-              renglonCapturaGet(
-                "calle",
-                buildCampoTextoGet(propiedad, ref, "calle", "", 30, true),
-                Alignment.topLeft,
-                300,
-              ),
-              renglonCapturaGet(
-                "numeroexterior",
-                buildCampoTextoGet(
-                  propiedad,
-                  ref,
-                  "numeroexterior",
-                  "",
-                  30,
-                  true,
-                ),
-                Alignment.topLeft,
-                300,
-              ),
-              renglonCapturaGet(
-                "numerointerior",
-                buildCampoTextoGet(
-                  propiedad,
-                  ref,
-                  "numerointerior",
-                  "",
-                  30,
-                  true,
-                ),
-                Alignment.topLeft,
-                300,
-              ),
-              renglonCapturaGet(
-                "entrecalle01",
-                buildCampoTextoGet(
-                  propiedad,
-                  ref,
-                  "entrecalle01",
-                  "",
-                  30,
-                  true,
-                ),
-                Alignment.topLeft,
-                300,
-              ),
-              renglonCapturaGet(
-                "entrecalle02",
-                buildCampoTextoGet(
-                  propiedad,
-                  ref,
-                  "entrecalle02",
-                  "",
-                  30,
-                  true,
-                ),
-                Alignment.topLeft,
-                300,
-              ),
-              renglonCapturaGet(
-                "latitud",
-                buildCampoTextoGet(propiedad, ref, "latitud", "", 30, true),
-                Alignment.topLeft,
-                300,
-              ),
-              renglonCapturaGet(
-                "longitud",
-                buildCampoTextoGet(propiedad, ref, "longitud", "", 30, true),
-                Alignment.topLeft,
-                300,
-              ),
-              renglonCapturaGet(
-                "latitudDecimal",
-                buildCampoTextoGet(
-                  propiedad,
-                  ref,
-                  "latitudDecimal",
-                  "",
-                  30,
-                  true,
-                ),
-                Alignment.topLeft,
-                300,
-              ),
-              renglonCapturaGet(
-                "longitudDecimal",
-                buildCampoTextoGet(
-                  propiedad,
-                  ref,
-                  "longitudDecimal",
-                  "",
-                  30,
-                  true,
-                ),
-                Alignment.topLeft,
-                300,
-              ),
-            ],
-          ),
-          const SizedBox(height: 20),
-          Wrap(
-            crossAxisAlignment: WrapCrossAlignment.center,
-            spacing: 20,
-            runSpacing: 10,
-            alignment: WrapAlignment.center,
-            children: [
-              _botonNavegacion('Anterior', _anteriorPaso),
-              botonGuardar(context),
-              _botonNavegacion('Siguiente', _siguientePaso),
-            ],
-          ),
-          const SizedBox(height: 20),
-          botonSalir(context),
-        ],
-      ),
-      isActive: pasosActivar[2],
-    );
-  }
+  Step _buildPasoPrecio() => _buildPaso(1, camposPrecio);
+  Step _buildPasoUbicacion() => _buildPaso(2, camposUbicacion);
+  Step _buildPasoAdicionales() => _buildPaso(3, camposAdicionales);
+  Step _buildPasoContacto() => _buildPaso(4, camposContacto);
 
-  Step _buildPasoAdicionales() {
+  /// Paso del Stepper: título, campos visibles según el tipo de inmueble y de
+  /// transacción (ver `edicion/campos_edicion.dart`) y botones de navegación.
+  Step _buildPaso(int indice, List<CampoDef> campos,
+      {List<Widget> encabezado = const []}) {
+    final visibles = camposVisibles(campos, tipoDePropiedad, tipoDeTransaccion);
+    final esUltimo = indice == _etiquetasPaso.length - 1;
     return Step(
-      title: Text((screenWidth > verticalWidth) ? "" : "Adicionales"),
+      title: Text((screenWidth > verticalWidth) ? "" : _etiquetasPaso[indice]),
       label: Text(
-        (screenWidth > verticalWidth) ? "Adicionales" : "",
+        (screenWidth > verticalWidth) ? _etiquetasPaso[indice] : "",
         style: TextStyle(
           color: appTheme.primary,
-          fontWeight: (pasosActivar[3]) ? FontWeight.bold : FontWeight.normal,
+          fontWeight:
+              (pasosActivar[indice]) ? FontWeight.bold : FontWeight.normal,
           fontSize: 10,
         ),
       ),
@@ -924,7 +322,7 @@ class PaginaEditaEspacioState extends ConsumerState<PaginaEditaEspacio>
         children: [
           Center(
             child: Text(
-              "Datos adicionales",
+              _titulosPaso[indice],
               style: TextStyle(
                 color: appTheme.primary,
                 fontSize: fontSizeTituloPagina,
@@ -940,186 +338,16 @@ class PaginaEditaEspacioState extends ConsumerState<PaginaEditaEspacio>
             runSpacing: 10,
             alignment: WrapAlignment.start,
             children: [
-              if (panelessolaresMatriz.contains(tipoDePropiedad))
-                capturaCampoGetConCheckBox("panelessolares", "", 80),
-              if (jardinMatriz.contains(tipoDePropiedad))
-                capturaCampoGetConCheckBox("jardin", "", 80),
-              if (albercaMatriz.contains(tipoDePropiedad))
-                capturaCampoGetConCheckBox("alberca", "", 80),
-              if (calefaccionMatriz.contains(tipoDePropiedad))
-                capturaCampoGetConCheckBox("calefaccion", "", 80),
-              if (aireacondicionadoMatriz.contains(tipoDePropiedad))
-                capturaCampoGetConCheckBox("aireacondicionado", "", 80),
-              if (seguridadMatriz.contains(tipoDePropiedad))
-                capturaCampoGetConCheckBox("seguridad", "", 80),
-              if (enfraccionamientoMatriz.contains(tipoDePropiedad))
-                capturaCampoGetConCheckBox("enfraccionamiento", "", 80),
-              if (casasenelconjuntoMatriz.contains(tipoDePropiedad))
-                capturaCampoGetConCheckBox("casasenelconjunto", "", 80),
-              if (casaclubMatriz.contains(tipoDePropiedad))
-                capturaCampoGetConCheckBox("casaclub", "", 80),
-              if (salondeeventosMatriz.contains(tipoDePropiedad))
-                capturaCampoGetConCheckBox("salondeeventos", "", 80),
-              if (centrodenegociosMatriz.contains(tipoDePropiedad))
-                capturaCampoGetConCheckBox("centrodenegocios", "", 80),
-              if (gimnacioMatriz.contains(tipoDePropiedad))
-                capturaCampoGetConCheckBox("gimnacio", "", 80),
-              if (cisternaMatriz.contains(tipoDePropiedad))
-                capturaCampoGetConCheckBox("cisterna", "", 80),
-              if (almacenamientodeaguaMatriz.contains(tipoDePropiedad))
-                capturaCampoGetConCheckBox("almacenamientodeagua", "", 80),
-              if (tratamientodeaguasMatriz.contains(tipoDePropiedad))
-                capturaCampoGetConCheckBox("tratamientodeaguas", "", 80),
-              if (otrascaracteristicasMatriz.contains(tipoDePropiedad))
-                capturaCampoGetConCheckBox("otrascaracteristicas", "", 80),
-            ],
-          ),
-          const SizedBox(height: 20),
-          Wrap(
-            crossAxisAlignment: WrapCrossAlignment.center,
-            spacing: 20,
-            runSpacing: 10,
-            alignment: WrapAlignment.center,
-            children: [
-              _botonNavegacion('Anterior', _anteriorPaso),
-              botonGuardar(context),
-              _botonNavegacion('Siguiente', _siguientePaso),
-            ],
-          ),
-          const SizedBox(height: 20),
-          botonSalir(context),
-        ],
-      ),
-      isActive: pasosActivar[3],
-    );
-  }
-
-  Step _buildPasoContacto() {
-    return Step(
-      title: Text((screenWidth > verticalWidth) ? "" : "Contacto"),
-      label: Text(
-        (screenWidth > verticalWidth) ? "Contacto" : "",
-        style: TextStyle(
-          color: appTheme.primary,
-          fontWeight: (pasosActivar[4]) ? FontWeight.bold : FontWeight.normal,
-          fontSize: 10,
-        ),
-      ),
-      content: Column(
-        children: [
-          Center(
-            child: Text(
-              "Datos del promotor",
-              style: TextStyle(
-                color: appTheme.primary,
-                fontSize: fontSizeTituloPagina,
-                fontWeight: FontWeight.bold,
-                fontFamily: "Comfortaa",
-              ),
-            ),
-          ),
-          const SizedBox(height: 20),
-          Wrap(
-            crossAxisAlignment: WrapCrossAlignment.start,
-            spacing: 20,
-            runSpacing: 10,
-            alignment: WrapAlignment.start,
-            children: [
-              renglonCapturaGet(
-                "nombre",
-                buildCampoTextoGet(propiedad, ref, "nombre", "", 30, true),
-                Alignment.topLeft,
-                300,
-              ),
-              renglonCapturaGet(
-                "empresa",
-                buildCampoTextoGet(propiedad, ref, "empresa", "", 30, true),
-                Alignment.topLeft,
-                300,
-              ),
-              renglonCapturaGet(
-                "imgendeempresa",
-                buildCampoTextoGet(
-                  propiedad,
-                  ref,
-                  "imgendeempresa",
-                  "",
-                  30,
-                  true,
-                ),
-                Alignment.topLeft,
-                300,
-              ),
-              renglonCapturaGet(
-                "numerocelular",
-                buildCampoTextoGet(
-                  propiedad,
-                  ref,
-                  "numerocelular",
-                  "",
-                  30,
-                  true,
-                ),
-                Alignment.topLeft,
-                300,
-              ),
-              renglonCapturaGet(
-                "numerootro",
-                buildCampoTextoGet(propiedad, ref, "numerootro", "", 30, true),
-                Alignment.topLeft,
-                300,
-              ),
-              renglonCapturaGet(
-                "numeroinmobiliaria",
-                buildCampoTextoGet(
-                  propiedad,
-                  ref,
-                  "numeroinmobiliaria",
-                  "",
-                  30,
-                  true,
-                ),
-                Alignment.topLeft,
-                300,
-              ),
-              renglonCapturaGet(
-                "correoelectronico",
-                buildCampoTextoGet(
-                  propiedad,
-                  ref,
-                  "correoelectronico",
-                  "",
-                  30,
-                  true,
-                ),
-                Alignment.topLeft,
-                300,
-              ),
-              renglonCapturaGet(
-                "nombreusuariocontacto",
-                buildCampoTextoGet(
-                  propiedad,
-                  ref,
-                  "nombreusuariocontacto",
-                  "",
-                  30,
-                  true,
-                ),
-                Alignment.topLeft,
-                300,
-              ),
-              renglonCapturaGet(
-                "imgendelcontacto",
-                buildCampoTextoGet(
-                  propiedad,
-                  ref,
-                  "imgendelcontacto",
-                  "",
-                  30,
-                  true,
-                ),
-                Alignment.topLeft,
-                300,
+              ...encabezado,
+              ...visibles.map(
+                (c) => c.conCasilla
+                    ? capturaCampoGetConCheckBox(c.nombre)
+                    : renglonCapturaGet(
+                        c.nombre,
+                        buildCampoTextoGet(propiedad, ref, c),
+                        Alignment.topLeft,
+                        300,
+                      ),
               ),
             ],
           ),
@@ -1130,15 +358,16 @@ class PaginaEditaEspacioState extends ConsumerState<PaginaEditaEspacio>
             runSpacing: 10,
             alignment: WrapAlignment.center,
             children: [
-              _botonNavegacion('Anterior', _anteriorPaso),
+              if (indice > 0) _botonNavegacion('Anterior', _anteriorPaso),
               botonGuardar(context),
+              if (!esUltimo) _botonNavegacion('Siguiente', _siguientePaso),
             ],
           ),
           const SizedBox(height: 20),
           botonSalir(context),
         ],
       ),
-      isActive: pasosActivar[4],
+      isActive: pasosActivar[indice],
     );
   }
 
@@ -1276,11 +505,7 @@ class PaginaEditaEspacioState extends ConsumerState<PaginaEditaEspacio>
 
   // --- MÉTODOS AUXILIARES DENTRO DEL STATE ---
 
-  SizedBox capturaCampoGetConCheckBox(
-    String nombreDeLaVariable,
-    String expRegular,
-    int numchar,
-  ) {
+  SizedBox capturaCampoGetConCheckBox(String nombreDeLaVariable) {
     return SizedBox(
       width: 300,
       child: Row(
@@ -1296,10 +521,7 @@ class PaginaEditaEspacioState extends ConsumerState<PaginaEditaEspacio>
                   buildCampoTextoGet(
                     propiedad,
                     ref,
-                    nombreDeLaVariable,
-                    expRegular,
-                    numchar,
-                    true,
+                    CampoDef(nombreDeLaVariable, maxLength: 80),
                   ),
                   Alignment.topLeft,
                   250,
@@ -1411,763 +633,32 @@ Widget FormaEtiquetaFolioGet(
 Widget buildCampoTextoGet(
   ValueEspaciosCasaGet propiedad,
   WidgetRef ref,
-  String nombreVariable,
-  String expRegular,
-  int numchar,
-  bool enable,
+  CampoDef campo,
 ) {
-  return SizedBox(
-    child: (!enable)
-        ? Text(
-            getCampoEspaciosCasasGet(propiedad, nombreVariable),
-            maxLines: 8,
-            style: TextStyle(
-              color: appTheme.primary,
-              fontSize: tamanoLetra,
-              fontWeight: FontWeight.normal,
-              decoration: TextDecoration.overline,
-            ),
-          )
-        : TextFormField(
-            initialValue: getCampoEspaciosCasasGet(propiedad, nombreVariable),
-            style: TextStyle(
-              color: appTheme.primary,
-              fontSize: tamanoLetra,
-              fontWeight: FontWeight.normal,
-            ),
-            minLines: 1,
-            maxLines: 8,
-            maxLength: numchar,
-            decoration: InputDecoration(
-              border: const OutlineInputBorder(gapPadding: 1.0),
-              filled: true,
-              fillColor: appTheme.onPrimary,
-              labelText:
-                  "${ref.read(espaciosCasaConListaFotosGetProvider.notifier).getNombreDelCampoPropiedadCasaGet(nombreVariable)} ",
-              floatingLabelBehavior: FloatingLabelBehavior.always,
-              isDense: true,
-              contentPadding: const EdgeInsets.fromLTRB(10, 15, 10, 15),
-            ),
-            onChanged: (String? value) {
-              setCampoEspaciosCasasGet(propiedad, nombreVariable, value!);
-            },
-          ),
-  );
-}
-
-//----------------------------------
-
-void setCampoEspaciosCasasGet(
-  ValueEspaciosCasaGet propiedad,
-  String campo,
-  String valor,
-) {
-  debugPrintLevels(
-    2,
-    'HTTP setCampoEspaciosCasasGet: campo = $campo, valor: $valor',
-  );
-
-  switch (campo) {
-    case "id":
-      propiedad.id = valor;
-      break;
-    case "rev":
-      propiedad.rev = valor;
-      break;
-
-    case "versiondelformato":
-      propiedad.espacioscasa.versiondelformato = valor;
-      break;
-    case "idPropiedad":
-      propiedad.espacioscasa.idPropiedad = valor;
-      break;
-    case "clavedelapropiedad":
-      propiedad.espacioscasa.clavedelapropiedad = valor;
-      break;
-    case "idusuario":
-      propiedad.espacioscasa.idusuario = valor;
-      break;
-
-    case "tipodeanuncio":
-      propiedad.espacioscasa.tipodeanuncio = valor;
-      break;
-    case "tipodetransaccion":
-      propiedad.espacioscasa.tipodetransaccion = valor;
-      break;
-    case "idTransaccion":
-      propiedad.espacioscasa.idTransaccion = valor;
-      break;
-
-    case "nombredelapropiedad":
-      propiedad.espacioscasa.nombredelapropiedad = valor;
-      break;
-    case "inmobiliaria":
-      propiedad.espacioscasa.inmobiliaria = valor;
-      break;
-    case "inmobiliariaimagen":
-      propiedad.espacioscasa.inmobiliariaimagen = valor;
-      break;
-    case "linkinmobiliaria":
-      propiedad.espacioscasa.inmobiliariaimagen = valor;
-      break;
-    case "sloganinmobiliaria":
-      propiedad.espacioscasa.inmobiliariaimagen = valor;
-      break;
-
-    case "ubicaciongeneral":
-      propiedad.espacioscasa.ubicaciongeneral = valor;
-      break;
-
-    case "tipodepropiedad":
-      propiedad.espacioscasa.tipodepropiedad = valor;
-      break;
-
-    case "descripcion":
-      propiedad.espacioscasa.descripcion = valor;
-      break;
-    case "letreropromocional":
-      propiedad.espacioscasa.letreropromocional = valor;
-      break;
-    case "metrosdeterreno":
-      propiedad.espacioscasa.metrosdeterreno = valor;
-      break;
-    case "metrosconstruidos":
-      propiedad.espacioscasa.metrosconstruidos = valor;
-      break;
-    case "recamaras":
-      propiedad.espacioscasa.recamaras = valor;
-      break;
-    case "banos":
-      propiedad.espacioscasa.banos = valor;
-      break;
-    case "mediosbanos":
-      propiedad.espacioscasa.mediosbanos = valor;
-      break;
-    case "cuartosdeservicio":
-      propiedad.espacioscasa.cuartosdeservicio = valor;
-      break;
-    case "estacionamientos":
-      propiedad.espacioscasa.estacionamientos = valor;
-      break;
-    case "estacionamientoscubiertos":
-      propiedad.espacioscasa.estacionamientoscubiertos = valor;
-      break;
-
-    case "panelessolares":
-      propiedad.espacioscasa.datosadicionalescasa.panelessolares = valor;
-      break;
-    case "jardin":
-      propiedad.espacioscasa.datosadicionalescasa.jardin = valor;
-      break;
-    case "alberca":
-      propiedad.espacioscasa.datosadicionalescasa.alberca = valor;
-      break;
-    case "calefaccion":
-      propiedad.espacioscasa.datosadicionalescasa.calefaccion = valor;
-      break;
-    case "aireacondicionado":
-      propiedad.espacioscasa.datosadicionalescasa.aireacondicionado = valor;
-      break;
-    case "seguridad":
-      propiedad.espacioscasa.datosadicionalescasa.seguridad = valor;
-      break;
-    case "enfraccionamiento":
-      propiedad.espacioscasa.datosadicionalescasa.enfraccionamiento = valor;
-      break;
-    case "casasenelconjunto":
-      propiedad.espacioscasa.datosadicionalescasa.casasenelconjunto = valor;
-      break;
-    case "casaclub":
-      propiedad.espacioscasa.datosadicionalescasa.casaclub = valor;
-      break;
-    case "salondeeventos":
-      propiedad.espacioscasa.datosadicionalescasa.salondeeventos = valor;
-      break;
-    case "centrodenegocios":
-      propiedad.espacioscasa.datosadicionalescasa.centrodenegocios = valor;
-      break;
-    case "gimnacio":
-      propiedad.espacioscasa.datosadicionalescasa.gimnacio = valor;
-      break;
-    case "cisterna":
-      propiedad.espacioscasa.datosadicionalescasa.cisterna = valor;
-      break;
-    case "almacenamientodeagua":
-      propiedad.espacioscasa.datosadicionalescasa.almacenamientodeagua = valor;
-      break;
-    case "tratamientodeaguas":
-      propiedad.espacioscasa.datosadicionalescasa.tratamientodeaguas = valor;
-      break;
-    case "otrascaracteristicas":
-      propiedad.espacioscasa.datosadicionalescasa.otrascaracteristicas = valor;
-
-    case "elementosadicionalescasa":
-      propiedad.espacioscasa.elementosadicionalescasa = valor;
-      break;
-
-    case "precioventa":
-      propiedad.espacioscasa.precioventa = valor;
-      break;
-    case "preciorenta":
-      propiedad.espacioscasa.preciorenta = valor;
-      break;
-    case "mantenimiento":
-      propiedad.espacioscasa.mantenimiento = valor;
-      break;
-    case "moneda":
-      propiedad.espacioscasa.moneda = valor;
-      break;
-
-    case "niveldeprioridad":
-      propiedad.espacioscasa.niveldeprioridad = valor;
-      break;
-    case "condicionesdeventa":
-      propiedad.espacioscasa.condicionesdeventa = valor;
-      break;
-    case "fotoprincipal":
-      propiedad.espacioscasa.fotoprincipal = valor;
-      break;
-    case "numerodefotos":
-      propiedad.espacioscasa.numerodefotos = valor;
-      break;
-    case "linkvideo":
-      propiedad.espacioscasa.linkvideo = valor;
-      break;
-
-    case "nombre":
-      propiedad.espacioscasa.datosdelcontactocasa.nombre = valor;
-      break;
-    case "empresa":
-      propiedad.espacioscasa.datosdelcontactocasa.empresa = valor;
-      break;
-    case "imgendeempresa":
-      propiedad.espacioscasa.datosdelcontactocasa.imgendeempresa = valor;
-      break;
-    case "numerocelular":
-      propiedad.espacioscasa.datosdelcontactocasa.numerocelular = valor;
-      break;
-    case "numerootro":
-      propiedad.espacioscasa.datosdelcontactocasa.numerootro = valor;
-      break;
-    case "numeroinmobiliaria":
-      propiedad.espacioscasa.datosdelcontactocasa.numeroinmobiliaria = valor;
-      break;
-    case "correoelectronico":
-      propiedad.espacioscasa.datosdelcontactocasa.correoelectronico = valor;
-      break;
-    case "idusuariocontacto":
-      propiedad.espacioscasa.datosdelcontactocasa.idusuariocontacto = valor;
-      break;
-    case "nombreusuariocontacto":
-      propiedad.espacioscasa.datosdelcontactocasa.nombreusuariocontacto = valor;
-      break;
-    case "imgendelcontacto":
-      propiedad.espacioscasa.datosdelcontactocasa.imgendelcontacto = valor;
-      break;
-
-    case "pais":
-      propiedad.espacioscasa.ubicacioncasa.pais = valor;
-      break;
-
-    // LocalidadCp es @freezed — se usa copyWith para actualizar
-    case "idEstado":
-      propiedad.espacioscasa.ubicacioncasa.localidadCp = propiedad
-          .espacioscasa
-          .ubicacioncasa
-          .localidadCp
-          .copyWith(idEstado: int.tryParse(valor) ?? 0);
-      break;
-    case "estado":
-      propiedad.espacioscasa.ubicacioncasa.localidadCp = propiedad
-          .espacioscasa
-          .ubicacioncasa
-          .localidadCp
-          .copyWith(estado: valor);
-      break;
-    case "idMunicipio":
-      propiedad.espacioscasa.ubicacioncasa.localidadCp = propiedad
-          .espacioscasa
-          .ubicacioncasa
-          .localidadCp
-          .copyWith(idMunicipio: int.tryParse(valor) ?? 0);
-      break;
-    case "municipio":
-      propiedad.espacioscasa.ubicacioncasa.localidadCp = propiedad
-          .espacioscasa
-          .ubicacioncasa
-          .localidadCp
-          .copyWith(municipio: valor);
-      break;
-    case "ciudad":
-      propiedad.espacioscasa.ubicacioncasa.localidadCp = propiedad
-          .espacioscasa
-          .ubicacioncasa
-          .localidadCp
-          .copyWith(ciudad: valor);
-      break;
-    case "zona":
-      propiedad.espacioscasa.ubicacioncasa.localidadCp = propiedad
-          .espacioscasa
-          .ubicacioncasa
-          .localidadCp
-          .copyWith(zona: valor);
-      break;
-    case "asentamiento":
-      propiedad.espacioscasa.ubicacioncasa.localidadCp = propiedad
-          .espacioscasa
-          .ubicacioncasa
-          .localidadCp
-          .copyWith(asentamiento: valor);
-      break;
-    case "codigopostal":
-      propiedad.espacioscasa.ubicacioncasa.localidadCp = propiedad
-          .espacioscasa
-          .ubicacioncasa
-          .localidadCp
-          .copyWith(cp: int.tryParse(valor) ?? 0);
-      break;
-    case "tipo":
-      propiedad.espacioscasa.ubicacioncasa.localidadCp = propiedad
-          .espacioscasa
-          .ubicacioncasa
-          .localidadCp
-          .copyWith(tipo: valor);
-      break;
-
-    case "calle":
-      propiedad.espacioscasa.ubicacioncasa.calle = valor;
-      break;
-    case "numeroexterior":
-      propiedad.espacioscasa.ubicacioncasa.numeroexterior = valor;
-      break;
-    case "numerointerior":
-      propiedad.espacioscasa.ubicacioncasa.numerointerior = valor;
-      break;
-
-    case "latitud":
-      propiedad.espacioscasa.ubicacioncasa.latitud = valor;
-      break;
-    case "longitud":
-      propiedad.espacioscasa.ubicacioncasa.longitud = valor;
-      break;
-    case "latitudDecimal":
-      propiedad.espacioscasa.ubicacioncasa.latitudDecimal = valor;
-      break;
-    case "longitudDecimal":
-      propiedad.espacioscasa.ubicacioncasa.longitudDecimal = valor;
-      break;
-
-    case "diapublicacion":
-      propiedad.espacioscasa.fechadepublicacioncasa.dia = int.parse(valor);
-      break;
-    case "mespublicacion":
-      propiedad.espacioscasa.fechadepublicacioncasa.mes = int.parse(valor);
-      break;
-    case "aniopublicacion":
-      propiedad.espacioscasa.fechadepublicacioncasa.anio = int.parse(valor);
-      break;
-
-    case "diadecierre":
-      propiedad.espacioscasa.fechadecierrecasa.dia = int.parse(valor);
-      break;
-    case "mesdecierre":
-      propiedad.espacioscasa.fechadecierrecasa.mes = int.parse(valor);
-      break;
-    case "aniodecierre":
-      propiedad.espacioscasa.fechadecierrecasa.anio = int.parse(valor);
-      break;
-
-    case "activa":
-      propiedad.espacioscasa.activa = int.parse(valor);
-      break;
-    case "timestampcasa":
-      propiedad.espacioscasa.timestampcasa = valor;
-      break;
+  final valor = getCampoEspaciosCasasGet(propiedad, campo.nombre);
+  if (!campo.editable) {
+    return Text(
+      valor,
+      maxLines: 8,
+      style: TextStyle(
+        color: appTheme.primary,
+        fontSize: tamanoLetra,
+        fontWeight: FontWeight.normal,
+        decoration: TextDecoration.overline,
+      ),
+    );
   }
-}
-
-String getCampoEspaciosCasasGet(ValueEspaciosCasaGet propiedad, String campo) {
-  // debugPrintLevels(5, 'HTTP getCampoEspaciosCasasGet');
-
-  String variableRegreso = "";
-  final varEspaciosCasasGetProvider = propiedad;
-
-  switch (campo) {
-    case "id":
-      return variableRegreso = varEspaciosCasasGetProvider.id;
-    case "rev":
-      return variableRegreso = varEspaciosCasasGetProvider.rev;
-
-    case "versiondelformato":
-      return variableRegreso =
-          varEspaciosCasasGetProvider.espacioscasa.versiondelformato;
-    case "idPropiedad":
-      return variableRegreso =
-          varEspaciosCasasGetProvider.espacioscasa.idPropiedad;
-    case "clavedelapropiedad":
-      return variableRegreso =
-          varEspaciosCasasGetProvider.espacioscasa.clavedelapropiedad;
-    case "idusuario":
-      return variableRegreso =
-          varEspaciosCasasGetProvider.espacioscasa.idusuario;
-
-    case "tipodeanuncio":
-      return variableRegreso =
-          varEspaciosCasasGetProvider.espacioscasa.tipodeanuncio;
-    case "tipodetransaccion":
-      return variableRegreso =
-          varEspaciosCasasGetProvider.espacioscasa.tipodetransaccion;
-    case "idTransaccion":
-      return variableRegreso =
-          varEspaciosCasasGetProvider.espacioscasa.idTransaccion;
-
-    case "nombredelapropiedad":
-      return variableRegreso =
-          varEspaciosCasasGetProvider.espacioscasa.nombredelapropiedad;
-    case "inmobiliaria":
-      return variableRegreso =
-          varEspaciosCasasGetProvider.espacioscasa.inmobiliaria;
-    case "inmobiliariaimagen":
-      return variableRegreso =
-          varEspaciosCasasGetProvider.espacioscasa.inmobiliariaimagen;
-    case "linkinmobiliaria":
-      return variableRegreso =
-          varEspaciosCasasGetProvider.espacioscasa.linkinmobiliaria;
-    case "sloganinmobiliaria":
-      return variableRegreso =
-          varEspaciosCasasGetProvider.espacioscasa.sloganinmobiliaria;
-
-    case "ubicaciongeneral":
-      return variableRegreso =
-          varEspaciosCasasGetProvider.espacioscasa.ubicaciongeneral;
-
-    case "tipodepropiedad":
-      return variableRegreso =
-          varEspaciosCasasGetProvider.espacioscasa.tipodepropiedad;
-    case "descripcion":
-      return variableRegreso =
-          varEspaciosCasasGetProvider.espacioscasa.descripcion;
-    case "letreropromocional":
-      return variableRegreso =
-          varEspaciosCasasGetProvider.espacioscasa.letreropromocional;
-    case "metrosdeterreno":
-      return variableRegreso =
-          varEspaciosCasasGetProvider.espacioscasa.metrosdeterreno;
-    case "metrosconstruidos":
-      return variableRegreso =
-          varEspaciosCasasGetProvider.espacioscasa.metrosconstruidos;
-    case "recamaras":
-      return variableRegreso =
-          varEspaciosCasasGetProvider.espacioscasa.recamaras;
-    case "banos":
-      return variableRegreso = varEspaciosCasasGetProvider.espacioscasa.banos;
-    case "mediosbanos":
-      return variableRegreso =
-          varEspaciosCasasGetProvider.espacioscasa.mediosbanos;
-    case "cuartosdeservicio":
-      return variableRegreso =
-          varEspaciosCasasGetProvider.espacioscasa.cuartosdeservicio;
-    case "estacionamientos":
-      return variableRegreso =
-          varEspaciosCasasGetProvider.espacioscasa.estacionamientos;
-    case "estacionamientoscubiertos":
-      return variableRegreso =
-          varEspaciosCasasGetProvider.espacioscasa.estacionamientoscubiertos;
-
-    case "panelessolares":
-      variableRegreso = varEspaciosCasasGetProvider
-          .espacioscasa
-          .datosadicionalescasa
-          .panelessolares;
-    case "jardin":
-      return variableRegreso =
-          varEspaciosCasasGetProvider.espacioscasa.datosadicionalescasa.jardin;
-    case "alberca":
-      return variableRegreso =
-          varEspaciosCasasGetProvider.espacioscasa.datosadicionalescasa.alberca;
-    case "calefaccion":
-      return variableRegreso = varEspaciosCasasGetProvider
-          .espacioscasa
-          .datosadicionalescasa
-          .calefaccion;
-    case "aireacondicionado":
-      variableRegreso = varEspaciosCasasGetProvider
-          .espacioscasa
-          .datosadicionalescasa
-          .aireacondicionado;
-    case "seguridad":
-      return variableRegreso = varEspaciosCasasGetProvider
-          .espacioscasa
-          .datosadicionalescasa
-          .seguridad;
-    case "enfraccionamiento":
-      variableRegreso = varEspaciosCasasGetProvider
-          .espacioscasa
-          .datosadicionalescasa
-          .enfraccionamiento;
-    case "casasenelconjunto":
-      variableRegreso = varEspaciosCasasGetProvider
-          .espacioscasa
-          .datosadicionalescasa
-          .casasenelconjunto;
-    case "casaclub":
-      return variableRegreso = varEspaciosCasasGetProvider
-          .espacioscasa
-          .datosadicionalescasa
-          .casaclub;
-    case "salondeeventos":
-      variableRegreso = varEspaciosCasasGetProvider
-          .espacioscasa
-          .datosadicionalescasa
-          .salondeeventos;
-    case "centrodenegocios":
-      variableRegreso = varEspaciosCasasGetProvider
-          .espacioscasa
-          .datosadicionalescasa
-          .centrodenegocios;
-    case "gimnacio":
-      return variableRegreso = varEspaciosCasasGetProvider
-          .espacioscasa
-          .datosadicionalescasa
-          .gimnacio;
-    case "cisterna":
-      return variableRegreso = varEspaciosCasasGetProvider
-          .espacioscasa
-          .datosadicionalescasa
-          .cisterna;
-    case "almacenamientodeagua":
-      variableRegreso = varEspaciosCasasGetProvider
-          .espacioscasa
-          .datosadicionalescasa
-          .almacenamientodeagua;
-    case "tratamientodeaguas":
-      variableRegreso = varEspaciosCasasGetProvider
-          .espacioscasa
-          .datosadicionalescasa
-          .tratamientodeaguas;
-    case "otrascaracteristicas":
-      variableRegreso = varEspaciosCasasGetProvider
-          .espacioscasa
-          .datosadicionalescasa
-          .otrascaracteristicas;
-
-    case "elementosadicionalescasa":
-      return variableRegreso =
-          varEspaciosCasasGetProvider.espacioscasa.elementosadicionalescasa;
-
-    case "precioventa":
-      return variableRegreso =
-          varEspaciosCasasGetProvider.espacioscasa.precioventa;
-    case "preciorenta":
-      return variableRegreso =
-          varEspaciosCasasGetProvider.espacioscasa.preciorenta;
-    case "mantenimiento":
-      return variableRegreso =
-          varEspaciosCasasGetProvider.espacioscasa.mantenimiento;
-    case "moneda":
-      return variableRegreso = varEspaciosCasasGetProvider.espacioscasa.moneda;
-    case "niveldeprioridad":
-      return variableRegreso =
-          varEspaciosCasasGetProvider.espacioscasa.niveldeprioridad;
-    case "condicionesdeventa":
-      return variableRegreso =
-          varEspaciosCasasGetProvider.espacioscasa.condicionesdeventa;
-    case "fotoprincipal":
-      return variableRegreso =
-          varEspaciosCasasGetProvider.espacioscasa.fotoprincipal;
-    case "numerodefotos":
-      return variableRegreso =
-          varEspaciosCasasGetProvider.espacioscasa.numerodefotos;
-    case "linkvideo":
-      return variableRegreso =
-          varEspaciosCasasGetProvider.espacioscasa.linkvideo;
-
-    case "nombre":
-      return variableRegreso =
-          varEspaciosCasasGetProvider.espacioscasa.datosdelcontactocasa.nombre;
-    case "empresa":
-      return variableRegreso =
-          varEspaciosCasasGetProvider.espacioscasa.datosdelcontactocasa.empresa;
-    case "imgendeempresa":
-      return variableRegreso = varEspaciosCasasGetProvider
-          .espacioscasa
-          .datosdelcontactocasa
-          .imgendeempresa;
-    case "numerocelular":
-      return variableRegreso = varEspaciosCasasGetProvider
-          .espacioscasa
-          .datosdelcontactocasa
-          .numerocelular;
-    case "numerootro":
-      return variableRegreso = varEspaciosCasasGetProvider
-          .espacioscasa
-          .datosdelcontactocasa
-          .numerootro;
-    case "numeroinmobiliaria":
-      return variableRegreso = varEspaciosCasasGetProvider
-          .espacioscasa
-          .datosdelcontactocasa
-          .numeroinmobiliaria;
-    case "correoelectronico":
-      return variableRegreso = varEspaciosCasasGetProvider
-          .espacioscasa
-          .datosdelcontactocasa
-          .correoelectronico;
-    case "idusuariocontacto":
-      return variableRegreso = varEspaciosCasasGetProvider
-          .espacioscasa
-          .datosdelcontactocasa
-          .idusuariocontacto;
-    case "nombreusuariocontacto":
-      return variableRegreso = varEspaciosCasasGetProvider
-          .espacioscasa
-          .datosdelcontactocasa
-          .nombreusuariocontacto;
-    case "imgendelcontacto":
-      return variableRegreso = varEspaciosCasasGetProvider
-          .espacioscasa
-          .datosdelcontactocasa
-          .imgendelcontacto;
-
-    case "pais":
-      return variableRegreso =
-          varEspaciosCasasGetProvider.espacioscasa.ubicacioncasa.pais;
-
-    case "idEstado":
-      return variableRegreso = varEspaciosCasasGetProvider
-          .espacioscasa
-          .ubicacioncasa
-          .localidadCp
-          .idEstado
-          .toString();
-    case "estado":
-      return variableRegreso = varEspaciosCasasGetProvider
-          .espacioscasa
-          .ubicacioncasa
-          .localidadCp
-          .estado;
-    case "idMunicipio":
-      return variableRegreso = varEspaciosCasasGetProvider
-          .espacioscasa
-          .ubicacioncasa
-          .localidadCp
-          .idMunicipio
-          .toString();
-    case "municipio":
-      return variableRegreso = varEspaciosCasasGetProvider
-          .espacioscasa
-          .ubicacioncasa
-          .localidadCp
-          .municipio;
-    case "ciudad":
-      return variableRegreso = varEspaciosCasasGetProvider
-          .espacioscasa
-          .ubicacioncasa
-          .localidadCp
-          .ciudad;
-    case "zona":
-      return variableRegreso = varEspaciosCasasGetProvider
-          .espacioscasa
-          .ubicacioncasa
-          .localidadCp
-          .zona;
-    case "asentamiento":
-      return variableRegreso = varEspaciosCasasGetProvider
-          .espacioscasa
-          .ubicacioncasa
-          .localidadCp
-          .asentamiento;
-    case "codigopostal":
-      return variableRegreso = varEspaciosCasasGetProvider
-          .espacioscasa
-          .ubicacioncasa
-          .localidadCp
-          .cp
-          .toString();
-    case "tipo":
-      return variableRegreso = varEspaciosCasasGetProvider
-          .espacioscasa
-          .ubicacioncasa
-          .localidadCp
-          .tipo;
-
-    case "calle":
-      return variableRegreso =
-          varEspaciosCasasGetProvider.espacioscasa.ubicacioncasa.calle;
-    case "numeroexterior":
-      return variableRegreso =
-          varEspaciosCasasGetProvider.espacioscasa.ubicacioncasa.numeroexterior;
-    case "numerointerior":
-      return variableRegreso =
-          varEspaciosCasasGetProvider.espacioscasa.ubicacioncasa.numerointerior;
-    case "entrecalle01":
-      return variableRegreso =
-          varEspaciosCasasGetProvider.espacioscasa.ubicacioncasa.entrecalle01;
-    case "entrecalle02":
-      return variableRegreso =
-          varEspaciosCasasGetProvider.espacioscasa.ubicacioncasa.entrecalle02;
-
-    case "latitud":
-      return variableRegreso =
-          varEspaciosCasasGetProvider.espacioscasa.ubicacioncasa.latitud;
-    case "longitud":
-      return variableRegreso =
-          varEspaciosCasasGetProvider.espacioscasa.ubicacioncasa.longitud;
-    case "latitudDecimal":
-      return variableRegreso =
-          varEspaciosCasasGetProvider.espacioscasa.ubicacioncasa.latitudDecimal;
-    case "longitudDecimal":
-      return variableRegreso = varEspaciosCasasGetProvider
-          .espacioscasa
-          .ubicacioncasa
-          .longitudDecimal;
-
-    case "diapublicacion":
-      return variableRegreso = varEspaciosCasasGetProvider
-          .espacioscasa
-          .fechadepublicacioncasa
-          .dia
-          .toStringAsFixed(0);
-    case "mespublicacion":
-      return variableRegreso = varEspaciosCasasGetProvider
-          .espacioscasa
-          .fechadepublicacioncasa
-          .mes
-          .toStringAsFixed(0);
-    case "aniopublicacion":
-      return variableRegreso = varEspaciosCasasGetProvider
-          .espacioscasa
-          .fechadepublicacioncasa
-          .anio
-          .toStringAsFixed(0);
-
-    case "diadecierre":
-      return variableRegreso = varEspaciosCasasGetProvider
-          .espacioscasa
-          .fechadecierrecasa
-          .dia
-          .toStringAsFixed(0);
-    case "mesdecierre":
-      return variableRegreso = varEspaciosCasasGetProvider
-          .espacioscasa
-          .fechadecierrecasa
-          .mes
-          .toStringAsFixed(0);
-    case "aniodecierre":
-      return variableRegreso = varEspaciosCasasGetProvider
-          .espacioscasa
-          .fechadecierrecasa
-          .anio
-          .toStringAsFixed(0);
-
-    case "activa":
-      return variableRegreso = varEspaciosCasasGetProvider.espacioscasa.activa
-          .toStringAsFixed(0);
-    case "timestampcasa":
-      return variableRegreso =
-          varEspaciosCasasGetProvider.espacioscasa.timestampcasa;
-  }
-  return variableRegreso;
+  return CampoTexto(
+    etiqueta: ref
+        .read(espaciosCasaConListaFotosGetProvider.notifier)
+        .getNombreDelCampoPropiedadCasaGet(campo.nombre),
+    valorInicial: valor,
+    tipo: campo.tipo,
+    obligatorio: campo.obligatorio,
+    maxLength: campo.maxLength,
+    maxLines: campo.lineas,
+    onChanged: (v) => setCampoEspaciosCasasGet(propiedad, campo.nombre, v),
+  );
 }
 
 //------------------------------------------------------------------------------
