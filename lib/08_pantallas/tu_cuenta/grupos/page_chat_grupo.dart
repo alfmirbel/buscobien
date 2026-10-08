@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+import '../burbujas_chat.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
@@ -42,9 +42,7 @@ class _PageChatGrupoState extends ConsumerState<PageChatGrupo> {
     if (text.isEmpty) return;
     _textController.clear();
     FocusScope.of(context).unfocus();
-    await ref
-        .read(mensajesGrupoProvider(widget.grupoId).notifier)
-        .enviar(
+    await ref.read(mensajesGrupoProvider(widget.grupoId).notifier).enviar(
           senderId: widget.currentUserId,
           senderName: widget.currentUserName,
           content: text,
@@ -95,8 +93,7 @@ class _PageChatGrupoState extends ConsumerState<PageChatGrupo> {
                   reverse: true,
                   padding: const EdgeInsets.all(12),
                   itemCount: mensajes.length,
-                  itemBuilder: (context, index) =>
-                      _BurbujaMensaje(
+                  itemBuilder: (context, index) => _BurbujaMensaje(
                     msg: mensajes[index],
                     currentUserId: widget.currentUserId,
                   ),
@@ -139,9 +136,8 @@ class _BurbujaMensaje extends StatelessWidget {
             ),
           ),
           child: Column(
-            crossAxisAlignment: isMe
-                ? CrossAxisAlignment.end
-                : CrossAxisAlignment.start,
+            crossAxisAlignment:
+                isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
             children: [
               if (!isMe)
                 Padding(
@@ -156,9 +152,12 @@ class _BurbujaMensaje extends StatelessWidget {
                   ),
                 ),
               if (msg.tipo == 'propiedad')
-                _BurbujaPropiedad(propiedadId: msg.propiedadId, nombre: msg.content)
+                BurbujaPropiedadChat(
+                    propiedadId: msg.propiedadId, nombre: msg.content)
               else if (msg.tipo == 'lista')
-                _BurbujaLista(listaCompartidaId: msg.listaCompartidaId, nombre: msg.content)
+                BurbujaListaChat(
+                    listaCompartidaId: msg.listaCompartidaId,
+                    nombre: msg.content)
               else
                 Text(
                   msg.content,
@@ -174,9 +173,8 @@ class _BurbujaMensaje extends StatelessWidget {
                 formatChatTimestamp(msg.timestamp),
                 style: TextStyle(
                   fontSize: 10,
-                  color: isMe
-                      ? appTheme.onSecondary
-                      : appTheme.onPrimaryContainer,
+                  color:
+                      isMe ? appTheme.onSecondary : appTheme.onPrimaryContainer,
                 ),
               ),
             ],
@@ -184,36 +182,6 @@ class _BurbujaMensaje extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class _BurbujaPropiedad extends StatelessWidget {
-  final String propiedadId;
-  final String nombre;
-
-  const _BurbujaPropiedad({
-    required this.propiedadId,
-    required this.nombre,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return const SizedBox.shrink();
-  }
-}
-
-class _BurbujaLista extends StatelessWidget {
-  final String listaCompartidaId;
-  final String nombre;
-
-  const _BurbujaLista({
-    required this.listaCompartidaId,
-    required this.nombre,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return const SizedBox.shrink();
   }
 }
 
@@ -304,9 +272,7 @@ class _ChatGrupoEmbebidoState extends ConsumerState<ChatGrupoEmbebido> {
     if (text.isEmpty) return;
     _textController.clear();
     FocusScope.of(context).unfocus();
-    await ref
-        .read(mensajesGrupoProvider(widget.grupoId).notifier)
-        .enviar(
+    await ref.read(mensajesGrupoProvider(widget.grupoId).notifier).enviar(
           senderId: widget.currentUserId,
           senderName: widget.currentUserName,
           content: text,
@@ -339,11 +305,10 @@ class _ChatGrupoEmbebidoState extends ConsumerState<ChatGrupoEmbebido> {
                 reverse: true,
                 padding: const EdgeInsets.all(12),
                 itemCount: mensajes.length,
-                itemBuilder: (context, index) =>
-                    _BurbujaMensaje(
-                    msg: mensajes[index],
-                    currentUserId: widget.currentUserId,
-                  ),
+                itemBuilder: (context, index) => _BurbujaMensaje(
+                  msg: mensajes[index],
+                  currentUserId: widget.currentUserId,
+                ),
               );
             },
           ),

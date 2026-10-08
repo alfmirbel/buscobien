@@ -1,20 +1,12 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:http/http.dart' as http;
 import 'package:material_symbols_icons/symbols.dart';
 
 import 'package:buscobien/20_var_globales/var_color_themes.dart';
 import 'package:buscobien/20_var_globales/format_chat_timestamp.dart';
-import 'package:buscobien/40_security/direccionip.dart';
-import 'package:buscobien/60_global_widgets/debugprint.dart';
-import 'package:buscobien/08_pantallas/inicio/data_espacios_casas_get.dart';
-import 'package:buscobien/22_imagenes/tus_espacios_fotos_propiedad/manejo_de_fotos/lista_ids_fotos/data_fotos_get_ids_fotos_user_prop.dart';
-import 'package:buscobien/08_pantallas/propiedades/pagina_detalle_propiedad.dart';
-import 'package:buscobien/03_listas/models/lista_compartida_model.dart';
-import 'package:buscobien/03_listas/pagina_detalle_lista_compartida.dart';
 import 'package:buscobien/20_var_globales/variables_globales.dart';
+import '../burbujas_chat.dart';
 import 'provider_mensajes.dart';
 
 class PageChatPrivado extends ConsumerStatefulWidget {
@@ -113,8 +105,9 @@ class _PageChatPrivadoState extends ConsumerState<PageChatPrivado> {
                           vertical: 10,
                         ),
                         decoration: BoxDecoration(
-                          color:
-                              isMe ? appTheme.secondary : appTheme.onInverseSurface,
+                          color: isMe
+                              ? appTheme.secondary
+                              : appTheme.onInverseSurface,
                           borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(18),
                             topRight: Radius.circular(18),
@@ -135,12 +128,12 @@ class _PageChatPrivadoState extends ConsumerState<PageChatPrivado> {
                               : CrossAxisAlignment.start,
                           children: [
                             if (msg.tipo == 'propiedad')
-                              _BurbujaPropiedad(
+                              BurbujaPropiedadChat(
                                 propiedadId: msg.propiedadId,
                                 nombre: msg.content,
                               )
                             else if (msg.tipo == 'lista')
-                              _BurbujaLista(
+                              BurbujaListaChat(
                                 listaCompartidaId: msg.listaCompartidaId,
                                 nombre: msg.content,
                               )
@@ -160,7 +153,8 @@ class _PageChatPrivadoState extends ConsumerState<PageChatPrivado> {
                                 'Toca para ver detalles',
                                 style: TextStyle(
                                   color: isMe
-                                      ? appTheme.onSecondary.withValues(alpha: 0.75)
+                                      ? appTheme.onSecondary
+                                          .withValues(alpha: 0.75)
                                       : appTheme.primary,
                                   fontSize: 10,
                                   fontStyle: FontStyle.italic,
@@ -205,7 +199,8 @@ class _PageChatPrivadoState extends ConsumerState<PageChatPrivado> {
                       textCapitalization: TextCapitalization.sentences,
                       decoration: InputDecoration(
                         hintText: 'Escribe un mensaje...',
-                        hintStyle: TextStyle(color: appTheme.onPrimaryContainer),
+                        hintStyle:
+                            TextStyle(color: appTheme.onPrimaryContainer),
                         filled: true,
                         fillColor: appTheme.surface,
                         contentPadding: const EdgeInsets.symmetric(
@@ -224,7 +219,8 @@ class _PageChatPrivadoState extends ConsumerState<PageChatPrivado> {
                   CircleAvatar(
                     backgroundColor: appTheme.onPrimary,
                     child: IconButton(
-                      icon: Icon(Symbols.send, color: appTheme.primary, size: 18),
+                      icon:
+                          Icon(Symbols.send, color: appTheme.primary, size: 18),
                       onPressed: _send,
                     ),
                   ),
@@ -233,165 +229,6 @@ class _PageChatPrivadoState extends ConsumerState<PageChatPrivado> {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _BurbujaPropiedad extends StatelessWidget {
-  final String propiedadId;
-  final String nombre;
-
-  const _BurbujaPropiedad({
-    required this.propiedadId,
-    required this.nombre,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => _verPropiedad(context),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                Symbols.home,
-                size: 14,
-                color: appTheme.onSecondaryContainer,
-              ),
-              const SizedBox(width: 4),
-              Flexible(
-                child: Text(
-                  nombre,
-                  style: TextStyle(
-                    color: appTheme.onSecondaryContainer,
-                    fontSize: 13,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 4),
-          Text(
-            'Toca para ver la ficha',
-            style: TextStyle(
-              color: appTheme.primary.withValues(alpha: 0.75),
-              fontSize: 11,
-              fontStyle: FontStyle.italic,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Future<void> _verPropiedad(BuildContext context) async {
-    if (propiedadId.isEmpty) return;
-    try {
-      final authHeaders = {
-        'Authorization':
-            'Basic ${base64Encode(utf8.encode('$username:$password'))}',
-        'Content-Type': 'application/json',
-      };
-      final resp = await http.get(
-        Uri.parse('$direccionip/buscobien_espacios/$propiedadId'),
-        headers: authHeaders,
-      );
-      if (resp.statusCode == 200) {
-        final doc = jsonDecode(utf8.decode(resp.bodyBytes)) as Map<String, dynamic>;
-        final propiedad = ValueEspaciosCasaGet.fromJson(doc);
-        if (!context.mounted) return;
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => PaginaDetalleWidget(
-              propiedad,
-              GetIdsFotosUserProp(totalRows: 0, offset: 0, rows: []),
-            ),
-          ),
-        );
-      } else {
-        debugPrintLevels(1, '_BurbujaPropiedad error: ${resp.statusCode}');
-      }
-    } catch (e) {
-      debugPrintLevels(1, '_BurbujaPropiedad exception: $e');
-    }
-  }
-}
-
-class _BurbujaLista extends StatelessWidget {
-  final String listaCompartidaId;
-  final String nombre;
-
-  const _BurbujaLista({
-    required this.listaCompartidaId,
-    required this.nombre,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => _verLista(context),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                Symbols.format_list_bulleted,
-                size: 14,
-                color: appTheme.onSecondaryContainer,
-              ),
-              const SizedBox(width: 4),
-              Flexible(
-                child: Text(
-                  nombre,
-                  style: TextStyle(
-                    color: appTheme.onSecondaryContainer,
-                    fontSize: 13,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 4),
-          Text(
-            'Toca para ver las propiedades',
-            style: TextStyle(
-              color: appTheme.primary.withValues(alpha: 0.75),
-              fontSize: 11,
-              fontStyle: FontStyle.italic,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  void _verLista(BuildContext context) {
-    if (listaCompartidaId.isEmpty) return;
-    final modelo = ListaCompartidaModel(
-      id: listaCompartidaId,
-      listaOrigenId: '',
-      listaNombre: nombre,
-      usuarioOrigenId: '',
-      usuarioOrigenNombre: '',
-      usuarioDestinoId: '',
-      usuarioDestinoNombre: '',
-      timestamp: '',
-    );
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => PageDetalleListaCompartida(modelo),
       ),
     );
   }
