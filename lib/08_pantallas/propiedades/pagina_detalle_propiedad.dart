@@ -21,6 +21,7 @@ import '../../10_user_login/usuario_login/provider_session.dart';
 import '../../10_user_login/usuario_login/dialogbox_login.dart';
 import '../../03_listas/provider_me_gusta.dart';
 import '../../03_listas/provider_user_lists.dart';
+import 'acciones_propiedad.dart';
 
 //------------------------------------------------------------------------------
 // OPTIMIZADO
@@ -77,131 +78,173 @@ class PaginaDetalleWidgetState extends ConsumerState<PaginaDetalleWidget> {
     final espacios = widget.propiedad.espacioscasa;
     final ubicacion = espacios.ubicacioncasa;
     final contacto = espacios.datosdelcontactocasa;
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final isNarrow = constraints.maxWidth < smallScreenMin;
-        final padMargenL = isNarrow ? 15.0 : 40.0;
-        final padMargenT = isNarrow ? 10.0 : 50.0;
-        final padMargenR = isNarrow ? 15.0 : 40.0;
-        final padMargenB = isNarrow ? 10.0 : 50.0;
-
-        return SingleChildScrollView(
-          padding: EdgeInsets.fromLTRB(
-            padMargenL,
-            padMargenT,
-            padMargenR,
-            padMargenB,
+    return Scaffold(
+      key: scaffoldDetalleKey,
+      backgroundColor: appTheme.primaryContainer,
+      appBar: AppBar(
+        toolbarHeight: 40.0,
+        centerTitle: true,
+        titleSpacing: 0,
+        backgroundColor: appTheme.primary,
+        iconTheme: IconThemeData(size: 18, color: appTheme.onPrimary),
+        title: Text(
+          'Ficha: ${espacios.clavedelapropiedad}',
+          style: TextStyle(
+            color: appTheme.onPrimary,
+            fontWeight: FontWeight.bold,
+            fontSize: 14,
           ),
-          child: Center(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(
-                maxWidth: desktopContentMaxWidth,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const SizedBox(height: 10),
-                  Text(
-                    espacios.letreropromocional,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: appTheme.onPrimaryContainer,
-                      fontSize: fontSizeTituloPagina,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Comfortaa',
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Container(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      espacios.descripcion,
-                      style: TextStyle(
-                        fontSize: fontSizeSubtituloPagina,
-                        color: appTheme.onPrimaryContainer,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 30),
-                  _buildFotoPrincipalYIconos(espacios),
-                  const SizedBox(height: 15),
-                  Container(
-                    padding: const EdgeInsets.all(12.0),
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      espacios.inmobiliaria,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: appTheme.onPrimaryContainer,
-                      ),
-                    ),
-                  ),
-                  _buildPrecioFila('Precio venta', espacios.precioventa),
-                  _buildPrecioFila('Precio renta', espacios.preciorenta),
-                  const SizedBox(height: 10),
-                  _buildTituloSeccion('Datos de la Propiedad'),
-                  const SizedBox(height: 5),
-                  Wrap(
-                    spacing: 10,
-                    runSpacing: 5,
-                    children: [
-                      _buildFilaDato('Terreno', espacios.metrosdeterreno, 250),
-                      _buildFilaDato(
-                          'Construcción', espacios.metrosconstruidos, 250),
-                      _buildFilaDato('Recamaras', espacios.recamaras, 250),
-                      _buildFilaDato('Cuartos de servicio',
-                          espacios.cuartosdeservicio.toString(), 250),
-                      _buildFilaDato('Baños', espacios.banos.toString(), 250),
-                      _buildFilaDato(
-                          'Medios baños', espacios.mediosbanos.toString(), 250),
-                      _buildFilaDato(
-                          'Estacionamientos', espacios.estacionamientos, 250),
-                      _buildFilaDato(
-                          'Cubiertos', espacios.estacionamientoscubiertos, 250),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  _buildTituloSeccion('Ubicación', fontSize: 18),
-                  Wrap(
-                    spacing: 10,
-                    runSpacing: 5,
-                    children: [
-                      _buildFilaDato(
-                          'Dirección',
-                          '${ubicacion.calle}, ${ubicacion.numeroexterior} - ${ubicacion.numerointerior}',
-                          700),
-                      _buildFilaDato(
-                          'Colonia', ubicacion.localidadCp.asentamiento, 350),
-                      _buildFilaDato(
-                          'Ciudad', ubicacion.localidadCp.ciudad, 350),
-                      _buildFilaDato(
-                          'Municipio', ubicacion.localidadCp.municipio, 350),
-                      _buildFilaDato(
-                          'C.P.', ubicacion.localidadCp.cp.toString(), 350),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  _buildTituloSeccion('Datos del contacto'),
-                  const SizedBox(height: 5),
-                  _buildDatoContacto('Nombre', contacto.nombre),
-                  _buildDatoContacto('Teléfono', contacto.numerocelular),
-                  _buildDatoContacto('Correo', contacto.correoelectronico),
-                  const SizedBox(height: 20),
-                  _buildTituloSeccion('Más datos de la propiedad'),
-                  const SizedBox(height: 10),
-                  _buildListaMasDatos(espacios),
-                  const SizedBox(height: 20),
-                  _buildTituloSeccion('Fotos propiedad'),
-                  const SizedBox(height: 10),
-                  _buildGaleriaFotos(espacios.idusuario, espacios.idPropiedad),
-                  const SizedBox(height: 30),
-                ],
-              ),
+        ),
+        leading: IconButton(
+          tooltip: 'Regresar',
+          icon: const Icon(Symbols.arrow_back),
+          onPressed: () => Navigator.pop(context),
+        ),
+        actions: [
+          IconButton(
+            tooltip: 'Exportar ficha en PDF',
+            icon: const Icon(Symbols.picture_as_pdf),
+            onPressed: () => exportarFichaPdf(
+              context,
+              widget.propiedad,
+              widget.listaIdsFotos,
             ),
           ),
-        );
-      },
+        ],
+      ),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final isNarrow = constraints.maxWidth < smallScreenMin;
+          final padMargenL = isNarrow ? 15.0 : 40.0;
+          final padMargenT = isNarrow ? 10.0 : 50.0;
+          final padMargenR = isNarrow ? 15.0 : 40.0;
+          final padMargenB = isNarrow ? 10.0 : 50.0;
+
+          return SingleChildScrollView(
+            padding: EdgeInsets.fromLTRB(
+              padMargenL,
+              padMargenT,
+              padMargenR,
+              padMargenB,
+            ),
+            child: Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(
+                  maxWidth: desktopContentMaxWidth,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 10),
+                    Text(
+                      espacios.letreropromocional,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: appTheme.onPrimaryContainer,
+                        fontSize: fontSizeTituloPagina,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Comfortaa',
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Container(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        espacios.descripcion,
+                        style: TextStyle(
+                          fontSize: fontSizeSubtituloPagina,
+                          color: appTheme.onPrimaryContainer,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 30),
+                    _buildFotoPrincipalYIconos(espacios),
+                    const SizedBox(height: 10),
+                    BarraAccionesPropiedad(
+                      propiedad: widget.propiedad,
+                      listaIdsFotos: widget.listaIdsFotos,
+                    ),
+                    const SizedBox(height: 15),
+                    Container(
+                      padding: const EdgeInsets.all(12.0),
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        espacios.inmobiliaria,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: appTheme.onPrimaryContainer,
+                        ),
+                      ),
+                    ),
+                    _buildPrecioFila('Precio venta', espacios.precioventa),
+                    _buildPrecioFila('Precio renta', espacios.preciorenta),
+                    const SizedBox(height: 10),
+                    _buildTituloSeccion('Datos de la Propiedad'),
+                    const SizedBox(height: 5),
+                    Wrap(
+                      spacing: 10,
+                      runSpacing: 5,
+                      children: [
+                        _buildFilaDato(
+                            'Terreno', espacios.metrosdeterreno, 250),
+                        _buildFilaDato(
+                            'Construcción', espacios.metrosconstruidos, 250),
+                        _buildFilaDato('Recamaras', espacios.recamaras, 250),
+                        _buildFilaDato('Cuartos de servicio',
+                            espacios.cuartosdeservicio.toString(), 250),
+                        _buildFilaDato('Baños', espacios.banos.toString(), 250),
+                        _buildFilaDato('Medios baños',
+                            espacios.mediosbanos.toString(), 250),
+                        _buildFilaDato(
+                            'Estacionamientos', espacios.estacionamientos, 250),
+                        _buildFilaDato('Cubiertos',
+                            espacios.estacionamientoscubiertos, 250),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    _buildTituloSeccion('Ubicación', fontSize: 18),
+                    Wrap(
+                      spacing: 10,
+                      runSpacing: 5,
+                      children: [
+                        _buildFilaDato(
+                            'Dirección',
+                            '${ubicacion.calle}, ${ubicacion.numeroexterior} - ${ubicacion.numerointerior}',
+                            700),
+                        _buildFilaDato(
+                            'Colonia', ubicacion.localidadCp.asentamiento, 350),
+                        _buildFilaDato(
+                            'Ciudad', ubicacion.localidadCp.ciudad, 350),
+                        _buildFilaDato(
+                            'Municipio', ubicacion.localidadCp.municipio, 350),
+                        _buildFilaDato(
+                            'C.P.', ubicacion.localidadCp.cp.toString(), 350),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    _buildTituloSeccion('Datos del contacto'),
+                    const SizedBox(height: 5),
+                    _buildDatoContacto('Nombre', contacto.nombre),
+                    _buildDatoContacto('Teléfono', contacto.numerocelular),
+                    _buildDatoContacto('Correo', contacto.correoelectronico),
+                    const SizedBox(height: 20),
+                    _buildTituloSeccion('Más datos de la propiedad'),
+                    const SizedBox(height: 10),
+                    _buildListaMasDatos(espacios),
+                    const SizedBox(height: 20),
+                    _buildTituloSeccion('Fotos propiedad'),
+                    const SizedBox(height: 10),
+                    _buildGaleriaFotos(
+                        espacios.idusuario, espacios.idPropiedad),
+                    const SizedBox(height: 30),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 

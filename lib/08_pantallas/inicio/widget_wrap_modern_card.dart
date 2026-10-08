@@ -16,9 +16,7 @@ import '../../22_imagenes/inicio_fotos_usuario/pagina_carousel_fotos_usuario.dar
 import '../../22_imagenes/variables_imagenes.dart';
 import '../../03_listas/provider_me_gusta.dart';
 import '../../03_listas/provider_user_lists.dart';
-import '../tu_cuenta/conocidos/provider_mensajes.dart';
-import '../tu_cuenta/conocidos/providers/conocidos_notifier.dart';
-import 'data_espacios_casas.dart';
+import '../propiedades/acciones_propiedad.dart';
 
 // OPTIMIZADO
 
@@ -71,7 +69,7 @@ class WrapModernCardPropiedades extends ConsumerWidget {
         // TIPO DE INMUEBLE
         Container(
           width: widthCuadroFotoPropiedad, // Asumiendo variable global
-            color: appTheme.surface,
+          color: appTheme.surface,
           padding: const EdgeInsets.all(1.5),
           alignment: Alignment.centerLeft,
           child: Text(
@@ -111,7 +109,7 @@ class WrapModernCardPropiedades extends ConsumerWidget {
 
         // TARJETA DE LAS FOTOS
         Card(
-            color: appTheme.surface,
+          color: appTheme.surface,
           shadowColor: appTheme.outline,
           elevation: 6.0,
           shape: RoundedRectangleBorder(
@@ -128,8 +126,7 @@ class WrapModernCardPropiedades extends ConsumerWidget {
                 // RECUADRO DE LAS FOTOS
                 SizedBox(
                   width: widthCuadroFotoPropiedad,
-                  height:
-                      heightCuadroFotoPropiedad +
+                  height: heightCuadroFotoPropiedad +
                       40, // Asumiendo variable global
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(12),
@@ -144,7 +141,7 @@ class WrapModernCardPropiedades extends ConsumerWidget {
         // PRECIO
         Container(
           width: widthCuadroFotoPropiedad,
-            color: appTheme.surface,
+          color: appTheme.surface,
           padding: const EdgeInsets.all(1.5),
           alignment: Alignment.topLeft,
           child: _buildPrecio(tipodepropiedad, itemCasa),
@@ -204,7 +201,7 @@ class WrapModernCardPropiedades extends ConsumerWidget {
 
         // ACCIONES DE LA PROPIEDAD
         Card(
-            color: appTheme.surface,
+          color: appTheme.surface,
           shadowColor: appTheme.outline,
           elevation: 6.0,
           shape: RoundedRectangleBorder(
@@ -223,7 +220,7 @@ class WrapModernCardPropiedades extends ConsumerWidget {
                   icono: Symbols.contact_mail,
                   titulo: "Contacto",
                   tooltip: "Ver datos del promotor",
-                  onTap: () => _mostrarDialogContacto(
+                  onTap: () => mostrarDialogContacto(
                     context,
                     itemCasa.datosdelcontactocasa,
                   ),
@@ -261,7 +258,7 @@ class WrapModernCardPropiedades extends ConsumerWidget {
                       .forum, // 0xe2c3 — rango clásico, compatible web/WASM
                   titulo: "Mensaje",
                   tooltip: "Enviar mensaje al promotor",
-                  onTap: () => _enviarMensajeAlPromotor(context, ref, itemCasa),
+                  onTap: () => enviarMensajeAlPromotor(context, ref, itemCasa),
                 ),
               ],
             ),
@@ -385,168 +382,6 @@ class WrapModernCardPropiedades extends ConsumerWidget {
       ),
     );
   }
-
-  void _mostrarDialogContacto(
-    BuildContext context,
-    Datosdelcontactocasa contacto,
-  ) {
-    showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        backgroundColor: appTheme.primary,
-        elevation: 6,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(3)),
-        ),
-        titleTextStyle: TextStyle(
-          color: appTheme.onPrimary,
-          fontSize: 14,
-          fontFamily: "Comfortaa",
-          fontWeight: FontWeight.bold,
-        ),
-        titlePadding: const EdgeInsets.fromLTRB(6, 12, 6, 6),
-        contentPadding: const EdgeInsets.all(3),
-        actionsPadding: const EdgeInsets.all(6),
-        title: const Text("Datos del Contacto", textAlign: TextAlign.center),
-        content: Container(
-          width: 250,
-          padding: const EdgeInsets.all(6),
-          color: appTheme.onPrimary,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildFilaContacto("Nombre", contacto.nombreusuariocontacto),
-              _buildFilaContacto("Empresa", contacto.empresa),
-              _buildFilaContacto("Celular", contacto.numerocelular),
-              _buildFilaContacto("Otro", contacto.numerootro),
-              _buildFilaContacto("Inmobiliaria", contacto.numeroinmobiliaria),
-              _buildFilaContacto("Correo", contacto.correoelectronico),
-            ],
-          ),
-        ),
-        actions: [
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.all(3),
-              backgroundColor: appTheme.surface,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-            ),
-            onPressed: () => Navigator.of(context).pop(),
-            child: Text(
-              'Cerrar',
-              style: TextStyle(
-                color: appTheme.primary,
-                fontSize: 12,
-                fontFamily: "Comfortaa",
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildFilaContacto(String label, String value) {
-    if (value.isEmpty || value == "0") return const SizedBox.shrink();
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 2),
-      child: Text(
-        "$label: $value",
-        style: TextStyle(fontSize: 12, color: appTheme.secondary),
-      ),
-    );
-  }
-
-  Future<void> _enviarMensajeAlPromotor(
-    BuildContext context,
-    WidgetRef ref,
-    EspaciosCasa itemCasa,
-  ) async {
-    final session = ref.read(sessionProvider);
-    if (session.sessionUserData.userId.isEmpty) {
-      if (!context.mounted) return;
-      dialogBoxFichaLogin(context, ref);
-      return;
-    }
-
-    final contacto = itemCasa.datosdelcontactocasa;
-    if (contacto.idusuariocontacto.isEmpty) {
-      if (!context.mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: appTheme.error,
-          content: Text(
-            "Este promotor no tiene cuenta de usuario registrada.",
-            style: TextStyle(color: appTheme.onError),
-          ),
-        ),
-      );
-      return;
-    }
-
-    // Nombre completo desde userData; fallback a userName de sesión
-    final usuario = session.userData.rows.isNotEmpty
-        ? session.userData.rows[0].value.usuario
-        : null;
-    final nombreCompleto = (usuario != null && usuario.nombres.isNotEmpty)
-        ? '${usuario.nombres} ${usuario.apellidopaterno} ${usuario.apellidomaterno}'
-              .trim()
-        : session.sessionUserData.userName;
-
-    final loc = itemCasa.ubicacioncasa.localidadCp;
-    final mensaje =
-        'Soy el usuario $nombreCompleto, estoy interesado en la propiedad '
-        '${itemCasa.nombredelapropiedad}, ubicada en '
-        '${loc.asentamiento}, ${loc.municipio}, ${loc.estado}, C.P. ${loc.cp}.';
-
-    final contactoAgregado = await ref
-        .read(conocidosProvider.notifier)
-        .agregarContactoAceptado(
-          session.sessionUserData.userId,
-          session.sessionUserData.userName,
-          contacto.idusuariocontacto,
-          contacto.nombreusuariocontacto,
-        );
-    if (!context.mounted) return;
-
-    if (!contactoAgregado) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: appTheme.error,
-          content: Text(
-            "Error al agregar el contacto. Intenta de nuevo.",
-            style: TextStyle(color: appTheme.onError),
-          ),
-        ),
-      );
-      return;
-    }
-
-    final enviado = await enviarMensajeDirecto(
-      senderId: session.sessionUserData.userId,
-      receiverId: contacto.idusuariocontacto,
-      content: mensaje,
-    );
-    if (!context.mounted) return;
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        backgroundColor: enviado ? appTheme.primary : appTheme.error,
-        content: Text(
-          enviado
-              ? "Mensaje enviado a ${contacto.nombreusuariocontacto}"
-              : "Error al enviar el mensaje",
-          style: TextStyle(
-            color: enviado ? appTheme.onPrimary : appTheme.onError,
-          ),
-        ),
-      ),
-    );
-  }
 }
 
 // Botón de "Me gusta" — ConsumerStatefulWidget para init + loading state
@@ -586,8 +421,7 @@ class _MeGustaButtonState extends ConsumerState<_MeGustaButton> {
       }
     });
 
-    final tieneGusta =
-        ref
+    final tieneGusta = ref
             .watch(meGustaProvider)
             .asData
             ?.value
@@ -623,9 +457,7 @@ class _MeGustaButtonState extends ConsumerState<_MeGustaButton> {
           return;
         }
         setState(() => _toggling = true);
-        await ref
-            .read(meGustaProvider.notifier)
-            .toggleMeGusta(
+        await ref.read(meGustaProvider.notifier).toggleMeGusta(
               usuarioId: session.userId,
               propiedadId: widget.propiedadId,
               userListsNotifier: ref.read(userListsProvider.notifier),
