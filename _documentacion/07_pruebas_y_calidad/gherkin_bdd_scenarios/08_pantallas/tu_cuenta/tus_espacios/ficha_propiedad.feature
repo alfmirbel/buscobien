@@ -9,6 +9,7 @@ Característica: Ficha de Captura de Propiedad
     Y tiene propiedades registradas en el sistema
     Y se encuentra en la pantalla "Tus Espacios"
 
+  @REQ-ESP-012 @mapeo-auto
   Escenario: Visualización de tarjeta de propiedad
     Dado que el promotor tiene propiedades
     Cuando el sistema carga la lista de propiedades
@@ -118,6 +119,7 @@ Característica: Ficha de Captura de Propiedad
       | Teléfono            |
       | Correo              |
 
+  @REQ-ESP-004 @mapeo-auto
   Escenario: Visualización de datos adicionales
     Dado que el usuario presiona "Datos adicionales"
     Entonces el sistema deberá mostrar las características adicionales según el tipo de propiedad

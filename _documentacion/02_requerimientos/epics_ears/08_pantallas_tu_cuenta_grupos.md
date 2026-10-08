@@ -66,6 +66,7 @@ GruposView (3 tabs: Mis Grupos / Descubrir / Invitaciones)
 | REQ-GPU-014 | **Evento** | Cuando el receptor acepte una invitación de grupo, el sistema marcará la invitación como `accepted` y agregará al usuario al arreglo `miembros` del grupo; al rechazar la marcará `rejected`; no permitirá una segunda invitación pendiente para el mismo remitente, destinatario y grupo. | `grupos_invitaciones_provider.dart:85,150`, `grupos_notifier.dart:151`; SDD_grupos §2.2 | En código |
 | REQ-GPU-015 | **Estado** | Mientras el usuario esté en el detalle de un grupo, el sistema mostrará nombre y número de miembros, la lista de miembros con su rol y la opción «Info del grupo»; solo los administradores verán el ícono de invitar, el chip «Admin» y la opción «Editar grupo». | `page_detalle_grupo.dart`; SDD_grupos §2.4, §2.6, §3.4 | En código |
 | REQ-GPU-016 | **Evento** | Cuando un administrador publique un aviso, el sistema validará que tenga entre 1 y 250 caracteres, lo creará en `buscobien_grupos_avisos` y lo mostrará al inicio; solo su autor podrá eliminarlo. La eliminación de miembros por el administrador **no está implementada**. | `avisos_grupo_provider.dart`; SDD_grupos §2.8, §4.2 | En código / parcial |
+| REQ-GPU-017 | **No Deseado** | Si el usuario envía un mensaje en el chat de grupo, `_BurbujaMensaje` lo dibuja como mensaje **ajeno** (alineado a la izquierda y con nombre de remitente) porque fija `isMe = false` y no recibe `currentUserId`. | `page_chat_grupo.dart:121-130, 349` | Defecto (MEJ-01) |
 
 ---
 

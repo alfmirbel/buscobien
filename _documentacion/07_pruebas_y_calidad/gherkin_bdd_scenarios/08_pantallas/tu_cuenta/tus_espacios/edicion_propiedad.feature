@@ -20,6 +20,7 @@ Característica: Edición de Propiedad (Stepper)
       | Adicionales|
       | Contacto   |
 
+  @REQ-ESP-004 @mapeo-auto
   Escenario: Paso 1 - Datos de la propiedad
     Dado que el usuario se encuentra en el paso "Propiedad"
     Entonces el sistema deberá mostrar campos para:
@@ -43,6 +44,7 @@ Característica: Edición de Propiedad (Stepper)
       | Estacionamientos          |
       | Estacionamientos cubiertos|
 
+  @REQ-ESP-004 @mapeo-auto
   Escenario: Paso 2 - Precio y costos
     Dado que el usuario se encuentra en el paso "Precio"
     Entonces el sistema deberá mostrar campos para:
@@ -59,6 +61,7 @@ Característica: Edición de Propiedad (Stepper)
       | Renta                     | Precio de renta, Mantenimiento     |
       | Venta/Renta               | Precio de venta, Precio de renta, Mantenimiento |
 
+  @REQ-ESP-004 @mapeo-auto
   Escenario: Paso 3 - Ubicación
     Dado que el usuario se encuentra en el paso "Ubicación"
     Entonces el sistema deberá mostrar campos para:
@@ -81,6 +84,7 @@ Característica: Edición de Propiedad (Stepper)
       | Latitud Decimal           |
       | Longitud Decimal          |
 
+  @REQ-ESP-004 @mapeo-auto
   Escenario: Paso 4 - Datos adicionales
     Dado que el usuario se encuentra en el paso "Adicionales"
     Entonces el sistema deberá mostrar checkboxes para características según el tipo de propiedad:
@@ -103,6 +107,7 @@ Característica: Edición de Propiedad (Stepper)
       | Otras características     |
     Y al marcar un checkbox, el sistema deberá mostrar el campo de texto correspondiente
 
+  @REQ-ESP-004 @mapeo-auto
   Escenario: Paso 5 - Datos del contacto
     Dado que el usuario se encuentra en el paso "Contacto"
     Entonces el sistema deberá mostrar campos para:
@@ -117,6 +122,7 @@ Característica: Edición de Propiedad (Stepper)
       | Nombre usuario contacto   |
       | Imagen del contacto       |
 
+  @REQ-ESP-004 @mapeo-auto
   Escenario: Navegación entre pasos
     Dado que el usuario se encuentra en el paso 1
     Cuando el usuario presiona "Siguiente"

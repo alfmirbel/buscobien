@@ -8,7 +8,6 @@ Característica: Gestión de Invitaciones a Grupos
     Dado que el usuario ha iniciado sesión en la aplicación
     Y se encuentra en la pestaña "Invitaciones"
 
-  @REQ-GPU-014 @mapeo-auto
   Escenario: Carga inicial de invitaciones
     Dado que el usuario abre la pantalla "Invitaciones"
     Entonces el sistema deberá mostrar un indicador de carga circular centrado

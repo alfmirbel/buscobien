@@ -18,10 +18,13 @@ Funcionalidad: Tus Espacios — Captura y Publicación de Propiedades
     Y muestra CTAs: Crear nueva ficha, Editar (por cada una), Comprar
     Y el menuTipoEspaciosProvider permite filtrar por categoría
 
-  @REQ-ESP-003 @mapeo-auto
+  # NOTA (2026-10-07): CreaFichaCapturaPropiedad es la tarjeta de la propiedad, no un formulario de alta;
+  # el alta ocurre al comprar espacios y los campos se capturan en PaginaEditaEspacio (Stepper).
+  @pendiente
+  @REQ-ESP-003 @REQ-ESP-005 @mapeo-auto
   Escenario: Crear ficha de captura (alta de propiedad)
-    Dado que el usuario toca "Crear ficha de captura"
-    Cuando CreaFichaCapturaPropiedad se abre
+    Dado que el usuario toca "Crear ficha de captura" (acción que no existe en el código actual)
+    Cuando se abre el formulario de captura propuesto
     Entonces muestra wizard/formulario con secciones: Tipo inmueble, Ubicación, Características, Precio, Fotos, Contacto
     Y los campos disponibles dependen del tipo de inmueble (tabla_tipopropiedad_vs_campos matriz)
     Y al Submit, validaciones locales disparan mensajes para campos requeridos
@@ -36,7 +39,6 @@ Funcionalidad: Tus Espacios — Captura y Publicación de Propiedades
     Y la lista reactiva del provider actualiza y aparece la nueva propiedad
     Y SnackBar confirma y regresa a PaginaTusEspacios
 
-  @REQ-ESP-004 @mapeo-auto
   Escenario: Editar propiedad existente
     Dado que el usuario toca "Editar" en una de sus propiedades
     Cuando PaginaEditaEspacio se abre

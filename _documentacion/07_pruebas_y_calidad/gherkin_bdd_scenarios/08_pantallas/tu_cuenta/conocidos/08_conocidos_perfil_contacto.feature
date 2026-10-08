@@ -43,6 +43,7 @@ Característica: Perfil de Contacto y sus Publicaciones
     Y debe mostrar el "letreropromocional" como título (max 2 líneas)
     Y debe mostrar el precio en verde con formato "$ {precioventa}"
 
+  @REQ-CON-011 @mapeo-auto
   Escenario: El AppBar muestra el nombre del contacto
     Dado que el usuario está en "PagePerfilContacto"
     Cuando se renderiza el AppBar

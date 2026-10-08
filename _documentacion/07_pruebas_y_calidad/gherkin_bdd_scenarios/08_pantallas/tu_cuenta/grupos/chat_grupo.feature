@@ -39,6 +39,8 @@ Característica: Chat Grupal
     Entonces el sistema deberá recibir el mensaje mediante el feed continuo _changes
     Y agregar el mensaje al frente de la lista sin necesidad de recargar
 
+  # NOTA (2026-10-07): el código actual no cumple este escenario (isMe fijo en false); ver MEJ-01 en plan_de_mejoras.md.
+  @pendiente
   @REQ-GPU-010 @mapeo-auto
   Escenario: Visualización de burbuja de mensaje propio
     Dado que el usuario envió un mensaje en el chat
@@ -47,7 +49,7 @@ Característica: Chat Grupal
     Y mostrar el contenido del mensaje
     Y mostrar la marca de tiempo formateada
 
-  @REQ-GPU-010 @mapeo-auto
+  @REQ-GPU-010 @REQ-GPU-017 @mapeo-auto
   Escenario: Visualización de burbuja de mensaje de otro
     Dado que otro usuario envió un mensaje en el chat
     Cuando el usuario visualiza el mensaje en la lista

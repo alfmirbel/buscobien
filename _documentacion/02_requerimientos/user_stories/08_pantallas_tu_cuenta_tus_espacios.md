@@ -39,7 +39,9 @@
 
 ---
 
-## US-TUS-002: Crear ficha de captura (alta de propiedad) usando wizard con campos por tipo inmueble
+## US-TUS-002: Alta de propiedad (compra de espacios) y ficha de captura por tipo de inmueble
+
+> **Nota de exactitud:** Revisión de código 2026-10-07: `CreaFichaCapturaPropiedad` es la **tarjeta (ficha) de cada propiedad** en la lista de «Tus Espacios» (se instancia en `pagina_tus_espacios.dart` con `context`, índice, datos y callback); **no es un formulario de alta** y no contiene campos de captura. Las propiedades se crean al **comprar espacios** (`compra_espacios/`), que genera los documentos con `idPropiedad` y `clavedelapropiedad`, y se capturan después con el `Stepper` de `PaginaEditaEspacio`.
 
 ### Card
 **Como** promotor
@@ -47,7 +49,7 @@
 **Para** capturar mi propiedad correctamente y publicarla al catálogo.
 
 ### Conversation
-- `CreaFichaCapturaPropiedad` (`form_crea_ficha_captura_propiedad.dart`, 4,692 líneas, StatefulWidget) es el formulario extenso de alta.
+- `CreaFichaCapturaPropiedad` (`form_crea_ficha_captura_propiedad.dart`, 3.075 líneas activas) es la tarjeta de cada propiedad; los campos por tipo de inmueble se capturan en el `Stepper` de `PaginaEditaEspacio`.
 - Secciones (implícitamente un wizard lineal sin separar en widgets Steps):
   1. **Tipo de inmueble** + **Tipo de transacción** (venta/renta).
   2. **Ubicación**: estado, municipio, calle, CP, entre calles — values derivados de `tabla_tipopropiedad_vs_campos.dart` matrices (`ubicaciongeneralMatriz`).

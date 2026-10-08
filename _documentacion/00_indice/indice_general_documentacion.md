@@ -39,6 +39,7 @@ flowchart LR
 
 ### 01 — [`01_planeacion_y_estrategia/`](../01_planeacion_y_estrategia/README.md)
 - [`okrs_y_lean_canvas.md`](../01_planeacion_y_estrategia/okrs_y_lean_canvas.md) — Lean Canvas y OKRs.
+- [`plan_de_mejoras.md`](../01_planeacion_y_estrategia/plan_de_mejoras.md) — plan por fases (MEJ-01…30) derivado de la revisión de código.
 - [`plan_de_trabajo.md`](../01_planeacion_y_estrategia/plan_de_trabajo.md) — metodologías, estado de las capas documentales y definición de terminado.
 
 ### 02 — [`02_requerimientos/`](../02_requerimientos/README.md)
@@ -59,6 +60,7 @@ flowchart LR
 - [`modulos_sdd/`](../04_arquitectura_y_diseno/modulos_sdd/) — 29 SDD detallados por módulo (incluye `07_routes`).
 
 ### 05 — [`05_desarrollo_y_especificaciones_tecnicas/`](../05_desarrollo_y_especificaciones_tecnicas/README.md)
+- [`revision_de_codigo.md`](../05_desarrollo_y_especificaciones_tecnicas/revision_de_codigo.md) — revisión del código (funcionalidad, pantallas de despliegue y de captura, hallazgos `H-NN`).
 - [`stack_tecnologico.md`](../05_desarrollo_y_especificaciones_tecnicas/stack_tecnologico.md), [`dominios_modulos_archivos.md`](../05_desarrollo_y_especificaciones_tecnicas/dominios_modulos_archivos.md), [`antigravity_ui_rules.md`](../05_desarrollo_y_especificaciones_tecnicas/antigravity_ui_rules.md).
 - [`inventario_componentes/`](../05_desarrollo_y_especificaciones_tecnicas/inventario_componentes/) — vista arquitectónica por módulo con diagramas Mermaid (32 documentos, incluye reportes consolidados).
 - [`inventario_elementos/`](../05_desarrollo_y_especificaciones_tecnicas/inventario_elementos/) — tablas de 10 columnas por archivo fuente (26 documentos).

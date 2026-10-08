@@ -39,7 +39,7 @@ Característica: Publicación y Despublicación de Propiedades
     Entonces el sistema deberá mostrar un mensaje "Error: no se pudo publicar"
     Y restaurar el estado de la propiedad (activa = 0, fotoprincipal = "")
 
-  @REQ-ESP-012 @REQ-ESP-014 @mapeo-auto
+  @REQ-ESP-014 @mapeo-auto
   Escenario: Error al publicar propiedad - fallo en actualización del espacio
     Dado que la publicación se creó exitosamente
     Cuando ocurre un error al actualizar la propiedad en CouchDB

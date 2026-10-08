@@ -2,7 +2,7 @@ feature,escenario,req_id,score,confianza,estado
 07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/busqueda_localidades_geolocalizacion.feature,El sistema detecta la ubicación GPS del usuario al iniciar,,0.08,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/busqueda_localidades_geolocalizacion.feature,El usuario deniega el permiso de ubicación,,0.00,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/busqueda_localidades_geolocalizacion.feature,Error al obtener la ubicación GPS,,0.05,baja,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/busqueda_localidades_geolocalizacion.feature,El usuario busca una localidad manualmente desde la sección Ubicación,,0.06,baja,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/busqueda_localidades_geolocalizacion.feature,El usuario busca una localidad manualmente desde la sección Ubicación,,0.05,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/busqueda_localidades_geolocalizacion.feature,El usuario selecciona una localidad de los resultados de búsqueda,,0.03,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/busqueda_localidades_geolocalizacion.feature,El usuario busca una localidad por código postal en el mapa,,0.02,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/busqueda_localidades_geolocalizacion.feature,El sistema obtiene localidades para un código postal dado,,0.05,baja,propuesto
@@ -30,7 +30,7 @@ feature,escenario,req_id,score,confianza,estado
 07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/exploracion_propiedades.feature,El usuario selecciona una propiedad para ver su detalle,,0.10,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/exploracion_propiedades.feature,El usuario accede al carrusel de fotos de una propiedad,,0.01,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/gestion_espacios_promotor.feature,El promotor ve la lista de sus espacios publicados,,0.10,baja,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/gestion_espacios_promotor.feature,El promotor no tiene espacios registrados aún,,0.06,baja,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/gestion_espacios_promotor.feature,El promotor no tiene espacios registrados aún,,0.07,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/gestion_espacios_promotor.feature,El promotor edita la información de un espacio existente,,0.05,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/gestion_espacios_promotor.feature,El promotor guarda los cambios de un espacio editado,,0.05,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/gestion_espacios_promotor.feature,El promotor gestiona las fotos de un espacio,,0.08,baja,propuesto
@@ -50,7 +50,7 @@ feature,escenario,req_id,score,confianza,estado
 07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/gestion_estado_sesion.feature,Reset completo del estado al cerrar sesión (sección 0),,0.01,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/gestion_estado_sesion.feature,Guardado seguro del hash de contraseña,,0.00,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/gestion_estado_sesion.feature,Los datos completos del usuario se cargan una sola vez,,0.01,baja,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/gestion_estado_sesion.feature,Los datos del usuario no se recargan si ya están en caché,,0.07,baja,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/gestion_estado_sesion.feature,Los datos del usuario no se recargan si ya están en caché,,0.08,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/home_navegacion.feature,Visualización del contenido de inicio al arrancar la app,,0.08,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/home_navegacion.feature,"El usuario navega a la sección ""Propiedades"" (índice 1)",REQ-HOME-003,0.31,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/home_navegacion.feature,"El usuario navega a la sección ""Propiedades"" (índice 1)",REQ-HOME-004,0.29,media,propuesto
@@ -61,7 +61,7 @@ feature,escenario,req_id,score,confianza,estado
 07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/home_navegacion.feature,"El usuario navega a la sección ""Perfil"" (índice 4)",,0.19,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/home_navegacion.feature,El usuario filtra propiedades por tipo en el sub-menú principal,,0.22,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/home_navegacion.feature,Persistencia reactiva del índice de nivel de gobierno,REQ-HOME-001,0.25,media,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/home_navegacion.feature,"El promotor navega a ""Mis Espacios"" dentro de Mi Cuenta",REQ-HOME-001,0.24,media,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/home_navegacion.feature,"El promotor navega a ""Mis Espacios"" dentro de Mi Cuenta",REQ-HOME-001,0.23,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/home_navegacion.feature,"El promotor navega a ""Mis Listas"" dentro de Mi Cuenta",,0.17,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/home_navegacion.feature,"El promotor navega a ""Mis Grupos"" dentro de Mi Cuenta",,0.17,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/home_navegacion.feature,"El promotor navega a ""Mis Conocidos"" dentro de Mi Cuenta",,0.17,baja,propuesto
@@ -82,7 +82,7 @@ feature,escenario,req_id,score,confianza,estado
 07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/login_inicio_sesion.feature,El teclado se cierra al tocar fuera de un campo de texto,,0.03,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/login_inicio_sesion.feature,La sesión se restaura automáticamente al reiniciar la app,,0.03,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/perfil_y_avatar.feature,El usuario accede a su perfil desde el menú principal,,0.11,baja,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/perfil_y_avatar.feature,El perfil muestra los datos del usuario cargados en caché,,0.07,baja,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/perfil_y_avatar.feature,El perfil muestra los datos del usuario cargados en caché,,0.08,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/perfil_y_avatar.feature,El perfil carga datos del usuario desde el servidor si no están en caché,,0.03,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/perfil_y_avatar.feature,El usuario actualiza su número de celular,,0.08,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/perfil_y_avatar.feature,El usuario actualiza su ubicación (código postal y localidad),,0.06,baja,propuesto
@@ -97,7 +97,7 @@ feature,escenario,req_id,score,confianza,estado
 07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/recuperacion_contrasena.feature,Solicitud de recuperación exitosa,,0.05,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/recuperacion_contrasena.feature,Error al guardar el token en la base de datos,,0.04,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/recuperacion_contrasena.feature,Error al enviar el correo (token generado pero correo fallido),,0.03,baja,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/recuperacion_contrasena.feature,El usuario cambia el perfil en la pantalla de recuperación,,0.07,baja,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/recuperacion_contrasena.feature,El usuario cambia el perfil en la pantalla de recuperación,,0.06,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/recuperacion_contrasena.feature,El token de recuperación es válido al abrir el enlace,,0.00,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/recuperacion_contrasena.feature,El token de recuperación es inválido o ha expirado,,0.06,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/recuperacion_contrasena.feature,El usuario establece una nueva contraseña exitosamente,,0.05,baja,propuesto
@@ -113,7 +113,7 @@ feature,escenario,req_id,score,confianza,estado
 07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/registro_nuevo_usuario.feature,El AppBar adapta su título al perfil activo,,0.06,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/registro_nuevo_usuario.feature,Registro exitoso de un nuevo Usuario comprador,,0.07,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/registro_nuevo_usuario.feature,El nombre de usuario ya existe en la base de datos,,0.00,baja,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/splash_y_navegacion_rutas.feature,La app muestra el Splash Screen al arrancar por primera vez,,0.14,baja,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/splash_y_navegacion_rutas.feature,La app muestra el Splash Screen al arrancar por primera vez,,0.15,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/splash_y_navegacion_rutas.feature,Navegación directa al splash desde cualquier punto,,0.04,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/splash_y_navegacion_rutas.feature,Inicialización de controladores de menú durante el splash,,0.07,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/01_home/splash_y_navegacion_rutas.feature,El sistema detecta la plataforma en la que corre la app,,0.02,baja,propuesto
@@ -177,14 +177,14 @@ feature,escenario,req_id,score,confianza,estado
 07_pruebas_y_calidad/gherkin_bdd_scenarios/03_listas/03_listas_compartir.feature,El usuario comparte una lista con hasta 5 conocidos,REQ-LIST-002,0.30,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/03_listas/03_listas_compartir.feature,El sistema previene compartir la misma lista dos veces con el mismo usuario,REQ-LIST-009,0.29,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/03_listas/03_listas_compartir.feature,Las propiedades de la lista se copian al compartir,REQ-LIST-005,0.29,media,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/03_listas/03_listas_compartir.feature,El destinatario recibe una notificación de lista compartida por chat,REQ-LIST-005,0.46,alta,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/03_listas/03_listas_compartir.feature,El destinatario recibe una notificación de lista compartida por chat,REQ-LIST-005,0.45,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/03_listas/03_listas_compartir.feature,El usuario no puede compartir una lista si no tiene conocidos,REQ-LIST-006,0.30,media,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/03_listas/03_listas_compartir.feature,"El botón ""Enviar"" del diálogo de compartir está deshabilitado sin selección",REQ-LIST-005,0.26,media,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/03_listas/03_listas_compartir.feature,El usuario comparte una propiedad con conocidos,REQ-LIST-005,0.39,alta,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/03_listas/03_listas_compartir.feature,"El botón ""Enviar"" del diálogo de compartir está deshabilitado sin selección",REQ-LIST-005,0.25,media,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/03_listas/03_listas_compartir.feature,El usuario comparte una propiedad con conocidos,REQ-LIST-005,0.38,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/03_listas/03_listas_compartir.feature,El usuario comparte una propiedad con conocidos,REQ-LIST-006,0.37,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/03_listas/03_listas_compartir.feature,El usuario comparte una propiedad con grupos,REQ-LIST-006,0.40,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/03_listas/03_listas_compartir.feature,El usuario comparte una propiedad con grupos,REQ-LIST-005,0.35,alta,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/03_listas/03_listas_compartir.feature,El usuario no puede compartir si no tiene grupos,REQ-LIST-006,0.29,media,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/03_listas/03_listas_compartir.feature,El usuario no puede compartir si no tiene grupos,REQ-LIST-006,0.30,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/03_listas/03_listas_compartir.feature,El usuario no puede compartir si no tiene conocidos,REQ-LIST-006,0.34,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/03_listas/03_listas_detalle_lista.feature,El detalle de una lista muestra sus propiedades,,0.16,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/03_listas/03_listas_detalle_lista.feature,El usuario puede quitar una propiedad de la lista deslizando,,0.14,baja,propuesto
@@ -198,7 +198,7 @@ feature,escenario,req_id,score,confianza,estado
 07_pruebas_y_calidad/gherkin_bdd_scenarios/03_listas/03_listas_me_gusta.feature,"El usuario quita el ""Me gusta"" de una propiedad",REQ-LIST-007,0.25,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/03_listas/03_listas_me_gusta.feature,El sistema previene duplicados en la lista Favoritas,REQ-LIST-007,0.24,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/03_listas/03_listas_me_gusta.feature,"La lista ""Favoritas"" siempre aparece primera en ""Mis Listas""",,0.18,baja,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/03_listas/03_listas_me_gusta.feature,"El estado de ""Me gusta"" se refleja reactivamente en la UI",REQ-LIST-007,0.28,media,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/03_listas/03_listas_me_gusta.feature,"El estado de ""Me gusta"" se refleja reactivamente en la UI",REQ-LIST-007,0.29,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/03_listas/03_listas_me_gusta.feature,"El sistema carga los ""Me gusta"" al iniciar sesión",REQ-LIST-007,0.25,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/03_listas/03_listas_mis_listas.feature,Un usuario sin sesión ve la vista de invitado en Mis Listas,REQ-LIST-002,0.25,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/03_listas/03_listas_mis_listas.feature,La pantalla muestra tres pestañas al tener sesión iniciada,REQ-LIST-002,0.25,media,propuesto
@@ -228,7 +228,7 @@ feature,escenario,req_id,score,confianza,estado
 07_pruebas_y_calidad/gherkin_bdd_scenarios/03_vistas/03_vistas_landing_pages_estructura.feature,El botón de regresar navega a la pantalla anterior,,0.07,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/03_vistas/03_vistas_landing_pages_estructura.feature,El botón de regresar está oculto fuera del menú de inicio,,0.07,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/03_vistas/03_vistas_landing_pages_estructura.feature,Toda landing page muestra una sección Hero con imagen de fondo,,0.12,baja,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/03_vistas/03_vistas_landing_pages_estructura.feature,El footer de las landing pages muestra el copyright,REQ-VIST-001,0.27,media,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/03_vistas/03_vistas_landing_pages_estructura.feature,El footer de las landing pages muestra el copyright,REQ-VIST-001,0.28,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/03_vistas/03_vistas_landing_pages_navegacion.feature,El CTA principal de la landing page de Búsqueda navega a Propiedades,,0.18,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/03_vistas/03_vistas_landing_pages_navegacion.feature,"El CTA ""Iniciar"" de la landing page de Promotores abre el login",,0.12,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/03_vistas/03_vistas_landing_pages_navegacion.feature,"El CTA ""Publicar"" de la landing page de Promotores navega a Publicar",,0.18,baja,propuesto
@@ -258,12 +258,12 @@ feature,escenario,req_id,score,confianza,estado
 07_pruebas_y_calidad/gherkin_bdd_scenarios/04_provider/04_provider_preferencias_colores.feature,La pantalla muestra el texto de instrucción,REQ-PROV-003,0.27,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/05_provider_menus/05_provider_menus_dropdown_tipo_propiedad.feature,El dropdown muestra la lista completa de tipos de inmueble,REQ-MENU-008,0.29,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/05_provider_menus/05_provider_menus_dropdown_tipo_propiedad.feature,El dropdown muestra la lista reducida de tipos de inmueble,REQ-MENU-008,0.22,media,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/05_provider_menus/05_provider_menus_dropdown_tipo_propiedad.feature,El usuario selecciona un tipo de propiedad del dropdown,REQ-MENU-008,0.71,alta,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/05_provider_menus/05_provider_menus_dropdown_tipo_propiedad.feature,El usuario selecciona un tipo de propiedad del dropdown,REQ-MENU-008,0.70,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/05_provider_menus/05_provider_menus_dropdown_tipo_propiedad.feature,El dropdown no se actualiza si el valor es nulo,REQ-MENU-008,0.61,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/05_provider_menus/05_provider_menus_dropdown_tipo_propiedad.feature,El dropdown refleja cambios en el valor inicial,REQ-MENU-008,0.27,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/05_provider_menus/05_provider_menus_dropdown_tipo_propiedad.feature,El dropdown muestra icono de flecha hacia abajo,REQ-MENU-008,0.37,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/05_provider_menus/05_provider_menus_dropdown_tipo_propiedad.feature,El dropdown usa el color del tema para los items,REQ-MENU-008,0.22,media,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/05_provider_menus/05_provider_menus_dropdown_tipo_propiedad.feature,El dropdown se inicializa con la lista correcta,REQ-MENU-008,0.29,media,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/05_provider_menus/05_provider_menus_dropdown_tipo_propiedad.feature,El dropdown se inicializa con la lista correcta,REQ-MENU-008,0.30,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/05_provider_menus/05_provider_menus_filtros.feature,El menú de nivel de gobierno muestra 5 opciones,REQ-MENU-006,0.34,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/05_provider_menus/05_provider_menus_filtros.feature,El usuario selecciona nivel de gobierno Estado,REQ-MENU-006,0.40,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/05_provider_menus/05_provider_menus_filtros.feature,El usuario selecciona nivel de gobierno Municipio,REQ-MENU-006,0.37,alta,propuesto
@@ -288,7 +288,7 @@ feature,escenario,req_id,score,confianza,estado
 07_pruebas_y_calidad/gherkin_bdd_scenarios/05_provider_menus/05_provider_menus_filtros.feature,El usuario selecciona tipo de transacción Traspaso,REQ-MENU-010,0.22,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/05_provider_menus/05_provider_menus_filtros.feature,El menú de nivel de gobierno flota al hacer scroll,REQ-MENU-004,0.29,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/05_provider_menus/05_provider_menus_filtros.feature,El menú de tipo de espacio flota al hacer scroll,REQ-MENU-004,0.26,media,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/05_provider_menus/05_provider_menus_inicial_principal.feature,El menú inicial muestra 5 opciones al iniciar la app,REQ-MENU-004,0.24,media,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/05_provider_menus/05_provider_menus_inicial_principal.feature,El menú inicial muestra 5 opciones al iniciar la app,REQ-MENU-004,0.23,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/05_provider_menus/05_provider_menus_inicial_principal.feature,El usuario cambia a la sección Propiedades,REQ-MENU-010,0.31,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/05_provider_menus/05_provider_menus_inicial_principal.feature,El usuario cambia a la sección Propiedades,REQ-MENU-005,0.27,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/05_provider_menus/05_provider_menus_inicial_principal.feature,El usuario cambia a la sección Ubicación,REQ-MENU-005,0.30,media,propuesto
@@ -305,11 +305,11 @@ feature,escenario,req_id,score,confianza,estado
 07_pruebas_y_calidad/gherkin_bdd_scenarios/05_provider_menus/05_provider_menus_inicial_principal.feature,El usuario filtra por Otros inmuebles,REQ-MENU-008,0.30,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/05_provider_menus/05_provider_menus_inicial_principal.feature,El usuario filtra por Otros inmuebles,REQ-MENU-010,0.29,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/05_provider_menus/05_provider_menus_inicial_principal.feature,El menú principal flota al hacer scroll,,0.16,baja,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/05_provider_menus/05_provider_menus_mi_cuenta.feature,El menú Mi Cuenta de promotor muestra 4 opciones,REQ-MENU-005,0.24,media,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/05_provider_menus/05_provider_menus_mi_cuenta.feature,El menú Mi Cuenta de promotor muestra 4 opciones,REQ-MENU-005,0.23,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/05_provider_menus/05_provider_menus_mi_cuenta.feature,El promotor navega a Listas,REQ-MENU-005,0.46,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/05_provider_menus/05_provider_menus_mi_cuenta.feature,El promotor navega a Grupos,REQ-MENU-005,0.47,alta,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/05_provider_menus/05_provider_menus_mi_cuenta.feature,El promotor navega a Conocidos,REQ-MENU-005,0.48,alta,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/05_provider_menus/05_provider_menus_mi_cuenta.feature,El menú Mi Cuenta de usuario muestra 3 opciones,REQ-MENU-005,0.25,media,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/05_provider_menus/05_provider_menus_mi_cuenta.feature,El promotor navega a Conocidos,REQ-MENU-005,0.47,alta,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/05_provider_menus/05_provider_menus_mi_cuenta.feature,El menú Mi Cuenta de usuario muestra 3 opciones,REQ-MENU-005,0.24,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/05_provider_menus/05_provider_menus_mi_cuenta.feature,El usuario navega a Grupos,REQ-MENU-005,0.57,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/05_provider_menus/05_provider_menus_mi_cuenta.feature,El usuario navega a Conocidos,REQ-MENU-005,0.57,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/05_provider_menus/05_provider_menus_mi_cuenta.feature,El menú Mi Cuenta de promotor está fijo en la parte superior,REQ-MENU-004,0.39,alta,propuesto
@@ -323,12 +323,12 @@ feature,escenario,req_id,score,confianza,estado
 07_pruebas_y_calidad/gherkin_bdd_scenarios/07_routes/argumentos_y_errores_de_ruta.feature,Una constante de AppRoutes sin case se comporta como ruta desconocida,REQ-ROUT-006,0.39,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/07_routes/argumentos_y_errores_de_ruta.feature,Falta el argumento obligatorio de /editaespacio,REQ-ROUT-016,0.46,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/07_routes/argumentos_y_errores_de_ruta.feature,Argumentos de otro tipo en /cambiopassword,REQ-ROUT-016,0.45,alta,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/07_routes/catalogo_de_rutas.feature,AppRoutes declara 38 constantes y solo 22 tienen pantalla,REQ-ROUT-001,0.54,alta,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/07_routes/catalogo_de_rutas.feature,AppRoutes declara 38 constantes y solo 22 tienen pantalla,REQ-ROUT-001,0.53,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/07_routes/catalogo_de_rutas.feature,La app arranca en la ruta inicial,REQ-ROUT-002,0.34,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/07_routes/catalogo_de_rutas.feature,La app arranca en la ruta inicial,REQ-ROUT-003,0.32,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/07_routes/catalogo_de_rutas.feature,La ruta raíz y /splash muestran el splash de 3 segundos,REQ-ROUT-013,0.31,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/07_routes/catalogo_de_rutas.feature,Una ruta conocida se envuelve en un MaterialPageRoute con los mismos settings,REQ-ROUT-003,0.58,alta,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/07_routes/catalogo_de_rutas.feature,Una ruta con argumentos recibe el argumento casteado al tipo esperado,REQ-ROUT-010,0.38,alta,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/07_routes/catalogo_de_rutas.feature,Una ruta con argumentos recibe el argumento casteado al tipo esperado,REQ-ROUT-010,0.39,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/07_routes/catalogo_de_rutas.feature,Una ruta con argumentos recibe el argumento casteado al tipo esperado,REQ-ROUT-009,0.37,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/07_routes/catalogo_de_rutas.feature,La ruta de mapa recibe una lista de propiedades,REQ-ROUT-010,0.26,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/07_routes/catalogo_de_rutas.feature,La ruta de mapa recibe una lista de propiedades,REQ-ROUT-009,0.25,media,propuesto
@@ -350,11 +350,11 @@ feature,escenario,req_id,score,confianza,estado
 07_pruebas_y_calidad/gherkin_bdd_scenarios/07_routes/pagina_de_error.feature,Sin permiso de ubicación el widget se crea pero no se muestra,REQ-ROUT-012,0.31,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/07_routes/plantillas_de_argumentos.feature,routes_parameters define clases de resultado y de argumentos,REQ-ROUT-009,0.62,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/07_routes/plantillas_de_argumentos.feature,routes_parameters define 11 variables globales de plantilla,REQ-ROUT-009,0.81,alta,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/07_routes/plantillas_de_argumentos.feature,Los valores iniciales de las plantillas son predecibles,REQ-ROUT-009,0.30,media,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/07_routes/plantillas_de_argumentos.feature,Las plantillas son mutables y compartidas entre pantallas,REQ-ROUT-011,0.45,alta,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/07_routes/plantillas_de_argumentos.feature,Los valores iniciales de las plantillas son predecibles,REQ-ROUT-009,0.31,media,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/07_routes/plantillas_de_argumentos.feature,Las plantillas son mutables y compartidas entre pantallas,REQ-ROUT-011,0.47,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/07_routes/plantillas_de_argumentos.feature,Las plantillas son mutables y compartidas entre pantallas,REQ-ROUT-009,0.40,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/07_routes/plantillas_de_argumentos.feature,Las plantillas duplicadas no se sincronizan entre sí,REQ-ROUT-009,0.51,alta,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/07_routes/plantillas_de_argumentos.feature,Las plantillas duplicadas no se sincronizan entre sí,REQ-ROUT-011,0.46,alta,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/07_routes/plantillas_de_argumentos.feature,Las plantillas duplicadas no se sincronizan entre sí,REQ-ROUT-011,0.48,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/inicio/08_inicio_pagina_busca_espacios_dropdown_otros.feature,"El dropdown se muestra solo cuando el tipo de propiedad es ""Otros""",,0.07,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/inicio/08_inicio_pagina_busca_espacios_dropdown_otros.feature,El dropdown no se muestra para otros tipos de propiedad,,0.09,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/inicio/08_inicio_pagina_busca_espacios_dropdown_otros.feature,"El usuario selecciona un tipo del dropdown ""Otros""",,0.04,baja,propuesto
@@ -381,7 +381,7 @@ feature,escenario,req_id,score,confianza,estado
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/inicio/08_inicio_pagina_busca_espacios_reactividad.feature,El sistema resetea la paginación al cambiar el tipo de propiedad,,0.08,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/inicio/08_inicio_pagina_busca_espacios_reactividad.feature,El sistema resetea la paginación al cambiar el nivel de gobierno,,0.10,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/inicio/08_inicio_pagina_busca_espacios_reactividad.feature,El sistema resetea la paginación al cambiar el tipo de espacio,,0.12,baja,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/inicio/08_inicio_pagina_busca_espacios_reactividad.feature,El sistema resetea la paginación al cambiar el tipo de transacción,,0.13,baja,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/inicio/08_inicio_pagina_busca_espacios_reactividad.feature,El sistema resetea la paginación al cambiar el tipo de transacción,,0.14,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/inicio/08_inicio_pagina_busca_espacios_reactividad.feature,"El sistema resetea la paginación al cambiar el tipo de propiedad a ""Otros""",,0.08,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/inicio/08_inicio_pagina_busca_espacios_reactividad.feature,El sistema resetea la paginación al cambiar la transacción desde el NavigationRail,,0.10,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/inicio/08_inicio_pagina_busca_espacios_reactividad.feature,El sistema escucha cambios en homeNavigationProvider para invalidar providers,,0.04,baja,propuesto
@@ -394,8 +394,8 @@ feature,escenario,req_id,score,confianza,estado
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/perfil/08_perfil_pagina_perfil_cierre_sesion.feature,El cierre de sesión navega a la pantalla principal reemplazando el historial,,0.10,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/perfil/08_perfil_pagina_perfil_estructura.feature,El perfil muestra la vista de invitado cuando no hay sesión,,0.17,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/perfil/08_perfil_pagina_perfil_estructura.feature,El perfil carga los datos del usuario desde caché si ya fueron precargados,,0.11,baja,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/perfil/08_perfil_pagina_perfil_estructura.feature,El perfil carga los datos del usuario desde el servidor si no hay caché,,0.13,baja,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/perfil/08_perfil_pagina_perfil_estructura.feature,El perfil muestra un indicador de carga mientras obtiene los datos,,0.11,baja,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/perfil/08_perfil_pagina_perfil_estructura.feature,El perfil carga los datos del usuario desde el servidor si no hay caché,,0.12,baja,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/perfil/08_perfil_pagina_perfil_estructura.feature,El perfil muestra un indicador de carga mientras obtiene los datos,,0.10,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/perfil/08_perfil_pagina_perfil_estructura.feature,El perfil muestra error si falla la carga de datos,,0.13,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/perfil/08_perfil_pagina_perfil_estructura.feature,El perfil muestra estado vacío cuando no hay datos de usuario,,0.15,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/perfil/08_perfil_pagina_perfil_estructura.feature,El perfil muestra el header con avatar y nombre de usuario,REQ-PERF-007,0.26,media,propuesto
@@ -422,7 +422,7 @@ feature,escenario,req_id,score,confianza,estado
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/propiedades/08_propiedades_detalle_propiedad.feature,La galería muestra estado vacío si no hay fotos,REQ-PROP-011,0.24,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/propiedades/08_propiedades_detalle_propiedad.feature,La foto individual muestra placeholder si falla la carga,,0.14,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/propiedades/08_propiedades_detalle_propiedad.feature,El botón Me Gusta funciona sin sesión iniciada,REQ-PROP-003,0.29,media,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/propiedades/08_propiedades_detalle_propiedad.feature,El botón Me Gusta cambia de estado al presionarlo,,0.18,baja,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/propiedades/08_propiedades_detalle_propiedad.feature,El botón Me Gusta cambia de estado al presionarlo,,0.19,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/propiedades/08_propiedades_detalle_propiedad_navegacion.feature,El usuario navega al detalle desde la lista de propiedades,,0.20,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/propiedades/08_propiedades_detalle_propiedad_navegacion.feature,El usuario navega al detalle desde el mapa de propiedades,REQ-PROP-011,0.22,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/propiedades/08_propiedades_detalle_propiedad_navegacion.feature,El usuario navega al detalle desde un chat,REQ-PROP-004,0.22,media,propuesto
@@ -431,7 +431,7 @@ feature,escenario,req_id,score,confianza,estado
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/propiedades/08_propiedades_detalle_propiedad_navegacion.feature,El detalle carga las fotos ordenadas si están disponibles,REQ-PROP-011,0.32,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/propiedades/08_propiedades_detalle_propiedad_navegacion.feature,El detalle carga las fotos en el orden de llegada si no hay orden guardado,REQ-PROP-011,0.24,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/propiedades/08_propiedades_detalle_propiedad_pdf.feature,El sistema genera un PDF con formato carta y todos los datos,REQ-PROP-007,0.36,alta,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/propiedades/08_propiedades_detalle_propiedad_pdf.feature,El nombre del archivo PDF incluye la clave de la propiedad,REQ-PROP-009,0.28,media,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/propiedades/08_propiedades_detalle_propiedad_pdf.feature,El nombre del archivo PDF incluye la clave de la propiedad,REQ-PROP-009,0.29,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/propiedades/08_propiedades_detalle_propiedad_pdf.feature,El nombre del archivo PDF incluye la clave de la propiedad,REQ-PROP-007,0.26,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/propiedades/08_propiedades_detalle_propiedad_pdf.feature,El PDF muestra la imagen principal si existe,REQ-PROP-007,0.28,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/propiedades/08_propiedades_detalle_propiedad_pdf.feature,El PDF muestra la imagen principal si existe,REQ-PROP-009,0.28,media,propuesto
@@ -469,7 +469,7 @@ feature,escenario,req_id,score,confianza,estado
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/conocidos/08_conocidos_descubrir.feature,"La pantalla muestra sección ""Promotores"" cuando hay resultados",,0.05,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/conocidos/08_conocidos_descubrir.feature,"La pantalla muestra sección ""Usuarios"" cuando hay resultados",,0.18,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/conocidos/08_conocidos_descubrir.feature,El usuario puede enviar una invitación a un promotor,,0.17,baja,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/conocidos/08_conocidos_descubrir.feature,El usuario puede enviar una invitación a otro usuario,REQ-CON-006,0.22,media,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/conocidos/08_conocidos_descubrir.feature,El usuario puede enviar una invitación a otro usuario,REQ-CON-006,0.23,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/conocidos/08_conocidos_descubrir.feature,Las tarjetas de usuarios muestran avatar con inicial,,0.15,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/conocidos/08_conocidos_descubrir.feature,"Las tarjetas tienen botón ""Invitar"" con estilo consistente",,0.11,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/conocidos/08_conocidos_invitaciones.feature,La pantalla muestra tabs Recibidas y Enviadas,,0.15,baja,propuesto
@@ -478,11 +478,11 @@ feature,escenario,req_id,score,confianza,estado
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/conocidos/08_conocidos_invitaciones.feature,El usuario rechaza una invitación recibida,REQ-CON-006,0.32,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/conocidos/08_conocidos_invitaciones.feature,Las invitaciones aceptadas muestran icono de handshake,,0.15,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/conocidos/08_conocidos_invitaciones.feature,Las invitaciones rechazadas muestran icono de block,,0.13,baja,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/conocidos/08_conocidos_invitaciones.feature,Las invitaciones pendientes muestran icono de tiempo,,0.21,baja,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/conocidos/08_conocidos_invitaciones.feature,Las invitaciones pendientes muestran icono de tiempo,,0.20,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/conocidos/08_conocidos_invitaciones.feature,Las invitaciones enviadas no muestran botones de acción,,0.17,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/conocidos/08_conocidos_invitaciones.feature,El estado de la invitación se muestra en mayúsculas,,0.17,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/conocidos/08_conocidos_invitaciones.feature,La pantalla muestra estado vacío si no hay invitaciones,,0.18,baja,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/conocidos/08_conocidos_mis_contactos.feature,La pantalla carga los contactos al montar,REQ-CON-003,0.22,media,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/conocidos/08_conocidos_mis_contactos.feature,La pantalla carga los contactos al montar,REQ-CON-003,0.23,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/conocidos/08_conocidos_mis_contactos.feature,La pantalla muestra error si falla la carga de contactos,,0.19,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/conocidos/08_conocidos_mis_contactos.feature,La pantalla muestra estado vacío cuando no hay contactos,,0.19,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/conocidos/08_conocidos_mis_contactos.feature,"Cada contacto muestra avatar, nombre y acciones",REQ-CON-011,0.28,media,propuesto
@@ -493,13 +493,13 @@ feature,escenario,req_id,score,confianza,estado
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/conocidos/08_conocidos_mis_contactos.feature,El usuario puede refrescar la lista de contactos,REQ-CON-003,0.23,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/conocidos/08_conocidos_mis_contactos.feature,Las tarjetas de contacto tienen estilo consistente,,0.14,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/conocidos/08_conocidos_perfil_contacto.feature,El perfil muestra el nombre y avatar del contacto,,0.22,baja,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/conocidos/08_conocidos_perfil_contacto.feature,El perfil carga las propiedades del contacto,REQ-CON-011,0.25,media,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/conocidos/08_conocidos_perfil_contacto.feature,El perfil carga las propiedades del contacto,REQ-CON-011,0.26,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/conocidos/08_conocidos_perfil_contacto.feature,El perfil carga las propiedades del contacto,REQ-CON-003,0.22,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/conocidos/08_conocidos_perfil_contacto.feature,El perfil muestra error si falla la carga de propiedades,,0.08,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/conocidos/08_conocidos_perfil_contacto.feature,El perfil muestra estado vacío si no hay propiedades,REQ-CON-011,0.24,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/conocidos/08_conocidos_perfil_contacto.feature,Las propiedades se muestran en un grid de 2 columnas,,0.07,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/conocidos/08_conocidos_perfil_contacto.feature,"Cada propiedad muestra imagen, título y precio",,0.08,baja,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/conocidos/08_conocidos_perfil_contacto.feature,El AppBar muestra el nombre del contacto,,0.22,baja,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/conocidos/08_conocidos_perfil_contacto.feature,El AppBar muestra el nombre del contacto,REQ-CON-011,0.22,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/conocidos/08_conocidos_view_navegacion.feature,La vista muestra 3 destinos en la NavigationBar,,0.22,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/conocidos/08_conocidos_view_navegacion.feature,La vista inicia en la pestaña Contactos por defecto,,0.17,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/conocidos/08_conocidos_view_navegacion.feature,El usuario cambia a la pestaña Invitaciones,,0.19,baja,propuesto
@@ -527,6 +527,7 @@ feature,escenario,req_id,score,confianza,estado
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/chat_grupo.feature,Recepción de mensaje en tiempo real,,0.18,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/chat_grupo.feature,Visualización de burbuja de mensaje propio,REQ-GPU-010,0.36,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/chat_grupo.feature,Visualización de burbuja de mensaje de otro,REQ-GPU-010,0.37,alta,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/chat_grupo.feature,Visualización de burbuja de mensaje de otro,REQ-GPU-017,0.36,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/chat_grupo.feature,Burbuja de tipo propiedad,REQ-GPU-010,0.43,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/chat_grupo.feature,Burbuja de tipo lista,REQ-GPU-010,0.47,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/chat_grupo.feature,Envío con tecla Enter,,0.09,baja,propuesto
@@ -543,13 +544,13 @@ feature,escenario,req_id,score,confianza,estado
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/descubrir_grupos.feature,Solicitar acceso a grupo por invitación,REQ-GPU-015,0.23,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/descubrir_grupos.feature,Prevención de solicitud duplicada,,0.15,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/descubrir_grupos.feature,Ver detalle de grupo,REQ-GPU-004,0.34,media,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/descubrir_grupos.feature,Ver detalle de grupo,REQ-GPU-005,0.33,media,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/descubrir_grupos.feature,Ver detalle de grupo,REQ-GPU-005,0.32,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/descubrir_grupos.feature,Visualización de información del grupo,REQ-GPU-013,0.26,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/descubrir_grupos.feature,Visualización de información del grupo,REQ-GPU-015,0.25,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/detalle_grupo.feature,Visualización de encabezado del grupo,REQ-GPU-015,0.33,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/detalle_grupo.feature,Acceso a información del grupo,REQ-GPU-015,0.29,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/detalle_grupo.feature,Acceso a información del grupo,REQ-GPU-013,0.27,media,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/detalle_grupo.feature,Invitar miembros (solo administrador),REQ-GPU-015,0.43,alta,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/detalle_grupo.feature,Invitar miembros (solo administrador),REQ-GPU-015,0.42,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/detalle_grupo.feature,Menú de opciones para administrador,REQ-GPU-015,0.51,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/detalle_grupo.feature,Menú de opciones para miembro,REQ-GPU-015,0.54,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/flujo_completo_grupos.feature,Flujo completo de creación de grupo y participación,,0.21,baja,propuesto
@@ -560,7 +561,7 @@ feature,escenario,req_id,score,confianza,estado
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/flujo_completo_grupos.feature,Flujo de chat en tiempo real,,0.20,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/flujo_completo_grupos.feature,Flujo de publicación y eliminación de aviso,REQ-GPU-016,0.31,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/flujo_completo_grupos.feature,Flujo de solicitud a grupo por invitación,REQ-GPU-015,0.22,media,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/invitaciones_grupos.feature,Carga inicial de invitaciones,REQ-GPU-014,0.22,media,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/invitaciones_grupos.feature,Carga inicial de invitaciones,,0.22,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/invitaciones_grupos.feature,Visualización de pestañas Recibidas y Enviadas,,0.06,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/invitaciones_grupos.feature,Estado vacío de invitaciones recibidas,,0.17,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/invitaciones_grupos.feature,Estado vacío de invitaciones enviadas,,0.16,baja,propuesto
@@ -576,8 +577,8 @@ feature,escenario,req_id,score,confianza,estado
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/invitaciones_grupos.feature,Prevención de invitación duplicada,REQ-GPU-014,0.25,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/invitaciones_grupos.feature,Filtrado de usuarios no disponibles para invitar,,0.20,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/miembros_grupo.feature,Visualización de lista de miembros,REQ-GPU-015,0.38,alta,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/miembros_grupo.feature,Estado vacío de miembros,REQ-GPU-001,0.28,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/miembros_grupo.feature,Estado vacío de miembros,REQ-GPU-015,0.28,media,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/miembros_grupo.feature,Estado vacío de miembros,REQ-GPU-001,0.28,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/miembros_grupo.feature,Indicador de administrador,REQ-GPU-015,0.28,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/miembros_grupo.feature,Indicador de administrador,REQ-GPU-016,0.26,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/miembros_grupo.feature,Indicador de miembro regular,,0.21,baja,propuesto
@@ -588,7 +589,7 @@ feature,escenario,req_id,score,confianza,estado
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/mis_grupos.feature,Visualización de error en carga,,0.12,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/mis_grupos.feature,Reintentar carga de grupos,,0.17,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/mis_grupos.feature,Actualización pull-to-refresh,,0.11,baja,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/mis_grupos.feature,Apertura de diálogo de crear grupo,REQ-GPU-013,0.31,media,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/mis_grupos.feature,Apertura de diálogo de crear grupo,REQ-GPU-013,0.30,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/mis_grupos.feature,Validación de nombre obligatorio,,0.14,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/mis_grupos.feature,Creación exitosa de grupo,REQ-GPU-013,0.30,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/mis_grupos.feature,Error al crear grupo,,0.19,baja,propuesto
@@ -599,7 +600,7 @@ feature,escenario,req_id,score,confianza,estado
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/mis_grupos.feature,Selección de participación por invitación,REQ-GPU-008,0.23,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/mis_grupos.feature,Navegación a detalle de grupo,REQ-GPU-015,0.38,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/mis_grupos.feature,Navegación a detalle de grupo,REQ-GPU-010,0.38,alta,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/mis_grupos.feature,Visualización de chip de administrador,REQ-GPU-015,0.43,alta,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/mis_grupos.feature,Visualización de chip de administrador,REQ-GPU-015,0.44,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/mis_grupos.feature,Visualización de información de grupo,REQ-GPU-015,0.32,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/mis_grupos.feature,Visualización de información de grupo,REQ-GPU-013,0.29,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/grupos/navegacion_grupos.feature,Visualización de pestañas de navegación,REQ-GPU-007,0.24,media,propuesto
@@ -627,60 +628,59 @@ feature,escenario,req_id,score,confianza,estado
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/compra_espacios.feature,Cancelar compra,REQ-ESP-008,0.28,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/compra_espacios.feature,Compra sin espacios,REQ-ESP-008,0.37,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/compra_espacios.feature,Error en registro de compra,REQ-ESP-008,0.29,media,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/edicion_propiedad.feature,Visualización del Stepper de edición,REQ-ESP-013,0.35,alta,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/edicion_propiedad.feature,Paso 1 - Datos de la propiedad,,0.17,baja,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/edicion_propiedad.feature,Paso 2 - Precio y costos,,0.15,baja,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/edicion_propiedad.feature,Paso 3 - Ubicación,,0.12,baja,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/edicion_propiedad.feature,Paso 4 - Datos adicionales,,0.12,baja,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/edicion_propiedad.feature,Paso 5 - Datos del contacto,,0.10,baja,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/edicion_propiedad.feature,Navegación entre pasos,,0.10,baja,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/edicion_propiedad.feature,Visualización del Stepper de edición,REQ-ESP-013,0.33,media,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/edicion_propiedad.feature,Paso 1 - Datos de la propiedad,REQ-ESP-004,0.24,media,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/edicion_propiedad.feature,Paso 2 - Precio y costos,REQ-ESP-004,0.23,media,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/edicion_propiedad.feature,Paso 3 - Ubicación,REQ-ESP-004,0.29,media,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/edicion_propiedad.feature,Paso 4 - Datos adicionales,REQ-ESP-004,0.29,media,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/edicion_propiedad.feature,Paso 5 - Datos del contacto,REQ-ESP-004,0.31,media,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/edicion_propiedad.feature,Navegación entre pasos,REQ-ESP-004,0.23,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/edicion_propiedad.feature,Validación de campos obligatorios,,0.13,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/edicion_propiedad.feature,Guardado exitoso de propiedad,,0.22,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/edicion_propiedad.feature,Cancelar edición,,0.12,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/edicion_propiedad.feature,Campos de solo lectura,,0.08,baja,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/edicion_propiedad.feature,Checkbox de datos adicionales,,0.07,baja,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/ficha_propiedad.feature,Visualización de tarjeta de propiedad,,0.16,baja,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/ficha_propiedad.feature,Propiedad sin foto principal,,0.19,baja,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/ficha_propiedad.feature,Indicador de publicación - propiedad publicada,REQ-ESP-012,0.25,media,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/ficha_propiedad.feature,Indicador de publicación - propiedad sin publicar,REQ-ESP-012,0.23,media,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/ficha_propiedad.feature,Botón Modificar habilitado,,0.12,baja,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/ficha_propiedad.feature,Botón Publicar habilitado para propiedad sin publicar,REQ-ESP-012,0.26,media,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/edicion_propiedad.feature,Checkbox de datos adicionales,,0.15,baja,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/ficha_propiedad.feature,Visualización de tarjeta de propiedad,REQ-ESP-012,0.22,media,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/ficha_propiedad.feature,Propiedad sin foto principal,,0.22,baja,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/ficha_propiedad.feature,Indicador de publicación - propiedad publicada,REQ-ESP-012,0.26,media,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/ficha_propiedad.feature,Indicador de publicación - propiedad sin publicar,REQ-ESP-012,0.24,media,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/ficha_propiedad.feature,Botón Modificar habilitado,,0.11,baja,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/ficha_propiedad.feature,Botón Publicar habilitado para propiedad sin publicar,REQ-ESP-012,0.25,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/ficha_propiedad.feature,Botón Publicar habilitado para propiedad sin publicar,REQ-ESP-014,0.23,media,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/ficha_propiedad.feature,Botón Dejar de publicar habilitado para propiedad publicada,REQ-ESP-012,0.37,alta,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/ficha_propiedad.feature,Botón Dejar de publicar deshabilitado para propiedad sin publicar,REQ-ESP-012,0.38,alta,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/ficha_propiedad.feature,Botón Eliminar espacio para propiedad sin publicar,REQ-ESP-012,0.44,alta,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/ficha_propiedad.feature,Botón Eliminar espacio bloqueado para propiedad publicada,REQ-ESP-012,0.41,alta,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/ficha_propiedad.feature,Botón Dejar de publicar habilitado para propiedad publicada,REQ-ESP-012,0.35,alta,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/ficha_propiedad.feature,Botón Dejar de publicar deshabilitado para propiedad sin publicar,REQ-ESP-012,0.35,alta,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/ficha_propiedad.feature,Botón Eliminar espacio para propiedad sin publicar,REQ-ESP-012,0.39,alta,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/ficha_propiedad.feature,Botón Eliminar espacio bloqueado para propiedad publicada,REQ-ESP-012,0.36,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/ficha_propiedad.feature,Navegación a galería de fotos,,0.13,baja,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/ficha_propiedad.feature,Ampliar foto de propiedad,,0.05,baja,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/ficha_propiedad.feature,Visualización de características expandibles,,0.13,baja,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/ficha_propiedad.feature,Visualización de datos de contacto expandibles,,0.07,baja,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/ficha_propiedad.feature,Visualización de datos adicionales,,0.18,baja,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/flujo_completo_tus_espacios.feature,Flujo completo de registro de propiedad y publicación,REQ-ESP-013,0.30,media,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/ficha_propiedad.feature,Ampliar foto de propiedad,,0.08,baja,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/ficha_propiedad.feature,Visualización de características expandibles,,0.19,baja,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/ficha_propiedad.feature,Visualización de datos de contacto expandibles,,0.18,baja,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/ficha_propiedad.feature,Visualización de datos adicionales,REQ-ESP-004,0.23,media,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/flujo_completo_tus_espacios.feature,Flujo completo de registro de propiedad y publicación,REQ-ESP-013,0.29,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/flujo_completo_tus_espacios.feature,Flujo de compra de espacios y creación automática,REQ-ESP-008,0.29,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/flujo_completo_tus_espacios.feature,Flujo de edición de propiedad existente,,0.18,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/flujo_completo_tus_espacios.feature,Flujo de dejar de publicar y volver a publicar,REQ-ESP-012,0.31,media,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/flujo_completo_tus_espacios.feature,Flujo de eliminación de propiedad,REQ-ESP-012,0.25,media,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/flujo_completo_tus_espacios.feature,Flujo de eliminación de propiedad,REQ-ESP-012,0.23,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/flujo_completo_tus_espacios.feature,Flujo de navegación entre vistas de usuario,REQ-ESP-011,0.44,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/navegacion_tus_espacios.feature,Vista de usuario invitado,REQ-ESP-011,0.47,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/navegacion_tus_espacios.feature,Vista de usuario normal autenticado,REQ-ESP-011,0.52,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/navegacion_tus_espacios.feature,Vista de promotor autenticado,REQ-ESP-011,0.53,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/navegacion_tus_espacios.feature,Menú superior para promotor,REQ-ESP-011,0.53,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/navegacion_tus_espacios.feature,Navegación a compra de espacios,REQ-ESP-011,0.46,alta,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/navegacion_tus_espacios.feature,Navegación a compra de espacios,REQ-ESP-008,0.45,alta,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/navegacion_tus_espacios.feature,Navegación a compra de espacios,REQ-ESP-008,0.44,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/publicacion_propiedad.feature,Publicar propiedad por primera vez,REQ-ESP-014,0.34,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/publicacion_propiedad.feature,Republicar propiedad previamente publicada,REQ-ESP-014,0.24,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/publicacion_propiedad.feature,Error al publicar propiedad - fallo en inserción,,0.22,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/publicacion_propiedad.feature,Error al publicar propiedad - fallo en actualización del espacio,REQ-ESP-014,0.28,media,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/publicacion_propiedad.feature,Error al publicar propiedad - fallo en actualización del espacio,REQ-ESP-012,0.25,media,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/publicacion_propiedad.feature,Dejar de publicar propiedad,REQ-ESP-012,0.46,alta,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/publicacion_propiedad.feature,Dejar de publicar propiedad,REQ-ESP-012,0.45,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/publicacion_propiedad.feature,Dejar de publicar propiedad,REQ-ESP-014,0.42,alta,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/publicacion_propiedad.feature,Error al dejar de publicar propiedad,REQ-ESP-012,0.40,alta,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/publicacion_propiedad.feature,Indicador de carga durante publicación,,0.11,baja,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/publicacion_propiedad.feature,Actualización de estado después de publicar,,0.16,baja,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/publicacion_propiedad.feature,Error al dejar de publicar propiedad,REQ-ESP-012,0.37,alta,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/publicacion_propiedad.feature,Indicador de carga durante publicación,,0.10,baja,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/tu_cuenta/tus_espacios/publicacion_propiedad.feature,Actualización de estado después de publicar,,0.18,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/ubicacion/08_ubicacion_busca_localidades_gmaps.feature,La pantalla muestra el formulario de búsqueda por CP,,0.16,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/ubicacion/08_ubicacion_busca_localidades_gmaps.feature,El campo de CP tiene validación de formulario,,0.17,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/ubicacion/08_ubicacion_busca_localidades_gmaps.feature,El usuario busca localidades por código postal válido,REQ-UBIC-005,0.23,media,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/ubicacion/08_ubicacion_busca_localidades_gmaps.feature,La pantalla muestra la ubicación actual del usuario,REQ-UBIC-008,0.23,media,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/ubicacion/08_ubicacion_busca_localidades_gmaps.feature,La pantalla muestra la ubicación actual del usuario,REQ-UBIC-008,0.22,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/ubicacion/08_ubicacion_busca_localidades_gmaps.feature,La pantalla muestra el mapa de Google Maps,,0.14,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/ubicacion/08_ubicacion_busca_localidades_gmaps.feature,El mapa se inicializa correctamente al crear la pantalla,,0.10,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/ubicacion/08_ubicacion_busca_localidades_gmaps.feature,El CP se inicializa desde el provider de búsqueda o de localidades,,0.16,baja,propuesto
@@ -701,7 +701,7 @@ feature,escenario,req_id,score,confianza,estado
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/ubicacion/08_ubicacion_pagina_principal_localidades.feature,El botón de login está oculto cuando hay sesión iniciada,,0.05,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/ubicacion/08_ubicacion_pagina_principal_localidades.feature,El botón de buscar localidades navega a la búsqueda por CP,,0.19,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/ubicacion/08_ubicacion_pagina_principal_localidades.feature,La lista muestra localidades con CP distinto de 0,,0.21,baja,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/ubicacion/08_ubicacion_pagina_principal_localidades.feature,Cada localidad se muestra como una tarjeta con header y detalles,,0.12,baja,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/ubicacion/08_ubicacion_pagina_principal_localidades.feature,Cada localidad se muestra como una tarjeta con header y detalles,,0.11,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/ubicacion/08_ubicacion_pagina_principal_localidades.feature,El usuario puede navegar a la pantalla principal desde una localidad,REQ-UBIC-004,0.23,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/ubicacion/08_ubicacion_pagina_principal_localidades.feature,El usuario puede eliminar una localidad guardada,,0.18,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/ubicacion/08_ubicacion_pagina_principal_localidades.feature,El usuario puede cancelar la eliminación de una localidad,,0.14,baja,propuesto
@@ -712,7 +712,7 @@ feature,escenario,req_id,score,confianza,estado
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/widgets_comunes/08_widgets_comunes_letrero_tipo_transaccion.feature,Mostrar precio para propiedad en Renta,REQ-WC-003,0.45,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/widgets_comunes/08_widgets_comunes_letrero_tipo_transaccion.feature,Mostrar precio para propiedad en Venta/Renta,REQ-WC-003,0.54,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/widgets_comunes/08_widgets_comunes_letrero_tipo_transaccion.feature,Mostrar precio para propiedad en Traspaso,REQ-WC-004,0.53,alta,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/widgets_comunes/08_widgets_comunes_letrero_tipo_transaccion.feature,El widget usa el precio de venta para traspasos,REQ-WC-004,0.66,alta,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/08_pantallas/widgets_comunes/08_widgets_comunes_letrero_tipo_transaccion.feature,El widget usa el precio de venta para traspasos,REQ-WC-004,0.65,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/10_user_login/cambio_password.feature,Validación de token exitoso,REQ-AUTH-005,0.28,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/10_user_login/cambio_password.feature,Token inválido o expirado,,0.19,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/10_user_login/cambio_password.feature,Visualización de indicador de fortaleza de contraseña,,0.03,baja,propuesto
@@ -736,7 +736,7 @@ feature,escenario,req_id,score,confianza,estado
 07_pruebas_y_calidad/gherkin_bdd_scenarios/10_user_login/login.feature,Login exitoso como Promotor,,0.15,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/10_user_login/login.feature,Login exitoso como Propietario,,0.16,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/10_user_login/login.feature,Login exitoso como Anfitrión,,0.13,baja,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/10_user_login/login.feature,Login exitoso como Vendedor,,0.17,baja,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/10_user_login/login.feature,Login exitoso como Vendedor,,0.16,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/10_user_login/login.feature,Login exitoso como Especialista,,0.15,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/10_user_login/login.feature,Login exitoso como Proveedor,,0.15,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/10_user_login/login.feature,Login exitoso como Asociación,,0.14,baja,propuesto
@@ -747,12 +747,12 @@ feature,escenario,req_id,score,confianza,estado
 07_pruebas_y_calidad/gherkin_bdd_scenarios/10_user_login/login.feature,Navegación a recuperación de contraseña,,0.14,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/10_user_login/login.feature,Navegación a registro,,0.17,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/10_user_login/login.feature,Aviso importante antes de login,REQ-AUTH-012,0.47,alta,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/10_user_login/recuperacion_password.feature,Visualización de la pantalla de recuperación,,0.17,baja,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/10_user_login/recuperacion_password.feature,Visualización de la pantalla de recuperación,,0.16,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/10_user_login/recuperacion_password.feature,Envío de enlace de recuperación exitoso,REQ-AUTH-004,0.25,media,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/10_user_login/recuperacion_password.feature,Correo no registrado,,0.17,baja,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/10_user_login/recuperacion_password.feature,Correo no registrado,,0.16,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/10_user_login/recuperacion_password.feature,Error al guardar token,,0.20,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/10_user_login/recuperacion_password.feature,Error al enviar correo,,0.21,baja,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/10_user_login/recuperacion_password.feature,Validación de correo vacío,,0.16,baja,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/10_user_login/recuperacion_password.feature,Validación de correo vacío,,0.15,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/10_user_login/registro.feature,Visualización del formulario de registro,,0.17,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/10_user_login/registro.feature,Validación de contraseña coincidente,,0.14,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/10_user_login/registro.feature,Aceptación de términos y condiciones,,0.08,baja,propuesto
@@ -767,7 +767,7 @@ feature,escenario,req_id,score,confianza,estado
 07_pruebas_y_calidad/gherkin_bdd_scenarios/12_localidades_user/crud_localidades.feature,Obtener todas las localidades del usuario,REQ-LOCU-003,0.22,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/12_localidades_user/crud_localidades.feature,Obtener una localidad específica por asentamiento,,0.18,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/12_localidades_user/crud_localidades.feature,Guardar nueva localidad,,0.22,baja,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/12_localidades_user/crud_localidades.feature,Guardar localidad duplicada,REQ-LOCU-003,0.23,media,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/12_localidades_user/crud_localidades.feature,Guardar localidad duplicada,REQ-LOCU-003,0.24,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/12_localidades_user/crud_localidades.feature,Eliminar localidad,REQ-LOCU-006,0.24,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/12_localidades_user/crud_localidades.feature,Eliminar localidad inexistente,,0.11,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/12_localidades_user/flujo_completo_localidades.feature,Flujo de registro de nueva localidad,,0.20,baja,propuesto
@@ -869,7 +869,7 @@ feature,escenario,req_id,score,confianza,estado
 07_pruebas_y_calidad/gherkin_bdd_scenarios/20_var_globales/pantalla_login.feature,Visualización del nombre de la aplicación,,0.08,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/20_var_globales/pantalla_login.feature,Icono de usuario no autenticado,,0.01,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/20_var_globales/pantalla_login.feature,Icono de usuario autenticado,,0.01,baja,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/20_var_globales/pantalla_login.feature,Color primario de marca en botones de login,REQ-VAR-012,0.38,alta,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/20_var_globales/pantalla_login.feature,Color primario de marca en botones de login,REQ-VAR-012,0.39,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/20_var_globales/temas_colores.feature,Tema claro por defecto al iniciar la aplicación,,0.19,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/20_var_globales/temas_colores.feature,Cambio a tema oscuro PAN,,0.21,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/20_var_globales/temas_colores.feature,Aplicación de tema de marca INE en modo claro,,0.18,baja,propuesto
@@ -888,13 +888,13 @@ feature,escenario,req_id,score,confianza,estado
 07_pruebas_y_calidad/gherkin_bdd_scenarios/22_imagenes/carrusel_fotos.feature,Navegación entre fotos con swipe,,0.19,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/22_imagenes/carrusel_fotos.feature,Botón anterior deshabilitado en primera foto,,0.08,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/22_imagenes/carrusel_fotos.feature,Botón siguiente deshabilitado en última foto,,0.08,baja,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/22_imagenes/carrusel_fotos.feature,Estado vacío sin fotos,,0.16,baja,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/22_imagenes/carrusel_fotos.feature,Estado vacío sin fotos,,0.17,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/22_imagenes/carrusel_fotos.feature,Estado de carga mientras se obtienen fotos,,0.14,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/22_imagenes/carrusel_fotos.feature,Estado de error al cargar fotos,REQ-IMG-004,0.33,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/22_imagenes/carrusel_fotos.feature,Toca foto para ver detalle completo,,0.11,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/22_imagenes/carrusel_fotos.feature,Menú de opciones en carrusel completo - Ficha,REQ-IMG-004,0.28,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/22_imagenes/carrusel_fotos.feature,Menú de opciones en carrusel completo - Ficha,REQ-IMG-011,0.24,media,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/22_imagenes/carrusel_fotos.feature,Menú de opciones en carrusel completo - Fotos,REQ-IMG-011,0.26,media,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/22_imagenes/carrusel_fotos.feature,Menú de opciones en carrusel completo - Fotos,REQ-IMG-011,0.27,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/22_imagenes/carrusel_fotos.feature,Menú de opciones en carrusel completo - Fotos,REQ-IMG-004,0.23,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/22_imagenes/carrusel_fotos.feature,Menú de opciones en carrusel completo - Guardar en lista,,0.19,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/22_imagenes/carrusel_fotos.feature,Menú de opciones en carrusel completo - Guardar sin sesión,,0.17,baja,propuesto
@@ -919,7 +919,7 @@ feature,escenario,req_id,score,confianza,estado
 07_pruebas_y_calidad/gherkin_bdd_scenarios/22_imagenes/flujo_completo_fotos.feature,Flujo de visualización en carrusel con orden guardado,REQ-IMG-007,0.27,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/22_imagenes/flujo_completo_fotos.feature,Flujo de visualización en carrusel con orden guardado,REQ-IMG-004,0.24,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/22_imagenes/flujo_completo_fotos.feature,Flujo de eliminación de foto con actualización de orden,REQ-IMG-007,0.28,media,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/22_imagenes/flujo_completo_fotos.feature,Flujo de detección de desincronización y recuperación,REQ-IMG-004,0.26,media,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/22_imagenes/flujo_completo_fotos.feature,Flujo de detección de desincronización y recuperación,REQ-IMG-004,0.27,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/22_imagenes/flujo_completo_fotos.feature,Flujo de carga diferida de imágenes en lista,,0.17,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/22_imagenes/flujo_completo_fotos.feature,Flujo de navegación entre vistas de fotos,REQ-IMG-007,0.23,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/22_imagenes/flujo_completo_fotos.feature,Flujo de navegación entre vistas de fotos,REQ-IMG-005,0.22,media,propuesto
@@ -940,7 +940,7 @@ feature,escenario,req_id,score,confianza,estado
 07_pruebas_y_calidad/gherkin_bdd_scenarios/22_imagenes/gestion_fotos_backend.feature,Timeout en peticiones HTTP,,0.07,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/22_imagenes/lista_fotos_cuadros.feature,Carga inicial de cuadrícula de fotos,,0.13,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/22_imagenes/lista_fotos_cuadros.feature,Cuadrícula vacía sin fotos,,0.19,baja,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/22_imagenes/lista_fotos_cuadros.feature,Agregar fotos desde modo cuadrícula,,0.17,baja,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/22_imagenes/lista_fotos_cuadros.feature,Agregar fotos desde modo cuadrícula,,0.18,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/22_imagenes/lista_fotos_cuadros.feature,Refrescar cuadrícula de fotos,REQ-IMG-004,0.24,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/22_imagenes/lista_fotos_cuadros.feature,Detección de desincronización en orden de fotos,REQ-IMG-004,0.25,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/22_imagenes/lista_fotos_cuadros.feature,Detección de desincronización en orden de fotos,REQ-IMG-007,0.23,media,propuesto
@@ -975,13 +975,13 @@ feature,escenario,req_id,score,confianza,estado
 07_pruebas_y_calidad/gherkin_bdd_scenarios/22_imagenes/opciones_menu_fotos.feature,Descarte de diálogo al presionar retroceso,,0.07,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/22_imagenes/opciones_menu_fotos.feature,Contenido de pestaña Cargar,REQ-IMG-003,0.27,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/22_imagenes/opciones_menu_fotos.feature,Contenido de pestaña Ordenar,REQ-IMG-007,0.32,media,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/22_imagenes/opciones_menu_fotos.feature,Contenido de pestaña Mostrar,REQ-IMG-002,0.35,alta,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/22_imagenes/opciones_menu_fotos.feature,Contenido de pestaña Mostrar,REQ-IMG-002,0.34,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/22_imagenes/opciones_menu_fotos.feature,Contenido de pestaña Mostrar,REQ-IMG-003,0.34,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/40_security/cifrado_aes.feature,Generación de clave y vector de inicialización seguros,REQ-SEC-006,0.33,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/40_security/cifrado_aes.feature,Cifrado de texto plano,,0.09,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/40_security/cifrado_aes.feature,Descifrado de texto cifrado,,0.05,baja,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/40_security/cifrado_aes.feature,Descifrado fallido con clave incorrecta,,0.03,baja,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/40_security/cifrado_aes.feature,Almacenamiento seguro con flutter_secure_storage (recomendado),REQ-SEC-008,0.42,alta,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/40_security/cifrado_aes.feature,Descifrado fallido con clave incorrecta,,0.02,baja,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/40_security/cifrado_aes.feature,Almacenamiento seguro con flutter_secure_storage (recomendado),REQ-SEC-008,0.41,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/40_security/cifrado_aes.feature,Funciones AES legacy marcadas como deprecated,REQ-SEC-006,0.27,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/40_security/credenciales_couchdb.feature,Carga de credenciales desde variables de entorno,,0.20,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/40_security/credenciales_couchdb.feature,Uso de credenciales en autenticación Basic Auth,,0.10,baja,propuesto
@@ -1038,7 +1038,7 @@ feature,escenario,req_id,score,confianza,estado
 07_pruebas_y_calidad/gherkin_bdd_scenarios/41_connectivity/navegacion_conexion.feature,Navegación desde pantalla sin conexión al recuperar Internet,REQ-CONN-007,0.23,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/41_connectivity/navegacion_conexion.feature,Cambio de ruta global al perder conexión,REQ-CONN-005,0.53,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/41_connectivity/pantalla_sin_conexion.feature,Visualización de pantalla sin conexión,,0.06,baja,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/41_connectivity/pantalla_sin_conexion.feature,Mensajes informativos en pantalla sin conexión,,0.07,baja,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/41_connectivity/pantalla_sin_conexion.feature,Mensajes informativos en pantalla sin conexión,,0.08,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/41_connectivity/pantalla_sin_conexion.feature,Cierre automático al recuperar conexión,REQ-CONN-007,0.26,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/41_connectivity/pantalla_sin_conexion.feature,Cierre manual no disponible,,0.05,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/41_connectivity/provider_conectividad.feature,Inicialización automática del provider,REQ-CONN-001,0.48,alta,propuesto
@@ -1083,7 +1083,7 @@ feature,escenario,req_id,score,confianza,estado
 07_pruebas_y_calidad/gherkin_bdd_scenarios/60_global_widgets/dialogos_mensaje.feature,Cierre de diálogo al presionar botón,REQ-GW-007,0.26,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/60_global_widgets/dialogos_mensaje.feature,Diálogo con color de fondo personalizado,REQ-GW-007,0.48,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/60_global_widgets/estados_future_builder.feature,Estado None - Sin resultados,REQ-GW-001,0.30,media,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/60_global_widgets/estados_future_builder.feature,Estado None - Sin resultados,REQ-GW-008,0.26,media,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/60_global_widgets/estados_future_builder.feature,Estado None - Sin resultados,REQ-GW-008,0.27,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/60_global_widgets/estados_future_builder.feature,Estado Waiting - Cargando,REQ-GW-008,0.29,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/60_global_widgets/estados_future_builder.feature,Estado Active - Esperando datos,REQ-GW-008,0.29,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/60_global_widgets/estados_future_builder.feature,Estado Error - Error genérico,REQ-GW-001,0.26,media,propuesto
@@ -1100,7 +1100,7 @@ feature,escenario,req_id,score,confianza,estado
 07_pruebas_y_calidad/gherkin_bdd_scenarios/60_global_widgets/generacion_cantidades_monetarias.feature,Formatear cantidad mayor a 999 como miles,REQ-GW-009,0.29,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/60_global_widgets/generacion_cantidades_monetarias.feature,Formatear cantidad menor a 1000 como cientos,REQ-GW-009,0.29,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/60_global_widgets/generacion_cantidades_monetarias.feature,Relleno con ceros en miles,,0.18,baja,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/60_global_widgets/generacion_cantidades_monetarias.feature,Relleno con ceros en millones,,0.18,baja,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/60_global_widgets/generacion_cantidades_monetarias.feature,Relleno con ceros en millones,,0.17,baja,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/60_global_widgets/sistema_debug.feature,Activación de nivel de debug 0,REQ-GW-005,0.35,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/60_global_widgets/sistema_debug.feature,Desactivación de nivel de debug 0,REQ-GW-005,0.34,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/60_global_widgets/sistema_debug.feature,Activación de nivel de debug 1 con prefijo,REQ-GW-005,0.30,media,propuesto
@@ -1116,7 +1116,7 @@ feature,escenario,req_id,score,confianza,estado
 07_pruebas_y_calidad/gherkin_bdd_scenarios/60_global_widgets/widgets_botones_textfield.feature,Tile de imagen SquareTile,REQ-GW-003,0.37,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/main/configuracion_material_app.feature,MaterialApp con navegador global,REQ-MAIN-004,0.45,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/main/configuracion_material_app.feature,Ocultar banner de debug,,0.11,baja,propuesto
-07_pruebas_y_calidad/gherkin_bdd_scenarios/main/configuracion_material_app.feature,Título de la aplicación,REQ-MAIN-003,0.27,media,propuesto
+07_pruebas_y_calidad/gherkin_bdd_scenarios/main/configuracion_material_app.feature,Título de la aplicación,REQ-MAIN-003,0.26,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/main/configuracion_material_app.feature,Ruta inicial de la aplicación,REQ-MAIN-003,0.34,media,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/main/enrutamiento_y_deep_links.feature,Generación de rutas personalizada,REQ-MAIN-007,0.43,alta,propuesto
 07_pruebas_y_calidad/gherkin_bdd_scenarios/main/enrutamiento_y_deep_links.feature,Generación de rutas personalizada,REQ-ROUT-017,0.37,alta,propuesto
@@ -1139,7 +1139,7 @@ feature,escenario,req_id,score,confianza,estado
 03_analisis_funcional/features_analisis/01_home/navegacion_home.feature,Actualización simple sin version bump (setX),REQ-HOME-003,0.26,media,propuesto
 03_analisis_funcional/features_analisis/01_home/navegacion_home.feature,Actualización simple sin version bump (setX),REQ-HOME-004,0.25,media,propuesto
 03_analisis_funcional/features_analisis/01_home/navegacion_home.feature,Estado inicial por defecto,,0.22,baja,propuesto
-03_analisis_funcional/features_analisis/01_home/navegacion_home.feature,Siete dimensiones de navegación independientes,,0.15,baja,propuesto
+03_analisis_funcional/features_analisis/01_home/navegacion_home.feature,Siete dimensiones de navegación independientes,,0.14,baja,propuesto
 03_analisis_funcional/features_analisis/01_home/navegacion_home.feature,Logging de debug en actualizaciones,,0.08,baja,propuesto
 03_analisis_funcional/features_analisis/01_splash_screen/arranque_splash.feature,Splash completa con conectividad y timer,REQ-SPLASH-001,0.36,alta,propuesto
 03_analisis_funcional/features_analisis/01_splash_screen/arranque_splash.feature,Splash completa con conectividad y timer,REQ-SPLASH-002,0.33,media,propuesto
@@ -1158,20 +1158,20 @@ feature,escenario,req_id,score,confianza,estado
 03_analisis_funcional/features_analisis/03_listas/listas_favoritos_compartir.feature,Hub central Listas con 3 tabs (Propias/Recibidas/Enviadas),REQ-LIST-002,0.53,alta,propuesto
 03_analisis_funcional/features_analisis/03_listas/listas_favoritos_compartir.feature,Crear lista propia con ID SHA1,REQ-LIST-003,0.46,alta,propuesto
 03_analisis_funcional/features_analisis/03_listas/listas_favoritos_compartir.feature,Agregar propiedad a lista (Dialog selector checkboxes),REQ-LIST-004,0.36,alta,propuesto
-03_analisis_funcional/features_analisis/03_listas/listas_favoritos_compartir.feature,Compartir lista con máx 5 contactos + notificación chat,REQ-LIST-005,0.59,alta,propuesto
+03_analisis_funcional/features_analisis/03_listas/listas_favoritos_compartir.feature,Compartir lista con máx 5 contactos + notificación chat,REQ-LIST-005,0.60,alta,propuesto
 03_analisis_funcional/features_analisis/03_listas/listas_favoritos_compartir.feature,Compartir propiedad individual con conocido/grupo + chat,REQ-LIST-006,0.42,alta,propuesto
-03_analisis_funcional/features_analisis/03_listas/listas_favoritos_compartir.feature,Compartir propiedad individual con conocido/grupo + chat,REQ-LIST-005,0.37,alta,propuesto
-03_analisis_funcional/features_analisis/03_listas/listas_favoritos_compartir.feature,Toggle Me Gusta → auto-crea lista Favoritas,REQ-LIST-007,0.65,alta,propuesto
+03_analisis_funcional/features_analisis/03_listas/listas_favoritos_compartir.feature,Compartir propiedad individual con conocido/grupo + chat,REQ-LIST-005,0.36,alta,propuesto
+03_analisis_funcional/features_analisis/03_listas/listas_favoritos_compartir.feature,Toggle Me Gusta → auto-crea lista Favoritas,REQ-LIST-007,0.66,alta,propuesto
 03_analisis_funcional/features_analisis/03_listas/listas_favoritos_compartir.feature,Detalle lista con bulk fetch $in Mango,REQ-LIST-008,0.48,alta,propuesto
 03_analisis_funcional/features_analisis/03_vistas/landing_pages_por_actor.feature,Estructura común de toda landing,REQ-VIST-001,0.41,alta,propuesto
 03_analisis_funcional/features_analisis/03_vistas/landing_pages_por_actor.feature,CTA funcional en Promotores,REQ-VIST-003,0.39,alta,propuesto
 03_analisis_funcional/features_analisis/03_vistas/landing_pages_por_actor.feature,CTA funcional en Propietarios,REQ-VIST-003,0.28,media,propuesto
-03_analisis_funcional/features_analisis/03_vistas/landing_pages_por_actor.feature,CTA funcional en Hospedaje,REQ-VIST-003,0.33,media,propuesto
+03_analisis_funcional/features_analisis/03_vistas/landing_pages_por_actor.feature,CTA funcional en Hospedaje,REQ-VIST-003,0.34,media,propuesto
 03_analisis_funcional/features_analisis/03_vistas/landing_pages_por_actor.feature,"CTA ""Buscar"" en página Usuarios (híbrida landing + búsqueda)",REQ-VIST-004,0.39,alta,propuesto
-03_analisis_funcional/features_analisis/03_vistas/landing_pages_por_actor.feature,Carrusel paginado en página Usuarios,REQ-VIST-005,0.34,media,propuesto
+03_analisis_funcional/features_analisis/03_vistas/landing_pages_por_actor.feature,Carrusel paginado en página Usuarios,REQ-VIST-005,0.34,alta,propuesto
 03_analisis_funcional/features_analisis/03_vistas/landing_pages_por_actor.feature,"CTA deshabilitado / placeholder en Inmobiliarias, Market, Proveedores, Servicios, Asociaciones",REQ-VIST-006,0.67,alta,propuesto
 03_analisis_funcional/features_analisis/03_vistas/landing_pages_por_actor.feature,Botón back condicional,,0.10,baja,propuesto
-03_analisis_funcional/features_analisis/03_vistas/landing_pages_por_actor.feature,Formulario de contacto en Inmobiliarias (parcial),REQ-VIST-008,0.47,alta,propuesto
+03_analisis_funcional/features_analisis/03_vistas/landing_pages_por_actor.feature,Formulario de contacto en Inmobiliarias (parcial),REQ-VIST-008,0.48,alta,propuesto
 03_analisis_funcional/features_analisis/03_vistas/landing_pages_por_actor.feature,Color/branding propio por segmento (deuda UI),,0.17,baja,propuesto
 03_analisis_funcional/features_analisis/04_provider/preferencias_tema.feature,Usuario selecciona nuevo tema en Preferencias,REQ-PROV-003,0.45,alta,propuesto
 03_analisis_funcional/features_analisis/04_provider/preferencias_tema.feature,9 temas light predefinidos disponibles,REQ-PROV-005,0.66,alta,propuesto
@@ -1183,7 +1183,7 @@ feature,escenario,req_id,score,confianza,estado
 03_analisis_funcional/features_analisis/05_provider_menus/menus_dinamicos.feature,ValueKey dinámica evita error AXTree,REQ-MENU-007,0.29,media,propuesto
 03_analisis_funcional/features_analisis/05_provider_menus/menus_dinamicos.feature,Menú Nivel Gobierno poblado desde SEPOMEX,REQ-MENU-006,0.30,media,propuesto
 03_analisis_funcional/features_analisis/05_provider_menus/menus_dinamicos.feature,Dropdown tipo inmueble actualiza variable global,REQ-MENU-008,0.42,alta,propuesto
-03_analisis_funcional/features_analisis/05_provider_menus/menus_dinamicos.feature,7 TabControllers requieren dispose correcto,REQ-MENU-009,0.43,alta,propuesto
+03_analisis_funcional/features_analisis/05_provider_menus/menus_dinamicos.feature,7 TabControllers requieren dispose correcto,REQ-MENU-009,0.42,alta,propuesto
 03_analisis_funcional/features_analisis/07_routes/rutas_deep_links.feature,Navegación a ruta declarada con argumentos tipados,,0.17,baja,propuesto
 03_analisis_funcional/features_analisis/07_routes/rutas_deep_links.feature,Deep link recuperación password con token y perfil,REQ-ROUT-007,0.56,alta,propuesto
 03_analisis_funcional/features_analisis/07_routes/rutas_deep_links.feature,Ruta sin conexión con mensaje personalizado,REQ-ROUT-005,0.41,alta,propuesto
@@ -1192,24 +1192,24 @@ feature,escenario,req_id,score,confianza,estado
 03_analisis_funcional/features_analisis/08_pantallas/inicio.feature,Búsqueda con filtros combinados,,0.20,baja,propuesto
 03_analisis_funcional/features_analisis/08_pantallas/inicio.feature,Página siguiente mantiene filtros,,0.18,baja,propuesto
 03_analisis_funcional/features_analisis/08_pantallas/inicio.feature,Sin resultados,,0.12,baja,propuesto
-03_analisis_funcional/features_analisis/08_pantallas/perfil.feature,Visualización del perfil desde la sesión,,0.20,baja,propuesto
+03_analisis_funcional/features_analisis/08_pantallas/perfil.feature,Visualización del perfil desde la sesión,,0.19,baja,propuesto
 03_analisis_funcional/features_analisis/08_pantallas/perfil.feature,Gestión de avatar desde Perfil,REQ-PERF-005,0.39,alta,propuesto
 03_analisis_funcional/features_analisis/08_pantallas/propiedades.feature,Visualización del detalle de propiedad,REQ-PROP-004,0.30,media,propuesto
-03_analisis_funcional/features_analisis/08_pantallas/propiedades.feature,Visualización del detalle de propiedad,REQ-PROP-002,0.29,media,propuesto
+03_analisis_funcional/features_analisis/08_pantallas/propiedades.feature,Visualización del detalle de propiedad,REQ-PROP-002,0.28,media,propuesto
 03_analisis_funcional/features_analisis/08_pantallas/propiedades.feature,Exportación de ficha a PDF,REQ-PROP-007,0.48,alta,propuesto
-03_analisis_funcional/features_analisis/08_pantallas/tu_cuenta_compra_espacios.feature,Selección de medio de pago y confirmación,,0.14,baja,propuesto
+03_analisis_funcional/features_analisis/08_pantallas/tu_cuenta_compra_espacios.feature,Selección de medio de pago y confirmación,,0.13,baja,propuesto
 03_analisis_funcional/features_analisis/08_pantallas/tu_cuenta_compra_espacios.feature,Cálculo de totales por publicación,,0.10,baja,propuesto
-03_analisis_funcional/features_analisis/08_pantallas/tu_cuenta_conocidos.feature,Enviar invitación de contacto,REQ-CON-011,0.22,media,propuesto
+03_analisis_funcional/features_analisis/08_pantallas/tu_cuenta_conocidos.feature,Enviar invitación de contacto,REQ-CON-011,0.23,media,propuesto
 03_analisis_funcional/features_analisis/08_pantallas/tu_cuenta_conocidos.feature,Aceptar invitación y chatear,REQ-CON-011,0.24,media,propuesto
 03_analisis_funcional/features_analisis/08_pantallas/tu_cuenta_grupos.feature,Crear grupo y asignar administrador,REQ-GPU-015,0.26,media,propuesto
 03_analisis_funcional/features_analisis/08_pantallas/tu_cuenta_grupos.feature,Crear grupo y asignar administrador,REQ-GPU-016,0.23,media,propuesto
 03_analisis_funcional/features_analisis/08_pantallas/tu_cuenta_grupos.feature,Invitar y aceptar miembro,REQ-GPU-015,0.38,alta,propuesto
-03_analisis_funcional/features_analisis/08_pantallas/tu_cuenta_grupos.feature,Publicar aviso y propiedad en el grupo,REQ-GPU-001,0.33,media,propuesto
-03_analisis_funcional/features_analisis/08_pantallas/tu_cuenta_grupos.feature,Publicar aviso y propiedad en el grupo,REQ-GPU-005,0.30,media,propuesto
-03_analisis_funcional/features_analisis/08_pantallas/tu_cuenta_tus_espacios.feature,Listado de espacios publicados,REQ-ESP-012,0.36,alta,propuesto
+03_analisis_funcional/features_analisis/08_pantallas/tu_cuenta_grupos.feature,Publicar aviso y propiedad en el grupo,REQ-GPU-001,0.32,media,propuesto
+03_analisis_funcional/features_analisis/08_pantallas/tu_cuenta_grupos.feature,Publicar aviso y propiedad en el grupo,REQ-GPU-005,0.29,media,propuesto
 03_analisis_funcional/features_analisis/08_pantallas/tu_cuenta_tus_espacios.feature,Listado de espacios publicados,REQ-ESP-011,0.32,media,propuesto
+03_analisis_funcional/features_analisis/08_pantallas/tu_cuenta_tus_espacios.feature,Listado de espacios publicados,REQ-ESP-012,0.29,media,propuesto
 03_analisis_funcional/features_analisis/08_pantallas/tu_cuenta_tus_espacios.feature,Creación y edición condicional,,0.18,baja,propuesto
-03_analisis_funcional/features_analisis/08_pantallas/tu_cuenta_tus_espacios.feature,Publicar o despublicar propiedad,,0.16,baja,propuesto
+03_analisis_funcional/features_analisis/08_pantallas/tu_cuenta_tus_espacios.feature,Publicar o despublicar propiedad,,0.14,baja,propuesto
 03_analisis_funcional/features_analisis/08_pantallas/ubicacion.feature,Búsqueda por código postal,,0.14,baja,propuesto
 03_analisis_funcional/features_analisis/08_pantallas/ubicacion.feature,Selección desde Google Maps,,0.21,baja,propuesto
 03_analisis_funcional/features_analisis/08_pantallas/ubicacion.feature,Maestro de localidades,REQ-UBIC-006,0.63,alta,propuesto
@@ -1229,7 +1229,7 @@ feature,escenario,req_id,score,confianza,estado
 03_analisis_funcional/features_analisis/08_pantallas_perfil/perfil_usuario.feature,CTA Editar perfil,REQ-PERF-004,0.60,alta,propuesto
 03_analisis_funcional/features_analisis/08_pantallas_perfil/perfil_usuario.feature,CTA Gestión Avatar,REQ-PERF-005,0.51,alta,propuesto
 03_analisis_funcional/features_analisis/08_pantallas_perfil/perfil_usuario.feature,"Sesión en estado parcial (nombre null, etc)",,0.06,baja,propuesto
-03_analisis_funcional/features_analisis/08_pantallas_propiedades/detalle_propiedad_pdf.feature,Carga del detalle con fotos carousel + ficha,REQ-PROP-002,0.32,media,propuesto
+03_analisis_funcional/features_analisis/08_pantallas_propiedades/detalle_propiedad_pdf.feature,Carga del detalle con fotos carousel + ficha,REQ-PROP-002,0.31,media,propuesto
 03_analisis_funcional/features_analisis/08_pantallas_propiedades/detalle_propiedad_pdf.feature,Propiedad no encontrada (404 / 0 docs),REQ-PROP-008,0.41,alta,propuesto
 03_analisis_funcional/features_analisis/08_pantallas_propiedades/detalle_propiedad_pdf.feature,CTA Contactar al promotor,REQ-PROP-004,0.27,media,propuesto
 03_analisis_funcional/features_analisis/08_pantallas_propiedades/detalle_propiedad_pdf.feature,CTA Compartir,,0.17,baja,propuesto
@@ -1240,13 +1240,13 @@ feature,escenario,req_id,score,confianza,estado
 03_analisis_funcional/features_analisis/08_pantallas_propiedades/detalle_propiedad_pdf.feature,Ver foto principal en _FotoItemWidget,,0.19,baja,propuesto
 03_analisis_funcional/features_analisis/08_pantallas_propiedades/detalle_propiedad_pdf.feature,Contactar con sesión no iniciada,,0.16,baja,propuesto
 03_analisis_funcional/features_analisis/08_pantallas_tu_cuenta_conocidos/conocidos_red_social.feature,Ver lista de Mis Contactos,REQ-CON-003,0.43,alta,propuesto
-03_analisis_funcional/features_analisis/08_pantallas_tu_cuenta_conocidos/conocidos_red_social.feature,Ver perfil de un contacto,REQ-CON-011,0.54,alta,propuesto
+03_analisis_funcional/features_analisis/08_pantallas_tu_cuenta_conocidos/conocidos_red_social.feature,Ver perfil de un contacto,REQ-CON-011,0.55,alta,propuesto
 03_analisis_funcional/features_analisis/08_pantallas_tu_cuenta_conocidos/conocidos_red_social.feature,Descubrir usuarios,REQ-CON-004,0.57,alta,propuesto
 03_analisis_funcional/features_analisis/08_pantallas_tu_cuenta_conocidos/conocidos_red_social.feature,Enviar invitación a un usuario,REQ-CON-005,0.45,alta,propuesto
 03_analisis_funcional/features_analisis/08_pantallas_tu_cuenta_conocidos/conocidos_red_social.feature,Recepción de invitación (tab Invitaciones),REQ-CON-005,0.29,media,propuesto
 03_analisis_funcional/features_analisis/08_pantallas_tu_cuenta_conocidos/conocidos_red_social.feature,Aceptar invitación (crea relación bidireccional),REQ-CON-006,0.46,alta,propuesto
 03_analisis_funcional/features_analisis/08_pantallas_tu_cuenta_conocidos/conocidos_red_social.feature,Rechazar invitación,REQ-CON-006,0.29,media,propuesto
-03_analisis_funcional/features_analisis/08_pantallas_tu_cuenta_conocidos/conocidos_red_social.feature,chat 1:1 con media diferenciada,REQ-CON-007,0.25,media,propuesto
+03_analisis_funcional/features_analisis/08_pantallas_tu_cuenta_conocidos/conocidos_red_social.feature,chat 1:1 con media diferenciada,REQ-CON-007,0.24,media,propuesto
 03_analisis_funcional/features_analisis/08_pantallas_tu_cuenta_conocidos/conocidos_red_social.feature,Compartir propiedad en chat (burbuja especial),REQ-CON-008,0.58,alta,propuesto
 03_analisis_funcional/features_analisis/08_pantallas_tu_cuenta_conocidos/conocidos_red_social.feature,Compartir lista en chat (burbuja especial),REQ-CON-008,0.53,alta,propuesto
 03_analisis_funcional/features_analisis/08_pantallas_tu_cuenta_conocidos/conocidos_red_social.feature,Tap en burbuja propiedad/lista del chat → navega,REQ-CON-009,0.57,alta,propuesto
@@ -1273,19 +1273,20 @@ feature,escenario,req_id,score,confianza,estado
 03_analisis_funcional/features_analisis/08_pantallas_tu_cuenta_grupos/grupos_red_comunitaria.feature,Aceptar invitación de grupo,REQ-GPU-015,0.29,media,propuesto
 03_analisis_funcional/features_analisis/08_pantallas_tu_cuenta_grupos/grupos_red_comunitaria.feature,ChatGrupoEmbebido en otras pantallas,REQ-GPU-012,0.31,media,propuesto
 03_analisis_funcional/features_analisis/08_pantallas_tu_cuenta_grupos/grupos_red_comunitaria.feature,Eliminar miembro (admin),REQ-GPU-015,0.34,alta,propuesto
-03_analisis_funcional/features_analisis/08_pantallas_tu_cuenta_grupos/grupos_red_comunitaria.feature,Eliminar miembro (admin),REQ-GPU-013,0.32,media,propuesto
+03_analisis_funcional/features_analisis/08_pantallas_tu_cuenta_grupos/grupos_red_comunitaria.feature,Eliminar miembro (admin),REQ-GPU-013,0.33,media,propuesto
 03_analisis_funcional/features_analisis/08_pantallas_tu_cuenta_tus_espacios/tus_espacios_captura_publicacion.feature,Hub central de propiedades del usuario,REQ-ESP-002,0.29,media,propuesto
 03_analisis_funcional/features_analisis/08_pantallas_tu_cuenta_tus_espacios/tus_espacios_captura_publicacion.feature,Hub central de propiedades del usuario,REQ-ESP-007,0.28,media,propuesto
-03_analisis_funcional/features_analisis/08_pantallas_tu_cuenta_tus_espacios/tus_espacios_captura_publicacion.feature,Crear ficha de captura (alta de propiedad),REQ-ESP-003,0.48,alta,propuesto
+03_analisis_funcional/features_analisis/08_pantallas_tu_cuenta_tus_espacios/tus_espacios_captura_publicacion.feature,Crear ficha de captura (alta de propiedad),REQ-ESP-005,0.32,media,propuesto
+03_analisis_funcional/features_analisis/08_pantallas_tu_cuenta_tus_espacios/tus_espacios_captura_publicacion.feature,Crear ficha de captura (alta de propiedad),REQ-ESP-003,0.29,media,propuesto
 03_analisis_funcional/features_analisis/08_pantallas_tu_cuenta_tus_espacios/tus_espacios_captura_publicacion.feature,Submit exitoso de ficha nueva,REQ-ESP-006,0.38,alta,propuesto
-03_analisis_funcional/features_analisis/08_pantallas_tu_cuenta_tus_espacios/tus_espacios_captura_publicacion.feature,Editar propiedad existente,REQ-ESP-004,0.33,media,propuesto
+03_analisis_funcional/features_analisis/08_pantallas_tu_cuenta_tus_espacios/tus_espacios_captura_publicacion.feature,Editar propiedad existente,,0.22,baja,propuesto
 03_analisis_funcional/features_analisis/08_pantallas_tu_cuenta_tus_espacios/tus_espacios_captura_publicacion.feature,Conflicto de edición concurrente (409),,0.08,baja,propuesto
 03_analisis_funcional/features_analisis/08_pantallas_tu_cuenta_tus_espacios/tus_espacios_captura_publicacion.feature,Validación de fotoprincipal,REQ-ESP-006,0.31,media,propuesto
 03_analisis_funcional/features_analisis/08_pantallas_tu_cuenta_tus_espacios/tus_espacios_captura_publicacion.feature,Filtrar propiedades por tipo de espacio,,0.21,baja,propuesto
 03_analisis_funcional/features_analisis/08_pantallas_tu_cuenta_tus_espacios/tus_espacios_captura_publicacion.feature,Borrar una propiedad propia (no publicada o publicada),,0.15,baja,propuesto
 03_analisis_funcional/features_analisis/08_pantallas_tu_cuenta_tus_espacios/tus_espacios_captura_publicacion.feature,Sub-feature CompraEspacios (mercado secundario / transferencia),REQ-ESP-008,0.23,media,propuesto
-03_analisis_funcional/features_analisis/08_pantallas_tu_cuenta_tus_espacios/tus_espacios_captura_publicacion.feature,Tabla matriz de campos por tipo inmueble,REQ-ESP-005,0.65,alta,propuesto
-03_analisis_funcional/features_analisis/08_pantallas_ubicacion/ubicacion_busqueda_localidades.feature,Hub de localidades del usuario,,0.18,baja,propuesto
+03_analisis_funcional/features_analisis/08_pantallas_tu_cuenta_tus_espacios/tus_espacios_captura_publicacion.feature,Tabla matriz de campos por tipo inmueble,REQ-ESP-005,0.64,alta,propuesto
+03_analisis_funcional/features_analisis/08_pantallas_ubicacion/ubicacion_busqueda_localidades.feature,Hub de localidades del usuario,,0.17,baja,propuesto
 03_analisis_funcional/features_analisis/08_pantallas_ubicacion/ubicacion_busqueda_localidades.feature,Búsqueda por código postal (CP),REQ-UBIC-002,0.32,media,propuesto
 03_analisis_funcional/features_analisis/08_pantallas_ubicacion/ubicacion_busqueda_localidades.feature,Búsqueda por código postal (CP),REQ-UBIC-005,0.32,media,propuesto
 03_analisis_funcional/features_analisis/08_pantallas_ubicacion/ubicacion_busqueda_localidades.feature,Selección de localidad de resultados,REQ-UBIC-002,0.29,media,propuesto
@@ -1333,7 +1334,7 @@ feature,escenario,req_id,score,confianza,estado
 03_analisis_funcional/features_analisis/22_imagenes/carousel_usuario.feature,Visualización carousel completo (fullscreen),REQ-IMG-003,0.31,media,propuesto
 03_analisis_funcional/features_analisis/22_imagenes/carousel_usuario.feature,Versión mini para listados (PaginaCarouselFotosMini),REQ-IMG-003,0.48,alta,propuesto
 03_analisis_funcional/features_analisis/22_imagenes/carousel_usuario.feature,Controles de navegación programática,,0.18,baja,propuesto
-03_analisis_funcional/features_analisis/22_imagenes/carousel_usuario.feature,Acciones rápidas desde carousel,REQ-IMG-002,0.27,media,propuesto
+03_analisis_funcional/features_analisis/22_imagenes/carousel_usuario.feature,Acciones rápidas desde carousel,REQ-IMG-002,0.26,media,propuesto
 03_analisis_funcional/features_analisis/22_imagenes/carousel_usuario.feature,Propiedad sin fotos,REQ-IMG-004,0.35,alta,propuesto
 03_analisis_funcional/features_analisis/22_imagenes/carousel_usuario.feature,FutureBuilder con estado de carga y error,,0.14,baja,propuesto
 03_analisis_funcional/features_analisis/22_imagenes/gestion_fotos_propiedad.feature,Visualización carousel (swipe fullscreen),REQ-IMG-005,0.36,alta,propuesto
@@ -1350,8 +1351,8 @@ feature,escenario,req_id,score,confianza,estado
 03_analisis_funcional/features_analisis/22_imagenes/ordenamiento_fotos.feature,Creación inicial del orden (primera vez),REQ-IMG-007,0.45,alta,propuesto
 03_analisis_funcional/features_analisis/22_imagenes/subida_multiple_fotos.feature,Selección múltiple desde galería,,0.18,baja,propuesto
 03_analisis_funcional/features_analisis/22_imagenes/subida_multiple_fotos.feature,Compresión antes de subir,REQ-IMG-009,0.59,alta,propuesto
-03_analisis_funcional/features_analisis/22_imagenes/subida_multiple_fotos.feature,Subida a CouchDB vía API,REQ-IMG-006,0.28,media,propuesto
 03_analisis_funcional/features_analisis/22_imagenes/subida_multiple_fotos.feature,Subida a CouchDB vía API,REQ-IMG-009,0.28,media,propuesto
+03_analisis_funcional/features_analisis/22_imagenes/subida_multiple_fotos.feature,Subida a CouchDB vía API,REQ-IMG-006,0.28,media,propuesto
 03_analisis_funcional/features_analisis/22_imagenes/subida_multiple_fotos.feature,Cancelación de FilePicker,REQ-IMG-010,0.23,media,propuesto
 03_analisis_funcional/features_analisis/22_imagenes/subida_multiple_fotos.feature,Fallo de compresión / archivo corrupto,,0.17,baja,propuesto
 03_analisis_funcional/features_analisis/22_imagenes/subida_multiple_fotos.feature,Límite máximo alcanzado,,0.10,baja,propuesto
@@ -1379,7 +1380,7 @@ feature,escenario,req_id,score,confianza,estado
 03_analisis_funcional/features_analisis/42_sistema_operativo/deteccion_plataforma.feature,Plataforma desconocida (futuro),REQ-OS-008,0.59,alta,propuesto
 03_analisis_funcional/features_analisis/60_global_widgets/widgets_globales_m3.feature,Botón primario estandarizado (MyButton),REQ-GW-001,0.34,alta,propuesto
 03_analisis_funcional/features_analisis/60_global_widgets/widgets_globales_m3.feature,Campo de texto estandarizado (MyTextField),REQ-GW-002,0.37,alta,propuesto
-03_analisis_funcional/features_analisis/60_global_widgets/widgets_globales_m3.feature,Campo password con toggle visibilidad (MyTextFieldPassword),REQ-GW-004,0.34,alta,propuesto
+03_analisis_funcional/features_analisis/60_global_widgets/widgets_globales_m3.feature,Campo password con toggle visibilidad (MyTextFieldPassword),REQ-GW-004,0.34,media,propuesto
 03_analisis_funcional/features_analisis/60_global_widgets/widgets_globales_m3.feature,Sistema de logging por 21 niveles (debugPrintLevels),REQ-GW-005,0.46,alta,propuesto
 03_analisis_funcional/features_analisis/60_global_widgets/widgets_globales_m3.feature,Estados FutureBuilder estandarizados,REQ-GW-008,0.27,media,propuesto
 03_analisis_funcional/features_analisis/60_global_widgets/widgets_globales_m3.feature,Formato moneda mexicana (generaCantidad/formatoCantidad),REQ-GW-009,0.25,media,propuesto
@@ -1390,7 +1391,7 @@ feature,escenario,req_id,score,confianza,estado
 03_analisis_funcional/features_analisis/main/inicializacion_global.feature,Fallo en inicialización critica,REQ-MAIN-008,0.30,media,propuesto
 03_analisis_funcional/features_analisis/transversales/conectividad_offline.feature,Pérdida de conexión durante uso normal,,0.08,baja,propuesto
 03_analisis_funcional/features_analisis/transversales/detalle_propiedad_pdf.feature,Visualización del detalle de propiedad,REQ-PROP-004,0.30,media,propuesto
-03_analisis_funcional/features_analisis/transversales/detalle_propiedad_pdf.feature,Visualización del detalle de propiedad,REQ-PROP-002,0.29,media,propuesto
+03_analisis_funcional/features_analisis/transversales/detalle_propiedad_pdf.feature,Visualización del detalle de propiedad,REQ-PROP-002,0.28,media,propuesto
 03_analisis_funcional/features_analisis/transversales/detalle_propiedad_pdf.feature,Exportación de ficha a PDF,REQ-PROP-007,0.48,alta,propuesto
 03_analisis_funcional/features_analisis/transversales/general_usabilidad.feature,Diálogo de confirmación genérico,,0.00,ninguna,propuesto
 03_analisis_funcional/features_analisis/transversales/general_usabilidad.feature,Estados de carga y error,,0.00,ninguna,propuesto
