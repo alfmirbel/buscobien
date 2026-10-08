@@ -104,7 +104,7 @@ flowchart TD
 | Casts `as` y `!` sin validar | `TypeError` en ejecución | Argumentos tipados (DTO/Freezed) con validación |
 | Estado global mutable en `routes_parameters.dart` | Efectos cruzados entre pantallas | Reemplazar por argumentos inmutables o providers |
 | Web solo procesa la URL al arrancar | Cambios de URL posteriores no navegan | Aceptable si el enlace siempre abre la app; revisar si se agregan más deep links |
-| ~~Datos de contacto reales escritos en las plantillas~~ | **Resuelto** en `routes_parameters.dart` (2026-10-07) | Persisten los mismos datos en `08_pantallas/tu_cuenta/tus_espacios/provider_espacios_casa_get.dart:1238-1243` y en el historial de git (ver T12 en el modelo de amenazas) |
+| ~~Datos de contacto reales escritos en las plantillas~~ | **Resuelto** (2026-10-07): vaciado también en el resto de `lib/` | Solo permanecen en el historial de git (ver T12 en el modelo de amenazas) |
 | `PaginaDeError` no se muestra | Falta retroalimentación al usuario sin permiso de ubicación | Usar `Navigator.push` / diálogo |
 
 ---

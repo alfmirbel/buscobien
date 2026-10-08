@@ -29,7 +29,7 @@
 | T9 | **I**nfo | En Web la sesión se guarda en `shared_preferences` (almacenamiento del navegador, accesible a scripts de la página) | `session_storage.dart` (`WebSessionStorage`) | Media | Cookies `HttpOnly` con JWT de vida corta |
 | T10 | **I**nfo | `routeGenerate` registra nombre y argumentos de cada navegación; los argumentos pueden contener datos de propiedades o del token | `app_routes.dart` (`debugPrintLevels(1, …)`) | Baja | Desactivar logs en producción; no registrar argumentos sensibles |
 | T11 | **D**enial | Sin límite de intentos de login ni de solicitudes de recuperación | Sin control en `session_repository.dart` / mailer | Media | *Rate limiting* en nginx/API |
-| T12 | **I**nfo | Datos personales reales (nombre, celular, correo) escritos en el código. **Parcialmente resuelto (2026-10-07):** se vaciaron en las 3 plantillas de `routes_parameters.dart`. **Persisten** en `lib/08_pantallas/tu_cuenta/tus_espacios/provider_espacios_casa_get.dart:1238-1243` y en el historial de git (los valores anteriores quedan en el commit inicial). Además hay ejemplos con el nombre de usuario en `lib/03_listas/data_listas.json` y `lib/10_user_login/data_models/data_get_id_user_pass.json` | Media → Baja tras limpiar el resto | Vaciar el resto de ocurrencias; decidir si se purga el historial (`git filter-repo`) según si el repositorio es o será público; el aviso legal con la identidad del responsable (`textos_tc_ap.dart`) es intencional |
+| T12 | **I**nfo | Datos personales reales (nombre, celular, correo, usuario) escritos en el código. **Resuelto en el código (2026-10-07):** vaciados en `routes_parameters.dart`, `provider_espacios_casa_get.dart`, `data_listas.json` y `data_get_id_user_pass.json` (verificado: ya no hay ocurrencias en `lib/`; el nombre en `textos_tc_ap.dart` es la identidad del responsable en el aviso legal y es intencional). **Pendiente:** los valores anteriores permanecen en el historial de git (commit inicial) | Baja | Si el repositorio es o será público, purgar el historial (`git filter-repo`) y rotar cualquier dato que siga vigente |
 | T13 | **S**poofing | App Links / Universal Links sin configurar: paquete `com.example.buscobien`, huella y `TEAM_ID` con valores de ejemplo | `server/well-known/*`, `android/app/build.gradle*` | Media | Definir paquete definitivo y huellas reales |
 
 Nota: al cambiar la contraseña, `actualizarPassword` elimina `reset_token` y `token_expiry` del documento (verificado), por lo que el token no se reutiliza.
@@ -38,7 +38,7 @@ Nota: al cambiar la contraseña, `actualizarPassword` elimina `reset_token` y `t
 
 1. T1–T4 (acceso directo y autenticación en el cliente) → resuelve la migración a API + JWT.
 2. T5–T7 (mailer): se pueden corregir de forma independiente de la migración (TLS, autenticación, escape).
-3. T12–T13: terminar la limpieza de datos personales (queda `provider_espacios_casa_get.dart` y el historial) y configurar los enlaces.
+3. T12–T13: decidir si se purga el historial de git (T12) y configurar los enlaces (T13).
 4. T8–T11: con la API.
 
 ## 4. Pendientes de verificar en el servidor
