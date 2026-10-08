@@ -164,8 +164,6 @@ Route? routeGenerate(RouteSettings settings) {
         settings: settings,
       );
 
-    /*  LocalidadesListScreen(settings.arguments as FindLocalidadXcp),
-          settings: settings);*/
 
     case AppRoutes.localidades:
       return navigateToRoute(
@@ -220,12 +218,6 @@ Route? routeGenerate(RouteSettings settings) {
         ),
         settings: settings,
       );
-    /*
-    case AppRoutes.fotosagregafotoalista:
-      return navigateToRoute(
-          GestionFotosAgrega(settings.arguments as Map<String, dynamic>),
-          settings: settings);
-    */
     case AppRoutes.agregamultiplesfotos:
       return navigateToRoute(
         AgregaMultiplesFotos(settings.arguments as Map<String, dynamic>),

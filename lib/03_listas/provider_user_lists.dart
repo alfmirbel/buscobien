@@ -52,15 +52,6 @@ class UserListsNotifier extends Notifier<GetUserPropertyListModel> {
 
       final response = await http.get(Uri.parse(url), headers: headers);
 
-      /*
-      // Usamos _find (Mango Query) para buscar por userId
-      final url = Uri.parse('$direccionip/buscobien_usuarios_listas/_find');
-      final body = jsonEncode({
-        // "selector": {"userId": userId, "type": "user_property_list"},
-        "selector": {"userId": userId},
-      });
-      final response = await http.post(url, headers: _headers, body: body);
-      */
       resultado = response.statusCode;
       debugPrintLevels(10, "HTTP fetchUserLists: statusCode=$resultado");
 
@@ -96,14 +87,6 @@ class UserListsNotifier extends Notifier<GetUserPropertyListModel> {
         );
 
         state = listas;
-        /*
-        final List<dynamic> rows = data['docs'];
-
-        final lists = rows
-            .map((e) => UserPropertyListModel.fromJson(e))
-            .toList();
-        state = AsyncValue.data(lists);
-        */
       } else {
         state = GetUserPropertyListModel(totalRows: 0, offset: 0, rows: []);
         debugPrintLevels(10, "HTTP fetchUserLists: Error = $resultado");

@@ -21,9 +21,6 @@ import '../20_var_globales/variables_globales.dart';
 import '../41_connectivity/connectivitycheck_provider.dart';
 import '../60_global_widgets/debugprint.dart';
 
-// Asegúrate de importar tus providers, temas y widgets globales
-// import 'provider_get_avatar.dart'; // Tu nuevo provider generado
-// import '...';
 
 AppBar appBarPrincipal(
   BuildContext context,

@@ -156,19 +156,6 @@ class _DialogSelectorListasState extends ConsumerState<DialogSelectorListas> {
                       );
                     } else {
                       //------------
-                      /*
-                    asyncListHeaders.when(
-                      loading: () => const Center(child: CircularProgressIndicator()),
-                      error: (err, stack) => Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Text(
-                            "Error al cargar listas: $err",
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
-                      */
                       if (ref.read(userListsProvider).rows.isEmpty) {
                         return Center(
                           child: Column(

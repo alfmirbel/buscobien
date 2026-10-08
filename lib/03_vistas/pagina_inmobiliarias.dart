@@ -205,26 +205,6 @@ class LandingInmobiliariasPage extends ConsumerWidget {
                   ),
                 ),
               ),
-              /*
-              const SizedBox(width: 20),
-              OutlinedButton(
-                onPressed: () {},
-                style: OutlinedButton.styleFrom(
-                  side: const BorderSide(color: Colors.white54),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 30,
-                    vertical: 20,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                child: const Text(
-                  "Ver Video Tour",
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-              */
             ],
           ),
         ],
@@ -475,76 +455,6 @@ class LandingInmobiliariasPage extends ConsumerWidget {
     );
   }
 
-  /*
-  Widget _buildApiBanner(Color primary) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
-      padding: const EdgeInsets.all(40),
-      decoration: BoxDecoration(
-        color: const Color(0xFF1E293B),
-        borderRadius: BorderRadius.circular(20),
-        image: const DecorationImage(
-          image: NetworkImage(
-            "https://www.transparenttextures.com/patterns/circuit-board.png",
-          ), // Textura sutil
-          opacity: 0.1,
-          repeat: ImageRepeat.repeat,
-        ),
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            flex: 2,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  "API-FIRST",
-                  style: TextStyle(
-                    color: Colors.tealAccent,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1.5,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                const Text(
-                  "¿Ya usa un CRM interno?",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                const Text(
-                  "Conecte su sistema con nuestra API REST. Sincronización bidireccional de inventario y leads sin intervención humana.",
-                  style: TextStyle(color: Colors.white70, fontSize: 16),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 40),
-          Expanded(
-            child: Center(
-              child: ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  foregroundColor: primary,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 20,
-                  ),
-                ),
-                child: const Text("Leer Documentación Técnica"),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-*/
   Widget _buildContactFormSection(Color accent, Color primary) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 20),

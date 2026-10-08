@@ -537,9 +537,6 @@ class _FotoItemWidget extends StatelessWidget {
 
 //------------------------------------------------------------------------------
 
-// EXCEPCION_COLOR_ESPECIFICO: brand rojo favorito en icono de heart
-// ARCHIVO: lib/08_pantallas/propiedades/pagina_detalle_propiedad.dart
-// FECHA: 2026-07-14
 // ignore: unused_element
 class _MeGustaButtonFicha extends ConsumerWidget {
   final String propiedadId;

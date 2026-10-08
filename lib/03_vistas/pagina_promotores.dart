@@ -313,25 +313,6 @@ class LandingAgentesPage extends ConsumerWidget {
                     ),
                   ),
                 ),
-                /*
-                OutlinedButton(
-                  onPressed: () {},
-                  style: OutlinedButton.styleFrom(
-                    side: const BorderSide(color: Colors.white),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 32,
-                      vertical: 20,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                  ),
-                  child: const Text(
-                    "Agendar Demo",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-                */
               ],
             ),
           ],
@@ -430,24 +411,6 @@ class LandingAgentesPage extends ConsumerWidget {
           fontsizeSubtitulo = 14;
         }
 
-        /*
-var screenWidth = 0.0;
-        var screenHeight = 0.0;
-
-        var xSmallScreenMin = 0.0;
-        var xSmallScreenMax = 599.0;
-
-        var smallScreenMin = 600.0;
-        var smallScreenMax = 904.0;
-
-        var mediumScreenMin = 904.0;
-        var mediumScreenMax = 1239.0;
-
-        var largeScreenMin = 1240.0;
-        var largeScreenMax = 1439.0;
-
-        var xLargeScreeMin = 1440.0;
-        */
         return GridView.count(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),

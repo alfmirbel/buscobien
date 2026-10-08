@@ -500,11 +500,6 @@ Widget buildCampoCompraEspacioCasa(
         if (value!.isEmpty) {
           return 'El campo es obligatorio';
         }
-        /*
-      if (!RegExp(r"expRegular").hasMatch(value)) {
-        return 'El formato no es válido';
-      }
-      */
         return null;
       },
       onSaved: (String? value) {

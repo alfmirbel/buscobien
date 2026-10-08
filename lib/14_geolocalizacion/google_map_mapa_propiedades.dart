@@ -8,9 +8,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:material_symbols_icons/symbols.dart';
 // Importa tus variables globales y modelos
 import '../05_provider_menus/provider_menu_nivel_gobierno.dart';
-// Asegúrate de que esta importación sea correcta según tu estructura
-// import '../xx_modelos/espacios_casa_get.dart';
-// import '../08_pantallas/inicio/data_espacios_casas_get.dart';
 import '../08_pantallas/inicio/data_espacios_casas_get.dart';
 import '../08_pantallas/ubicacion/provider_localidades_del_cp.dart';
 import '../08_pantallas/ubicacion/data_sepomex_localidades.dart';
@@ -210,48 +207,6 @@ class _PaginaMapaPropiedadesState extends ConsumerState<PaginaMapaPropiedades> {
       default:
         addressQuery = "Sin ubicación";
     }
-    /*
-    switch (nivelGobierno) {
-      case 'Nacional':
-        // Ejemplo: "Mexico"
-        addressQuery = ubicacion.pais;
-        zoomLevel = 5.0;
-        break;
-
-      case 'Estado':
-        // Ejemplo: "Jalisco, Mexico"
-        addressQuery =
-            "${ubicacion.ubicacioncasa.localidadCp.estado}, ${ubicacion.ubicacioncasa.pais}";
-        zoomLevel = 20.0;
-        break;
-      case 'Municipio':
-        // Ejemplo: "Guadalajara, Jalisco, Mexico"
-        addressQuery =
-            "${ubicacion.ubicacioncasa.localidadCp.municipio}, ${ubicacion.ubicacioncasa.localidadCp.estado}, ${ubicacion.ubicacioncasa.pais}";
-        zoomLevel = 40.0;
-        break;
-      case 'C.P.':
-        // Ejemplo: "44100, Mexico"
-        addressQuery =
-            "${ubicacion.ubicacioncasa.localidadCp.cp}, ${ubicacion.ubicacioncasa.pais}";
-        zoomLevel = 80.0;
-        break;
-
-      case 'Asentamiento':
-        // Ejemplo: "Colonia Centro, Guadalajara, Jalisco, Mexico"
-        // Agregamos contexto superior para evitar ambigüedades
-        addressQuery =
-            "${ubicacion.ubicacioncasa.localidadCp.asentamiento}, ${ubicacion.ubicacioncasa.localidadCp.municipio}, ${ubicacion.ubicacioncasa.localidadCp.estado}, ${ubicacion.ubicacioncasa.pais}";
-        zoomLevel = 100;
-        break;
-
-      default:
-        // Si no hay nivel claro, usamos coordenadas de pines como fallback o país
-        addressQuery = addressQuery = ubicacion.ubicacioncasa.pais;
-        zoomLevel = 5.0;
-        break;
-    }
-*/
     // 2. Validación final antes de llamar al API
     if (addressQuery.isEmpty || addressQuery.trim() == "null") {
       debugPrintLevels(07, "Dirección vacía o inválida, cancelando geocoding.");

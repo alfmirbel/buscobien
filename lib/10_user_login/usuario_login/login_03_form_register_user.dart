@@ -146,25 +146,6 @@ class RegisterScreenUsersState extends ConsumerState<RegisterScreenUsers> {
                     */
                 ),
                 SizedBox(height: 5),
-                /*
-                ButtonConParametros(
-                  h: 40,
-                  w: 300,
-                  colorBoton: appTheme.primary,
-                  colorLetra: appTheme.onPrimary,
-                  etiqueta: "Ver téminos y condiciones",
-                  onTap: () async {
-                    _mostrarDialogoTerminos();
-                    /*
-                    Navigator.of(context).push(
-                      MaterialPageRoute<void>(
-                        builder: (context) => TerminosCondicionesDialog(),
-                      ),
-                    );
-                    */
-                  },
-                ),
-                */
                 SizedBox(height: 15),
 
                 TextButton(
@@ -175,27 +156,6 @@ class RegisterScreenUsersState extends ConsumerState<RegisterScreenUsers> {
                           if (!_formKeyRegistroUsers.currentState!.validate()) {
                             return;
                           } else {
-                            /*
-                      (ref
-                              .read(sessionProvider.notifier)
-                              .getEsPromotorIdUserPass(ref))
-                          ? ref
-                              .read(sessionProvider)
-                              .userData
-                              .rows[0]
-                              .value
-                              .usuario
-                              .datospromotor
-                              .tipodeusuario = "promotor"
-                          : ref
-                              .read(sessionProvider)
-                              .userData
-                              .rows[0]
-                              .value
-                              .usuario
-                              .datospromotor
-                              .tipodeusuario = "normal";
-                              */
                             //----------------------
                             ref
                                 .read(sessionProvider.notifier)
@@ -251,48 +211,6 @@ class RegisterScreenUsersState extends ConsumerState<RegisterScreenUsers> {
                   ),
                 ),
 
-                /*
-                ButtonConParametros(
-                  etiqueta: "Crear cuenta",
-                  h: 40,
-                  w: 300,
-                  colorBoton: appTheme.primary,
-                  colorLetra: appTheme.onPrimary,
-
-                  onTap: (aceptoTerminosCondiciones)
-                      ? () async {
-                          _formKeyRegistroUsers.currentState!.save();
-                          if (!_formKeyRegistroUsers.currentState!.validate()) {
-                            return;
-                          } else {
-                     
-                            //----------------------
-                            ref
-                                .read(sessionProvider.notifier)
-                                .writeUserToCouchDB(
-                                  ref,
-                                  ref
-                                      .read(sessionProvider)
-                                      .rows[0]
-                                      .value
-                                      .usuario,
-                                )
-                                .then((onValue) async {
-                                  await showMessageDialog(
-                                    // ignore: use_build_context_synchronously
-                                    context,
-                                    "Registra Usuario",
-                                    codigoCouchDB[onValue]!.label,
-                                    appTheme.primary,
-                                    TextAlign.center,
-                                  );
-                                  _validaclavedeacceso = "";
-                                  rfc = "";
-                                });
-                          }
-                        }
-                      : null,
-                ),*/
                 const SizedBox(height: 30),
               ],
             ),
@@ -405,13 +323,6 @@ class RegisterScreenUsersState extends ConsumerState<RegisterScreenUsers> {
         // Abrimos el PDF en una nueva pestaña del navegador
         final Uri uri = Uri.parse(path);
         await launchUrl(uri);
-        /*
-        if (await canLaunchUrl(uri)) {
-          await launchUrl(uri);
-        } else {
-          print("No se pudo abrir la URL del asset en Web: $path");
-        }
-        */
         return; // ¡IMPORTANTE! Salimos de la función aquí para no ejecutar código de Móvil
       }
 
@@ -460,20 +371,6 @@ class RegisterScreenUsersState extends ConsumerState<RegisterScreenUsers> {
 
     await abrirPdfDesdeAssets(assetPath, nombreArchivo);
     // Simulación visual
-    /*
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Row(
-          children: [
-            Icon(Symbols.download_done, color: appTheme.onPrimary),
-            SizedBox(width: 10),
-            Text("Descargando documento en PDF..."),
-          ],
-        ),
-        backgroundColor: appTheme.primary,
-      ),
-    );
-    */
   }
 
   Widget aceptarTyCmasAdeP() {
@@ -714,125 +611,6 @@ class RegisterScreenUsersState extends ConsumerState<RegisterScreenUsers> {
 
   //------------------------------------------------------------------------------
   // Función para mostrar el diálogo
-  /*
-  _mostrarDialogoTerminos() {
-    showDialog(
-      context: context,
-      barrierDismissible: false, // El usuario no puede cerrar tocando afuera
-      builder: (BuildContext context) {
-        // Variable local temporal para el diálogo
-        // bool _tempAcepto = false;
-
-        // StatefulBuilder permite actualizar el estado SOLO dentro del diálogo
-        return StatefulBuilder(
-          builder: (context, setStateDialog) {
-            return AlertDialog(
-              title: const Text("Términos y Condiciones"),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
-              ),
-              content: Column(
-                mainAxisSize: MainAxisSize.min, // Se ajusta al contenido
-                children: [
-                  // Área de texto con scroll
-                  Container(
-                    height: 200, // Altura fija para el texto
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey.shade300),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    padding: const EdgeInsets.all(8),
-                    child: const SingleChildScrollView(
-                      child: Text(
-                        "AVISO DE PRIVACIDAD CORTO\n\n"
-                        "buscobien es el responsable del tratamiento de sus datos personales.\n\n"
-                        "Los datos que solicitamos (nombre, teléfono, correo) serán utilizados para crear su cuenta, permitir la publicación y búsqueda de inmuebles, y facilitar el contacto.\n\n"
-                        "Al aceptar, usted confirma que ha leído nuestro Aviso de Privacidad Integral y acepta nuestras políticas de uso de datos, así como los términos de servicio de la plataforma.\n\n"
-                        "buscobien se reserva el derecho de modificar estos términos...",
-                        style: TextStyle(fontSize: 14),
-                        textAlign: TextAlign.justify,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 15),
-                  // Checkbox interactivo
-                  Row(
-                    children: [
-                      Checkbox(
-                        value: aceptoTerminosCondiciones,
-                        activeColor: Colors.blue[900],
-                        onChanged: (bool? value) {
-                          // Usamos setStateDialog, NO setState global
-                          setStateDialog(() {
-                            aceptoTerminosCondiciones = value ?? false;
-                          });
-                        },
-                      ),
-                      const Expanded(
-                        child: Text(
-                          "He leído y acepto los términos",
-                          style: TextStyle(fontSize: 14),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              actions: [
-                // Botón RECHAZAR
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop(false); // Retorna falso
-                  },
-                  child: Text(
-                    "Rechazar",
-                    style: TextStyle(color: appTheme.error),
-                  ),
-                ),
-                // Botón ACEPTAR
-                ElevatedButton(
-                  onPressed: aceptoTerminosCondiciones
-                      ? () {
-                          // Solo funciona si el checkbox está marcado
-                          Navigator.of(context).pop(true); // Retorna verdadero
-                        }
-                      : null, // Deshabilitado si no ha marcado el checkbox
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: appTheme.primary,
-                    foregroundColor: appTheme.onPrimary,
-                  ),
-                  child: const Text("Aceptar"),
-                ),
-              ],
-            );
-          },
-        );
-      },
-    ).then((resultado) {
-      // Aquí recibimos el resultado cuando se cierra el diálogo
-      if (resultado != null && resultado) {
-        setState(() {
-          aceptoTerminosCondiciones = true;
-        });
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text("¡Términos aceptados!")));
-      } else {
-        // Opcional: Manejar el rechazo
-        setState(() {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text(
-                "No se puede crear la cuenta sin aceptar los términos y condiciones.",
-              ),
-            ),
-          );
-          aceptoTerminosCondiciones = false;
-        });
-      }
-    });
-  }
-*/
   //------------------------------------------------------------------------------
 
   SizedBox renglonDeCaptura(
@@ -988,9 +766,6 @@ class RegisterScreenUsersState extends ConsumerState<RegisterScreenUsers> {
           }
         },
         onChanged: (String? value) {
-          // debugPrintLevels(2, "buildCampoFormCotizacion onSaved $value");
-          //Set(WidgetRef ref, String campo, String valor, int numCuadro,
-          //int numItem, int numCondicion, int numProveedor)
           ref
               .read(sessionProvider.notifier)
               .setCampoUserData(ref, nombreVariable, value!);

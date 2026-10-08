@@ -64,10 +64,6 @@ class PaginaTipoEspaciosState extends ConsumerState<PaginaTusEspacios>
       // Por ahora se mantiene aquí para no alterar lógica de negocio.
       ref.read(espaciosCasaConListaFotosGetProvider.notifier).resetEspaciosCasasGet();
       // Inicializamos el Future una sola vez al inicio
-      /*
-      _futurePropiedades = ref
-          .read(espaciosCasaConListaFotosGetProvider.notifier)
-          .getPropiedadesCasaIdUser();*/
     });
   }
 

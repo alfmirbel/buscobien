@@ -42,11 +42,6 @@ class MenuDrawer extends ConsumerWidget {
             onTap: () {
               Navigator.of(context).pop();
             },
-            /* => Navigator.pushNamed(
-              context,
-              AppRoutes.principal,
-              arguments: "",
-            ),*/
           ),
           Divider(
             color: appTheme.secondary,
@@ -54,56 +49,6 @@ class MenuDrawer extends ConsumerWidget {
             indent: 14,
             endIndent: 30,
           ),
-          /*
-          _createDrawerItem(
-            icon: Symbols.perm_identity,
-            text: 'Casas en venta',
-            onTap: () => Navigator.of(context).pushNamed(
-              '/principal',
-              arguments: "",
-            ),
-          ),
-          _createDrawerItem(
-            icon: Symbols.map,
-            text: 'Casas en renta',
-            onTap: () => Navigator.of(context).pushNamed(
-              '/buscalocalidad',
-              arguments: "",
-            ),
-          ),
-          _createDrawerItem(
-            icon: Symbols.groups,
-            text: 'Departamentos en venta',
-            onTap: () => Navigator.of(context).pushNamed(
-              '/principal',
-              arguments: "",
-            ),
-          ),
-          _createDrawerItem(
-            icon: Symbols.view_list,
-            text: 'Departamentos en renta',
-            onTap: () => Navigator.of(context).pushNamed(
-              '/principal',
-              arguments: "",
-            ),
-          ),
-          _createDrawerItem(
-            icon: Symbols.view_list,
-            text: 'Otros inmuebles en venta',
-            onTap: () => Navigator.of(context).pushNamed(
-              '/principal',
-              arguments: "",
-            ),
-          ),
-          _createDrawerItem(
-            icon: Symbols.view_list,
-            text: 'Otros inmuebles en renta',
-            onTap: () => Navigator.of(context).pushNamed(
-              '/principal',
-              arguments: "",
-            ),
-          ),
-          */
           _createDrawerItem(
             icon: Symbols.star,
             text: 'Favoritos',

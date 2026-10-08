@@ -55,19 +55,6 @@ class LandingAsociacionesPage extends ConsumerWidget {
           ],
         ),
         actions: [
-          /*
-          Padding(
-            padding: const EdgeInsets.only(right: 16.0),
-            child: TextButton.icon(
-              onPressed: () {},
-              icon: Icon(Symbols.person_outline, color: primaryColor),
-              label: Text(
-                "Registro",
-                style: TextStyle(color: primaryColor),
-              ),
-            ),
-          ),
-          */
         ],
       ),
       body: SingleChildScrollView(

@@ -53,12 +53,6 @@ class LandingServiciosPage extends ConsumerWidget {
           ],
         ),
         actions: [
-          /*
-          TextButton(
-            onPressed: () {},
-            child: Text("Iniciar", style: TextStyle(color: darkText)),
-          ),
-          */
           const SizedBox(width: 10),
           Padding(
             padding: const EdgeInsets.only(right: 16.0),
@@ -438,41 +432,6 @@ class LandingServiciosPage extends ConsumerWidget {
     );
   }
 
-  /*
-  Widget _buildSuccessStory() {
-    return Container(
-      margin: const EdgeInsets.all(20),
-      padding: const EdgeInsets.all(30),
-      decoration: BoxDecoration(
-        color: const Color(0xFF2C3E50),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Column(
-        children: [
-          const Icon(Symbols.star, color: Colors.amber, size: 40),
-          const SizedBox(height: 20),
-          const Text(
-            "\"Antes dependía de recomendaciones boca a boca. Con buscobien, llené mi agenda de remodelaciones porque los clientes me encuentran antes de mudarse.\"",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-              fontStyle: FontStyle.italic,
-            ),
-          ),
-          const SizedBox(height: 20),
-          const Text(
-            "- Arq. Miguel S., Renovaciones Urbanas",
-            style: TextStyle(
-              color: Colors.white70,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-*/
   Widget _buildFooter(Color primary, Color accent) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 20),
@@ -503,15 +462,6 @@ class LandingServiciosPage extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 20),
-          /*
-          TextButton(
-            onPressed: () {},
-            child: Text(
-              "Ver tarifas para proveedores Premium",
-              style: TextStyle(color: primary),
-            ),
-          ),
-          */
         ],
       ),
     );

@@ -34,14 +34,6 @@ class PaginaSinConeccion extends ConsumerWidget {
         backgroundColor: appTheme.error,
         automaticallyImplyLeading: false,
         iconTheme: IconThemeData(size: 14, color: appTheme.onError),
-        /*
-        leading: IconButton(
-          icon: const Icon(Symbols.arrow_back),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-        */
         title: Text(
           "buscobien: error en la aplicación",
           style: TextStyle(
@@ -135,32 +127,6 @@ class PaginaSinConeccion extends ConsumerWidget {
                 ),
               ),
             ),
-            /*
-            SizedBox(
-              width: 200,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.all(3),
-                  backgroundColor: appTheme.error,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                ),
-                child: Text(
-                  '  Regresar ',
-                  style: TextStyle(
-                    color: appTheme.onError,
-                    //backgroundColor: appTheme.onTertiary,
-                    fontSize: 12,
-                    fontFamily: "Comfortaa",
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                // checar regreso
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-            ),
-            */
           ],
         ),
       ),

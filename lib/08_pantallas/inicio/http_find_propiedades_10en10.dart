@@ -11,26 +11,6 @@ import 'data_espacios_casas_get.dart';
 import '../propiedades/data_find_propiedades.dart';
 import 'data_get_valores_menus.dart';
 
-/*
-Para convertir esta función en un provider utilizando Riverpod Generator, 
-seguiremos el patrón de un FutureProvider con parámetros (lo que antes se conocía como .family).
-
-Cambios Clave y Mejoras:
-Parámetros Nombrados: En Riverpod Gen, cuando pasas múltiples argumentos, 
-es mejor usarlos como parámetros nombrados ({required int skip...}) para que el código sea más legible al llamarlo.
-
-Uso de ref.watch: He cambiado ref.read por ref.watch(menuTipoEspaciosProvider). 
-Esto es vital: si el usuario cambia la categoría (ej. de "Normales" a "Remates"), Riverpod detectará el cambio y disparará la petición automáticamente.
-
-Refactorización del Switch: Utilicé la nueva sintaxis de switch de Dart 
-(expresiones switch) para que la asignación de la URL sea mucho más limpia.
-
-Mapeo Funcional: Eliminé el for donde inicializabas manualmente cada campo del 
-objeto vacío. Usar .map() sobre los documentos recibidos es más eficiente y menos propenso a errores de "tecleo".
-
-Seguridad JSON: En lugar de concatenar strings para el cuerpo del POST, cree un 
-mapa de Dart y usé jsonEncode. Esto asegura que el JSON sea válido siempre.
-*/
 part 'http_find_propiedades_10en10.g.dart';
 
 @riverpod
@@ -127,23 +107,3 @@ Future<EspaciosCasaGet> findPropiedadesEstadosde10en10(
   }
 }
 
-/*
-Cómo llamar a este provider en tu UI:
-Dart
-
-@override
-Widget build(BuildContext context, WidgetRef ref) {
-  // Solo pasas los parámetros. Riverpod se encarga del caché y el estado.
-  final propiedadesAsync = ref.watch(findPropiedadesEstadosde10en10Provider(
-    skip: paramSkip,
-    limit: paramLimit,
-    valueQry: miQueryObject,
-  ));
-
-  return propiedadesAsync.when(
-    data: (data) => _buildLista(data.rows),
-    loading: () => const CircularProgressIndicator(),
-    error: (err, stack) => Text('Error: $err'),
-  );
-}
-*/

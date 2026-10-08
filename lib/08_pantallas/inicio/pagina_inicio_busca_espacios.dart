@@ -258,17 +258,6 @@ class _PaginaBuscaEspaciosState extends ConsumerState<PaginaBuscaEspacios> {
           (previous.indiceTipoEspacio != next.indiceTipoEspacio) ||
           (previous.indiceTipoTransaccion != next.indiceTipoTransaccion)) {
         // Esto se ejecuta de forma segura fuera de la fase de construcción
-        /*
-        CAMBIO POR EL PROVIDER
-                listaPropiedades(
-                  ref,
-                  paramSkip,
-                  numerodefichas,
-                  ref.watch(currentQueryProvider),
-                ).then((onValue) {
-                  listaPropiedadesVar = onValue;
-                });
-        */
         ref.invalidate(
           viewCountFilterPropiedadesProvider(ref.watch(currentQueryProvider)),
         );
@@ -311,9 +300,6 @@ class _PaginaBuscaEspaciosState extends ConsumerState<PaginaBuscaEspacios> {
       ),
       body: Row(
         children: [
-          // 1. NavigationRail Lateral (Solo si el ancho > 600)
-          //SliverToBoxAdapter(child: LandingBusquedaPage()),
-          // 2. CATEGORÍAS RÁPIDAS
           if ((!esPantallaCorta) &&
               (ref.watch(homeNavigationProvider).indicePrincipal >= 0) &&
               (ref.watch(homeNavigationProvider).indicePrincipal <= 3))

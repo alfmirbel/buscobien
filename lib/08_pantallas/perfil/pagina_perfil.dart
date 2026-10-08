@@ -213,12 +213,6 @@ class PaginaPerfilWidgetState extends ConsumerState<PaginaPerfilWidget> {
 
     // Determinar Rol a mostrar
     final String rolUsuario = sessionData.nombrePerfil;
-    /*
-        ? (userRow.datospromotor.inmobiliaria.isNotEmpty
-              ? "Inmobiliaria"
-              : "Promotor")
-        : sessionData.nombrePerfil;
-    */
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       padding: const EdgeInsets.only(bottom: 40),

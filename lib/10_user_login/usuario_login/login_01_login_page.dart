@@ -421,10 +421,6 @@ class _DropdownTipoUsuarioState extends ConsumerState<DropdownTipoUsuario> {
               );
             }).toList(),
 
-            // FASE 4 (26-05-18): setNombrePerfil() ya llama internamente a
-            // setPerfilUsuarioByNombrePerfil(), que establece todos los flags
-            // de rol en un solo copyWith. Las 9 llamadas a setRoleFlag() eran
-            // redundantes y generaban 9 reconstrucciones innecesarias del árbol.
             onChanged: (String? newValue) {
               if (newValue != null && newValue != _selectedValue) {
                 setState(() => _selectedValue = newValue);

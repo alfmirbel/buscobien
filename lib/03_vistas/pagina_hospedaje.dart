@@ -456,67 +456,6 @@ class LandingHospedajePage extends ConsumerWidget {
   // ---------------------------------------------------------------------------
   // 4. BANNER INGRESOS
   // ---------------------------------------------------------------------------
-  /*
-  Widget _buildBannerIngresos(
-    BuildContext context,
-    WidgetRef ref,
-    Color accent,
-  ) {
-    return Container(
-      margin: const EdgeInsets.all(20),
-      padding: const EdgeInsets.all(30),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        image: DecorationImage(
-          image: NetworkImage(
-            "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1000&q=80",
-          ),
-          fit: BoxFit.cover,
-          colorFilter: ColorFilter.mode(
-            appTheme.primary.withValues(alpha: 0.85),
-            BlendMode.srcOver,
-          ),
-        ),
-      ),
-      child: Column(
-        children: [
-          const Icon(Symbols.savings, color: Colors.white, size: 50),
-          const SizedBox(height: 20),
-          const Text(
-            "¿Cuánto podrías ganar?",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 10),
-          const Text(
-            "Descubre el potencial de tu propiedad con nuestra calculadora de ingresos.",
-            textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.white70, fontSize: 16),
-          ),
-          const SizedBox(height: 30),
-          ElevatedButton(
-            onPressed: () => _irAPublicar(ref, context),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.white,
-              foregroundColor: appTheme.primary,
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30),
-              ),
-            ),
-            child: const Text(
-              "Calcular Ingresos",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-  */
   // ---------------------------------------------------------------------------
   // 5. FOOTER
   // ---------------------------------------------------------------------------

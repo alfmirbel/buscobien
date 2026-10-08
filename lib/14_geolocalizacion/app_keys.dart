@@ -29,18 +29,6 @@ const String GOOGLE_MAPS_KEY = String.fromEnvironment('GOOGLE_MAPS_KEY');
 //----------------------------------------------------------------------------
 // Cómo configurar minSDK de Android
 // android/app/build.gradle
-/*
-android {
-    defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.example.google_maps_in_flutter"
-        minSdkVersion 20                      // Update from 16 to 20
-        targetSdkVersion 30
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
-    }
-}
-*/
 
 //----------------------------------------------------------------------------
 //----------------------------------------------------------------------------
@@ -86,28 +74,6 @@ android/app/src/main/AndroidManifest.xml
 */
 
 // Cómo agregar una clave de API a una app para iOS
-/*
-ios/Runner/AppDelegate.swift
-
-import UIKit
-import Flutter
-import GoogleMaps  // Add this import
-
-@UIApplicationMain
-@objc class AppDelegate: FlutterAppDelegate {
-  override func application(
-    _ application: UIApplication,
-    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
-  ) -> Bool {
-    GeneratedPluginRegistrant.register(with: self)
-
-    // TODO: Add your Google Maps API key
-    GMSServices.provideAPIKey("YOUR-API-KEY")
-
-    return super.application(application, didFinishLaunchingWithOptions: launchOptions)
-  }
-}
-*/
 // Cómo agregar una clave de API a una app web
 /*
 web/index.html
@@ -134,48 +100,3 @@ web/index.html
 */
 //-----------------------------------------------------------------------------
 // Cómo mostrar un mapa en la pantalla
-/*
-lib/main.dart
-
-import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-
-void main() => runApp(const MyApp());
-
-class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  late GoogleMapController mapController;
-
-  final LatLng _center = const LatLng(45.521563, -122.677433);
-
-  void _onMapCreated(GoogleMapController controller) {
-    mapController = controller;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Maps Sample App'),
-          backgroundColor: Colors.green[700],
-        ),
-        body: GoogleMap(
-          onMapCreated: _onMapCreated,
-          initialCameraPosition: CameraPosition(
-            target: _center,
-            zoom: 11.0,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-*/

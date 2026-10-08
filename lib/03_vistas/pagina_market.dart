@@ -428,45 +428,6 @@ class LandingMarketPage extends ConsumerWidget {
     );
   }
 
-  /*
-  Widget _buildBrandPartners() {
-    return Container(
-      width: double.infinity,
-      color: Colors.grey[100],
-      padding: const EdgeInsets.symmetric(vertical: 30),
-      child: Column(
-        children: [
-          const Text(
-            "Impulsando ventas de marcas líderes",
-            style: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 20),
-          Wrap(
-            spacing: 30,
-            children: [
-              _brandText("Comex"),
-              _brandText("Interceramic"),
-              _brandText("Liverpool"),
-              _brandText("Gaia"),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-*/
-  /*
-  Widget _brandText(String text) {
-    return Text(
-      text,
-      style: TextStyle(
-        fontSize: 20,
-        fontWeight: FontWeight.w900,
-        color: Colors.grey[400],
-      ),
-    );
-  }
-*/
   Widget _buildFooter(Color primary, Color accent) {
     return Container(
       width: double.infinity,

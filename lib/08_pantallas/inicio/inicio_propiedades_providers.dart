@@ -72,12 +72,6 @@ VariablesViewQuery currentQuery(Ref ref) {
           '{"espacioscasa.tipodepropiedad": {"\$eq": "$selectedDropDownMenuPrincipalValue"}}';
       //            '{"\$or": [{"espacioscasa.tipodepropiedad": {"\$eq": "Oficina"}}, {"espacioscasa.tipodepropiedad": {"\$eq": "Local"}}, {"espacioscasa.tipodepropiedad": {"\$eq": "Terreno"}}, {"espacioscasa.tipodepropiedad": {"\$eq": "Otros"}}]}';
       break;
-    /*
-    default:
-      varValoresMenus.etiquetaMenuPrincipal = selectedDropdownValue;
-       varValoresMenus.queryTipoPropiedad =
-          '{"espacioscasa.tipodepropiedad": {"\$eq": "${varValoresMenus.etiquetaMenuPrincipal}"}}';
-    */
   }
   // "TuCuenta"
   // "Inicio

@@ -28,11 +28,6 @@ class PdfGeneratorService {
 
     // --- 1. CARGAR FUENTES (Esencial para Web y Móvil) ---
     // Usamos PdfGoogleFonts para asegurar que se vean igual en todos lados
-    /*
-    final fontBase = await PdfGoogleFonts.openSansRegular();
-    final fontBold = await PdfGoogleFonts.openSansBold();
-    final fontIcons = await PdfGoogleFonts.materialIcons();
-    */
     // --- 2. CARGAR IMÁGENES ---
     // a. Cargar Foto Principal
     Uint8List? mainImageBytes;

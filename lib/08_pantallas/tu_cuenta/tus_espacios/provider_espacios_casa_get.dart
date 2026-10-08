@@ -175,10 +175,6 @@ class ClassCompraEspaciosNotifierProvider extends Notifier<ListaEspaciosCasa> {
     String idPropiedad,
     String tipoEspacio,
     Map<String, String> tabla,
-    /*
-    final Map<String, String> endpointsCaptura 
-    final Map<String, String> endpointsPublicados
-    */
   ) async {
     debugPrintLevels(10, 'HTTP getPropiedadCasaIdPropiedad');
     EspaciosCasaGet resultado = EspaciosCasaGet(
@@ -249,9 +245,6 @@ class ClassCompraEspaciosNotifierProvider extends Notifier<ListaEspaciosCasa> {
 
       Map<String, String> headers = _getHeaders();
 
-      // Selección de URL basada en tipo de anuncio (Manejo robusto con Map fallback o switch)
-      // Ajuste: usar clave capitalizada para coincidir con el Map endpointsCaptura si es necesario
-      //String keyMap = "Normales"; // Default
       if (endpointsCaptura.containsKey(tipoanuncio)) {
         // Asumiendo que tipoanuncio coincide con las keys del mapa, si no, mantener el switch original logic
       }
@@ -661,9 +654,6 @@ class ClassCompraEspaciosNotifierProvider extends Notifier<ListaEspaciosCasa> {
         );
         break;
     }
-    // IMPORTANTE: En Riverpod Notifier, modificar una propiedad interna NO notifica a los listeners.
-    // Si necesitas reactividad en la UI tras este set, debes ejecutar: state = state;
-    // O crear una copia del objeto.
   }
 
   //-----------------------------------------------------------------------------

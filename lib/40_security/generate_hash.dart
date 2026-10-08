@@ -31,8 +31,3 @@ bool validaPassword(String password, String hashPassword) {
   }
 }
 
-/*
-String myText = "Hola, mundo!";
-String hash = generateMD5Hash(myText);
-print(hash);
-*/

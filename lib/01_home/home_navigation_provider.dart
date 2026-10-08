@@ -92,37 +92,3 @@ class HomeNavigation extends _$HomeNavigation {
   }
 }
 
-/*
-@riverpod
-class HomeNavigation extends _$HomeNavigation {
-  @override
-  HomeState build() {
-    return const HomeState();
-  }
-
-  void actualizarPrincipal(int index) {
-    state = state.copyWith(indicePrincipal: index, version: state.version + 1);
-  }
-
-  void actualizarNivelGobierno(int index) {
-    state = state.copyWith(
-      indiceNivelGobierno: index,
-      version: state.version + 1,
-    );
-  }
-
-  void actualizarTipoEspacio(int index) {
-    state = state.copyWith(
-      indiceTipoEspacio: index,
-      version: state.version + 1,
-    );
-  }
-
-  void actualizarTipoTransaccion(int index) {
-    state = state.copyWith(
-      indiceTipoTransaccion: index,
-      version: state.version + 1,
-    );
-  }
-}
-*/

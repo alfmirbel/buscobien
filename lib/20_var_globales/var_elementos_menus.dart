@@ -81,11 +81,6 @@ Villa
 // Lista de opciones basada en las Landing Pages que desarrollamos
 ElementosMenus iconoInicio = ElementosMenus("Inicio", Symbols.home);
 // Index 0: Búsqueda (LandingBusquedaPage)
-/*
-ElementosMenus iconoPropiedades = ElementosMenus(
-  "Propiedades",
-  Symbols.home_work,
-);*/
 ElementosMenus iconoVerPropiedades = ElementosMenus(
   "Propiedades",
   Symbols.person_search,
@@ -129,16 +124,6 @@ ElementosMenus iconoInmobiliarias = ElementosMenus(
 // "Otros inmuebles"
 // "Localidad"
 // "Perfil"
-/*
-List<ElementosMenus> elementosMenuPrincipal = [
-  iconoTuCuenta,
-  iconoCasas, // menu principal
-  iconoDepartamentos,
-  iconoOtrosInmuebles,
-  iconoLocalidad,
-  iconoPerfil,
-];
-*/
 ElementosMenus iconoTuCuenta = ElementosMenus(
   "Mi cuenta",
   Symbols.account_circle,
@@ -185,28 +170,12 @@ List<ElementosMenus> elementosMenuTipoDePropiedades = [
   iconoTerrenos,
   iconoOtrosInmuebles,
 ];
-/*
-ElementosMenus iconoCasas = ElementosMenus(
-  "Casas",
-  Symbols.house,
-);
-ElementosMenus iconoDepartamentos = ElementosMenus(
-  "Departamentos",
-  Symbols.apartment,
-);
-*/
 
 ElementosMenus iconoOficinas = ElementosMenus("Oficinas", Symbols.business);
 ElementosMenus iconoLocales = ElementosMenus("Locales", Symbols.warehouse);
 ElementosMenus iconoTerrenos = ElementosMenus("Terrenos", Symbols.layers);
 ElementosMenus iconoOtrosInmuebles = ElementosMenus("Otros", Symbols.warehouse);
 // Menu de inicio -------------------------------------------------------------
-/*List<ElementosMenus> elementosMenuTusPropiedades = [
-  iconoTusPropiedades, // menu principal
-  iconoTusGrupos,
-  iconoTusConocidos,
-];
-*/
 ElementosMenus iconoTusEspacios = ElementosMenus(
   "Mis Espacios",
   Symbols.account_circle,
@@ -226,15 +195,6 @@ List<String> etiquetasMenuTuCuenta = [
 ];
 
 // Menu de tipo de espacios -------------------------------------------------------------
-/*
-List<ElementosMenus> elementosMenuTipoDeEspacio = [
-  iconoNormales, // menu principal
-  iconoDestacados,
-  iconoSuperdestacados,
-  iconoOportunidades,
-  iconoRemates,
-];
-*/
 ElementosMenus iconoNormales = ElementosMenus(
   "Normales",
   // Symbols.add_shopping_cart,
@@ -250,27 +210,7 @@ ElementosMenus iconoOportunidades = ElementosMenus(
   Symbols.recommend,
 );
 ElementosMenus iconoRemates = ElementosMenus("Remates", Symbols.paid);
-/*
-List<String> etiquetasMenuTipoDeEspacio = [
-  "Normales",
-  "Destacados", // menu principal
-  "Superdestacados",
-  "Oportunidades",
-  "Remates",
-];
-*/
 // Menu de Casas --------------------------------------
-/*
-List<ElementosMenus> elementosMenuTipoDePublicacion = [
-  iconoTodas,
-  iconoVenta,
-  iconoRenta,
-  iconoVentaRenta,
-  iconoTraspaso,
-  iconoPreventa,
-  // iconoBuscar
-];
-*/
 ElementosMenus iconoTodas = ElementosMenus("Todas", Symbols.real_estate_agent);
 ElementosMenus iconoVenta = ElementosMenus("Venta", Symbols.sell);
 ElementosMenus iconoRenta = ElementosMenus("Renta", Symbols.key);
@@ -294,12 +234,6 @@ ElementosMenus iconoTraspasoSolid = ElementosMenus(
   "Traspaso",
   Symbols.swap_horizontal_circle,
 );
-/*
-ElementosMenus iconoPreventa = ElementosMenus(
-  "Preventa",
-  Symbols.deck,
-);
-*/
 // Menu de Conocidos --------------------------------------
 List<ElementosMenus> elementosMenuConocidos = [
   iconoConocidos, //
@@ -408,13 +342,6 @@ ElementosMenus iconoProblemas = ElementosMenus(
   "Problemas",
   Symbols.report_problem,
 );
-/*
-ElementosMenus iconoServicios = ElementosMenus(
-  "Servicios",
-  //Symbols.contact_emergency,
-  Symbols.check_box,
-);
-*/
 ElementosMenus iconoReportes = ElementosMenus("Resportes", Symbols.report);
 ElementosMenus iconoQuejas = ElementosMenus(
   "Quejas",
@@ -429,15 +356,6 @@ ElementosMenus iconoLocalidad = ElementosMenus(
   "Asentamiento",
   Symbols.location_on,
 );
-/*
-List<ElementosMenus> elementoElementoMenuUbicacion = [
-  iconoColonia,
-  iconoCP,
-  iconoMunicipio,
-  iconoEstado,
-  iconoNacional,
-];
-*/
 ElementosMenus iconoColonia = ElementosMenus("Colonia", Symbols.location_on);
 //ElementosMenus iconoColonia = ElementosMenus("Zona", Symbols.my_location);
 ElementosMenus iconoCP = ElementosMenus("C.P.", Symbols.markunread_mailbox);
@@ -482,12 +400,6 @@ ElementosMenus iconoSinCuenta = ElementosMenus(
   "Sin cuenta",
   Symbols.no_accounts,
 );
-/*
-ElementosMenus iconoPerfil = ElementosMenus(
-  "Perfil",
-  Symbols.manage_accounts,
-);
-*/
 //------------------------------------------------------------------------------
 
 ElementosMenus iconoTemas = ElementosMenus("Temas", Symbols.library_books);

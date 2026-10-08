@@ -16,32 +16,10 @@ import 'provider_listas_propiedades.dart';
 // CAMBIOS DE FETCH Y DELETE
 // -----------------------------------------------------------------------------
 
-// Asegúrate de importar tus archivos de configuración y providers
-// import '../20_var_globales/var_globales.dart';
-// import 'provider_listas_propiedades.dart';
-// import 'data_user_list_model.dart';
 
 class PageDetalleLista extends ConsumerStatefulWidget {
   final Lista lista;
-  /*
-  class Lista {
-    String listaId;
-    String userId;
-    String listName;
-    String type;
-    String timestamp;
-  */
   // Ajustado al modelo que usas en el provider
-  /*
-  class Listapropiedad {
-    String listapropiedadId; // ID del documento en CouchDB
-    String userId;
-    String listaId;
-    String propertyId;
-    String tipodeespacio;
-    String type;
-    String timestamp;
-  */
 
   const PageDetalleLista(this.lista, {super.key});
 
@@ -180,11 +158,6 @@ class _PageDetalleListaState extends ConsumerState<PageDetalleLista> {
               itemCount: listaProvider.rows.length,
               separatorBuilder: (context, index) => const SizedBox(height: 16),
               itemBuilder: (context, index) {
-                //rowListProperty = listaProvider.rows[index];
-                // Datos de la relación (Tabla intermedia)
-                //listapropiedadId =
-                //    rowListProperty.listapropiedad.listapropiedadId;
-                //propertyId = rowListProperty.listapropiedad.propertyId;
                 debugPrintLevels(
                   12,
                   "Detalle lista, ListView $index propertyId: ${listaProvider.rows[index].listapropiedad.propertyId}",

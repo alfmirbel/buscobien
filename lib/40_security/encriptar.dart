@@ -4,10 +4,6 @@
 import 'package:encrypt/encrypt.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-/*
-const String iv = "aRandomStringForEncryption";
-const String key = "aRandomStringForEncryption";
-*/
 Key key32 = Key.fromSecureRandom(32);
 IV iv16 = IV.fromSecureRandom(16);
 

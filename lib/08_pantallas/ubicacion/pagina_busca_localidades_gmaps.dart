@@ -44,9 +44,6 @@ class PaginaBuscaLocalidadGMapsState
     debugPrintLevels(1, " 1. PaginaBuscaLocalidadGMaps initState");
     debugPrintLevels(1, " **************************************************");
 
-    // Inicializamos cp con el valor actual del provider (una sola vez)
-    // Dentro de un ConsumerWidget o ConsumerState
-    // cp será un int? (puede ser null)
 
     if (ref.read(codigoPostalBusquedaProvider) == null) {
       valorActualProvider = ref
@@ -274,32 +271,6 @@ class PaginaBuscaLocalidadGMapsState
                     myLocationEnabled: true,
                     compassEnabled: true,
                   ),
-                  /*GoogleMap(
-                    onMapCreated: (GoogleMapController controller) {
-                      // Asignamos el controlador.
-                      // NOTA: Asegúrate de que 'ubicacionActualProvider' no sea null.
-                      mapController = controller;
-                      ref.read(ubicacionActualProvider).mapController =
-                          controller;
-                      // Opcional: Completa el controlador si usas un Completer en tu lógica
-                      // if (!_controller.isCompleted) _controller.complete(controller);
-                    },
-                    initialCameraPosition: ubicacionActual.posicionCamara,
-                    markers: ubicacionActual.marcadores,
-                    mapType: MapType.normal,
-
-                    // Configuraciones de UI
-                    myLocationEnabled:
-                        true, // Muestra el punto azul (requiere permisos)
-                    myLocationButtonEnabled:
-                        true, // Botón para centrar en mi ubicación
-                    compassEnabled: true, // Brújula
-                    zoomControlsEnabled:
-                        true, // Botones +/- (útil en Web/Android)
-                    mapToolbarEnabled:
-                        true, // Barra de herramientas al tocar un marcador
-                  ),
-                  */
                   /*
                  
                   */
@@ -309,35 +280,6 @@ class PaginaBuscaLocalidadGMapsState
             const SizedBox(
               height: 30,
             ), // Espacio extra antes del botón inferior
-            /*
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.all(3),
-                backgroundColor: appTheme.surface,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-              ),
-              child: Text(
-                'Actualizar',
-                style: TextStyle(
-                  color: appTheme.primary,
-                  fontSize: 12,
-                  fontFamily: "Comfortaa",
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              onPressed: () {
-                // setState redibujará el widget obteniendo los valores frescos del watch
-                setState(() {
-                  debugPrintLevels(
-                    0,
-                    "-- 5. PaginaBuscaLocalidadGMaps setState manual",
-                  );
-                });
-              },
-            ),
-            */
           ],
         ),
       ),
