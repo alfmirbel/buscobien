@@ -1,7 +1,6 @@
 import 'package:buscobien/10_user_login/usuario_login/provider_session.dart';
 import '../10_user_login/avatar/provider_get_avatar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../01_home/home_navigation_provider.dart';
 import '../01_home/home_state.dart';

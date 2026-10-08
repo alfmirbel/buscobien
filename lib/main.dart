@@ -8,7 +8,6 @@ import 'package:buscobien/07_routes/deep_link_handler.dart';
 import 'package:buscobien/20_var_globales/var_color_themes.dart';
 import 'package:buscobien/20_var_globales/var_login.dart';
 import 'package:buscobien/20_var_globales/variables_globales.dart';
-import 'package:buscobien/20_var_globales/var_de_estilo_widgets.dart';
 import 'package:buscobien/60_global_widgets/debugprint.dart';
 
 void main() {

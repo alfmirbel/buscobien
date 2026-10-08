@@ -77,15 +77,6 @@ class PaginaDetalleWidgetState extends ConsumerState<PaginaDetalleWidget> {
     final espacios = widget.propiedad.espacioscasa;
     final ubicacion = espacios.ubicacioncasa;
     final contacto = espacios.datosdelcontactocasa;
-    final listamasdatos = widget.propiedad.espacioscasa.datosadicionalescasa;
-    int indexMasDatos = 0;
-    String etiquetaMasDatos = "";
-
-    double padMargenL = 90;
-    double padMargenR = 90;
-    double padMargenT = 50;
-    double padMargenB = 50;
-
     return LayoutBuilder(
       builder: (context, constraints) {
         final isNarrow = constraints.maxWidth < smallScreenMin;

@@ -1,7 +1,6 @@
 import 'package:buscobien/01_home/home_state.dart';
 import 'package:buscobien/08_pantallas/inicio/http_find_propiedades_10en10.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';
 

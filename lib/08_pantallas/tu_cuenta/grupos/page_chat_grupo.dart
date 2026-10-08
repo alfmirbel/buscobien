@@ -1,22 +1,12 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:http/http.dart' as http;
 import 'package:material_symbols_icons/symbols.dart';
 
 import 'package:buscobien/20_var_globales/format_chat_timestamp.dart';
-import 'package:buscobien/20_var_globales/var_de_estilo_widgets.dart';
 import 'package:buscobien/20_var_globales/var_color_themes.dart';
 import 'package:buscobien/20_var_globales/variables_globales.dart';
 
-import 'package:buscobien/40_security/direccionip.dart';
-import 'package:buscobien/60_global_widgets/debugprint.dart';
-import 'package:buscobien/08_pantallas/inicio/data_espacios_casas_get.dart';
-import 'package:buscobien/22_imagenes/tus_espacios_fotos_propiedad/manejo_de_fotos/lista_ids_fotos/data_fotos_get_ids_fotos_user_prop.dart';
-import 'package:buscobien/08_pantallas/propiedades/pagina_detalle_propiedad.dart';
-import 'package:buscobien/03_listas/models/lista_compartida_model.dart';
-import 'package:buscobien/03_listas/pagina_detalle_lista_compartida.dart';
 import 'models/mensaje_grupo_model.dart';
 import 'providers/grupos_mensajes_provider.dart';
 
