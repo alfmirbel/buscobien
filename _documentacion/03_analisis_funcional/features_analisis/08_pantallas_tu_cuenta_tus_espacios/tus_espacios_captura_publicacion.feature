@@ -18,7 +18,7 @@ Funcionalidad: Tus Espacios — Captura y Publicación de Propiedades
     Y muestra CTAs: Crear nueva ficha, Editar (por cada una), Comprar
     Y el menuTipoEspaciosProvider permite filtrar por categoría
 
-  # NOTA (2026-10-07): CreaFichaCapturaPropiedad es la tarjeta de la propiedad, no un formulario de alta;
+  # NOTA (2026-10-07): FichaPropiedadCard es la tarjeta de la propiedad, no un formulario de alta;
   # el alta ocurre al comprar espacios y los campos se capturan en PaginaEditaEspacio (Stepper).
   @pendiente
   @REQ-ESP-005 @REQ-ESP-010 @mapeo-auto

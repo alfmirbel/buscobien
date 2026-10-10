@@ -27,7 +27,7 @@
 - `propiedades/`: `data_find_propiedades.dart`, `pagina_detalle_propiedad.dart`, `pagina_detalle_propiedad_pdf.dart`
 - `tu_cuenta/conocidos/`: `conocidos_view.dart`, `invitacion_model.dart`, `mensaje_model.dart`, `models/conocido.dart`, `models/conocido.freezed.dart`, `models/conocido.g.dart`, `page_chat_privado.dart`, `page_descubrir_usuarios.dart`, `page_invitaciones.dart`, `page_mis_contactos.dart`, `page_perfil_contacto.dart`, `provider_mensajes.dart`, `providers/conocidos_notifier.dart`, `social_providers.dart`
 - `tu_cuenta/grupos/`: `grupos_view.dart`, `models/aviso_grupo_model.dart`, `models/grupo.dart`, `models/grupo.freezed.dart`, `models/grupo.g.dart`, `models/grupo_model.dart`, `models/invitacion_grupo_model.dart`, `models/mensaje_grupo_model.dart`, `models/publicacion_grupo_model.dart`, `page_chat_grupo.dart`, `page_descubrir_grupos.dart`, `page_detalle_grupo.dart`, `page_invitaciones_grupo.dart`, `page_mis_grupos.dart`, `providers/avisos_grupo_provider.dart`, `providers/grupos_invitaciones_provider.dart`, `providers/grupos_mensajes_provider.dart`, `providers/grupos_notifier.dart`, `providers/publicaciones_grupo_provider.dart`
-- `tu_cuenta/tus_espacios/`: `compra_espacios/data_compra_espacios.dart`, `compra_espacios/data_compra_espacios_get.dart`, `compra_espacios/form_compra_espacios.dart`, `compra_espacios/provider_compra_espacios.dart`, `form_crea_ficha_captura_propiedad.dart`, `form_update_espacio_comprado.dart`, `http_publica_propiedad.dart`, `pagina_tus_espacios.dart`, `provider_espacios_casa_get.dart`, `tabla_tipopropiedad_vs_campos.dart`
+- `tu_cuenta/tus_espacios/`: `compra_espacios/data_compra_espacios.dart`, `compra_espacios/data_compra_espacios_get.dart`, `compra_espacios/form_compra_espacios.dart`, `compra_espacios/provider_compra_espacios.dart`, `ficha_propiedad_card.dart`, `form_update_espacio_comprado.dart`, `http_publica_propiedad.dart`, `pagina_tus_espacios.dart`, `provider_espacios_casa_get.dart`, `tabla_tipopropiedad_vs_campos.dart`
 - `ubicacion/`: `data_localidad_find.dart`, `data_sepomex_localidades.dart`, `data_sepomex_localidades.freezed.dart`, `data_sepomex_localidades.g.dart`, `data_sepomex_localidades_get_cp.dart`, `pagina_busca_localidades_gmaps.dart`, `pagina_principal_localidades.dart`, `provider_localidades_del_cp.dart`, `screen_maestro_localidades.dart`
 - `widgets_comunes/`: `widget_letrero_tipo_transaccion.dart`
 
@@ -61,7 +61,7 @@
 ### `tu_cuenta/tus_espacios`
 - **Providers:** `provider_espacios_casa_get.dart`, `compra_espacios/provider_compra_espacios.dart`
 - **Modelos:** `compra_espacios/data_compra_espacios.dart`, `compra_espacios/data_compra_espacios_get.dart`
-- **Páginas:** `pagina_tus_espacios.dart`, `form_crea_ficha_captura_propiedad.dart`, `form_update_espacio_comprado.dart`, `http_publica_propiedad.dart`, `tabla_tipopropiedad_vs_campos.dart`
+- **Páginas:** `pagina_tus_espacios.dart`, `ficha_propiedad_card.dart`, `form_update_espacio_comprado.dart`, `http_publica_propiedad.dart`, `tabla_tipopropiedad_vs_campos.dart`
 
 ### `ubicacion`
 - **Providers:** `provider_localidades_del_cp.dart`
@@ -110,6 +110,6 @@
 | REQ-09 | Listas/Compartir | (implementado en `03_listas`, no en `08_pantallas`) |
 | REQ-10 | Grupos/Social | `grupos_view.dart`, `page_mis_grupos.dart`, `page_descubrir_grupos.dart`, `page_detalle_grupo.dart`, `page_invitaciones_grupo.dart`, `page_chat_grupo.dart`, providers y models de grupos |
 | REQ-11 | Conocidos/Chat | `conocidos_view.dart`, `page_mis_contactos.dart`, `page_invitaciones.dart`, `page_descubrir_usuarios.dart`, `page_chat_privado.dart`, `page_perfil_contacto.dart`, providers y models conocidos |
-| REQ-12 | Tus espacios/CRUD/Compra | `pagina_tus_espacios.dart`, `form_crea_ficha_captura_propiedad.dart`, `form_update_espacio_comprado.dart`, `http_publica_propiedad.dart`, `compra_espacios/*`, `tabla_tipopropiedad_vs_campos.dart` |
+| REQ-12 | Tus espacios/CRUD/Compra | `pagina_tus_espacios.dart`, `ficha_propiedad_card.dart`, `form_update_espacio_comprado.dart`, `http_publica_propiedad.dart`, `compra_espacios/*`, `tabla_tipopropiedad_vs_campos.dart` |
 | REQ-13 | Imágenes/Fotos | (implementado en `22_imagenes`, referenciado parcialmente) |
 | REQ-14 | Perfil/Prefs | `perfil/pagina_perfil.dart` |

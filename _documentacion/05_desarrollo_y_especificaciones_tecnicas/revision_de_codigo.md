@@ -125,6 +125,21 @@ Métricas actuales: `flutter analyze` = 0 hallazgos; `flutter test` = 9 pruebas 
 
 Métricas actuales: `flutter analyze` = 0 hallazgos; `flutter test` = 16 pruebas verdes.
 
+## 3.7 Estado tras la Fase 2 (2026-10-09)
+
+| Hallazgo | Estado | Commit |
+| :--- | :--- | :--- |
+| H-10 / H-11 campos sin teclado ni validación | **Resuelto** (MEJ-13): `CampoTexto` + `Validadores` (`60_global_widgets/campo_texto.dart`) en edición, compra de espacios y registro. **Corrección:** el parámetro `expRegular` del antiguo helper nunca se aplicaba; no había validación por expresión regular | `ff40269`, `809bf50` |
+| H-12 formularios gigantes | **Resuelto** (MEJ-14/15): edición 2.175→666 líneas (campos en `edicion/campos_edicion.dart`, acceso en `edicion/acceso_campos.dart`); tarjeta 1.510→722 (+ `ficha_propiedad_dialogos.dart`, `ficha_propiedad_filas.dart`), renombrada a `FichaPropiedadCard` | `ff40269`, `bf6000d` |
+| H-14 doble envío | **Parcial** (MEJ-16): guardado de edición y compra protegidos; falta *debounce* en búsquedas | `809bf50` |
+| **H-31** (nuevo) el formulario de edición informaba éxito aunque CouchDB fallara | **Resuelto**: se muestra el código de error y no se cierra la pantalla | `ff40269` |
+| **H-32** (nuevo) setters de `linkinmobiliaria`/`sloganinmobiliaria` escribían en `inmobiliariaimagen`; faltaban `entrecalle01/02`; el CP se mostraba sin ceros a la izquierda | **Resuelto** y cubierto por prueba de ida y vuelta de los 68 campos | `ff40269` |
+| **H-33** (nuevo) el registro rechazaba correos de más de 20 caracteres (límite de la clave aplicado a todos los campos) | **Resuelto**: correo/teléfono validados por tipo; la clave exige 8–20 caracteres | `809bf50` |
+
+Aviso: los nuevos validadores pueden impedir guardar registros antiguos con texto libre en campos numéricos hasta corregirlos (solo el nombre de la propiedad es obligatorio). Probar a mano con datos reales. MEJ-17 (tabla de campos a configuración) sigue como P3.
+
+Métricas actuales: `flutter analyze` = 0 hallazgos; `flutter test` = 29 pruebas verdes.
+
 ## 4. Fortalezas observadas
 
 - Estructura modular clara (`NN_modulo`) y nombres consistentes; los 199 archivos están inventariados.

@@ -1,6 +1,6 @@
 # Índice de historias de usuario
 
-**Generado:** 2026-10-07 por [`generar_indice_historias.py`](../generar_indice_historias.py) — no editar a mano.  
+**Generado:** 2026-10-09 por [`generar_indice_historias.py`](../generar_indice_historias.py) — no editar a mano.  
 **Total:** 129 historias en 26 archivos (uno por módulo de `lib/`). Cada módulo tiene su Epic en [`epics_ears/`](../epics_ears/).
 
 | Módulo | Archivo | Historias | REQ en la Epic |

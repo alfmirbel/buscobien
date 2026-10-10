@@ -124,7 +124,7 @@ Gestión de comunidades y espacios grupales (estilo foros o chats inmobiliarios)
 
 ### 7.4 Módulo tu_cuenta/tus_espacios (Gestor del Promotor/Propietario)
 
-Donde el usuario administrador sube e inventaría sus inmuebles. * __pagina_tus_espacios.dart__ * __Contenido:__ El “Dashboard” del promotor. Pantalla donde se listan todas las propiedades que ha dado de alta. * __form_crea_ficha_captura_propiedad.dart, form_update_espacio_comprado.dart__ * __Contenido:__ Formularios extensos que recopilan datos duros de la propiedad (precio, recámaras, m2, descripción). Utilizan controladores de texto y validación de formularios (FormKey). * __compra_espacios/form_compra_espacios.dart__ * __Contenido:__ Interfaz dedicada al proceso comercial (pasarela) donde el promotor puede adquirir “espacios/fichas” adicionales para publicar.
+Donde el usuario administrador sube e inventaría sus inmuebles. * __pagina_tus_espacios.dart__ * __Contenido:__ El “Dashboard” del promotor. Pantalla donde se listan todas las propiedades que ha dado de alta. * __ficha_propiedad_card.dart, form_update_espacio_comprado.dart__ * __Contenido:__ Formularios extensos que recopilan datos duros de la propiedad (precio, recámaras, m2, descripción). Utilizan controladores de texto y validación de formularios (FormKey). * __compra_espacios/form_compra_espacios.dart__ * __Contenido:__ Interfaz dedicada al proceso comercial (pasarela) donde el promotor puede adquirir “espacios/fichas” adicionales para publicar.
 
 ### 7.5 Módulo ubicacion (Directorios y Coordenadas)
 

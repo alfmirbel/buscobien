@@ -113,7 +113,7 @@
 | 08_pantallas | tu_cuenta/tus_espacios/compra_espacios/data_compra_espacios_get.dart | Modelo de datos | CompraEspacioGet, RowCompraEspacio, ValueCompraEspacio |
 | 08_pantallas | tu_cuenta/tus_espacios/compra_espacios/form_compra_espacios.dart | Widget | PaginaCompraEspacios, PaginaCompraEspaciosState |
 | 08_pantallas | tu_cuenta/tus_espacios/compra_espacios/provider_compra_espacios.dart | Provider | ClassCompraEspaciosNotifierProvider |
-| 08_pantallas | tu_cuenta/tus_espacios/form_crea_ficha_captura_propiedad.dart | Widget | ConceptoEspacioRow, UbicacionEspacioRow, CreaFichaCapturaPropiedad, _CreaFichaCapturaPropiedadState |
+| 08_pantallas | tu_cuenta/tus_espacios/ficha_propiedad_card.dart | Widget | ConceptoEspacioRow, UbicacionEspacioRow, FichaPropiedadCard, _FichaPropiedadCardState |
 | 08_pantallas | tu_cuenta/tus_espacios/form_update_espacio_comprado.dart | Widget | PaginaEditaEspacio, PaginaEditaEspacioState |
 | 08_pantallas | tu_cuenta/tus_espacios/http_publica_propiedad.dart | Utilidad | (ninguna) |
 | 08_pantallas | tu_cuenta/tus_espacios/pagina_tus_espacios.dart | Widget | PaginaTusEspacios, PaginaTipoEspaciosState |
@@ -1384,15 +1384,15 @@
 **Widgets/Componentes usados:** *(ninguno detectado)*
 **Notas:** *(pendiente revisión manual)*
 
-## 08_pantallas/tu_cuenta/tus_espacios/form_crea_ficha_captura_propiedad.dart
+## 08_pantallas/tu_cuenta/tus_espacios/ficha_propiedad_card.dart
 **Tipo:** Widget
-**Clases:** ConceptoEspacioRow, UbicacionEspacioRow, CreaFichaCapturaPropiedad, _CreaFichaCapturaPropiedadState
+**Clases:** ConceptoEspacioRow, UbicacionEspacioRow, FichaPropiedadCard, _FichaPropiedadCardState
 **Variables top-level:** Text, Text, Text, Text, SizedBox
 **Variables por clase:**
 - ConceptoEspacioRow: int index, String concepto, String valor, int index, String concepto, String valor, int index, String concepto, String valor
 - UbicacionEspacioRow: String concepto, String valor, String concepto, String valor, String concepto, String valor
-- CreaFichaCapturaPropiedad: int indexListaPropiedad, ValueEspaciosCasaGet propiedad, dynamic update, int indexListaPropiedad, ValueEspaciosCasaGet propiedad, dynamic update, BuildContext context, WidgetRef ref, int indexListaPropiedad, ValueEspaciosCasaGet propiedad, dynamic update
-- _CreaFichaCapturaPropiedadState: *(sin campos detectados)*
+- FichaPropiedadCard: int indexListaPropiedad, ValueEspaciosCasaGet propiedad, dynamic update, int indexListaPropiedad, ValueEspaciosCasaGet propiedad, dynamic update, BuildContext context, WidgetRef ref, int indexListaPropiedad, ValueEspaciosCasaGet propiedad, dynamic update
+- _FichaPropiedadCardState: *(sin campos detectados)*
 **Dependencias (imports del proyecto):** ../../../07_routes/app_routes.dart, ../../../60_global_widgets/future_builder_state_widgets.dart, ../../../20_var_globales/var_color_themes.dart, ../../../20_var_globales/variables_globales.dart, ../../../22_imagenes/tus_espacios_fotos_propiedad/manejo_de_fotos/futures_y_providers/http_funciones_gestion_foto.dart, ../../../22_imagenes/tus_espacios_fotos_propiedad/manejo_de_fotos/lista_ids_fotos/data_fotos_get_ids_fotos_user_prop.dart, ../../../22_imagenes/tus_espacios_fotos_propiedad/manejo_de_fotos/futures_y_providers/future_recupera_ids_fotos_propiedad.dart, ../../../22_imagenes/variables_imagenes.dart, ../../../60_global_widgets/debugprint.dart, ../../../60_global_widgets/dialogbox_mensaje_general.dart, ../../inicio/catalogo_otras_caracteristicas.dart, ../../propiedades/pagina_detalle_propiedad.dart, ../../widgets_comunes/widget_letrero_tipo_transaccion.dart, http_publica_propiedad.dart, provider_espacios_casa_get.dart
 **Widgets/Componentes usados:** AlertDialog, Align, Card, Center, Column, Container, ElevatedButton, Expanded, ExpansionTile, FutureBuilder, GestureDetector, Icon, IconButton, InkWell, Padding, Row, SizedBox, Stack, StatelessWidget, Text
 **Notas:** *(pendiente revisión manual)*
@@ -1425,7 +1425,7 @@
 **Variables por clase:**
 - PaginaTusEspacios: *(sin campos detectados)*
 - PaginaTipoEspaciosState: final scaffoldTipoEspacioKey
-**Dependencias (imports del proyecto):** ../../../05_provider_menus/appbar_sliver_menu_tipo_espacio.dart, ../../../07_routes/app_routes.dart, ../../../10_user_login/usuario_login/dialogbox_login.dart, ../../../10_user_login/usuario_login/provider_session.dart, ../../../60_global_widgets/future_builder_state_widgets.dart, ../../../20_var_globales/var_color_themes.dart, ../../../20_var_globales/var_elementos_menus.dart, ../../../20_var_globales/variables_globales.dart, ../../../60_global_widgets/debugprint.dart, ../../../20_var_globales/var_color_widget.dart, ../../../05_provider_menus/provider_menu_tipo_espacio.dart, provider_espacios_casa_get.dart, form_crea_ficha_captura_propiedad.dart
+**Dependencias (imports del proyecto):** ../../../05_provider_menus/appbar_sliver_menu_tipo_espacio.dart, ../../../07_routes/app_routes.dart, ../../../10_user_login/usuario_login/dialogbox_login.dart, ../../../10_user_login/usuario_login/provider_session.dart, ../../../60_global_widgets/future_builder_state_widgets.dart, ../../../20_var_globales/var_color_themes.dart, ../../../20_var_globales/var_elementos_menus.dart, ../../../20_var_globales/variables_globales.dart, ../../../60_global_widgets/debugprint.dart, ../../../20_var_globales/var_color_widget.dart, ../../../05_provider_menus/provider_menu_tipo_espacio.dart, provider_espacios_casa_get.dart, ficha_propiedad_card.dart
 **Widgets/Componentes usados:** Center, Column, Container, CustomScrollView, Expanded, FutureBuilder, GestureDetector, Icon, Row, Scaffold, SizedBox, SliverAppBar, Text, Wrap
 **Notas:** *(pendiente revisión manual)*
 
