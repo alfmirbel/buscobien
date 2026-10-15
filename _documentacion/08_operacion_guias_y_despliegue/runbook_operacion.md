@@ -52,7 +52,7 @@ Trimestral: restaurar un respaldo en una instancia de prueba y comprobar conteo 
 flutter build web --wasm --dart-define-from-file=defines.json
 ```
 - `defines.json` **no se versiona** y contiene las credenciales que se compilan en el bundle (ver [`modelo_de_amenazas.md`](../04_arquitectura_y_diseno/modelo_de_amenazas.md) T1).
-- Publicar el contenido de `build/web/` en el servidor web (Apache). Verificar tras el despliegue: carga de la página, login, mapa y que `/.well-known/assetlinks.json` y `apple-app-site-association` se sirvan.
+- Publicar el contenido de `build/web/` en el servidor web (Apache). Verificar tras el despliegue: carga de la página, login, mapa y que `/recuperar` cargue la app.
 
 ### Checklist previo a producción
 - [ ] `flutter analyze` sin errores y `flutter test` pasa.
@@ -77,22 +77,16 @@ curl -X POST http://localhost:3001/api/enviar-correo-recuperacion -H "Content-Ty
 ```
 Respuesta esperada: `{"success":true,"message":"Correo enviado"}`. Hoy la app llama a `http://citigov.cloud:3001/...` directamente; pasar a HTTPS por el proxy está pendiente (T7).
 
-## 5. Deep links (recuperación de contraseña)
+## 5. Enlace de recuperación de contraseña (solo Web)
 
-**Estado en la app (verificado):** `AndroidManifest.xml` declara un `intent-filter` con `autoVerify` para `https://buscobien.net/recuperar` y `ios/Runner/Runner.entitlements` incluye `applinks:buscobien.net`. Falta el lado del servidor:
+**Decisión (2026-10-15):** el alcance es la aplicación Web. No se publican `assetlinks.json` ni `apple-app-site-association`, y no hacen falta `applicationId`, huella SHA-256 ni `TEAM_ID`. La configuración de App Links/Universal Links que existe en `AndroidManifest.xml` y `Runner.entitlements` queda sin uso.
 
-1. Definir el `applicationId` definitivo (hoy `com.example.buscobien`, valor de plantilla) y el Bundle ID de iOS.
-2. Obtener la huella SHA-256 del certificado de firma: `keytool -list -v -keystore <keystore>` (o, con Play App Signing, la huella de «Firma de la app» en Play Console) y ponerla en `assetlinks.json`.
-3. Poner el `TEAM_ID` de Apple en `apple-app-site-association` (`TEAM_ID.<bundle id>`).
-4. Publicar ambos archivos en `https://buscobien.net/.well-known/` (sin redirecciones, `Content-Type: application/json`) y verificar con el *Digital Asset Links tester* de Google y `curl`.
-5. Probar de extremo a extremo: solicitar recuperación → abrir el enlace del correo en el móvil → cambiar la contraseña.
+**Cómo funciona:** el correo trae `DEEP_LINK_BASE?token=…&perfil=…` (`https://buscobien.net/recuperar`). Al cargar la app Web, `deep_link_handler.dart` lee `Uri.base`, y si la ruta contiene `/recuperar` con `token` y `perfil` abre la pantalla de cambio de contraseña.
 
-
-| Elemento | Archivo | Pendiente |
-| :--- | :--- | :--- |
-| Android App Links | `server/well-known/assetlinks.json` | Paquete definitivo (hoy `com.example.buscobien`) y huella SHA-256 real |
-| iOS Universal Links | `server/well-known/apple-app-site-association` | `TEAM_ID` real |
-| Dominio del enlace | `DEEP_LINK_BASE` del mailer | Debe coincidir con el host que sirve los archivos `.well-known` |
+**Verificación en el servidor Web:**
+1. Apache debe devolver `index.html` para cualquier ruta que no sea un archivo (reescritura de SPA), de modo que `/recuperar` no responda 404.
+2. `DEEP_LINK_BASE` del mailer debe apuntar al host que sirve la app.
+3. Prueba de extremo a extremo: solicitar recuperación → abrir el enlace del correo en el navegador → cambiar la contraseña.
 
 ## 6. Respuesta a incidentes
 
@@ -102,7 +96,7 @@ Respuesta esperada: `{"success":true,"message":"Correo enviado"}`. Hoy la app ll
 | Correos de recuperación no llegan | `pm2 logs buscobien-mailer`; validar `SMTP_*`; probar el `curl` de la sección 4. |
 | CouchDB no responde | `sudo systemctl status couchdb`; `sudo journalctl -u couchdb --no-pager -n 50`; revisar disco y memoria. |
 | Disco lleno | Identificar bases grandes (fotos, avatares), compactar (`POST /{db}/_compact`) y ampliar/limpiar tras respaldar. |
-| Enlace de recuperación abre el navegador y no la app | Revisar sección 5 (huellas y `TEAM_ID`). |
+| Enlace de recuperación abre el navegador y no la app | Revisar sección 5 (reescritura a `index.html` y `DEEP_LINK_BASE`). |
 
 Registrar cada incidente (fecha, causa, acción, prevención) en un archivo de bitácora del proyecto.
 

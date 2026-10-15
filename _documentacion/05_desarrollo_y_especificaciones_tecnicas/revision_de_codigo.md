@@ -116,7 +116,7 @@ Métricas actuales: `flutter analyze` = 0 hallazgos; `flutter test` = 9 pruebas 
 | H-04 acciones de la ficha | **Resuelto** (MEJ-08): `BarraAccionesPropiedad` (contacto, teléfono, correo, mensaje, guardar, compartir, PDF) | `764cbfc` |
 | H-05 `PaginaDeError` | **Resuelto** (MEJ-09): se muestra por permiso de ubicación y por `onUnknownRoute` | `29751ea` |
 | H-06 eliminar miembro / contacto | **Resuelto** (MEJ-10) | `f16cba5` |
-| H-07 deep links | **Bloqueado** (MEJ-12): faltan `applicationId` definitivo, SHA-256 y `TEAM_ID` | — |
+| H-07 deep links | **Alcance reducido a Web** (decisión 2026-10-15): los enlaces móviles quedan fuera; en Web `deep_link_handler.dart` lee `Uri.base` al arrancar y abre `/cambiopassword`. Falta verificar el servidor Web (reescritura a `index.html`) | — |
 | H-08 rutas muertas | **Resuelto** (MEJ-09): 16 constantes eliminadas | `29751ea` |
 | H-27 burbujas del chat de grupo | **Resuelto** (MEJ-31) | `7e3c8ce` |
 | **H-28** (nuevo) tras cambiar la contraseña (o con enlace inválido) se navegaba a `/login`, ruta inexistente | **Resuelto**: ahora `/principal` | `29751ea` |

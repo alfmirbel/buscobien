@@ -67,9 +67,9 @@ Variables de entorno: `PORT`, `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`
 
 | Plataforma | Mecanismo | Estado de configuración (archivos del repositorio) |
 | :--- | :--- | :--- |
-| Android | App Links (`server/well-known/assetlinks.json`) | **Incompleto:** paquete `com.example.buscobien` y huella SHA-256 con valor de ejemplo |
-| iOS | Universal Links (`apple-app-site-association`) | **Incompleto:** `appID` con `TEAM_ID` sin definir; path `/recuperar*` |
-| Web | `Uri.base` al arrancar | Funcional en el código |
+| Android | App Links (`server/well-known/assetlinks.json`) | **Fuera de alcance** (decisión 2026-10-15: solo Web); archivo con valores de ejemplo, no se publica |
+| iOS | Universal Links (`apple-app-site-association`) | **Fuera de alcance** (decisión 2026-10-15: solo Web) |
+| Web | `Uri.base` al arrancar | Funcional en el código; requiere que el servidor Web devuelva `index.html` para `/recuperar` |
 
 Detalle del manejo en la app: [`SDD_07_routes.md`](modulos_sdd/07_routes/SDD_07_routes.md).
 
