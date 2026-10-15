@@ -361,12 +361,16 @@ class PaginaCarouselFotosUsuarioState
               );
             }
 
-            return Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                image: DecorationImage(
-                  image: MemoryImage(base64Decode(snapshot.data!)),
-                  fit: BoxFit.cover,
+            return Semantics(
+              image: true,
+              label: 'Foto de la propiedad',
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  image: DecorationImage(
+                    image: MemoryImage(base64Decode(snapshot.data!)),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             );

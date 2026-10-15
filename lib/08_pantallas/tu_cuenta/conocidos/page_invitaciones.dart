@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:buscobien/60_global_widgets/async_value_widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
@@ -71,86 +72,95 @@ class PageInvitaciones extends ConsumerWidget {
     AsyncValue<List<Conocido>> asyncData, {
     required bool isReceived,
   }) {
-    return asyncData.when(
-      loading: () => const Center(child: CircularProgressIndicator()),
-      error: (err, _) => Center(child: Text("Error: $err")),
+    return AsyncValueWidget(
+      value: asyncData,
+      mensajeError: 'Error al cargar invitaciones',
+      onReintentar: () =>
+          ref.read(conocidosProvider.notifier).cargar(currentUserId),
       data: (lista) {
         if (lista.isEmpty)
           return const Center(child: Text("No hay solicitudes aquí."));
-        return ListView.builder(
-          itemCount: lista.length,
-          itemBuilder: (context, index) {
-            final inv = lista[index];
-            final nameToShow =
-                isReceived ? inv.solicitanteNombre : inv.receptorNombre;
+        return RefreshIndicator(
+          onRefresh: () =>
+              ref.read(conocidosProvider.notifier).cargar(currentUserId),
+          child: ListView.builder(
+            physics: const AlwaysScrollableScrollPhysics(),
+            itemCount: lista.length,
+            itemBuilder: (context, index) {
+              final inv = lista[index];
+              final nameToShow =
+                  isReceived ? inv.solicitanteNombre : inv.receptorNombre;
 
-            return Card(
-              color: appTheme.surface,
-              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: ListTile(
-                leading: CircleAvatar(
-                  backgroundColor: appTheme.secondary,
-                  foregroundColor: appTheme.onSecondary,
-                  child: const Icon(Symbols.person),
+              return Card(
+                color: appTheme.surface,
+                margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                title: Text(
-                  nameToShow,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: appTheme.onPrimaryContainer,
-                    fontSize: fontSizeSubtituloPagina,
+                child: ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: appTheme.secondary,
+                    foregroundColor: appTheme.onSecondary,
+                    child: const Icon(Symbols.person),
                   ),
-                ),
-                subtitle: Text(
-                  "Estado: ${inv.estado.name.toUpperCase()}",
-                  style: TextStyle(
-                    color: appTheme.onSurfaceVariant,
-                    fontSize: fontSizeDialogCampo,
+                  title: Text(
+                    nameToShow,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: appTheme.onPrimaryContainer,
+                      fontSize: fontSizeSubtituloPagina,
+                    ),
                   ),
+                  subtitle: Text(
+                    "Estado: ${inv.estado.name.toUpperCase()}",
+                    style: TextStyle(
+                      color: appTheme.onSurfaceVariant,
+                      fontSize: fontSizeDialogCampo,
+                    ),
+                  ),
+                  trailing: (isReceived &&
+                          inv.estado == InvitacionEstado.pendiente)
+                      ? Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              tooltip: 'Aceptar invitación',
+                              icon: Icon(
+                                Symbols.check_circle,
+                                color: appTheme.primary,
+                              ),
+                              onPressed: () => _updateStatus(
+                                ref,
+                                inv,
+                                InvitacionEstado.aceptado,
+                              ),
+                            ),
+                            IconButton(
+                              tooltip: 'Rechazar invitación',
+                              icon: Icon(Symbols.cancel, color: appTheme.error),
+                              onPressed: () => _updateStatus(
+                                ref,
+                                inv,
+                                InvitacionEstado.rechazado,
+                              ),
+                            ),
+                          ],
+                        )
+                      : Icon(
+                          inv.estado == InvitacionEstado.aceptado
+                              ? Symbols.handshake
+                              : (inv.estado == InvitacionEstado.rechazado
+                                  ? Symbols.block
+                                  : Symbols.access_time),
+                          color: inv.estado == InvitacionEstado.aceptado
+                              ? appTheme.primary
+                              : appTheme.onSurfaceVariant,
+                        ),
                 ),
-                trailing: (isReceived &&
-                        inv.estado == InvitacionEstado.pendiente)
-                    ? Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(tooltip: 'Aceptar invitación', 
-                            icon: Icon(
-                              Symbols.check_circle,
-                              color: appTheme.primary,
-                            ),
-                            onPressed: () => _updateStatus(
-                              ref,
-                              inv,
-                              InvitacionEstado.aceptado,
-                            ),
-                          ),
-                          IconButton(tooltip: 'Rechazar invitación', 
-                            icon: Icon(Symbols.cancel, color: appTheme.error),
-                            onPressed: () => _updateStatus(
-                              ref,
-                              inv,
-                              InvitacionEstado.rechazado,
-                            ),
-                          ),
-                        ],
-                      )
-                    : Icon(
-                        inv.estado == InvitacionEstado.aceptado
-                            ? Symbols.handshake
-                            : (inv.estado == InvitacionEstado.rechazado
-                                ? Symbols.block
-                                : Symbols.access_time),
-                        color: inv.estado == InvitacionEstado.aceptado
-                            ? appTheme.primary
-                            : appTheme.onSurfaceVariant,
-                      ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         );
       },
     );

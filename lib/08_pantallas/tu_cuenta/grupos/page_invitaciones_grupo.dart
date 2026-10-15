@@ -65,7 +65,8 @@ class _PageInvitacionesGrupoState extends ConsumerState<PageInvitacionesGrupo> {
             ),
           ),
           actions: [
-            IconButton(tooltip: 'Actualizar', 
+            IconButton(
+              tooltip: 'Actualizar',
               icon: const Icon(Symbols.refresh, size: 14),
               onPressed: () => ref
                   .read(gruposInvitacionesProvider.notifier)
@@ -155,18 +156,24 @@ class _ListaInvitaciones extends ConsumerWidget {
       );
     }
 
-    return ListView.builder(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      itemCount: lista.length,
-      itemBuilder: (context, index) {
-        final inv = lista[index];
-        return _InvitacionCard(
-          inv: inv,
-          isReceived: isReceived,
-          currentUserId: currentUserId,
-          currentUserName: currentUserName,
-        );
-      },
+    return RefreshIndicator(
+      onRefresh: () => ref
+          .read(gruposInvitacionesProvider.notifier)
+          .fetchInvitaciones(currentUserId),
+      child: ListView.builder(
+        physics: const AlwaysScrollableScrollPhysics(),
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        itemCount: lista.length,
+        itemBuilder: (context, index) {
+          final inv = lista[index];
+          return _InvitacionCard(
+            inv: inv,
+            isReceived: isReceived,
+            currentUserId: currentUserId,
+            currentUserName: currentUserName,
+          );
+        },
+      ),
     );
   }
 }
@@ -193,7 +200,7 @@ class _InvitacionCard extends ConsumerWidget {
     final nombreMostrado = isReceived ? inv.senderName : inv.receiverName;
 
     return Card(
-        color: appTheme.surface,
+      color: appTheme.surface,
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
       elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -251,7 +258,9 @@ class _InvitacionCard extends ConsumerWidget {
                     ),
                     label: Text(
                       'Rechazar',
-                      style: TextStyle(color: appTheme.onError, fontSize: fontSizeDialogCampo),
+                      style: TextStyle(
+                          color: appTheme.onError,
+                          fontSize: fontSizeDialogCampo),
                     ),
                     style: FilledButton.styleFrom(
                       backgroundColor: appTheme.error,
@@ -291,9 +300,7 @@ class _InvitacionCard extends ConsumerWidget {
 
     // Si aceptó, agregarse como miembro del grupo
     if (ok && status == 'accepted') {
-      await ref
-          .read(gruposProvider.notifier)
-          .agregarMiembro(
+      await ref.read(gruposProvider.notifier).agregarMiembro(
             inv.grupoId,
             MiembroGrupoModel(
               usuarioId: currentUserId,
@@ -312,9 +319,8 @@ class _InvitacionCard extends ConsumerWidget {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(msg),
-          backgroundColor: status == 'accepted'
-              ? appTheme.primary
-              : appTheme.secondary,
+          backgroundColor:
+              status == 'accepted' ? appTheme.primary : appTheme.secondary,
         ),
       );
     }

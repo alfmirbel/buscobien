@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:buscobien/60_global_widgets/async_value_widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
@@ -71,28 +72,10 @@ class _PageMisContactosState extends ConsumerState<PageMisContactos> {
     return Scaffold(
       backgroundColor: appTheme.surface,
       //appBar: appBarSecondPage("Mis Contactos"),
-      body: asyncContactos.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(Symbols.cloud_off, size: 48, color: appTheme.error),
-              const SizedBox(height: 12),
-              Text(
-                'Error al cargar contactos',
-                style: TextStyle(color: appTheme.error),
-              ),
-              const SizedBox(height: 8),
-              FilledButton.tonal(
-                onPressed: () => ref
-                    .read(conocidosProvider.notifier)
-                    .cargar(widget.currentUserId),
-                child: const Text('Reintentar'),
-              ),
-            ],
-          ),
-        ),
+      body: AsyncValueWidget(
+        value: asyncContactos,
+        mensajeError: 'Error al cargar contactos',
+        onReintentar: () => ref.read(conocidosProvider.notifier).cargar(widget.currentUserId),
         data: (contactos) {
           if (contactos.isEmpty) {
             return const Center(

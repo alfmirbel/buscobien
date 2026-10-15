@@ -417,17 +417,21 @@ class PaginaDetalleWidgetState extends ConsumerState<PaginaDetalleWidget> {
                           heightCuadroFotoPropiedad, snapshotFoto.error);
                     } else if (snapshotFoto.hasData &&
                         snapshotFoto.data != '') {
-                      return Container(
-                        width: 350,
-                        height: 200,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                              width: 3, color: appTheme.outlineVariant),
-                          borderRadius: BorderRadius.circular(15),
-                          image: DecorationImage(
-                              image:
-                                  MemoryImage(base64Decode(snapshotFoto.data!)),
-                              fit: BoxFit.cover),
+                      return Semantics(
+                        image: true,
+                        label: 'Foto de la propiedad',
+                        child: Container(
+                          width: 350,
+                          height: 200,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                                width: 3, color: appTheme.outlineVariant),
+                            borderRadius: BorderRadius.circular(15),
+                            image: DecorationImage(
+                                image: MemoryImage(
+                                    base64Decode(snapshotFoto.data!)),
+                                fit: BoxFit.cover),
+                          ),
                         ),
                       );
                     } else {
@@ -567,10 +571,14 @@ class _FotoItemWidget extends StatelessWidget {
         return SizedBox(
           width: 150,
           height: 100,
-          child: Ink.image(
+          child: Semantics(
+            image: true,
+            label: 'Miniatura de foto de la propiedad',
+            child: Ink.image(
             fit: BoxFit.cover,
             image: MemoryImage(base64Decode(snapshot.data!)),
             child: InkWell(onTap: () {}),
+          ),
           ),
         );
       },

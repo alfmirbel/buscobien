@@ -322,10 +322,16 @@ class _FichaPropiedadCardState extends ConsumerState<FichaPropiedadCard> {
                                           );
                                         } else if (snapshotFoto.hasData &&
                                             snapshotFoto.data != "") {
-                                          return Ink.image(
-                                            fit: BoxFit.fitHeight,
-                                            image: MemoryImage(
-                                              base64Decode(snapshotFoto.data!),
+                                          return Semantics(
+                                            image: true,
+                                            label: 'Foto de la propiedad',
+                                            child: Ink.image(
+                                              fit: BoxFit.fitHeight,
+                                              image: MemoryImage(
+                                                base64Decode(
+                                                  snapshotFoto.data!,
+                                                ),
+                                              ),
                                             ),
                                           );
                                         } else {

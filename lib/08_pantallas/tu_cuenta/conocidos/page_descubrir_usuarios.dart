@@ -1,5 +1,6 @@
 import 'package:buscobien/60_global_widgets/debugprint.dart';
 import 'package:flutter/material.dart';
+import 'package:buscobien/60_global_widgets/async_value_widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
@@ -43,13 +44,18 @@ class PageDescubrirUsuarios extends ConsumerWidget {
           ),
         ),
       ),
-      body: asyncPromotores.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (err, _) => Center(child: Text("Error: $err")),
+      body: AsyncValueWidget(
+        value: asyncPromotores,
+        mensajeError: "Error al cargar usuarios",
+        onReintentar: () {
+          ref.invalidate(usersPromotoresListProvider);
+          ref.invalidate(usersListProvider);
+        },
         data: (promotores) {
-          return asyncUsers.when(
-            loading: () => const Center(child: CircularProgressIndicator()),
-            error: (err, _) => Center(child: Text("Error: $err")),
+          return AsyncValueWidget(
+            value: asyncUsers,
+            mensajeError: "Error al cargar usuarios",
+            onReintentar: () => ref.invalidate(usersListProvider),
             data: (users) {
               final fUsers = users
                   .where((u) => u['usuario']['id_usuario'] != currentUserId)
@@ -58,17 +64,25 @@ class PageDescubrirUsuarios extends ConsumerWidget {
                   .where((p) => p['usuario']['idUsuario'] != currentUserId)
                   .toList();
 
-              return CustomScrollView(
-                slivers: [
-                  if (fPromotores.isNotEmpty) ...[
-                    _buildHeader("Promotores"),
-                    _buildSliverList(fPromotores, ref, context, true),
+              return RefreshIndicator(
+                onRefresh: () async {
+                  ref.invalidate(usersListProvider);
+                  ref.invalidate(usersPromotoresListProvider);
+                  await ref.read(usersListProvider.future);
+                },
+                child: CustomScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  slivers: [
+                    if (fPromotores.isNotEmpty) ...[
+                      _buildHeader("Promotores"),
+                      _buildSliverList(fPromotores, ref, context, true),
+                    ],
+                    if (fUsers.isNotEmpty) ...[
+                      _buildHeader("Usuarios"),
+                      _buildSliverList(fUsers, ref, context, false),
+                    ],
                   ],
-                  if (fUsers.isNotEmpty) ...[
-                    _buildHeader("Usuarios"),
-                    _buildSliverList(fUsers, ref, context, false),
-                  ],
-                ],
+                ),
               );
             },
           );

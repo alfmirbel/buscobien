@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:buscobien/60_global_widgets/async_value_widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
@@ -47,26 +48,10 @@ class PageDescubrirGrupos extends ConsumerWidget {
           ),
         ],
       ),
-      body: asyncGrupos.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(Symbols.cloud_off, size: 48, color: appTheme.error),
-              const SizedBox(height: 12),
-              Text(
-                'Error al cargar grupos',
-                style: TextStyle(color: appTheme.error),
-              ),
-              const SizedBox(height: 8),
-              FilledButton.tonal(
-                onPressed: () => ref.invalidate(gruposPublicosProvider),
-                child: const Text('Reintentar'),
-              ),
-            ],
-          ),
-        ),
+      body: AsyncValueWidget(
+        value: asyncGrupos,
+        mensajeError: 'Error al cargar grupos',
+        onReintentar: () => ref.invalidate(gruposPublicosProvider),
         data: (grupos) {
           // Filtra los grupos donde el usuario ya es miembro
           final gruposDisponibles =
@@ -95,32 +80,39 @@ class PageDescubrirGrupos extends ConsumerWidget {
             );
           }
 
-          return CustomScrollView(
-            slivers: [
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 4),
-                  child: Text(
-                    '${gruposDisponibles.length} grupo(s) disponible(s)',
-                    style: TextStyle(
-                      color: appTheme.onPrimaryContainer,
-                      fontSize: fontSizeSubtituloPagina,
+          return RefreshIndicator(
+            onRefresh: () async {
+              ref.invalidate(gruposPublicosProvider);
+              await ref.read(gruposPublicosProvider.future);
+            },
+            child: CustomScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              slivers: [
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 4),
+                    child: Text(
+                      '${gruposDisponibles.length} grupo(s) disponible(s)',
+                      style: TextStyle(
+                        color: appTheme.onPrimaryContainer,
+                        fontSize: fontSizeSubtituloPagina,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) => _GrupoDescubrirCard(
-                    grupo: gruposDisponibles[index],
-                    currentUserId: currentUserId,
-                    currentUserName: currentUserName,
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) => _GrupoDescubrirCard(
+                      grupo: gruposDisponibles[index],
+                      currentUserId: currentUserId,
+                      currentUserName: currentUserName,
+                    ),
+                    childCount: gruposDisponibles.length,
                   ),
-                  childCount: gruposDisponibles.length,
                 ),
-              ),
-              const SliverToBoxAdapter(child: SizedBox(height: 24)),
-            ],
+                const SliverToBoxAdapter(child: SizedBox(height: 24)),
+              ],
+            ),
           );
         },
       ),

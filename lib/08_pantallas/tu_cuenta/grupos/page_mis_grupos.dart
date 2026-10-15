@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:buscobien/20_var_globales/var_color_themes.dart';
+import 'package:buscobien/60_global_widgets/async_value_widget.dart';
 import 'package:buscobien/20_var_globales/variables_globales.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'models/grupo_model.dart';
@@ -38,28 +39,10 @@ class _PageMisGruposState extends ConsumerState<PageMisGrupos> {
     return Scaffold(
       backgroundColor: appTheme.surface,
       // appBar: appBarSecondPage('Mis Grupos'),
-      body: gruposAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(Symbols.cloud_off, size: 48, color: appTheme.error),
-              const SizedBox(height: 12),
-              Text(
-                'Error al cargar grupos',
-                style: TextStyle(color: appTheme.error),
-              ),
-              const SizedBox(height: 8),
-              FilledButton.tonal(
-                onPressed: () => ref
-                    .read(gruposProvider.notifier)
-                    .cargarMisGrupos(widget.currentUserId),
-                child: const Text('Reintentar'),
-              ),
-            ],
-          ),
-        ),
+      body: AsyncValueWidget(
+        value: gruposAsync,
+        mensajeError: 'Error al cargar grupos',
+        onReintentar: () => ref.read(gruposProvider.notifier).cargarMisGrupos(widget.currentUserId),
         data: (grupos) {
           if (grupos.isEmpty) {
             return Center(
