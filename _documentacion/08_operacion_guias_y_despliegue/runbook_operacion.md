@@ -88,6 +88,8 @@ Respuesta esperada: `{"success":true,"message":"Correo enviado"}`. Hoy la app ll
 2. `DEEP_LINK_BASE` del mailer debe apuntar al host que sirve la app.
 3. Prueba de extremo a extremo: solicitar recuperación → abrir el enlace del correo en el navegador → cambiar la contraseña.
 
+**Hallazgo (2026-10-15):** `https://buscobien.net` se sirve desde **GitHub Pages**, no desde este servidor, y `https://buscobien.net/recuperar?...` responde **404** porque falta el *fallback* de SPA. Al publicar la web hay que copiar `index.html` a `404.html`. Los puntos 1 y 2 de arriba (Apache) solo aplican si la web se muda al servidor; ver [`plan_seguridad_nginx_jwt.md`](plan_seguridad_nginx_jwt.md) (D2).
+
 ## 6. Respuesta a incidentes
 
 | Incidente | Primeras acciones |
