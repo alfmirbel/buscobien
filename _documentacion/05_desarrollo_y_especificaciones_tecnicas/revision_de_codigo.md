@@ -145,13 +145,13 @@ Métricas actuales: `flutter analyze` = 0 hallazgos; `flutter test` = 29 pruebas
 | Hallazgo | Estado | Commit |
 | :--- | :--- | :--- |
 | H-17 colores fijos | **Parcial** (MEJ-18): 12 archivos funcionales (perfil, listas, login/registro, formularios de espacios, fotos, diálogos) usan `appTheme` (grises → `outline`/`surfaceContainer*`/`onSurfaceVariant`, blanco sobre primario → `onPrimary`, rojo → `error`). Quedan 233 usos: landings `03_vistas` (inertes por decisión), `glass_objects`/splash, degradados y sombras sobre fotos (`principal_00_inicio`, tarjeta, mapa), colores del PDF y el verde de éxito, que no tiene equivalente en `ColorScheme` | `d864405` |
-| H-16 accesibilidad | **Parcial** (MEJ-19): 20 `IconButton` sin etiqueta ahora tienen `tooltip` (lector de pantalla y hover en Web). Pendiente: `Semantics` en imágenes, prueba con `TextScaler` 1.3× y lector de pantalla | `2630c27` |
+| H-16 accesibilidad | **Parcial** (MEJ-19): 20 `IconButton` sin etiqueta ahora tienen `tooltip` (lector de pantalla y hover en Web). `Semantics` (`image: true`, etiqueta) en las fotos de la ficha, el detalle y los carruseles. Pendiente: resto de imágenes, prueba con `TextScaler` 1.3× y lector de pantalla | `2630c27` |
 | H-18 imágenes | **Sin cambios** (MEJ-21): requiere medir en dispositivo con DevTools antes de optimizar | — |
-| H-19 / H-20 carga y refresco | **Sin cambios** (MEJ-20, P3) | — |
+| H-19 / H-20 carga y refresco | **Parcial** (MEJ-20): nuevo `60_global_widgets/async_value_widget.dart` (`AsyncValueWidget`: carga, error con «Reintentar» y dato) aplicado en Mis Contactos, Invitaciones, Descubrir usuarios, Mis Grupos y Descubrir Grupos; `RefreshIndicator` en esas listas e invitaciones de grupo (antes 2, ahora 6). Quedan ~14 `.when` con estado propio y los `FutureBuilder` (81) sin migrar | `1c1d262` |
 
 Verificar a mano el contraste de las pantallas modificadas en los esquemas de color distintos de `lightPAN`.
 
-Métricas actuales: `flutter analyze` = 0 hallazgos; `flutter test` = 29 pruebas verdes.
+Métricas actuales: `flutter analyze` = 0 hallazgos; `flutter test` = 33 pruebas verdes (`async_value_widget_test`).
 
 ## 4. Fortalezas observadas
 

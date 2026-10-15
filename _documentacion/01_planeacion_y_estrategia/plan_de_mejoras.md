@@ -64,8 +64,8 @@ Cada punto requiere una **decisión de producto** (implementar o retirar del alc
 | ID | Tarea | Hallazgos | Esf. | Prior. | Criterio de aceptación | Docs |
 | :--- | :--- | :--- | :---: | :---: | :--- | :--- |
 | MEJ-18 🔄 parcial `d864405` | Reemplazar `Color(0x…)`/`Colors.*` por `appTheme` (empezar por `03_vistas` y `form_crea_ficha…`); revisar contraste en los 8 temas | H-17 | M | P2 | Búsqueda de `Colors.` fuera de `20_var_globales` ≈ 0 (excepciones documentadas en `ui_exceptions`) | `antigravity_ui_rules`, `var_color_themes` |
-| MEJ-19 🔄 parcial `2630c27` | Accesibilidad: `Semantics`/`semanticLabel` en imágenes y botones de ícono, probar con `TextScaler` 1.3× y lector de pantalla | H-16 | M | P2 | Recorrido de login → detalle → lista sin truncados ni controles sin etiqueta | `antigravity_ui_rules`, Gherkin `general_usabilidad` |
-| MEJ-20 | Un patrón único para carga/error/vacío (`AsyncValueWidget` sobre `stateWaiting`/`stateError…`) y migrar los `FutureBuilder` más usados a providers | H-19, H-20 | L | P3 | Mismas pantallas de estado en todos los listados; `RefreshIndicator` en listas largas | `60_global_widgets`, SDD afectados |
+| MEJ-19 🔄 parcial `2630c27`, `1c1d262` | Accesibilidad: `Semantics`/`semanticLabel` en imágenes y botones de ícono, probar con `TextScaler` 1.3× y lector de pantalla | H-16 | M | P2 | Recorrido de login → detalle → lista sin truncados ni controles sin etiqueta | `antigravity_ui_rules`, Gherkin `general_usabilidad` |
+| MEJ-20 🔄 parcial `1c1d262` | Un patrón único para carga/error/vacío (`AsyncValueWidget` sobre `stateWaiting`/`stateError…`) y migrar los `FutureBuilder` más usados a providers | H-19, H-20 | L | P3 | Mismas pantallas de estado en todos los listados; `RefreshIndicator` en listas largas | `60_global_widgets`, SDD afectados |
 | MEJ-21 | **Medir** el rendimiento de listados con fotos (DevTools) y, si se confirma, usar `cacheWidth/cacheHeight`, miniaturas y carga perezosa | H-18 | M | P2 | Desplazamiento del catálogo sin caídas de fotogramas en un dispositivo de gama media | SDD `22_imagenes`, `08_pantallas_inicio` |
 
 ## Fase 4 — Pruebas y CI (en paralelo desde la Fase 0)

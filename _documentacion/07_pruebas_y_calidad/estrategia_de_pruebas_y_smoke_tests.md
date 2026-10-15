@@ -9,7 +9,7 @@
 
 | Elemento | Estado verificado |
 | :--- | :--- |
-| Pruebas automatizadas | 7 archivos, 29 pruebas: `campo_texto_test` (validadores y `CampoTexto`), `campos_edicion_test` (ida y vuelta de los 68 campos), `seguridad_test` (hashes y token de recuperación), `rutas_test` (`routeGenerate`), `widgets_test` (`PaginaDeError`, `BotonAccionPropiedad`), `grupos_notifier_test` y `conocidos_notifier_test` (eliminar miembro/contacto con `MockClient`) |
+| Pruebas automatizadas | 8 archivos, 33 pruebas: `async_value_widget_test`, `campo_texto_test` (validadores y `CampoTexto`), `campos_edicion_test` (ida y vuelta de los 68 campos), `seguridad_test` (hashes y token de recuperación), `rutas_test` (`routeGenerate`), `widgets_test` (`PaginaDeError`, `BotonAccionPropiedad`), `grupos_notifier_test` y `conocidos_notifier_test` (eliminar miembro/contacto con `MockClient`) |
 | Resultado de `flutter test` | **Pasa** (`+16`, 2026-10-07). La prueba de plantilla del contador se eliminó (MEJ-02) |
 | Pruebas unitarias de providers/modelos | No existen |
 | Pruebas de integración | No existen |
@@ -54,6 +54,6 @@ Algunos escenarios describen comportamiento **deseado** que el código aún no t
 
 1. `flutter build web --wasm --dart-define-from-file=defines.json` termina con código 0.
 2. `flutter analyze` sin errores.
-3. `flutter test` pasa (hoy pasa: 29 pruebas).
+3. `flutter test` pasa (hoy pasa: 33 pruebas).
 4. Cumplimiento de [`antigravity_ui_rules.md`](../05_desarrollo_y_especificaciones_tecnicas/antigravity_ui_rules.md).
 5. `python _documentacion/00_indice/verificar_documentacion.py` sin errores.
