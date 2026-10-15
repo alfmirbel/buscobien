@@ -1,7 +1,7 @@
 # Plan de seguridad: Nginx + JWT (versión ajustada para 190.92.151.34)
 
 **Creado:** 2026-10-15, a partir del plan `Plan_instalacion_seguridad.md` (14/09/2026) y de una revisión de solo lectura del servidor y del código.  
-**Estado:** **PLAN — NO EJECUTADO.** Nada de lo que describe este documento se ha instalado ni modificado en el servidor ni en la app.  
+**Estado:** **PLAN CON DECISIONES TOMADAS (2026-10-15) — NO EJECUTADO.** Nada de lo que describe este documento se ha instalado ni modificado en el servidor ni en la app.  
 **Relación con el plan de mejoras:** desarrolla MEJ-26 (capa HTTP única), MEJ-27 (mailer) y MEJ-28 (migración a nginx + JWT) de [`plan_de_mejoras.md`](../01_planeacion_y_estrategia/plan_de_mejoras.md), y reemplaza a ADR-006 cuando se complete ([`registro_decisiones.md`](../04_arquitectura_y_diseno/adr/registro_decisiones.md)).  
 **Regla del proyecto:** antes de tocar CouchDB en producción se hace respaldo, y los cambios grandes en el servidor se ejecutan fase por fase con confirmación.
 
@@ -67,7 +67,7 @@ La migración se hace **sin interrumpir la app actual** hasta el paso de corte (
 | :-- | :--- | :--- |
 | 1 | **Servidor equivocado:** destino `100.67.186.46` (IP de VPN), «Ubuntu 22.04+», incluye `n8n` y `Qdrant` | Destino `190.92.151.34`, Ubuntu 20.04. Se eliminan `n8n`/`qdrant` (no existen en este servidor) |
 | 2 | **Dominios inconsistentes:** mezcla `buscobien.net`, `buscobien.com` y `api.buscobien.com`; este último no tiene DNS y los otros dos no apuntan al servidor | Decisión D1: dominio de la API (por defecto `api.buscobien.net`; alternativa `citigov.cloud`) |
-| 3 | **Bloqueo de SSH:** `ufw allow OpenSSH` abre el puerto 22, pero SSH está en el **7822**; `ufw enable` dejaría la máquina sin acceso | Se permite `7822/tcp` **antes** de cualquier cambio y se revisan las reglas existentes |
+| 3 | **Bloqueo de SSH:** `ufw allow OpenSSH` abre el puerto 22, pero SSH está en el **7822**; `ufw enable` dejaría la máquina sin acceso | Verificado: 7822 ya está permitido; no se tocan reglas sin confirmar que SSH sigue accesible |
 | 4 | **Apache ocupa el puerto 80:** nginx no puede arrancar | Se detiene Apache y su `ProxyPass` del mailer pasa a nginx |
 | 5 | **Los usuarios no están en CouchDB `_users`:** `POST /_session` solo valida usuarios de CouchDB. En BuscoBien viven en `buscobien_usuarios` y `buscobien_usuarios_promotores` (campo `usuario.claveacceso`) | El servicio de autenticación lee esas bases con una cuenta de servicio y valida la contraseña (sección 5) |
 | 6 | **Manejador de JWT mal nombrado:** `{chttpd_auth, jwt_auth}` no existe; sustituir la lista deja sin `default_authentication_handler` (Basic) a la app actual | `authentication_handlers = {chttpd_auth, cookie_authentication_handler}, {chttpd_auth, jwt_authentication_handler}, {chttpd_auth, default_authentication_handler}` |
@@ -90,16 +90,77 @@ La migración se hace **sin interrumpir la app actual** hasta el paso de corte (
 
 ---
 
-## 4. Decisiones pendientes (necesito tu respuesta antes de ejecutar)
+## 4. Decisiones tomadas (2026-10-15)
 
-| ID | Decisión | Recomendación |
+| ID | Decisión | Consecuencia en el plan |
 | :-- | :--- | :--- |
-| D1 | **Dominio de la API.** Opción A: `api.buscobien.net` (hay que crear un registro `A` en el DNS de `buscobien.net` apuntando a 190.92.151.34). Opción B: `citigov.cloud` (ya apunta al servidor; no requiere cambios de DNS pero mezcla la marca con otro dominio) | A, con B como plan de contingencia |
-| D2 | **Dónde vive la web.** Seguir en GitHub Pages (`buscobien.net`) o moverla a nginx | Seguir en GitHub Pages: ahorra RAM y trabajo. Solo se añade `404.html` (copia de `index.html`) para que `/recuperar` cargue la app |
-| D3 | **Quién ejecuta los comandos con `sudo`.** No puedo introducir la contraseña de `sudo` | Yo preparo scripts por fase en `~/seguridad/`; tú los ejecutas con `sudo` y me pasas la salida |
-| D4 | **Modelo de autorización.** Opción 1: la app sigue hablando con CouchDB (vía `/db/`) con permisos por base y validación de escritura. Opción 2: crear un API REST completo por funcionalidad | Opción 1 ahora (menos cambios en la app); mover a Opción 2 lo que resulte sensible (usuarios, compras) |
-| D5 | **Soporte de versiones antiguas de la app.** Fecha de corte del acceso directo a CouchDB | Publicar la versión nueva, mantener ambas 30 días y luego cerrar (S5) |
-| D6 | **Actualización del sistema operativo** (20.04) | Ubuntu Pro o migración; no bloquea este plan, pero conviene antes de producción |
+| D1 | **Dominio de la API: `api.buscobien.net`.** | Hay que crear el registro DNS (instrucciones en 4.1). El certificado se emite para ese nombre |
+| D2 | **La web sigue en GitHub Pages.** Más adelante se moverá a un ambiente de producción nuevo | No se despliega la web en este servidor. Solo se corrige el *fallback* `404.html` para `/recuperar` y se fija CORS a `buscobien.net` |
+| D3 | **Reparto de ejecución.** Lo delicado (respaldo y restauración, firewall, cierre de puertos, claves, rotación de contraseñas, actualización del sistema operativo, reinicios de CouchDB) lo ejecuta el propietario con `sudo`; **la instalación de productos y la configuración no destructiva las ejecuto yo** | Ver 4.2. `deploy` no tiene `sudo` sin contraseña; para las instalaciones se usará el alias administrativo `miservidor-root` descrito en `CLAUDE.md` (verificado: responde como `root`) |
+| D4 | **Autorización por permisos de cada base + `validate_doc_update`** (sin API completa por funcionalidad) | Se mantiene el diseño de la sección 5. El servicio `buscobien-api` queda limitado a autenticación y datos públicos de usuarios |
+| D5 | **Este es un ambiente de desarrollo; la producción es nueva y nace cerrada.** El acceso directo a CouchDB se cierra cuando los cambios estén operando y probados | Se **elimina** el plazo de 30 días y la compatibilidad con versiones antiguas: no hay ventana de convivencia ni endpoint de versión mínima (C8 pasa a opcional). La producción nueva se configura desde el inicio con CouchDB en `127.0.0.1`, sin 5984/6984/3001 abiertos |
+| D5b | **La administración de CouchDB hoy es por `https://citigov.cloud:6984/_utils`; en producción cambiará la dirección** | Ver 4.3: la interfaz de administración deja de estar en la dirección pública |
+| D6 | **Actualizar Ubuntu 20.04** | Se incluye como fase S0b antes de instalar nada (ver 4.4); es delicada y la ejecuta el propietario, con una captura (*snapshot*) previa del VPS |
+
+### 4.1 Crear el registro DNS de `api.buscobien.net`
+
+El DNS de `buscobien.net` lo administra **GoDaddy** (servidores `ns69/ns70.domaincontrol.com`). `api.buscobien.net` hoy **no existe**.
+
+1. Entra a GoDaddy → *Mis productos* → `buscobien.net` → **DNS** (Administrar DNS).
+2. **Agregar** un registro con estos datos:
+
+   | Campo | Valor |
+   | :--- | :--- |
+   | Tipo | `A` |
+   | Nombre | `api` |
+   | Datos / Valor | `190.92.151.34` |
+   | TTL | 600 segundos (o 1 hora) |
+
+3. No modifiques los registros `A` existentes de `@` (los de GitHub Pages: 185.199.108–111.153) ni el `CNAME` de `www`; el nuevo registro es independiente.
+4. Si existe un registro **CAA** en el dominio, debe incluir `letsencrypt.org` (si no hay ninguno, no hay que hacer nada).
+5. Comprobación (PowerShell): `Resolve-DnsName api.buscobien.net -Type A` debe devolver `190.92.151.34`. Avísame cuando resuelva; Let's Encrypt lo necesita antes de emitir el certificado.
+
+> Importante: `api` **no** debe ser un `CNAME` hacia GitHub Pages; tiene que ser un registro `A` a la IP del servidor.
+
+### 4.2 Quién ejecuta qué
+
+| Lo ejecuto yo (por `miservidor-root`, mostrando antes el comando) | Lo ejecutas tú (con `sudo` o desde el panel) |
+| :--- | :--- |
+| Lecturas de verificación; instalación de paquetes (`nginx`, `certbot`, `fail2ban`; Node 18 ya está) | Captura (*snapshot*) del VPS y descarga del respaldo de CouchDB fuera del servidor |
+| Archivos de configuración de nginx, del servicio y de CouchDB **en la instancia de pruebas** | Actualización de Ubuntu (S0b) |
+| Servicio `buscobien-api`, unidad `systemd`, pruebas con `curl` | Cualquier cambio de reglas de `ufw`, apertura o cierre de puertos |
+| Instancia de pruebas de CouchDB (puerto 5985, solo `127.0.0.1`) | Rotación de la contraseña de administrador, generación y custodia de las llaves RSA |
+| Cambios de código y documentación | Reinicios de CouchDB de producción y el corte final (S5) |
+
+Antes de cualquier comando que modifique el servidor te muestro el comando; en los de la columna derecha, o cuando afecten a servicios en uso (Apache, CouchDB, mailer), espero tu confirmación.
+
+### 4.3 Administración de CouchDB (Fauxton / `_utils`)
+
+- **Hoy (desarrollo):** `https://citigov.cloud:6984/_utils/` (HTTPS nativo de CouchDB). Se mantiene mientras dure el ambiente de desarrollo y hasta el corte S5.
+- **Después del corte, y en la producción nueva:** la interfaz **no se publica**. nginx devuelve `403` en `/db/_utils`, `/db/_config` y similares, y CouchDB escucha solo en `127.0.0.1`. Opciones para administrar, de la más segura a la más cómoda:
+  1. **Túnel SSH (recomendada):** `ssh -p 7822 -L 5984:127.0.0.1:5984 deploy@<servidor>` y abrir `http://localhost:5984/_utils/`.
+  2. Un nombre aparte (p. ej. `admin-db.<dominio>`) con TLS, **lista de IP permitidas** y la autenticación propia de CouchDB; solo si se necesita acceso sin túnel.
+  3. VPN (Tailscale) limitada a la dirección de administración.
+- Esto cambia el procedimiento de [`runbook_operacion.md`](runbook_operacion.md): todo acceso administrativo pasa por el túnel o la VPN.
+
+### 4.4 Actualización de Ubuntu (S0b)
+
+Estado verificado: Ubuntu **20.04.6** en un contenedor Virtuozzo con 1 GB de RAM y sin swap. 20.04 → **22.04** (después, si se quiere, 24.04) con `do-release-upgrade`.
+
+Riesgos específicos de este servidor: el actualizador necesita memoria (puede quedarse corto con 1 GB), algunos proveedores de contenedores no permiten el cambio de versión, y CouchDB está instalado a mano en `/opt/couchdb` (no se actualiza con `apt`, pero depende de bibliotecas del sistema, como OpenSSL).
+
+Condiciones previas, **todas** obligatorias:
+
+1. Captura del VPS desde el panel del proveedor y respaldo de CouchDB descargado.
+2. Confirmar con el proveedor que el contenedor admite `do-release-upgrade`.
+3. Sesión SSH dentro de `screen`/`tmux` y una segunda sesión de reserva; ventana de mantenimiento.
+4. Comprobar después: `couchdb` y `pm2` arrancan, SSH en 7822 responde, el mailer envía.
+
+Si el contenedor no admite el cambio, la alternativa es **crear la producción nueva directamente en un servidor con Ubuntu 22.04/24.04** y aplicar este plan allí (coherente con D5 y D2).
+
+### 4.5 Estado del firewall (`ufw`, verificado)
+
+Reglas abiertas hoy: 22, 21, 5984, 6984, 7822, 8443, 80, 443 y 3001 (IPv4 e IPv6). **7822 ya está permitido** (no hay riesgo de bloqueo SSH al activar nuevas reglas). Sobran 21 (FTP), 22 y 8443: no se usan según lo verificado y se proponen para cierre en S5, previa confirmación del propietario, junto con 5984, 6984 y 3001.
 
 ---
 
@@ -140,29 +201,33 @@ Cada fase tiene **verificación** y **reversión**. Ninguna fase interrumpe a la
 
 1. **Respaldo completo de CouchDB** (obligatorio antes de continuar): copia de `/opt/couchdb/data` con el servicio detenido en una ventana corta, o exportación por base con `_all_docs?include_docs=true&attachments=true` (ver [`runbook_operacion.md`](runbook_operacion.md) §2). Descargar el respaldo fuera del servidor.
 2. Registrar el estado inicial (para reversión): `sudo ufw status numbered`, `ss -tlnp`, copia de `/opt/couchdb/etc/local.ini` y `local.d/`, `/etc/apache2/sites-enabled/000-default.conf`.
-3. **Decidir D1–D6.** Crear el registro DNS `api.buscobien.net → 190.92.151.34` y esperar a que resuelva (`Resolve-DnsName`).
+3. Crear el registro DNS `api.buscobien.net → 190.92.151.34` (instrucciones en 4.1) y esperar a que resuelva (`Resolve-DnsName`). Las decisiones D1–D6 ya están tomadas (sección 4).
 4. **Corregir `/recuperar` en GitHub Pages:** al publicar la web, copiar `build/web/index.html` a `404.html` (y usar `<base href="/">`). Verificar que `https://buscobien.net/recuperar?token=x&perfil=Usuario` cargue la app.
 5. **Instancia de pruebas de CouchDB** (misma versión 3.5.0, puerto 5985, directorio de datos aparte, `127.0.0.1`) para validar la configuración de JWT sin tocar producción. Se apaga al terminar (consume ≈ 100 MB).
 6. **Memoria:** con 1 GB y sin swap, comprobar si el contenedor permite un archivo de swap (`fallocate -l 1G /swapfile`); si no, vigilar `free -m` en cada fase.
 
 **Reversión:** nada que revertir (solo lectura y DNS).
 
+### S0b — Actualización de Ubuntu (D6) · ≈ 1–2 h, la ejecuta el propietario
+
+Ver 4.4. Se hace **antes** de instalar nginx y certbot, para no instalar dos veces. Verificación posterior: `lsb_release -ds`, `systemctl is-active couchdb apache2`, `pm2 status`, `ss -tlnp`.
+
 ### S1 — Rotación de la credencial de administrador · ≈ 15 min
 
 1. Generar una contraseña nueva (gestor de contraseñas), cambiarla por la API de CouchDB (`PUT /_node/_local/_config/admins/admin`) para que se guarde **hasheada**.
 2. Limpiar la entrada en texto plano de `local.ini` y fijar `chmod 640 /opt/couchdb/etc/local.ini`.
-3. Actualizar `defines.json`, `api/.env` y el `.env` del mailer. **Las versiones instaladas de la app dejarán de funcionar si usan la contraseña vieja:** hacer este paso en la ventana de corte (S5) o publicar antes una versión con la contraseña nueva.
+3. Actualizar `defines.json`, `api/.env` y el `.env` del mailer. Es un ambiente de desarrollo (D5): las compilaciones existentes con la contraseña vieja dejarán de conectar y se recompilan con el `defines.json` nuevo.
 
 **Verificación:** `curl -u admin:… https://citigov.cloud:6984/` → 200; con la contraseña antigua → 401.  
 **Reversión:** restaurar el valor anterior en la API de configuración.
 
-> Si no se puede aceptar el riesgo mientras llega S5, rotar ahora y publicar una versión de emergencia de la app. Es una decisión tuya (ver riesgos).
+> Recomendado hacerlo **al inicio**, por los hallazgos H1/H2: la contraseña actual ya quedó expuesta en una salida de revisión. La ejecuta el propietario (D3).
 
 ### S2 — nginx, TLS y firewall · ≈ 45 min
 
-1. **Firewall primero:** `sudo ufw allow 7822/tcp` y revisar `ufw status`; no habilitar ni recargar nada sin que el puerto de SSH esté permitido.
+1. **Firewall:** verificado que `7822/tcp`, `80/tcp` y `443/tcp` ya están permitidos (4.5); no hace falta tocar reglas en esta fase. No deshabilitar ni recargar `ufw` sin que 7822 siga permitido.
 2. `sudo systemctl disable --now apache2` (guardar su configuración); `sudo apt install -y nginx`.
-3. `sudo ufw allow 80/tcp` y `sudo ufw allow 443/tcp` (el 5984, 6984 y 3001 **siguen abiertos** hasta S5).
+3. Los puertos 5984, 6984 y 3001 **siguen abiertos** hasta S5 (la app actual los usa). El 80 lo toma nginx al detener Apache.
 4. Configuración de nginx (anexo B) en `/etc/nginx/sites-available/buscobien.conf`; primero solo el puerto 80 con `/.well-known/acme-challenge/` y el proxy provisional del mailer (`/api/mailer` → `127.0.0.1:3001/api`, igual que hoy).
 5. Certificado: `certbot` (en Ubuntu 20.04 usar el paquete `certbot` + `python3-certbot-nginx`; si la versión es demasiado antigua, instalar con `snap` o usar `acme.sh`). `sudo certbot certonly --nginx -d api.buscobien.net`; comprobar `sudo certbot renew --dry-run`.
 6. Activar el bloque HTTPS (anexo B), `sudo nginx -t && sudo systemctl reload nginx`.
@@ -194,15 +259,15 @@ Cada fase tiene **verificación** y **reversión**. Ninguna fase interrumpe a la
 
 ### S5 — Corte: cerrar el acceso directo · ventana de 30–60 min
 
-Solo después de publicar la app nueva y cumplir el plazo de D5.
+Se ejecuta cuando los cambios estén operando y probados (D5). No hay plazo de convivencia con versiones antiguas: es un ambiente de desarrollo, y la producción nueva nace ya con esta configuración.
 
 1. Cambiar la contraseña de administrador (si no se hizo en S1).
 2. `[chttpd] bind_address = 127.0.0.1`, `[ssl] enable = false` (retira el HTTPS 6984), `enable_cors = false`; reiniciar CouchDB.
 3. `sudo ufw deny 5984/tcp`, `6984/tcp`, `3001/tcp` (o eliminar reglas existentes) y comprobar con `Test-NetConnection` desde fuera.
 4. Quitar `default_authentication_handler` **solo si** ningún proceso legítimo usa Basic (el servicio de respaldo y `buscobien-api` usan una ruta local con credenciales propias).
-5. Endpoint de versión mínima: las apps viejas reciben un mensaje de «actualiza la app» (ver sección 7, C8).
+5. Cerrar también 21 (FTP), 22 y 8443 si el propietario confirma que no se usan (4.5). La interfaz de CouchDB deja de ser pública (4.3).
 
-**Verificación:** desde Internet, 5984/6984/3001 sin respuesta; app nueva funciona completa; app vieja muestra el aviso.  
+**Verificación:** desde Internet, 5984/6984/3001 sin respuesta; la app nueva funciona completa; la administración de CouchDB funciona por túnel SSH.  
 **Reversión:** revertir `bind_address` y las reglas de `ufw` (guardadas en S0).
 
 ### S6 — Operación y monitoreo · ≈ 1 h
@@ -238,7 +303,7 @@ Hallazgos del código que condicionan el diseño (verificados):
 | C5 | **Datos de usuarios por endpoints:** reemplazar lecturas directas de `buscobien_usuarios*` (perfil, buscar usuarios para invitar, nombre/foto de contactos) por `GET /usuarios/me` y `GET /usuarios/buscar` | `session_repository.dart`, `social_providers.dart`, `grupos_invitaciones_provider.dart` (`usuariosParaInvitarProvider`, `promotoresParaInvitarProvider`), `provider_get_avatar.dart` | Evita exponer hashes y datos privados de todos los usuarios |
 | C6 | **Renovación y expiración:** ante `401`, intentar `/auth/refresh` una vez; si falla, cerrar sesión y navegar al login (`navigatorKey`). Los *streams* de `_changes` deben reconectar al renovar el token (el token solo se valida al abrir la conexión) | `api_client.dart`, `grupos_mensajes_provider.dart`, `provider_mensajes.dart` | Probar con tokens de 1 min en el entorno de pruebas |
 | C7 | **Mailer:** quitar la llamada directa a `http://citigov.cloud:3001/...`; la recuperación la dispara el servidor | `password_recovery_repository.dart`, `page_solicitar_recuperacion.dart` | Cierra T5–T7 |
-| C8 | **Versión mínima:** `GET /auth/version` (o cabecera) → si la app es anterior al corte, mostrar «actualiza la app». Reutilizar `01_splash_screen/versiones.dart` | `splash_page.dart`, `versiones.dart` | Necesario para D5 |
+| C8 | *(opcional)* **Versión mínima:** `GET /auth/version` → mostrar «actualiza la app». Con D5 ya no es necesario para el corte; útil cuando haya usuarios reales en producción | `splash_page.dart`, `versiones.dart` | Diferido |
 | C9 | **Pruebas:** actualizar `MockClient` (ahora esperan `Bearer`), pruebas de `ApiClient` (renovación, 401, *timeout*), de `TokenStore`, de la decodificación de `exp`; mantener 0 hallazgos de `flutter analyze` | `test/*` | Los 75 tests actuales deben seguir verdes tras cada módulo |
 | C10 | **Documentación:** ADR-006 → reemplazado; `arquitectura_general_buscobien.md`, `contrato_api_actual.md`, `modelo_de_amenazas.md` (T1–T4 cerrados), `SDD_10_user_login`, `SDD_40_security`, Epics de autenticación, runbook, `CLAUDE.md`/`AGENTS.md` | `_documentacion/**` | Ejecutar `verificar_documentacion.py` |
 
@@ -246,8 +311,8 @@ Hallazgos del código que condicionan el diseño (verificados):
 
 1. S0–S3 (infraestructura y servicio) sin tocar la app.
 2. C0 → C1 → C2 → C3 → C4 → C5 → C6/C7 en una rama; cada commit mantiene la app compilando y las pruebas en verde. Una bandera de compilación (`--dart-define=USE_API_GATEWAY=true`) permite generar la versión nueva mientras `main` conserva el comportamiento actual.
-3. Publicar la versión nueva (Web, Android, iOS, Windows). Mantener ambas versiones durante el plazo D5.
-4. S4 → S5 → C8 activo.
+3. Compilar y probar la versión nueva en el ambiente de desarrollo (Web, Android, iOS, Windows).
+4. S4 → S5 cuando esté probada. No hay convivencia con versiones antiguas (D5).
 
 **WASM / plataformas:** no se añaden paquetes (solo `http`, `crypto` ya existentes); no hay cambios específicos de plataforma salvo el almacén del token en Web.
 
@@ -262,7 +327,7 @@ Hallazgos del código que condicionan el diseño (verificados):
 | JWT mal configurado en CouchDB bloquea a todos | Probar en la instancia de pruebas; coexistencia con Basic hasta S5 |
 | Permisos por base demasiado estrictos rompen funciones de la app | S4 con matriz de pruebas y aplicación gradual; reversión por base |
 | Datos privados expuestos por lecturas amplias (mensajes, listas) | Consultas filtradas por `sub`; candidatos a endpoints propios (D4) |
-| Versiones antiguas de la app dejan de funcionar al corte | D5 + C8; comunicación previa a los usuarios |
+| Compilaciones antiguas dejan de conectar al corte | Aceptado (D5: ambiente de desarrollo). En producción nueva no existe el problema |
 | Let's Encrypt en Ubuntu 20.04 (certbot antiguo) | `snap`/`acme.sh` como alternativa; D6 |
 | El token de Web en `shared_preferences` es robable por XSS | Token de acceso de 15 min; CSP en la web; renovación rotatoria con revocación |
 | Contraseñas hoy en SHA-256 sin sal | Migración transparente a bcrypt en el primer login (sección 5.1) |
@@ -278,7 +343,9 @@ Hallazgos del código que condicionan el diseño (verificados):
 - [ ] JWT verificado en la instancia de pruebas y en producción (`/db/_session`)
 - [ ] Login, renovación, cierre de sesión y recuperación de contraseña de punta a punta
 - [ ] `_security` y `validate_doc_update` aplicados con matriz de pruebas
-- [ ] App nueva publicada; plazo D5 cumplido
+- [ ] App nueva probada en desarrollo (D5)
+- [ ] Ubuntu actualizado (S0b) y servicios verificados
+- [ ] Administración de CouchDB solo por túnel SSH o VPN
 - [ ] 5984, 6984 y 3001 cerrados (comprobado desde fuera); CouchDB y mailer en `127.0.0.1`
 - [ ] `/recuperar` carga la app en `https://buscobien.net`
 - [ ] Respaldos automáticos y rotación de llaves documentados
