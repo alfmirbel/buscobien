@@ -164,12 +164,12 @@ class _DialogSelectorListasState extends ConsumerState<DialogSelectorListas> {
                               Icon(
                                 Symbols.folder_off,
                                 size: 48,
-                                color: Colors.grey[400],
+                                color: appTheme.outline,
                               ),
                               const SizedBox(height: 10),
                               Text(
                                 "No tienes listas creadas.",
-                                style: TextStyle(color: Colors.grey[600]),
+                                style: TextStyle(color: appTheme.onSurfaceVariant),
                               ),
                             ],
                           ),
@@ -198,7 +198,7 @@ class _DialogSelectorListasState extends ConsumerState<DialogSelectorListas> {
                                 vertical: 0,
                               ),
                               activeColor: appTheme.secondary,
-                              checkColor: Colors.white,
+                              checkColor: appTheme.onPrimary,
                               dense: true,
                               title: Text(
                                 lista.listName,
@@ -210,7 +210,7 @@ class _DialogSelectorListasState extends ConsumerState<DialogSelectorListas> {
                                       : FontWeight.normal,
                                   color: isSelected
                                       ? appTheme.primary
-                                      : Colors.black87,
+                                      : appTheme.onSurface,
                                 ),
                               ),
                               secondary: Icon(
@@ -219,7 +219,7 @@ class _DialogSelectorListasState extends ConsumerState<DialogSelectorListas> {
                                     : Symbols.folder_open,
                                 color: isSelected
                                     ? appTheme.secondary
-                                    : Colors.grey[500],
+                                    : appTheme.outline,
                               ),
                               value: isSelected,
                               onChanged: (bool? value) {
@@ -280,7 +280,7 @@ class _DialogSelectorListasState extends ConsumerState<DialogSelectorListas> {
                     : () => _guardarSeleccion(context),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: appTheme.secondary,
-                  foregroundColor: Colors.white,
+                  foregroundColor: appTheme.onPrimary,
                   padding: const EdgeInsets.symmetric(vertical: 12),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
@@ -288,11 +288,11 @@ class _DialogSelectorListasState extends ConsumerState<DialogSelectorListas> {
                   elevation: 2,
                 ),
                 child: _isSaving
-                    ? const SizedBox(
+                    ? SizedBox(
                         height: 20,
                         width: 20,
                         child: CircularProgressIndicator(
-                          color: Colors.white,
+                          color: appTheme.onPrimary,
                           strokeWidth: 2,
                         ),
                       )

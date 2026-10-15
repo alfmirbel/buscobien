@@ -303,7 +303,7 @@ extension _DialogosFicha on _FichaPropiedadCardState {
                     style: TextStyle(
                       // Cambiar color si está deshabilitado
                       color: isProcessing
-                          ? Colors.grey
+                          ? appTheme.outline
                           : appTheme.onPrimaryContainer,
                       fontSize: 10,
                       fontFamily: "Comfortaa",
@@ -519,7 +519,7 @@ extension _DialogosFicha on _FichaPropiedadCardState {
                     style: TextStyle(
                       // Cambiamos el color si está deshabilitado para feedback visual
                       color: isProcessing
-                          ? Colors.grey
+                          ? appTheme.outline
                           : appTheme.onPrimaryContainer,
                       fontSize: 10,
                       fontFamily: "Comfortaa",

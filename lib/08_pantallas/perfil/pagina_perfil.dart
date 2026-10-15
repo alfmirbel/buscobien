@@ -308,11 +308,11 @@ class PaginaPerfilWidgetState extends ConsumerState<PaginaPerfilWidget> {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: ElevatedButton.icon(
               onPressed: () async => await _showLogoutDialog(context, ref),
-              icon: const Icon(Symbols.logout, color: Colors.white),
-              label: const Text(
+              icon: Icon(Symbols.logout, color: appTheme.onPrimary),
+              label: Text(
                 "Cerrar Sesión Actual",
                 style: TextStyle(
-                  color: Colors.white,
+                  color: appTheme.onPrimary,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -364,7 +364,7 @@ class PaginaPerfilWidgetState extends ConsumerState<PaginaPerfilWidget> {
               Container(
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  border: Border.all(color: Colors.white, width: 3),
+                  border: Border.all(color: appTheme.onPrimary, width: 3),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withValues(alpha: 0.2),
@@ -375,14 +375,14 @@ class PaginaPerfilWidgetState extends ConsumerState<PaginaPerfilWidget> {
                 ),
                 child: CircleAvatar(
                   radius: 55,
-                  backgroundColor: Colors.grey[200],
+                  backgroundColor: appTheme.surfaceContainerHighest,
                   backgroundImage: tieneAvatar
                       ? MemoryImage(
                           convierteData2Imagen(avatarRow[0].value.avatar),
                         )
                       : null,
                   child: !tieneAvatar
-                      ? Icon(Symbols.person, size: 60, color: Colors.grey[400])
+                      ? Icon(Symbols.person, size: 60, color: appTheme.outline)
                       : null,
                 ),
               ),
@@ -400,11 +400,11 @@ class PaginaPerfilWidgetState extends ConsumerState<PaginaPerfilWidget> {
                   decoration: BoxDecoration(
                     color: appTheme.secondary,
                     shape: BoxShape.circle,
-                    border: Border.all(color: Colors.white, width: 2),
+                    border: Border.all(color: appTheme.onPrimary, width: 2),
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Symbols.edit,
-                    color: Colors.white,
+                    color: appTheme.onPrimary,
                     size: 16,
                   ),
                 ),
@@ -415,10 +415,10 @@ class PaginaPerfilWidgetState extends ConsumerState<PaginaPerfilWidget> {
           // Nombre y Rol
           Text(
             nombre.isEmpty ? "Usuario Sin Nombre" : nombre,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: appTheme.onPrimary,
             ),
             textAlign: TextAlign.center,
           ),
@@ -431,8 +431,8 @@ class PaginaPerfilWidgetState extends ConsumerState<PaginaPerfilWidget> {
             ),
             child: Text(
               rol,
-              style: const TextStyle(
-                color: Colors.white,
+              style: TextStyle(
+                color: appTheme.onPrimary,
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
               ),
@@ -470,16 +470,16 @@ class PaginaPerfilWidgetState extends ConsumerState<PaginaPerfilWidget> {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
-        color: Colors.white, // appTheme.surface
+        color: appTheme.surface,
         borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withValues(alpha: 0.1),
+            color: appTheme.shadow.withValues(alpha: 0.1),
             blurRadius: 10,
             offset: const Offset(0, 5),
           ),
         ],
-        border: Border.all(color: Colors.grey.shade100),
+        border: Border.all(color: appTheme.surfaceContainerHighest),
       ),
       child: Column(children: children),
     );
@@ -507,7 +507,7 @@ class PaginaPerfilWidgetState extends ConsumerState<PaginaPerfilWidget> {
                 Text(
                   label,
                   style: TextStyle(
-                    color: Colors.grey[500],
+                    color: appTheme.outline,
                     fontSize: 11,
                     fontWeight: FontWeight.w500,
                   ),
@@ -533,7 +533,7 @@ class PaginaPerfilWidgetState extends ConsumerState<PaginaPerfilWidget> {
     return Divider(
       height: 1,
       thickness: 1,
-      color: Colors.grey.shade100,
+      color: appTheme.surfaceContainerHighest,
       indent: 60,
     );
   }

@@ -365,7 +365,7 @@ class RegisterScreenUsersState extends ConsumerState<RegisterScreenUsers> {
             Text("Recupera documento..."),
           ],
         ),
-        backgroundColor: Colors.blue[900], // O usa appTheme.primary
+        backgroundColor: appTheme.primary, // O usa appTheme.primary
         duration: const Duration(seconds: 2),
       ),
     );
@@ -378,9 +378,9 @@ class RegisterScreenUsersState extends ConsumerState<RegisterScreenUsers> {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.grey[50], // Fondo suave para destacar la sección
+        color: appTheme.surfaceContainerLow, // Fondo suave para destacar la sección
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: Colors.grey.shade300),
+        border: Border.all(color: appTheme.outlineVariant),
       ),
       child: Column(
         children: [
@@ -923,7 +923,7 @@ class CheckboxTerminoCondicionesState
     }
 
     return Checkbox(
-      checkColor: Colors.white,
+      checkColor: appTheme.onPrimary,
       fillColor: WidgetStateProperty.resolveWith(getColor),
       value: aceptoTerminosCondiciones,
       onChanged: (bool? value) {

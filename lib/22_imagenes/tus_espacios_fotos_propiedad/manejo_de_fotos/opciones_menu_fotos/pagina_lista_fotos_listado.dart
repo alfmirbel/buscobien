@@ -448,7 +448,7 @@ class _FotoItemReorderableState extends State<_FotoItemReorderable> {
                   Container(
                     width: 80,
                     height: 50,
-                    color: Colors.grey[200],
+                    color: appTheme.surfaceContainerHighest,
                     child: const Center(
                       child: SizedBox(
                         width: 15,
@@ -459,9 +459,9 @@ class _FotoItemReorderableState extends State<_FotoItemReorderable> {
                   ),
                   const SizedBox(width: 8),
                   // Placeholder texto
-                  const Text(
+                  Text(
                     "Cargando detalles...",
-                    style: TextStyle(fontSize: 10, color: Colors.grey),
+                    style: TextStyle(fontSize: 10, color: appTheme.outline),
                   ),
                 ],
               );
@@ -469,9 +469,9 @@ class _FotoItemReorderableState extends State<_FotoItemReorderable> {
 
             // 2. ESTADO ERROR O SIN DATOS
             if (snapshot.hasError || !snapshot.hasData) {
-              return const Text(
+              return Text(
                 "Error al cargar info",
-                style: TextStyle(fontSize: 10, color: Colors.red),
+                style: TextStyle(fontSize: 10, color: appTheme.error),
               );
             }
 

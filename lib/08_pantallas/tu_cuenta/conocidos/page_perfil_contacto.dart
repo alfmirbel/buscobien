@@ -64,7 +64,7 @@ class PagePerfilContacto extends ConsumerWidget {
                   backgroundColor: appTheme.secondary,
                   child: Text(
                     contactoName[0],
-                    style: const TextStyle(fontSize: 30, color: Colors.white),
+                    style: TextStyle(fontSize: 30, color: appTheme.onPrimary),
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -117,11 +117,11 @@ class PagePerfilContacto extends ConsumerWidget {
                         children: [
                           Expanded(
                             child: Container(
-                              color: Colors.grey[300],
-                              child: const Icon(
+                              color: appTheme.surfaceContainerHighest,
+                              child: Icon(
                                 Symbols.home,
                                 size: 50,
-                                color: Colors.grey,
+                                color: appTheme.outline,
                               ),
                               // Reemplaza con NetworkImage si tienes la URL real
                             ),

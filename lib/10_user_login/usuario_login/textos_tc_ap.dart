@@ -97,7 +97,7 @@ class VisorTerminosWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
+      color: appTheme.onPrimary,
       child: ListView.separated(
         padding: const EdgeInsets.all(20),
         itemCount: textoTerminos.length,
@@ -183,7 +183,7 @@ class VisorTerminosWidget extends StatelessWidget {
         child: Text(
           texto,
           textAlign: TextAlign.justify,
-          style: TextStyle(fontSize: 13, color: Colors.grey[800], height: 1.4),
+          style: TextStyle(fontSize: 13, color: appTheme.onSurfaceVariant, height: 1.4),
         ),
       );
     }
@@ -195,7 +195,7 @@ class VisorTerminosWidget extends StatelessWidget {
       textAlign: TextAlign.justify,
       style: TextStyle(
         fontSize: 13,
-        color: Colors.grey[700],
+        color: appTheme.onSurfaceVariant,
         height: 1.4, // Altura de línea para legibilidad
       ),
     );

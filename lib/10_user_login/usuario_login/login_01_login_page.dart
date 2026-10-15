@@ -404,7 +404,7 @@ class _DropdownTipoUsuarioState extends ConsumerState<DropdownTipoUsuario> {
               fontSize: 14,
               textBaseline: TextBaseline.alphabetic,
             ),
-            dropdownColor: Colors.white,
+            dropdownColor: appTheme.surface,
 
             items: listaTipoUsuarios.map((String value) {
               return DropdownMenuItem<String>(

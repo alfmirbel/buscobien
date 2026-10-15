@@ -418,12 +418,12 @@ class PropiedadesMiniFotoListaPromotorState
                                               child:
                                                   (base64String == null ||
                                                       base64String.isEmpty)
-                                                  ? const Center(
+                                                  ? Center(
                                                       child: Text(
                                                         "No se encontró foto",
                                                         style: TextStyle(
                                                           fontSize: 12,
-                                                          color: Colors.grey,
+                                                          color: appTheme.outline,
                                                         ),
                                                       ),
                                                     )

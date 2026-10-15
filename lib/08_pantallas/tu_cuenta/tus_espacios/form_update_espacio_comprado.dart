@@ -227,9 +227,9 @@ class PaginaEditaEspacioState extends ConsumerState<PaginaEditaEspacio>
         // Regresa a la pantalla anterior sin reconstruir rutas ni causar ciclos
         Navigator.pop(context);
       },
-      child: const Text(
+      child: Text(
         'Regresar',
-        style: TextStyle(fontSize: 14, color: Colors.white),
+        style: TextStyle(fontSize: 14, color: appTheme.onPrimary),
       ),
     );
   }
@@ -243,7 +243,7 @@ class PaginaEditaEspacioState extends ConsumerState<PaginaEditaEspacio>
       onPressed: funcion,
       child: Text(
         texto,
-        style: const TextStyle(fontSize: 14, color: Colors.white),
+        style: TextStyle(fontSize: 14, color: appTheme.onPrimary),
       ),
     );
   }

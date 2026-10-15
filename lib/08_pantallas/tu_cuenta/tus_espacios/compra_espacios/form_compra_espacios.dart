@@ -360,9 +360,9 @@ class PaginaCompraEspaciosState extends ConsumerState<PaginaCompraEspacios> {
                   Builder(
                     builder: (context) => ElevatedButton(
                       // ignore: sort_child_properties_last
-                      child: const Text(
+                      child: Text(
                         'Cancelar',
-                        style: TextStyle(fontSize: 14, color: Colors.white),
+                        style: TextStyle(fontSize: 14, color: appTheme.onPrimary),
                       ),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: appTheme.primary,
@@ -376,9 +376,9 @@ class PaginaCompraEspaciosState extends ConsumerState<PaginaCompraEspacios> {
                   Builder(
                     builder: (context) => ElevatedButton(
                       // ignore: sort_child_properties_last
-                      child: const Text(
+                      child: Text(
                         'Comprar',
-                        style: TextStyle(fontSize: 14, color: Colors.white),
+                        style: TextStyle(fontSize: 14, color: appTheme.onPrimary),
                       ),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: appTheme.primary,

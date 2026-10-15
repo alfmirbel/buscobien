@@ -292,7 +292,7 @@ class _PageSolicitarRecuperacionState
                             Symbols.arrow_drop_down,
                             color: appTheme.onPrimaryContainer,
                           ),
-                          dropdownColor: Colors.white,
+                          dropdownColor: appTheme.surface,
                           style: TextStyle(
                             color: appTheme.secondary,
                             fontSize: 14,
