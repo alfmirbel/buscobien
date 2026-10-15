@@ -135,7 +135,7 @@ class _PageMisContactosState extends ConsumerState<PageMisContactos> {
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        IconButton(
+                        IconButton(tooltip: 'Buscar usuarios', 
                           icon: Icon(
                             Symbols.person_search,
                             color: appTheme.primary,
@@ -159,7 +159,7 @@ class _PageMisContactosState extends ConsumerState<PageMisContactos> {
                           onPressed: () =>
                               _confirmarEliminar(inv.id, targetName),
                         ),
-                        IconButton(
+                        IconButton(tooltip: 'Abrir chat', 
                           icon: Icon(Symbols.chat, color: appTheme.primary),
                           onPressed: () => Navigator.push(
                             context,

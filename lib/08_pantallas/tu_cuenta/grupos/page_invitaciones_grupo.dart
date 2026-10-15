@@ -65,7 +65,7 @@ class _PageInvitacionesGrupoState extends ConsumerState<PageInvitacionesGrupo> {
             ),
           ),
           actions: [
-            IconButton(
+            IconButton(tooltip: 'Actualizar', 
               icon: const Icon(Symbols.refresh, size: 14),
               onPressed: () => ref
                   .read(gruposInvitacionesProvider.notifier)

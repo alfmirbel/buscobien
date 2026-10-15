@@ -535,7 +535,7 @@ class _FotoItemReorderableState extends State<_FotoItemReorderable> {
             );
           },
         ),
-        trailing: IconButton(
+        trailing: IconButton(tooltip: 'Eliminar', 
           hoverColor: appTheme.tertiaryContainer,
           onPressed: widget.onDelete,
           icon: Icon(Symbols.delete, color: appTheme.error),

@@ -442,7 +442,7 @@ class _PaginaBuscaEspaciosState extends ConsumerState<PaginaBuscaEspacios> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          IconButton(
+          IconButton(tooltip: 'Anterior', 
             style: ButtonStyle(
               backgroundColor: WidgetStatePropertyAll<Color>(appTheme.primary),
             ),
@@ -460,7 +460,7 @@ class _PaginaBuscaEspaciosState extends ConsumerState<PaginaBuscaEspacios> {
             '${paramSkip + 1}-${(paramSkip + numerodefichas) > total ? total : paramSkip + numerodefichas} de $total',
             style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
           ),
-          IconButton(
+          IconButton(tooltip: 'Siguiente', 
             style: ButtonStyle(
               backgroundColor: WidgetStatePropertyAll<Color>(appTheme.primary),
             ),

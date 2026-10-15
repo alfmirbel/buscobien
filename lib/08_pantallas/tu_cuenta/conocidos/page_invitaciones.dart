@@ -117,7 +117,7 @@ class PageInvitaciones extends ConsumerWidget {
                     ? Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          IconButton(
+                          IconButton(tooltip: 'Aceptar invitación', 
                             icon: Icon(
                               Symbols.check_circle,
                               color: appTheme.primary,
@@ -128,7 +128,7 @@ class PageInvitaciones extends ConsumerWidget {
                               InvitacionEstado.aceptado,
                             ),
                           ),
-                          IconButton(
+                          IconButton(tooltip: 'Rechazar invitación', 
                             icon: Icon(Symbols.cancel, color: appTheme.error),
                             onPressed: () => _updateStatus(
                               ref,

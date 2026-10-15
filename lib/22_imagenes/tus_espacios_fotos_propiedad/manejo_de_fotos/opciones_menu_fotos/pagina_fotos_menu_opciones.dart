@@ -139,7 +139,7 @@ class PaginaFotosPropiedadState extends ConsumerState<PaginaFotosPropiedad>
           ),
         ),
 
-        leading: IconButton(
+        leading: IconButton(tooltip: 'Regresar', 
           icon: Icon(Symbols.arrow_back, color: appTheme.onPrimary),
           onPressed: () {
             Navigator.pop(context);

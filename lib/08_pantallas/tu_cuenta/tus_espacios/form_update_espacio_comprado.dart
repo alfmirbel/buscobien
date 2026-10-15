@@ -468,7 +468,7 @@ class PaginaEditaEspacioState extends ConsumerState<PaginaEditaEspacio>
             fontSize: 14,
           ),
         ),
-        leading: IconButton(
+        leading: IconButton(tooltip: 'Regresar', 
           color: appTheme.onPrimary,
           icon: const Icon(Symbols.arrow_back),
           onPressed: () {

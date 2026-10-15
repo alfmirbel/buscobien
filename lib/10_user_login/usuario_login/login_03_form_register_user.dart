@@ -753,7 +753,7 @@ class RegisterScreenUsersState extends ConsumerState<RegisterScreenUsers> {
             borderSide: BorderSide(color: appTheme.secondary),
           ),
 
-          suffixIcon: IconButton(
+          suffixIcon: IconButton(tooltip: 'Mostrar u ocultar', 
             icon: (nombreVariable == "claveacceso")
                 ? isHidden
                       ? const Icon(Symbols.visibility_off)
@@ -851,7 +851,7 @@ class RegisterScreenUsersState extends ConsumerState<RegisterScreenUsers> {
         ),
         fillColor: appTheme.onSecondary,
         filled: true,
-        suffixIcon: IconButton(
+        suffixIcon: IconButton(tooltip: 'Mostrar u ocultar', 
           icon: isHiddenValidaClave
               ? const Icon(Symbols.visibility_off)
               : const Icon(Symbols.visibility),

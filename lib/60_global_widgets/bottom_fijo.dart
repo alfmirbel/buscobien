@@ -220,7 +220,7 @@ class MyTextFieldPasswordState extends State<MyTextFieldPassword> {
                   size: 18,
                   color: appTheme.onPrimaryContainer,
                 ),
-                suffixIcon: IconButton(
+                suffixIcon: IconButton(tooltip: 'Mostrar u ocultar', 
                   icon: isHidden
                       ? Icon(
                           Symbols.visibility_off,

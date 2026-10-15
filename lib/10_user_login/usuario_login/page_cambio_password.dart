@@ -325,7 +325,7 @@ class _PageCambioPasswordState extends ConsumerState<PageCambioPassword> {
                 size: 18,
                 color: appTheme.onPrimaryContainer,
               ),
-              suffixIcon: IconButton(
+              suffixIcon: IconButton(tooltip: 'Mostrar u ocultar', 
                 icon: Icon(
                   obscure ? Symbols.visibility_off : Symbols.visibility,
                   size: 18,

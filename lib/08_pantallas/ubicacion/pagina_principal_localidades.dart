@@ -299,7 +299,7 @@ class PaginaPrincipalListaLocalidadesState
                                               ),
                                             ),
                                           ),
-                                          IconButton(
+                                          IconButton(tooltip: 'Eliminar', 
                                             icon: Icon(
                                               Symbols.delete,
                                               color: appTheme.onPrimary,

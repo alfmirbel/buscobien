@@ -71,7 +71,7 @@ class _PageChatPrivadoState extends ConsumerState<PageChatPrivado> {
         ),
         foregroundColor: appTheme.onPrimary,
         actions: [
-          IconButton(
+          IconButton(tooltip: 'Actualizar', 
             icon: const Icon(Symbols.refresh),
             onPressed: () => ref.invalidate(mensajesChatProvider(_chatKey)),
           ),
@@ -218,7 +218,7 @@ class _PageChatPrivadoState extends ConsumerState<PageChatPrivado> {
                   const SizedBox(width: 8),
                   CircleAvatar(
                     backgroundColor: appTheme.onPrimary,
-                    child: IconButton(
+                    child: IconButton(tooltip: 'Enviar mensaje', 
                       icon:
                           Icon(Symbols.send, color: appTheme.primary, size: 18),
                       onPressed: _send,

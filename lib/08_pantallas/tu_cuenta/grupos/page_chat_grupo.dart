@@ -71,7 +71,7 @@ class _PageChatGrupoState extends ConsumerState<PageChatGrupo> {
         ),
         foregroundColor: appTheme.onPrimary,
         actions: const [
-          IconButton(icon: Icon(Symbols.refresh), onPressed: null),
+          IconButton(tooltip: 'Actualizar', icon: Icon(Symbols.refresh), onPressed: null),
         ],
       ),
       body: Column(
@@ -228,7 +228,7 @@ class _BarraInput extends StatelessWidget {
             const SizedBox(width: 8),
             CircleAvatar(
               backgroundColor: appTheme.onPrimary,
-              child: IconButton(
+              child: IconButton(tooltip: 'Enviar mensaje', 
                 icon: Icon(Symbols.send, color: appTheme.primary, size: 18),
                 onPressed: onSend,
               ),
