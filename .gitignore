@@ -1,0 +1,22 @@
+# ============================================
+# Hermes BuscoBien - Gitignore ALLOWLIST
+# Estrategia: ignorar todo, permitir solo documentos
+# ============================================
+
+# --- IGNORAR TODO POR DEFECTO ---
+*
+
+# --- EXCEPCIONES: solo documentos del proyecto ---
+!.gitignore
+!*.md
+!requerimientos/
+!requerimientos/**
+
+# ============================================
+# EXPLICITAMENTE PROHIBIDO (defensa en profundidad)
+# (aunque * ya los cubre, se documentan)
+# ============================================
+# .env, auth.json, state.db, logs/, cache/, runtime/,
+# skills/, memories/, bin/, cron/, assets/, backups/,
+# state-snapshots/, source-checks/, pairing/, sandboxes/,
+# *.db, *.log, *.docx, *.pdf, *.key, *_ed25519, token, secret
