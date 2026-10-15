@@ -72,9 +72,9 @@ Cada punto requiere una **decisión de producto** (implementar o retirar del alc
 
 | ID | Tarea | Hallazgos | Esf. | Prior. | Criterio de aceptación | Docs |
 | :--- | :--- | :--- | :---: | :---: | :--- | :--- |
-| MEJ-22 | Pruebas unitarias: `generate_hash`, `generate_reset_token/isTokenValid`, `routeGenerate`, `_navigateIfRecovery`, modelos Freezed | H-22 | M | **P1** | ≥ 70 % de líneas en `40_security` y `07_routes` | `estrategia_de_pruebas…` |
-| MEJ-23 | Pruebas de providers con cliente HTTP simulado (sesión, conocidos, grupos, listas) | H-22 | L | P2 | ≥ 50 % en módulos nivel A | idem |
-| MEJ-24 | CI (GitHub Actions u otro): `flutter analyze`, `flutter test`, `verificar_documentacion.py` en cada PR | H-22 | M | P2 | PR bloqueado si falla alguno | guía SDLC §Mantenimiento |
+| MEJ-22 ✅ `1687440` | Pruebas unitarias: `generate_hash`, `generate_reset_token/isTokenValid`, `routeGenerate`, `_navigateIfRecovery`, modelos Freezed | H-22 | M | **P1** | ≥ 70 % de líneas en `40_security` y `07_routes` | `estrategia_de_pruebas…` |
+| MEJ-23 🔄 parcial `1687440` | Pruebas de providers con cliente HTTP simulado (sesión, conocidos, grupos, listas) | H-22 | L | P2 | ≥ 50 % en módulos nivel A | idem |
+| MEJ-24 🔄 `1687440` (falta primera ejecución y rama protegida) | CI (GitHub Actions u otro): `flutter analyze`, `flutter test`, `verificar_documentacion.py` en cada PR | H-22 | M | P2 | PR bloqueado si falla alguno | guía SDLC §Mantenimiento |
 | MEJ-25 | Pruebas de integración de los flujos críticos (login, recuperación, búsqueda, editar y publicar) ligadas a los `.feature` con tag `@REQ-*` | H-22 | L | P3 | Los escenarios marcados «crítico» se ejecutan en CI | Gherkin, matriz |
 
 ## Fase 5 — Red, backend y seguridad (depende de nginx + JWT)

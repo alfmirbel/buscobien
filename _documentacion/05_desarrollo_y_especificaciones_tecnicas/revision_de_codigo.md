@@ -153,6 +153,14 @@ Verificar a mano el contraste de las pantallas modificadas en los esquemas de co
 
 Métricas actuales: `flutter analyze` = 0 hallazgos; `flutter test` = 34 pruebas verdes (`async_value_widget_test`, `foto_builder_test`).
 
+## 3.9 Estado tras la Fase 4 (2026-10-15)
+
+| Hallazgo | Estado | Commit |
+| :--- | :--- | :--- |
+| H-22 pruebas e integración continua | **Parcial:** 75 pruebas (antes 34); cobertura `40_security` 93 %, `07_routes` 76 % (MEJ-22 cumplida), providers de conocidos 85 % y de grupos 60 % (MEJ-23 cumple ≥ 50 % en esos dos); `navigateIfRecovery` pasó a ser público (`@visibleForTesting`) para probar el enlace de recuperación. Workflow de GitHub Actions creado (MEJ-24), sin ejecutar aún. Pendiente: pruebas de sesión y listas, pruebas de integración (MEJ-25) | `1687440` |
+
+Métricas actuales: `flutter analyze` = 0 hallazgos; `flutter test` = 75 pruebas verdes.
+
 ## 4. Fortalezas observadas
 
 - Estructura modular clara (`NN_modulo`) y nombres consistentes; los 199 archivos están inventariados.

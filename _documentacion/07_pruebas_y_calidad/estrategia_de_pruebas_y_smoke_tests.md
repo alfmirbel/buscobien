@@ -9,14 +9,15 @@
 
 | Elemento | Estado verificado |
 | :--- | :--- |
-| Pruebas automatizadas | 9 archivos, 34 pruebas: `foto_builder_test`, `async_value_widget_test`, `campo_texto_test` (validadores y `CampoTexto`), `campos_edicion_test` (ida y vuelta de los 68 campos), `seguridad_test` (hashes y token de recuperación), `rutas_test` (`routeGenerate`), `widgets_test` (`PaginaDeError`, `BotonAccionPropiedad`), `grupos_notifier_test` y `conocidos_notifier_test` (eliminar miembro/contacto con `MockClient`) |
-| Resultado de `flutter test` | **Pasa** (`+16`, 2026-10-07). La prueba de plantilla del contador se eliminó (MEJ-02) |
-| Pruebas unitarias de providers/modelos | No existen |
-| Pruebas de integración | No existen |
+| Pruebas automatizadas | 14 archivos, 75 pruebas: seguridad (`seguridad_test`), rutas y deep link (`rutas_test`, `deep_link_y_parametros_test`), widgets (`widgets_test`, `campo_texto_test`, `async_value_widget_test`, `foto_builder_test`), formulario de edición (`campos_edicion_test`: ida y vuelta de los 68 campos) y providers con cliente HTTP simulado (`conocidos_notifier_test`, `conocidos_flujos_test`, `grupos_notifier_test`, `grupos_flujos_test`, `grupos_invitaciones_test`, `grupos_mensajes_test`, incluido el feed `_changes`) |
+| Resultado de `flutter test` | **Pasa** (+75, 2026-10-15) |
+| Cobertura (`flutter test --coverage`) | `40_security` 93 %, `07_routes` 76 %, providers de conocidos 85 %, providers de grupos 60 %. El total de `lib/` no es significativo: el informe solo incluye los archivos que alguna prueba carga |
+| Pruebas de providers | Conocidos y grupos cubiertos. **Sin pruebas:** sesión (`SessionNotifier`), listas de propiedades, `avisos_grupo_provider` y `publicaciones_grupo_provider` |
+| Pruebas de integración | No existen (MEJ-25) |
+| Integración continua | `.github/workflows/ci.yml`: en cada *pull request* y en cada *push* a `main` ejecuta `flutter analyze`, `flutter test --coverage` y `verificar_documentacion.py`. **No se ha ejecutado todavía en GitHub**; usa el canal *stable* de Flutter, mientras que el desarrollo local usa una versión *master*, por lo que la primera ejecución puede requerir ajustar la versión. Falta activar la regla de rama protegida para que el PR se bloquee si falla |
 | Escenarios Gherkin | 129 archivos detallados con 1.023 escenarios (más 48 archivos de análisis) **documentales**, no ejecutables todavía |
-| Cobertura de código | No se mide |
 
-La suite cubre solo seguridad y rutas; no hay pruebas de providers, widgets ni integración. Siguiente paso: MEJ-23 y MEJ-25.
+Siguiente paso: pruebas de sesión y listas (resto de MEJ-23) y de integración (MEJ-25).
 
 ## 2. Estrategia objetivo (pirámide de pruebas)
 
@@ -54,6 +55,6 @@ Algunos escenarios describen comportamiento **deseado** que el código aún no t
 
 1. `flutter build web --wasm --dart-define-from-file=defines.json` termina con código 0.
 2. `flutter analyze` sin errores.
-3. `flutter test` pasa (hoy pasa: 34 pruebas).
+3. `flutter test` pasa (hoy pasa: 75 pruebas).
 4. Cumplimiento de [`antigravity_ui_rules.md`](../05_desarrollo_y_especificaciones_tecnicas/antigravity_ui_rules.md).
 5. `python _documentacion/00_indice/verificar_documentacion.py` sin errores.
