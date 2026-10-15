@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  calidad:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - run: flutter pub get
+
+      # No usa defines.json: las constantes String.fromEnvironment quedan vacías
+      # y las pruebas simulan el cliente HTTP.
+      - name: Análisis estático
+        run: flutter analyze
+
+      - name: Pruebas con cobertura
+        run: flutter test --coverage
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Verificación de la documentación
+        run: python _documentacion/00_indice/verificar_documentacion.py

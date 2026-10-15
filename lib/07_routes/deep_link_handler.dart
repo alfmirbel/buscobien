@@ -17,7 +17,7 @@ void initDeepLinkHandler(GlobalKey<NavigatorState> navigatorKey) {
 // En Web: parsea la URL actual al arrancar (ej: buscobien.net/recuperar?token=X&perfil=Y)
 void _handleWebInitialUri(GlobalKey<NavigatorState> navigatorKey) {
   final uri = Uri.base;
-  _navigateIfRecovery(uri, navigatorKey);
+  navigateIfRecovery(uri, navigatorKey);
 }
 
 // En Mobile/Desktop: escucha enlaces entrantes vía app_links
@@ -26,16 +26,17 @@ void _handleMobileDeepLinks(GlobalKey<NavigatorState> navigatorKey) {
 
   // Enlace que abrió la app por primera vez (cold start)
   appLinks.getInitialLink().then((uri) {
-    if (uri != null) _navigateIfRecovery(uri, navigatorKey);
+    if (uri != null) navigateIfRecovery(uri, navigatorKey);
   });
 
   // Enlace mientras la app ya está activa (warm start)
   appLinks.uriLinkStream.listen((uri) {
-    _navigateIfRecovery(uri, navigatorKey);
+    navigateIfRecovery(uri, navigatorKey);
   });
 }
 
-void _navigateIfRecovery(
+@visibleForTesting
+void navigateIfRecovery(
   Uri uri,
   GlobalKey<NavigatorState> navigatorKey,
 ) {
