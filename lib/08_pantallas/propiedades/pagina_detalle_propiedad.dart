@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:buscobien/20_var_globales/variables_globales.dart';
 import 'package:flutter/material.dart';
+import 'package:buscobien/22_imagenes/tus_espacios_fotos_propiedad/manejo_de_fotos/futures_y_providers/foto_por_id_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
@@ -8,7 +9,6 @@ import '../../60_global_widgets/future_builder_state_widgets.dart';
 import '../../20_var_globales/var_color_themes.dart';
 import '../../20_var_globales/var_color_widget.dart';
 import '../../22_imagenes/data_models/data_fotos_ordenadas.dart';
-import '../../22_imagenes/tus_espacios_fotos_propiedad/manejo_de_fotos/futures_y_providers/http_funciones_gestion_foto.dart';
 import '../../22_imagenes/tus_espacios_fotos_propiedad/manejo_de_fotos/futures_y_providers/future_get_fotos_by_idpr_orden.dart';
 import '../../22_imagenes/tus_espacios_fotos_propiedad/manejo_de_fotos/lista_fotos_ordenadas/provider_get_lista_fotos_ordenadas.dart';
 import '../../22_imagenes/tus_espacios_fotos_propiedad/manejo_de_fotos/lista_ids_fotos/data_fotos_get_ids_fotos_user_prop.dart';
@@ -405,9 +405,7 @@ class PaginaDetalleWidgetState extends ConsumerState<PaginaDetalleWidget> {
           height: 250,
           child: idFotoPrincipal.isEmpty
               ? const Center(child: Text('Sin foto'))
-              : FutureBuilder<String>(
-                  future: recuperaFotoPorIdFoto(idFotoPrincipal),
-                  builder: (context, snapshotFoto) {
+              : FotoBuilder(idFoto: idFotoPrincipal, builder: (context, snapshotFoto) {
                     if (snapshotFoto.connectionState ==
                         ConnectionState.waiting) {
                       return stateWaiting(
@@ -553,9 +551,7 @@ class _FotoItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<String>(
-      future: recuperaFotoPorIdFoto(idFoto),
-      builder: (context, snapshot) {
+    return FotoBuilder(idFoto: idFoto, builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return stateWaiting(150, 100);
         }

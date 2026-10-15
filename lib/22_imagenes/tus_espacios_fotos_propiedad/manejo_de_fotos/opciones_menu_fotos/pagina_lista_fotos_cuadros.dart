@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:buscobien/20_var_globales/variables_globales.dart';
 import 'package:buscobien/22_imagenes/variables_imagenes.dart';
 import 'package:flutter/material.dart';
+import 'package:buscobien/22_imagenes/tus_espacios_fotos_propiedad/manejo_de_fotos/futures_y_providers/foto_por_id_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
@@ -387,11 +388,7 @@ class PropiedadesMiniFotoListaPromotorState
                                             listaParaRenderizar[index];
 
                                         // 4. FUTURE BUILDER IMAGEN INDIVIDUAL
-                                        return FutureBuilder<String>(
-                                          future: recuperaFotoPorIdFoto(
-                                            fotoItem.idFoto,
-                                          ),
-                                          builder: (context, snapshotGetFoto) {
+                                        return FotoBuilder(idFoto: fotoItem.idFoto, builder: (context, snapshotGetFoto) {
                                             if (snapshotGetFoto
                                                     .connectionState !=
                                                 ConnectionState.done) {

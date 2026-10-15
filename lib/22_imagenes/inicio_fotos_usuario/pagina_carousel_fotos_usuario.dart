@@ -18,7 +18,7 @@ import '../../20_var_globales/var_color_themes.dart';
 import '../../20_var_globales/var_color_widget.dart';
 import '../../08_pantallas/inicio/data_espacios_casas_get.dart';
 import '../data_models/data_fotos_ordenadas.dart';
-import '../tus_espacios_fotos_propiedad/manejo_de_fotos/futures_y_providers/http_funciones_gestion_foto.dart';
+import '../tus_espacios_fotos_propiedad/manejo_de_fotos/futures_y_providers/foto_por_id_provider.dart';
 import '../tus_espacios_fotos_propiedad/manejo_de_fotos/futures_y_providers/future_recupera_ids_fotos_propiedad.dart';
 import '../variables_imagenes.dart';
 import 'package:carousel_slider/carousel_slider.dart'; // NECESARIO IMPORTAR ESTO
@@ -340,9 +340,7 @@ class PaginaCarouselFotosUsuarioState
         width: widthCuadroFotoPropiedad, // Asegura ancho completo
         alignment: Alignment.topCenter,
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
-        child: FutureBuilder<String>(
-          future: recuperaFotoPorIdFoto(currentIdFoto),
-          builder: (context, snapshot) {
+        child: FotoBuilder(idFoto: currentIdFoto, builder: (context, snapshot) {
             if (snapshot.connectionState != ConnectionState.done) {
               return stateWaiting(
                 widthCuadroFotoPropiedad,

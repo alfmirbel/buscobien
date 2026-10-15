@@ -9,7 +9,7 @@ import '../../../07_routes/app_routes.dart';
 import '../../../60_global_widgets/future_builder_state_widgets.dart';
 import '../../../20_var_globales/var_color_themes.dart';
 import '../../../20_var_globales/variables_globales.dart';
-import '../../../22_imagenes/tus_espacios_fotos_propiedad/manejo_de_fotos/futures_y_providers/http_funciones_gestion_foto.dart';
+import '../../../22_imagenes/tus_espacios_fotos_propiedad/manejo_de_fotos/futures_y_providers/foto_por_id_provider.dart';
 import '../../../22_imagenes/tus_espacios_fotos_propiedad/manejo_de_fotos/lista_ids_fotos/data_fotos_get_ids_fotos_user_prop.dart';
 import '../../../22_imagenes/tus_espacios_fotos_propiedad/manejo_de_fotos/futures_y_providers/future_recupera_ids_fotos_propiedad.dart';
 import '../../../22_imagenes/variables_imagenes.dart';
@@ -303,11 +303,7 @@ class _FichaPropiedadCardState extends ConsumerState<FichaPropiedadCard> {
                                   // Nested FutureBuilder para obtener la imagen real
                                   return Container(
                                     alignment: Alignment.topCenter,
-                                    child: FutureBuilder<String>(
-                                      future: recuperaFotoPorIdFoto(
-                                        listaIdsFotos.rows[0].value,
-                                      ),
-                                      builder: (context, snapshotFoto) {
+                                    child: FotoBuilder(idFoto: listaIdsFotos.rows[0].value, builder: (context, snapshotFoto) {
                                         if (snapshotFoto.connectionState ==
                                             ConnectionState.waiting) {
                                           return stateWaiting(

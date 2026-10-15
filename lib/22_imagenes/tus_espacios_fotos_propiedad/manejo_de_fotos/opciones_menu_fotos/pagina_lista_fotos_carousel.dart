@@ -17,7 +17,7 @@ import '../../../../20_var_globales/var_color_widget.dart';
 import '../../../../20_var_globales/variables_globales.dart';
 import '../../../../08_pantallas/inicio/data_espacios_casas_get.dart';
 
-import '../futures_y_providers/http_funciones_gestion_foto.dart';
+import '../futures_y_providers/foto_por_id_provider.dart';
 import '../futures_y_providers/future_recupera_ids_fotos_propiedad.dart';
 
 // OPTIMIZADO
@@ -272,9 +272,7 @@ class PaginaCarouselFotosWidgetState
       onTap: () {
         _navegarAGestionFotos(context, index, idFoto);
       },
-      child: FutureBuilder<String>(
-        future: recuperaFotoPorIdFoto(idFoto),
-        builder: (context, snapshot) {
+      child: FotoBuilder(idFoto: idFoto, builder: (context, snapshot) {
           if (snapshot.connectionState != ConnectionState.done) {
             return stateWaiting(
               widthCuadroFotoPropiedad,
