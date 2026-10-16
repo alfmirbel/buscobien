@@ -1,7 +1,7 @@
 # Plan de seguridad: Nginx + JWT (versión ajustada para 190.92.151.34)
 
 **Creado:** 2026-10-15, a partir del plan `Plan_instalacion_seguridad.md` (14/09/2026) y de una revisión de solo lectura del servidor y del código.  
-**Estado:** **PLAN CON DECISIONES TOMADAS (2026-10-15) — NO EJECUTADO.** Nada de lo que describe este documento se ha instalado ni modificado en el servidor ni en la app.  
+**Estado:** **PLAN CON DECISIONES TOMADAS (2026-10-15).** Ejecutado hasta ahora: solo la instancia de pruebas de JWT en `127.0.0.1:5985` (2026-10-16, ya detenida; anexo E). No se ha instalado ni modificado nada en producción ni en la app.  
 **Relación con el plan de mejoras:** desarrolla MEJ-26 (capa HTTP única), MEJ-27 (mailer) y MEJ-28 (migración a nginx + JWT) de [`plan_de_mejoras.md`](../01_planeacion_y_estrategia/plan_de_mejoras.md), y reemplaza a ADR-006 cuando se complete ([`registro_decisiones.md`](../04_arquitectura_y_diseno/adr/registro_decisiones.md)).  
 **Regla del proyecto:** antes de tocar CouchDB en producción se hace respaldo, y los cambios grandes en el servidor se ejecutan fase por fase con confirmación.
 
@@ -239,7 +239,7 @@ Ver 4.4. Se hace **antes** de instalar nginx y certbot, para no instalar dos vec
 
 1. Crear el usuario del sistema `buscobien-api` (`--system --no-create-home --shell /usr/sbin/nologin`) y los directorios `/opt/buscobien-api` y `/etc/buscobien-api`.
 2. Generar el par RSA (`openssl genrsa -out private.pem 3072` y `openssl rsa -pubout`); privada `root:buscobien-api 0640`, pública `0644`. **No copiar la privada a ningún repositorio.**
-3. **Probar primero en la instancia de pruebas (puerto 5985):** copiar el anexo C (`20-jwt.ini`), generar un token de prueba y comprobar `GET /_session` con `Authorization: Bearer …` → `userCtx.name` = `sub` y `roles` correctos. Verificar aquí las dos cosas que el plan original daba por supuestas: el nombre del *claim* de roles (`_couchdb.roles`) y el comportamiento de `kid`.
+3. **Probar primero en la instancia de pruebas (puerto 5985): ✅ HECHO el 2026-10-16** con CouchDB 3.5.0 (resultados en el anexo E). Quedan por verificar solo los puntos que requieren nginx (anexo E, punto 5).
 4. Crear en producción: la cuenta de servicio de CouchDB (no administradora), la base `buscobien_sesiones` y los `_security` de las bases de usuarios (solo cuenta de servicio).
 5. Aplicar `20-jwt.ini` en `/opt/couchdb/etc/local.d/` y reiniciar CouchDB. Gracias al orden de los manejadores (cookie → JWT → Basic) **la app actual sigue funcionando**.
 6. Desplegar `buscobien-api` (anexo A) con `systemd` endurecido (anexo A.3); escucha solo en `127.0.0.1:3000`.
@@ -301,7 +301,7 @@ Hallazgos del código que condicionan el diseño (verificados):
 | C3 | **Login/registro/recuperación por la API:** `POST /auth/login`, `/auth/register`, `/auth/recover/request`, `/auth/recover/confirm`, `/auth/password`, `/auth/refresh`, `/auth/logout`. Eliminar `userPassHash` y la comparación en cliente | `login_01_login_page.dart`, `login_03_form_register_user.dart`, `session_repository.dart`, `password_recovery_repository.dart`, `page_solicitar_recuperacion.dart`, `page_cambio_password.dart` | `generate_hash.dart` y `generate_reset_token.dart` quedan sin uso (se conservan hasta retirar la compatibilidad) |
 | C4 | **Cabeceras de autenticación:** sustituir los 30 constructores de `Authorization: Basic` por `ApiClient`/`authHeaders()` | los 30 archivos (`grep -rl Authorization lib`) | Mecánico; hacerlo por módulo con commit por módulo |
 | C5 | **Datos de usuarios por endpoints:** reemplazar lecturas directas de `buscobien_usuarios*` (perfil, buscar usuarios para invitar, nombre/foto de contactos) por `GET /usuarios/me` y `GET /usuarios/buscar` | `session_repository.dart`, `social_providers.dart`, `grupos_invitaciones_provider.dart` (`usuariosParaInvitarProvider`, `promotoresParaInvitarProvider`), `provider_get_avatar.dart` | Evita exponer hashes y datos privados de todos los usuarios |
-| C6 | **Renovación y expiración:** ante `401`, intentar `/auth/refresh` una vez; si falla, cerrar sesión y navegar al login (`navigatorKey`). Los *streams* de `_changes` deben reconectar al renovar el token (el token solo se valida al abrir la conexión) | `api_client.dart`, `grupos_mensajes_provider.dart`, `provider_mensajes.dart` | Probar con tokens de 1 min en el entorno de pruebas |
+| C6 | **Renovación y expiración:** ante `401` (token expirado) o `400` (`Unknown kid`/`Bad signature`, verificado en el anexo E), intentar `/auth/refresh` una vez; si falla, cerrar sesión y navegar al login (`navigatorKey`). Los *streams* de `_changes` deben reconectar al renovar el token (el token solo se valida al abrir la conexión) | `api_client.dart`, `grupos_mensajes_provider.dart`, `provider_mensajes.dart` | Probar con tokens de 1 min en el entorno de pruebas |
 | C7 | **Mailer:** quitar la llamada directa a `http://citigov.cloud:3001/...`; la recuperación la dispara el servidor | `password_recovery_repository.dart`, `page_solicitar_recuperacion.dart` | Cierra T5–T7 |
 | C8 | *(opcional)* **Versión mínima:** `GET /auth/version` → mostrar «actualiza la app». Con D5 ya no es necesario para el corte; útil cuando haya usuarios reales en producción | `splash_page.dart`, `versiones.dart` | Diferido |
 | C9 | **Pruebas:** actualizar `MockClient` (ahora esperan `Bearer`), pruebas de `ApiClient` (renovación, 401, *timeout*), de `TokenStore`, de la decodificación de `exp`; mantener 0 hallazgos de `flutter analyze` | `test/*` | Los 75 tests actuales deben seguir verdes tras cada módulo |
@@ -537,7 +537,7 @@ required_claims = exp
 rsa:buscobien-1 = -----BEGIN PUBLIC KEY-----\nMIIB...\n-----END PUBLIC KEY-----\n
 ```
 
-Validar en la instancia de pruebas: nombre exacto del *claim* de roles (`_couchdb.roles`), exigir el emisor (`iss`) en `required_claims`, y el comportamiento sin `kid`.
+Validado en la instancia de pruebas (anexo E): el *claim* de roles es `_couchdb.roles`, el `kid` es obligatorio y `required_claims = exp` funciona. **Pendiente de probar:** exigir también el emisor (`iss`) en `required_claims`.
 
 ### D. Ejemplo de `validate_doc_update` por propietario
 
@@ -552,3 +552,32 @@ function (newDoc, oldDoc, userCtx, secObj) {
 ```
 
 El campo de propietario cambia de una base a otra (`idusuario`, `senderId`, `creadorId`…); se debe confirmar en el modelo de cada una antes de aplicarlo.
+
+### E. Resultados de la instancia de pruebas de JWT (2026-10-16)
+
+**Qué se probó:** una segunda instancia de CouchDB 3.5.0 (mismo binario de `/opt/couchdb`) ejecutada como el usuario `deploy`, con nombre de nodo, cookie, datos y llaves propios, escuchando solo en `127.0.0.1:5985`. No usó ni modificó nada de la instancia de producción (su `uuid` es distinto y siguió respondiendo en 5984). Las llaves RSA y la contraseña de administrador de esa instancia son de usar y tirar y están en `~/couchdb-test/` (permisos `600`). La instancia **ya está detenida**; para volver a levantarla: `~/couchdb-test/start.sh`.
+
+| # | Prueba | Resultado |
+| :-- | :--- | :--- |
+| 1 | Token RS256 con `kid`, `sub`, `exp` y `_couchdb.roles: ["usuario"]` | **Correcto:** `GET /_session` devuelve `name = sub`, `roles = ["usuario"]`, `authenticated = "jwt"` |
+| 2 | Roles en un *claim* llamado `roles` (como en el plan original) | **Ignorado:** `roles = []`. Confirma que el plan original estaba mal; hay que usar `_couchdb.roles` |
+| 3 | Token **sin `kid`** o con `kid` desconocido | **Rechazado con `400 Bad Request`** (`Unknown kid`); `_default` no se aplica. El `kid` es obligatorio |
+| 4 | Firma con **otra llave** | **Rechazado con `400`** (`Bad signature`) |
+| 5 | Token **expirado** | **`401`** (`exp not in future`) |
+| 6 | Token **sin `exp`** (con `required_claims = exp`) | **Rechazado** (`400`) |
+| 7 | `alg = none` y `alg = HS256` firmado con la llave pública como secreto (ataques clásicos) | **Rechazados** (`400`) |
+| 8 | Permisos por base (`members.roles = ["usuario","promotor"]`) | Rol correcto → `200`; token sin rol → `403`; sin token → `401`; base solo-servicio → `403` |
+| 9 | `_all_dbs` y `/_node/_local/_config` con token de usuario | `401` |
+| 10 | `validate_doc_update` por propietario | El dueño crea y modifica (`201`); otro usuario modifica o crea a nombre ajeno → `403` |
+| 11 | Convivencia: administrador con Basic | Sigue funcionando con el orden `cookie → jwt → default` (`200`); Basic incorrecto → `401` |
+| 12 | `_changes?feed=continuous` con `Authorization: Bearer` | Funciona |
+| 13 | CORS de CouchDB con `enable_cors = false` | Sin cabeceras CORS (correcto: lo hará nginx) |
+| 14 | Token firmado con nuestra llave y `_couchdb.roles: ["_admin"]` | **CouchDB lo acepta como administrador** |
+
+**Consecuencias para el diseño y el código:**
+
+1. **`kid` obligatorio** y roles en `_couchdb.roles`: el anexo A ya lo hace así; ya no es una suposición sino un resultado verificado.
+2. **El cliente debe tratar `400` y `401` como «sesión inválida».** Un token con firma o `kid` equivocados devuelve `400`, no `401`. En `ApiClient` (C0/C6): ante `401`, o `400` con `error: bad_request` y razón `Unknown kid`/`Bad signature`, intentar renovar una vez y si falla cerrar sesión.
+3. **La llave privada equivale a la cuenta de administrador** (prueba 14): quien pueda firmar tokens puede emitir `_admin`. Hay que: (a) custodiar `private.pem` fuera de cualquier repositorio y con permisos `0640 root:buscobien-api`; (b) hacer que `buscobien-api` **nunca** copie roles que vengan del cliente y solo emita `usuario`/`promotor`; (c) añadir una prueba automática del servicio que verifique que un token emitido no contiene `_admin`; (d) rotar la llave si hay sospecha de filtración (esto invalida todas las sesiones).
+4. **Mensajes de error:** las respuestas de rechazo no filtran información sensible (solo `Unknown kid`, `Bad signature`, `exp not in future`).
+5. **Pendiente de probar** (requiere nginx, fase S2): comportamiento de `_changes` a través del proxy, `client_max_body_size` con fotos grandes, CORS desde `https://buscobien.net`, y el límite de peticiones.
