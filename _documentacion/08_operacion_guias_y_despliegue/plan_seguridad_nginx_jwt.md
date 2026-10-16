@@ -1,7 +1,7 @@
 # Plan de seguridad: Nginx + JWT (versión ajustada para 190.92.151.34)
 
 **Creado:** 2026-10-15, a partir del plan `Plan_instalacion_seguridad.md` (14/09/2026) y de una revisión de solo lectura del servidor y del código.  
-**Estado:** **PLAN CON DECISIONES TOMADAS (2026-10-15).** Ejecutado hasta ahora en el ambiente de **desarrollo** (190.92.151.34): instancia de pruebas de JWT (anexo E) y nginx + certificado de `api.buscobien.net` instalados, con la configuración candidata probada pero **sin activar** (anexo F). Apache, CouchDB y el mailer siguen como estaban. No se ha modificado la app.  
+**Estado:** **PLAN CON DECISIONES TOMADAS (2026-10-15).** Ejecutado hasta ahora en el ambiente de **desarrollo** (190.92.151.34): instancia de pruebas de JWT (anexo E) y nginx + certificado de `api.buscobien.net` **activos** (nginx sustituyó a Apache el 2026-10-16; anexo G). CouchDB y el mailer siguen como estaban. No se ha modificado la app.  
 **Relación con el plan de mejoras:** desarrolla MEJ-26 (capa HTTP única), MEJ-27 (mailer) y MEJ-28 (migración a nginx + JWT) de [`plan_de_mejoras.md`](../01_planeacion_y_estrategia/plan_de_mejoras.md), y reemplaza a ADR-006 cuando se complete ([`registro_decisiones.md`](../04_arquitectura_y_diseno/adr/registro_decisiones.md)).  
 **Regla del proyecto:** antes de tocar CouchDB en producción se hace respaldo, y los cambios grandes en el servidor se ejecutan fase por fase con confirmación.
 
@@ -57,7 +57,8 @@ La migración se hace **sin interrumpir la app actual** hasta el paso de corte (
 | H4 | `tls_versions` incluye TLS 1.0 y 1.1 | Dejar solo 1.2/1.3 (o retirar el HTTPS nativo en S5) |
 | H5 | `[cors] origins = *` con `credentials = true` | CORS se mueve a nginx con lista de orígenes |
 | H6 | Mailer en 3001 abierto, sin autenticación | Escuchar en `127.0.0.1` + clave entre servicios (MEJ-27) |
-| H7 | Ubuntu 20.04 sin soporte estándar | Planificar actualización a 22.04/24.04 o Ubuntu Pro (fuera de este plan, pero afecta a certbot) |
+| H7 | Ubuntu 20.04 sin soporte estándar | La producción nueva usa Ubuntu 24.04 (sección 10) |
+| H8 | **El mailer no puede enviar correos:** el registro de errores de pm2 muestra `535 5.7.8 Username and Password not accepted` (Gmail rechaza las credenciales SMTP). La recuperación de contraseña por correo **no funciona hoy** | Generar una contraseña de aplicación (o cambiar de proveedor SMTP) y actualizar `SMTP_*` en el `.env` del mailer; probar con la prueba de la sección 4 de [`runbook_operacion.md`](runbook_operacion.md) |
 
 ---
 
@@ -230,7 +231,7 @@ Ver 4.4. Si se elige reinstalar o migrar (4.4), se hace **antes** de instalar ng
 
 > Recomendado hacerlo **al inicio**, por los hallazgos H1/H2: la contraseña actual ya quedó expuesta en una salida de revisión. La ejecuta el propietario (D3).
 
-### S2 — nginx, TLS y firewall · ≈ 45 min (**parcialmente hecho en desarrollo el 2026-10-16: paquetes, certificado y configuración candidata; falta activar. Ver anexo F**)
+### S2 — nginx, TLS y firewall · ≈ 45 min (**hecho en desarrollo el 2026-10-16: nginx activo y certificado emitido; ver anexos F y G**)
 
 1. **Firewall:** verificado que `7822/tcp`, `80/tcp` y `443/tcp` ya están permitidos (4.5); no hace falta tocar reglas en esta fase. No deshabilitar ni recargar `ufw` sin que 7822 siga permitido.
 2. `sudo systemctl disable --now apache2` (guardar su configuración); `sudo apt install -y nginx`.
@@ -254,6 +255,23 @@ Ver 4.4. Si se elige reinstalar o migrar (4.4), se hace **antes** de instalar ng
 
 **Verificación:** `POST /auth/login` con una cuenta de prueba devuelve token de acceso y de renovación; `GET /db/_session` con el token devuelve el usuario esperado; un token expirado o con firma distinta devuelve 401; el login erróneo repetido devuelve 429.  
 **Reversión:** quitar `20-jwt.ini` y reiniciar CouchDB; `systemctl disable --now buscobien-api`.
+
+#### Cómo se construye `buscobien-api` (acciones, en orden)
+
+| # | Acción | Quién | Depende de |
+| :-- | :--- | :--- | :--- |
+| 1 | Decidir dónde vive el código: el `CLAUDE.md` lo prevé en un **repositorio separado** (hoy existe `api/` vacío en este repositorio). Recomendado: repositorio propio `buscobien-api` | Propietario | — |
+| 2 | Crear el proyecto (Node ESM, `express`, `jsonwebtoken`, `bcryptjs`, `nano`; estructura `src/{routes,controllers,middleware,db}`; sin dependencias nativas) con `GET /health` | Claude | 1 |
+| 3 | Escribir los endpoints: `POST /auth/login`, `/auth/refresh`, `/auth/logout`, `/auth/register`, `/auth/recover/request`, `/auth/recover/confirm`, `/auth/password`; `GET /usuarios/me`, `/usuarios/buscar` | Claude | 2 |
+| 4 | Pruebas automáticas (`node:test` con CouchDB simulado): migración SHA-256 → bcrypt, rotación y revocación del token de renovación, límites de intentos, **ningún token contiene `_admin`**, respuestas `{ error, code }` | Claude | 3 |
+| 5 | Rotar la contraseña de administrador de CouchDB (S1) y **crear la cuenta de servicio `buscobien_api`** (no administradora) con acceso solo a `buscobien_usuarios`, `buscobien_usuarios_promotores` y `buscobien_sesiones`; crear la base `buscobien_sesiones` | Propietario (credenciales de administrador) | S1 |
+| 6 | Generar el par RSA **en el servidor** (`private.pem` `0640 root:buscobien-api`) y crear el usuario del sistema `buscobien-api` y `/etc/buscobien-api/` | Propietario | — |
+| 7 | Añadir la llave pública a CouchDB (`20-jwt.ini`, anexo C) y **reiniciar CouchDB de producción** (corte de segundos; CouchDB sigue aceptando Basic de administrador, así que la app actual no se ve afectada) | Propietario | 6 |
+| 8 | Desplegar el servicio (`npm ci`, `.env` con permisos `600`, unidad `systemd` del anexo A.3) escuchando solo en `127.0.0.1:3000`; nginx ya lo enruta (`/auth/`, `/usuarios/`) | Claude (instalación) | 4, 5, 6 |
+| 9 | Pruebas de punta a punta contra `https://api.buscobien.net`: login con una cuenta de prueba, `/db/_session` con el token, renovación, cierre de sesión, límite de intentos | Claude | 7, 8 |
+| 10 | Arreglar el SMTP del mailer (hallazgo H8) y conectar la recuperación de contraseña del servicio con él | Propietario (credencial SMTP) + Claude | 8 |
+
+**Decisiones de diseño que conviene confirmar antes del paso 3:** vigencia del token de acceso (15 min) y del de renovación (30 días), política de contraseñas (mínimo de longitud), qué campos de un usuario son públicos en `/usuarios/buscar` (por ejemplo nombre, foto y perfil; **nunca** correo, teléfono ni hash), y si el nombre de usuario seguirá siendo el identificador de acceso.
 
 ### S4 — Permisos por base y validación de escritura · ≈ 3–4 h (depende del inventario de bases)
 
@@ -726,3 +744,16 @@ El campo de propietario cambia de una base a otra (`idusuario`, `senderId`, `cre
 Notas: tras corregir el punto 10 se repitieron las pruebas B–E con los datos de la corrida anterior, por lo que el PUT de 5 MB devolvió `409` (el documento ya existía) y el documento «en vivo» no generó un cambio nuevo; ambos casos se habían verificado en la primera corrida con la configuración anterior, que solo difería en la ruta de `/db/`.
 
 **No probado todavía:** `/auth/*` y `/usuarios/*` (el servicio `buscobien-api` aún no existe), el proxy del mailer, la configuración con el puerto 443 real y el *dry-run* de renovación con nginx como servidor del puerto 80.
+
+### G. Activación de nginx en el ambiente de desarrollo (2026-10-16)
+
+| Paso | Resultado |
+| :--- | :--- |
+| Revisión previa de Apache | El registro de accesos solo muestra la página predeterminada de Ubuntu, escáneres, buscadores y los reintentos de Let's Encrypt; **0 peticiones a `/api/mailer`**. El propietario confirmó que no se usa |
+| Correo de contacto del certificado | Actualizado a `admin@buscobien.com` (`certbot update_account`) |
+| Renovación | `webroot_path` cambiado a `/var/www/letsencrypt` (copia de seguridad en `/root/api.buscobien.net.conf.bak`) y gancho `deploy` que recarga nginx |
+| Sustitución | `apache2` detenido y **deshabilitado**; sitio `default` de nginx retirado; `buscobien.conf` habilitado; `nginx -t` correcto; `nginx` activo y habilitado en 80 y 443 |
+| Verificación | `http://api.buscobien.net` → `301` a HTTPS; `https://api.buscobien.net/db/` → CouchDB de producción vía nginx (`200`, HSTS); `/` → `404`; `/db/_utils/` → `403`; `/auth/login` → `502` (el servicio aún no existe); el reto de renovación lo sirve nginx |
+| `certbot renew --dry-run` con nginx | **Correcto** al segundo intento (el primero falló con `authorization must be pending`, una condición transitoria del entorno de pruebas de Let's Encrypt al repetir la prueba en pocos minutos) |
+| Efecto lateral | `https://api.buscobien.net/db/` ya es una **segunda puerta pública** a la CouchDB de producción (con TLS válido, límite de peticiones y rutas administrativas bloqueadas, pero todavía aceptando la contraseña de administrador por Basic). Hasta el corte S5 el riesgo equivale al del puerto 6984 existente |
+| No hecho | Los puertos 5984, 6984 y 3001 siguen abiertos (la app actual los usa) |
