@@ -1,7 +1,7 @@
 # Plan de seguridad: Nginx + JWT (versión ajustada para 190.92.151.34)
 
 **Creado:** 2026-10-15, a partir del plan `Plan_instalacion_seguridad.md` (14/09/2026) y de una revisión de solo lectura del servidor y del código.  
-**Estado:** **PLAN CON DECISIONES TOMADAS (2026-10-15).** Ejecutado hasta ahora: solo la instancia de pruebas de JWT en `127.0.0.1:5985` (2026-10-16, ya detenida; anexo E). No se ha instalado ni modificado nada en producción ni en la app.  
+**Estado:** **PLAN CON DECISIONES TOMADAS (2026-10-15).** Ejecutado hasta ahora en el ambiente de **desarrollo** (190.92.151.34): instancia de pruebas de JWT (anexo E) y nginx + certificado de `api.buscobien.net` instalados, con la configuración candidata probada pero **sin activar** (anexo F). Apache, CouchDB y el mailer siguen como estaban. No se ha modificado la app.  
 **Relación con el plan de mejoras:** desarrolla MEJ-26 (capa HTTP única), MEJ-27 (mailer) y MEJ-28 (migración a nginx + JWT) de [`plan_de_mejoras.md`](../01_planeacion_y_estrategia/plan_de_mejoras.md), y reemplaza a ADR-006 cuando se complete ([`registro_decisiones.md`](../04_arquitectura_y_diseno/adr/registro_decisiones.md)).  
 **Regla del proyecto:** antes de tocar CouchDB en producción se hace respaldo, y los cambios grandes en el servidor se ejecutan fase por fase con confirmación.
 
@@ -230,7 +230,7 @@ Ver 4.4. Si se elige reinstalar o migrar (4.4), se hace **antes** de instalar ng
 
 > Recomendado hacerlo **al inicio**, por los hallazgos H1/H2: la contraseña actual ya quedó expuesta en una salida de revisión. La ejecuta el propietario (D3).
 
-### S2 — nginx, TLS y firewall · ≈ 45 min
+### S2 — nginx, TLS y firewall · ≈ 45 min (**parcialmente hecho en desarrollo el 2026-10-16: paquetes, certificado y configuración candidata; falta activar. Ver anexo F**)
 
 1. **Firewall:** verificado que `7822/tcp`, `80/tcp` y `443/tcp` ya están permitidos (4.5); no hace falta tocar reglas en esta fase. No deshabilitar ni recargar `ufw` sin que 7822 siga permitido.
 2. `sudo systemctl disable --now apache2` (guardar su configuración); `sudo apt install -y nginx`.
@@ -360,6 +360,86 @@ Hallazgos del código que condicionan el diseño (verificados):
 
 ---
 
+---
+
+## 10. Servidor de producción nuevo (Ubuntu 24.04 LTS)
+
+La producción es nueva (D5) y nace cerrada. Este apartado sustituye, para producción, lo que el resto del documento describe para el ambiente de desarrollo actual (Ubuntu 20.04 en OpenVZ). Las secciones 5–7 (diseño de autenticación y autorización, cambios de código) **no cambian**.
+
+### 10.1 Características que debe tener el servidor
+
+**Requisitos obligatorios** (sin ellos el plan no es viable o no es seguro):
+
+| Característica | Requisito | Por qué |
+| :--- | :--- | :--- |
+| Virtualización | **KVM/VMware (máquina virtual completa) o servidor dedicado.** No OpenVZ/Virtuozzo ni LXC compartido | El contenedor actual no permite actualizar el sistema, no tiene swap real y limita el aislamiento de `systemd` (`ProtectSystem`, `PrivateTmp`) que usa el plan para endurecer los servicios. Con KVM además se pueden hacer capturas y recuperar el equipo desde la consola |
+| Sistema operativo | **Ubuntu 24.04 LTS (Noble)** limpio, soportado hasta 2029 | nginx 1.24, OpenSSL 3, certbot 2.x y Node 22 disponibles; kernel propio |
+| Acceso | `root` o usuario con `sudo` + **llave SSH** (sin contraseña); consola web/VNC del proveedor para emergencias | Reemplazar el acceso por contraseña y poder recuperarse si una regla del firewall bloquea SSH |
+| Memoria | **≥ 2 GB (recomendado 4 GB)** + 2 GB de swap | CouchDB (índices de vistas y compactación) + nginx + `buscobien-api` + `buscobien-mailer` + sistema. El servidor actual (1 GB, sin swap) es el mínimo con el que corre hoy, no con el que se debe producir |
+| CPU | **≥ 2 vCPU** | La indexación de vistas y la compactación de CouchDB, y bcrypt en el login, compiten con las peticiones |
+| Disco | **≥ 60 GB SSD/NVMe** (los datos de CouchDB en una ruta que pueda crecer; ideal un volumen aparte) | Las fotos y avatares se guardan como base64 dentro de documentos y la compactación necesita espacio libre adicional (hasta ~2× el tamaño de la base) |
+| Red | **IPv4 pública fija**; IPv6 opcional; **DNS inverso (PTR)** configurable | El PTR evita que los correos de recuperación caigan en spam |
+| Puertos entrantes | **80 y 443** (público), **SSH en un puerto no estándar o restringido por IP/VPN** | Nada más: CouchDB (5984/6984), `buscobien-api` (3000) y el mailer (3001) solo en `127.0.0.1` |
+| Salida a Internet | HTTPS (443) a Let's Encrypt, repositorios de `apt`/`npm`/CouchDB y servicios de notificación; **SMTP saliente (587/465) permitido** | El proveedor no debe bloquear SMTP si el mailer envía directamente; si lo bloquea hace falta un relevo de correo (p. ej. un servicio transaccional) |
+| Firewall del proveedor | Grupo de seguridad/firewall en el panel, además de `ufw` | Doble barrera; permite cerrar un puerto aunque el sistema falle |
+| Respaldo | **Capturas (snapshots) del proveedor** y espacio externo para copias cifradas (otro proveedor o almacenamiento de objetos) | Un respaldo en el mismo servidor no protege contra su pérdida |
+| Hora | NTP activo (`chrony` o `systemd-timesyncd`) | Los JWT dependen de `exp`; un reloj desfasado invalida sesiones |
+| Ubicación | Región cercana a los usuarios (México/sur de EE. UU.) | Latencia de la app móvil y de las fotos |
+
+**Recomendables:**
+
+| Característica | Detalle |
+| :--- | :--- |
+| Tamaño de partida | 2 vCPU / 4 GB RAM / 80 GB NVMe, ampliable sin reinstalar |
+| Dos entornos | Un segundo servidor pequeño (o el actual) para pruebas, de modo que la producción no se use para validar configuraciones |
+| Monitoreo externo | Un chequeo de disponibilidad desde fuera (HTTPS de `api.<dominio>`) y alertas de disco/memoria |
+| Dominio | Subdominio dedicado a la API de producción (p. ej. `api.<dominio-de-producción>`) con DNS administrable; registro CAA opcional que autorice `letsencrypt.org` |
+| Datos personales | Cifrado en reposo del volumen de respaldos y acceso restringido, por tratarse de datos personales (aviso de privacidad vigente) |
+| Soporte | Contrato o canal de soporte del proveedor con tiempos de respuesta conocidos |
+
+**Cómo comprobar un candidato antes de contratarlo:** `systemd-detect-virt` debe devolver `kvm` (o `none` en dedicado); `free -m` y `swapon --show` deben mostrar la memoria contratada y una swap real; `nc -vz smtp.<servidor-de-correo> 587` debe conectar; `lsb_release -ds` debe indicar Ubuntu 24.04.
+
+### 10.2 Diferencias respecto al ambiente de desarrollo
+
+| Tema | Desarrollo actual (Ubuntu 20.04, OpenVZ) | Producción (Ubuntu 24.04, KVM) |
+| :--- | :--- | :--- |
+| nginx | 1.18 de los repositorios de 20.04 (instalado) | 1.24 de Noble; `listen 443 ssl http2;` sigue siendo válido (en versiones ≥ 1.25.1 se prefiere `http2 on;`) |
+| certbot | 0.40 (`apt`), solo con `--webroot` | `apt install certbot python3-certbot-nginx` (2.9) o `snap`; renovación con `certbot.timer` |
+| Node.js | 18.20 (fin de vida) | **22 LTS** (NodeSource) o 20 LTS; servicios con `Node ≥ 20` |
+| CouchDB | 3.5.0 en `/opt/couchdb` (instalación previa) | 3.5.x desde el repositorio `apt` oficial de Apache CouchDB para Noble (**verificar que exista el repositorio de la versión elegida antes de contratar**; si no, imagen Docker oficial o paquete de la última versión disponible) |
+| Apache | Activo (puerto 80) | **No se instala**; nginx es el único servidor web |
+| Puertos de CouchDB | 5984/6984 públicos hoy | `bind_address = 127.0.0.1` y **sin HTTPS nativo** (`[ssl] enable = false`) desde el primer arranque |
+| Administración de CouchDB | `https://citigov.cloud:6984/_utils` | Túnel SSH a `127.0.0.1:5984/_utils` (4.3) |
+| `systemd` | Limitado en OpenVZ | Endurecimiento completo (`ProtectSystem=strict`, `PrivateTmp`, `NoNewPrivileges`, `MemoryMax`) |
+| Swap | Inexistente | Archivo/partición de 2 GB, `vm.swappiness=10` |
+| Actualizaciones de seguridad | Manuales | `unattended-upgrades` activo |
+| `ufw` | Reglas abiertas heredadas | Política `deny incoming`; solo 80, 443 y SSH |
+
+### 10.3 Secuencia de construcción de la producción
+
+Cada paso lo ejecuta quien indica la sección 4.2. No hay convivencia con versiones antiguas (D5): CouchDB nace en `127.0.0.1`.
+
+| # | Paso | Verificación |
+| :-- | :--- | :--- |
+| P0 | Contratar el servidor (10.1), crear el DNS `api.<dominio>` → IP, cargar la llave SSH, probar la consola de emergencia | `ssh` con llave; `Resolve-DnsName api.<dominio>` |
+| P1 | Sistema base: `apt update && apt full-upgrade`, zona horaria, `chrony`, usuario administrador sin `root` remoto, `sshd` solo con llaves (`PasswordAuthentication no`, `PermitRootLogin no`), swap de 2 GB, `unattended-upgrades` | `sshd -T | grep -E 'passwordauthentication|permitrootlogin'` |
+| P2 | Firewall: `ufw default deny incoming`, permitir **primero el puerto de SSH** y después 80/443; igual en el firewall del proveedor | `ufw status`, prueba desde fuera con `Test-NetConnection` |
+| P3 | CouchDB desde el repositorio oficial: **antes del primer arranque** escribir `bind_address = 127.0.0.1`, `[ssl] enable = false`, `enable_cors = false`, `[admins]` con contraseña **hasheada**, `authentication_handlers` con JWT (anexo C) | `ss -tlnp` muestra 5984 solo en `127.0.0.1` |
+| P4 | nginx + certbot: configuración del anexo B (la validada en el anexo F), `certbot --nginx` o `certonly --webroot -w /var/www/letsencrypt`; eliminar el sitio `default` | `nginx -t`; `curl -I https://api.<dominio>`; `certbot renew --dry-run` |
+| P5 | Llaves RSA (generadas en el propio servidor, privada `0640 root:buscobien-api`), usuario `buscobien-api`, servicio y mailer (anexo A) | `systemctl status`, login de prueba |
+| P6 | Restaurar los datos: exportar desde desarrollo (`_all_docs?include_docs=true&attachments=true` o replicación) e importar por `127.0.0.1`; subir los *design documents* versionados en `db/design/` | Conteo de documentos por base igual al origen |
+| P7 | `_security` y `validate_doc_update` por base (S4) con la matriz de pruebas | Matriz del plan en verde |
+| P8 | Respaldos automáticos cifrados fuera del servidor, monitoreo externo, `fail2ban`, rotación de logs | Restauración de prueba en otro equipo |
+| P9 | Compilar la app apuntando a `API_BASE_URL` de producción y probar de punta a punta (Web, Android, iOS, Windows) | Checklist de la sección 9 |
+
+### 10.4 Lo que NO se debe llevar a producción
+
+- Las llaves RSA, la contraseña de administrador ni los `.env` del ambiente de desarrollo ni de la instancia de pruebas: **se generan nuevas en el servidor de producción**.
+- La interfaz `_utils` publicada ni los puertos 5984/6984/3001 abiertos.
+- Los datos de prueba de `prueba_datos`/`prueba_usuarios`.
+
+---
+
 ## Anexos (plantillas; validar en la instancia de pruebas antes de usarlas)
 
 ### A. Servicio `buscobien-api` (esqueleto corregido)
@@ -445,9 +525,11 @@ ReadOnlyPaths=/etc/buscobien-api
 WantedBy=multi-user.target
 ```
 
-### B. nginx (`/etc/nginx/sites-available/buscobien.conf`)
+### B. nginx (`/etc/nginx/sites-available/buscobien.conf`) — versión validada en el anexo F
 
 ```nginx
+# BuscoBien - nginx como unica entrada publica (candidato; ver plan_seguridad_nginx_jwt.md)
+# Zonas de limite (http context: este archivo se incluye desde sites-enabled)
 limit_req_zone $binary_remote_addr zone=auth_limit:10m rate=5r/m;
 limit_req_zone $binary_remote_addr zone=api_limit:10m  rate=20r/s;
 limit_req_status 429;
@@ -456,12 +538,12 @@ map $http_origin $cors_origin {
     default                      "";
     "https://buscobien.net"      $http_origin;
     "https://www.buscobien.net"  $http_origin;
-    "http://localhost:5000"      $http_origin;   # desarrollo web; quitar en producción
 }
 
 server {
     listen 80;
     server_name api.buscobien.net;
+
     location /.well-known/acme-challenge/ { root /var/www/letsencrypt; }
     location / { return 301 https://$host$request_uri; }
 }
@@ -474,17 +556,22 @@ server {
     ssl_certificate_key /etc/letsencrypt/live/api.buscobien.net/privkey.pem;
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_prefer_server_ciphers off;
+    ssl_session_cache shared:SSL:5m;
+    ssl_session_timeout 1h;
+
+    server_tokens off;
 
     add_header Strict-Transport-Security "max-age=31536000" always;
     add_header X-Content-Type-Options "nosniff" always;
     add_header Access-Control-Allow-Origin $cors_origin always;
     add_header Access-Control-Allow-Headers "Authorization, Content-Type" always;
     add_header Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS" always;
+    add_header Access-Control-Max-Age 600 always;
     add_header Vary Origin always;
 
     if ($request_method = OPTIONS) { return 204; }
 
-    # Autenticación y usuarios
+    # Autenticacion y usuarios (servicio buscobien-api)
     location /auth/ {
         limit_req zone=auth_limit burst=10 nodelay;
         proxy_pass http://127.0.0.1:3000;
@@ -495,38 +582,50 @@ server {
     location /usuarios/ {
         limit_req zone=api_limit burst=40 nodelay;
         proxy_pass http://127.0.0.1:3000;
+        proxy_set_header Host $host;
         proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_set_header X-Forwarded-Proto https;
     }
 
-    # Feed continuo del chat
-    location ~ ^/db/[^/]+/_changes$ {
+    # Feed continuo del chat (sin buffering, conexion larga)
+    location ~ ^/db/[^_/][^/]*/_changes$ {
         rewrite ^/db/(.*)$ /$1 break;
         proxy_pass http://127.0.0.1:5984;
         proxy_http_version 1.1;
         proxy_set_header Connection "";
+        proxy_set_header X-Forwarded-For $remote_addr;
         proxy_buffering off;
         proxy_read_timeout 75s;
     }
 
-    # Lista blanca: bloquear rutas administrativas
-    location ~ ^/db/(_config|_node|_utils|_replicate|_users|_cluster_setup|_dbs_info|_all_dbs) { return 403; }
+    # Rutas administrativas de CouchDB: nunca publicas
+    location ~ ^/db/(_config|_node|_utils|_replicate|_users|_cluster_setup|_dbs_info|_all_dbs|_scheduler|_membership|_up|_active_tasks) {
+        return 403;
+    }
 
-    # CouchDB con JWT nativo
+    # CouchDB con JWT nativo (la ruta original se conserva sin reescribir)
     location /db/ {
         limit_req zone=api_limit burst=60 nodelay;
         client_max_body_size 20m;
-        rewrite ^/db/(.*)$ /$1 break;
-        proxy_pass http://127.0.0.1:5984;
+        # Conserva la codificacion original de la ruta (ids con %2F, _design/...)
+        rewrite ^ $request_uri;
+        rewrite ^/db/(.*) /$1 break;
+        return 400;
+        proxy_pass http://127.0.0.1:5984$uri;
         proxy_http_version 1.1;
+        proxy_set_header Connection "";
         proxy_set_header Host $host;
         proxy_set_header X-Forwarded-For $remote_addr;
-        proxy_set_header Authorization $http_authorization;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_read_timeout 60s;
     }
 
-    # Mailer (transitorio: solo para versiones antiguas; retirar en S5)
+    # Mailer (transitorio, solo mientras la app actual lo llame por aqui)
     location /api/mailer {
         proxy_pass http://127.0.0.1:3001/api;
     }
+
+    location = / { return 404; }
 }
 ```
 
@@ -588,3 +687,42 @@ El campo de propietario cambia de una base a otra (`idusuario`, `senderId`, `cre
 3. **La llave privada equivale a la cuenta de administrador** (prueba 14): quien pueda firmar tokens puede emitir `_admin`. Hay que: (a) custodiar `private.pem` fuera de cualquier repositorio y con permisos `0640 root:buscobien-api`; (b) hacer que `buscobien-api` **nunca** copie roles que vengan del cliente y solo emita `usuario`/`promotor`; (c) añadir una prueba automática del servicio que verifique que un token emitido no contiene `_admin`; (d) rotar la llave si hay sospecha de filtración (esto invalida todas las sesiones).
 4. **Mensajes de error:** las respuestas de rechazo no filtran información sensible (solo `Unknown kid`, `Bad signature`, `exp not in future`).
 5. **Pendiente de probar** (requiere nginx, fase S2): comportamiento de `_changes` a través del proxy, `client_max_body_size` con fotos grandes, CORS desde `https://buscobien.net`, y el límite de peticiones.
+
+### F. Instalación de nginx y certificado en el ambiente de desarrollo (2026-10-16)
+
+**Qué se hizo en `190.92.151.34`** (Ubuntu 20.04, ambiente de desarrollo):
+
+| Acción | Resultado |
+| :--- | :--- |
+| Instalar `nginx` 1.18.0 y `certbot` 0.40.0 con `apt` (con `policy-rc.d` para que nginx **no arrancara** y no chocara con Apache en el puerto 80) | Instalados; `nginx` **inactivo**, Apache sigue sirviendo el puerto 80 |
+| Emitir el certificado de `api.buscobien.net` con `certbot certonly --webroot -w /var/www/html` (el reto HTTP-01 lo atendió Apache, sin interrupciones) | **Emitido** por Let's Encrypt, vence el **2027-01-14**; archivos en `/etc/letsencrypt/live/api.buscobien.net/`. Se registró **sin correo de contacto** (`--register-unsafely-without-email`) porque no se me indicó cuál usar; ver más abajo |
+| Renovación automática | `certbot.timer` habilitado |
+| Configuración candidata | Instalada en `/etc/nginx/sites-available/buscobien.conf` (**no habilitada**; ver anexo B). Sigue habilitado el sitio `default` de nginx, que se elimina al activar |
+
+**Pendiente de este paso:**
+
+1. **Correo de contacto del certificado:** `certbot update_account --email <correo>` para recibir avisos de vencimiento. Indica qué correo usar.
+2. **Cambio del método de renovación al activar nginx:** mientras Apache atienda el puerto 80, la renovación usa `/var/www/html`; al sustituir Apache por nginx hay que cambiar `webroot_path` en `/etc/letsencrypt/renewal/api.buscobien.net.conf` a `/var/www/letsencrypt` y añadir un *hook* que recargue nginx tras renovar (`/etc/letsencrypt/renewal-hooks/deploy/`).
+3. `certbot renew --dry-run`: `certbot renew --dry-run` terminó sin errores en el registro (staging de Let's Encrypt, reto HTTP-01 atendido por Apache); esta versión de certbot no imprime el aviso explícito de éxito en el resumen, por lo que conviene repetirlo con nginx activo.
+
+**Pruebas del proxy** (nginx de prueba en `127.0.0.1:8444` con el **certificado real**, apuntando a la CouchDB de pruebas del anexo E; no se tocó Apache ni los puertos públicos; ambos procesos de prueba quedaron detenidos):
+
+| # | Prueba | Resultado |
+| :-- | :--- | :--- |
+| 1 | `nginx -t` de la configuración candidata | Correcto |
+| 2 | Certificado servido | `CN=api.buscobien.net`, emisor Let's Encrypt, vigente hasta 2027-01-14; HTTP/2 activo |
+| 3 | TLS 1.1 | Rechazado |
+| 4 | Cabeceras | `Strict-Transport-Security`, `X-Content-Type-Options`; `server_tokens off` |
+| 5 | JWT a través del proxy | `/db/_session` con `Bearer` devuelve el usuario y los roles; sin token `401` |
+| 6 | Rutas administrativas (`_utils`, `_config`, `_node`, `_all_dbs`, `_replicate`, `_users`, `_dbs_info`, `_up`) | Todas `403`; `/db/_users/_changes` también `403` (la excepción del feed no aplica a bases que empiezan por `_`) |
+| 7 | Documento de 5 MB | Pasa (`201`) |
+| 8 | Documento de 25 MB | `413` (límite de 20 MB) |
+| 9 | Vista con `key=%22u1%22`, `_find` con cuerpo JSON | Correcto |
+| 10 | **Id con `%2F`** | Con `proxy_pass …/` daba `404` (nginx decodifica la ruta). **Corregido** con `rewrite ^ $request_uri;` + `proxy_pass …$uri`; ahora `200`. Esta es la forma definitiva en el anexo B |
+| 11 | Feed `_changes` continuo por el proxy | Primer byte en ≈ 11 ms, sin *buffering*; un documento escrito durante la captura **llegó al stream** |
+| 12 | CORS | Origen `https://buscobien.net` permitido (`Access-Control-Allow-Origin`); origen ajeno: **sin** esa cabecera |
+| 13 | Límite de peticiones | 120 peticiones seguidas: 119 `200` y 1 `429` (la zona de 20 peticiones/s y ráfaga de 60 actúa; el número exacto depende de la velocidad del cliente) |
+
+Notas: tras corregir el punto 10 se repitieron las pruebas B–E con los datos de la corrida anterior, por lo que el PUT de 5 MB devolvió `409` (el documento ya existía) y el documento «en vivo» no generó un cambio nuevo; ambos casos se habían verificado en la primera corrida con la configuración anterior, que solo difería en la ruta de `/db/`.
+
+**No probado todavía:** `/auth/*` y `/usuarios/*` (el servicio `buscobien-api` aún no existe), el proxy del mailer, la configuración con el puerto 443 real y el *dry-run* de renovación con nginx como servidor del puerto 80.
