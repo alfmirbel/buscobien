@@ -156,7 +156,14 @@ Condiciones previas, **todas** obligatorias:
 3. Sesión SSH dentro de `screen`/`tmux` y una segunda sesión de reserva; ventana de mantenimiento.
 4. Comprobar después: `couchdb` y `pm2` arrancan, SSH en 7822 responde, el mailer envía.
 
-Si el contenedor no admite el cambio, la alternativa es **crear la producción nueva directamente en un servidor con Ubuntu 22.04/24.04** y aplicar este plan allí (coherente con D5 y D2).
+**Verificación del 2026-10-16:** la virtualización es **OpenVZ/Virtuozzo** (`systemd-detect-virt = openvz`; el kernel 5.4 es el del anfitrión), no está instalado `ubuntu-release-upgrader` (no existe `do-release-upgrade` ni `/etc/update-manager/release-upgrades`) y no hay paquetes pendientes (`apt list --upgradable` = 0). En este tipo de contenedores el sistema operativo suele gestionarse como una **plantilla del proveedor**; una actualización in situ puede dejar el contenedor inconsistente o no arrancar.
+
+**Recomendación:** no actualizar este contenedor en su sitio. Hay dos caminos:
+
+1. **Reinstalar con una plantilla Ubuntu 22.04/24.04 desde el panel del proveedor** (si la ofrece), restaurando después CouchDB desde el respaldo; o
+2. **Crear la producción nueva en un servidor con Ubuntu 22.04/24.04** y aplicar este plan allí (coherente con D5 y D2). El servidor actual queda como ambiente de desarrollo en Ubuntu 20.04, con nginx y certbot en las versiones de ese sistema (nginx 1.18, certbot 0.40: funcionan con Let's Encrypt, pero sin soporte).
+
+Si el proveedor confirma que admite `do-release-upgrade`, se puede intentar con las condiciones previas anteriores.
 
 ### 4.5 Estado del firewall (`ufw`, verificado)
 
@@ -201,7 +208,7 @@ Cada fase tiene **verificación** y **reversión**. Ninguna fase interrumpe a la
 
 1. **Respaldo completo de CouchDB** (obligatorio antes de continuar): copia de `/opt/couchdb/data` con el servicio detenido en una ventana corta, o exportación por base con `_all_docs?include_docs=true&attachments=true` (ver [`runbook_operacion.md`](runbook_operacion.md) §2). Descargar el respaldo fuera del servidor.
 2. Registrar el estado inicial (para reversión): `sudo ufw status numbered`, `ss -tlnp`, copia de `/opt/couchdb/etc/local.ini` y `local.d/`, `/etc/apache2/sites-enabled/000-default.conf`.
-3. Crear el registro DNS `api.buscobien.net → 190.92.151.34` (instrucciones en 4.1) y esperar a que resuelva (`Resolve-DnsName`). Las decisiones D1–D6 ya están tomadas (sección 4).
+3. Registro DNS `api.buscobien.net → 190.92.151.34` (instrucciones en 4.1): **creado y verificado el 2026-10-16** (resuelve a la IP del servidor en el DNS local, en 8.8.8.8 y en los servidores de GoDaddy; TTL 3600). Las decisiones D1–D6 ya están tomadas (sección 4).
 4. **Corregir `/recuperar` en GitHub Pages:** al publicar la web, copiar `build/web/index.html` a `404.html` (y usar `<base href="/">`). Verificar que `https://buscobien.net/recuperar?token=x&perfil=Usuario` cargue la app.
 5. **Instancia de pruebas de CouchDB** (misma versión 3.5.0, puerto 5985, directorio de datos aparte, `127.0.0.1`) para validar la configuración de JWT sin tocar producción. Se apaga al terminar (consume ≈ 100 MB).
 6. **Memoria:** con 1 GB y sin swap, comprobar si el contenedor permite un archivo de swap (`fallocate -l 1G /swapfile`); si no, vigilar `free -m` en cada fase.
@@ -210,7 +217,7 @@ Cada fase tiene **verificación** y **reversión**. Ninguna fase interrumpe a la
 
 ### S0b — Actualización de Ubuntu (D6) · ≈ 1–2 h, la ejecuta el propietario
 
-Ver 4.4. Se hace **antes** de instalar nginx y certbot, para no instalar dos veces. Verificación posterior: `lsb_release -ds`, `systemctl is-active couchdb apache2`, `pm2 status`, `ss -tlnp`.
+Ver 4.4. Si se elige reinstalar o migrar (4.4), se hace **antes** de instalar nginx y certbot en el servidor definitivo; en el ambiente de desarrollo actual se puede instalar sobre 20.04 sin esperar. Verificación posterior: `lsb_release -ds`, `systemctl is-active couchdb apache2`, `pm2 status`, `ss -tlnp`.
 
 ### S1 — Rotación de la credencial de administrador · ≈ 15 min
 
