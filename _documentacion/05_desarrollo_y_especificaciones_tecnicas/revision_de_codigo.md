@@ -161,6 +161,18 @@ Métricas actuales: `flutter analyze` = 0 hallazgos; `flutter test` = 34 pruebas
 
 Métricas actuales: `flutter analyze` = 0 hallazgos; `flutter test` = 75 pruebas verdes.
 
+## 3.10 Hallazgos del inventario de seguridad de bases (2026-10-17)
+
+Detalle en [`inventario_seguridad_bases.md`](../06_modelo_de_datos_y_bd/inventario_seguridad_bases.md) (secciones 1 y 4).
+
+| Hallazgo | Estado |
+| :--- | :--- |
+| **H-34** consultas a la base inexistente `buscobien_propiedades` (`provider_listas_propiedades`, `provider_user_lists`, `page_perfil_contacto`) | **Abierto** |
+| **H-35** consultas a la base inexistente `buscobien_espacios` (`burbujas_chat.dart` de MEJ-31 y `page_detalle_grupo.dart`): las burbujas de propiedad del chat no cargan datos | **Abierto**; defecto introducido por la implementación de MEJ-31 (se asumió una base que no existe) |
+| **H-36** `buscobien_propiedades_compartidas_conocidos` no existe | **Abierto** |
+| **H-37** `buscobien_compra_espacios` la escribe el cliente (importes y referencia de pago manipulables) | **Abierto**; requiere mover el registro al servidor |
+| **H-38** `buscobien_social` sin uso aparente (restos del primer motor social) | **Abierto** |
+
 ## 4. Fortalezas observadas
 
 - Estructura modular clara (`NN_modulo`) y nombres consistentes; los 199 archivos están inventariados.
