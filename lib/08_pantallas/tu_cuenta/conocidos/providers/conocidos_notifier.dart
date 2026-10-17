@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:http/http.dart' as http;
+import 'package:buscobien/40_security/couch_http.dart' as http;
 import 'package:uuid/uuid.dart';
 
 import '../../../../40_security/direccionip.dart';
@@ -16,8 +16,6 @@ import '../models/conocido.dart';
 const String _dbInvitaciones = 'buscobien_invitaciones';
 
 Map<String, String> get _authHeaders => {
-      'Authorization':
-          'Basic ${base64Encode(utf8.encode('$username:$password'))}',
       'Content-Type': 'application/json',
     };
 
@@ -49,7 +47,7 @@ class ConocidosNotifier extends AsyncNotifier<List<Conocido>> {
   }
 
   Future<List<Conocido>> _fetchConocidos(String userId) async {
-    final url = Uri.parse('$direccionip/$_dbInvitaciones/_find');
+    final url = Uri.parse('$dbBaseUrl/$_dbInvitaciones/_find');
     final body = jsonEncode({
       'selector': {
         'type': 'invitacion_social',
@@ -132,7 +130,7 @@ class ConocidosNotifier extends AsyncNotifier<List<Conocido>> {
         'timestamp': DateTime.now().toIso8601String(),
       });
 
-      final url = Uri.parse('$direccionip/$_dbInvitaciones');
+      final url = Uri.parse('$dbBaseUrl/$_dbInvitaciones');
       final response = await http.post(url, headers: _authHeaders, body: body);
 
       if (response.statusCode == 201) {
@@ -178,7 +176,7 @@ class ConocidosNotifier extends AsyncNotifier<List<Conocido>> {
         'status': 'accepted',
         'timestamp': DateTime.now().toIso8601String(),
       });
-      final url = Uri.parse('$direccionip/$_dbInvitaciones');
+      final url = Uri.parse('$dbBaseUrl/$_dbInvitaciones');
       final response = await http.post(url, headers: _authHeaders, body: body);
       if (response.statusCode == 201) {
         if (_currentUserId.isNotEmpty) {
@@ -200,7 +198,7 @@ class ConocidosNotifier extends AsyncNotifier<List<Conocido>> {
   /// Devuelve true si se borró (o ya no existía) y lo quita del estado local.
   Future<bool> eliminarContacto(String documentoId) async {
     try {
-      final url = Uri.parse('$direccionip/$_dbInvitaciones/$documentoId');
+      final url = Uri.parse('$dbBaseUrl/$_dbInvitaciones/$documentoId');
       final getResponse = await http.get(url, headers: _authHeaders);
       if (getResponse.statusCode == 404) {
         _quitarDelEstado(documentoId);
@@ -212,7 +210,7 @@ class ConocidosNotifier extends AsyncNotifier<List<Conocido>> {
           as Map<String, dynamic>;
       final rev = doc['_rev'] as String? ?? '';
       final delete = await http.delete(
-        Uri.parse('$direccionip/$_dbInvitaciones/$documentoId?rev=$rev'),
+        Uri.parse('$dbBaseUrl/$_dbInvitaciones/$documentoId?rev=$rev'),
         headers: _authHeaders,
       );
       if (delete.statusCode == 200 || delete.statusCode == 202) {
@@ -236,7 +234,7 @@ class ConocidosNotifier extends AsyncNotifier<List<Conocido>> {
   Future<void> responderInvitacion(
       String documentoId, InvitacionEstado nuevoEstado) async {
     try {
-      final getUrl = Uri.parse('$direccionip/$_dbInvitaciones/$documentoId');
+      final getUrl = Uri.parse('$dbBaseUrl/$_dbInvitaciones/$documentoId');
       final getResponse = await http.get(getUrl, headers: _authHeaders);
       if (getResponse.statusCode != 200) return;
 
@@ -244,7 +242,7 @@ class ConocidosNotifier extends AsyncNotifier<List<Conocido>> {
           as Map<String, dynamic>;
       doc['status'] = _statusStr(nuevoEstado);
 
-      final putUrl = Uri.parse('$direccionip/$_dbInvitaciones/$documentoId');
+      final putUrl = Uri.parse('$dbBaseUrl/$_dbInvitaciones/$documentoId');
       final putResponse =
           await http.put(putUrl, headers: _authHeaders, body: jsonEncode(doc));
 

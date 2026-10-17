@@ -2,9 +2,8 @@
 //--- FUNCIONES FUERA DEL PROVIDER LISTAFOTOS ----------------------------------
 //------------------------------------------------------------------------------
 import 'dart:async'; // Necesario para TimeoutException
-import 'dart:convert';
 import 'dart:io'; // Necesario para SocketException
-import 'package:http/http.dart' as http;
+import 'package:buscobien/40_security/couch_http.dart' as http;
 
 import '../../../../40_security/direccionip.dart';
 import '../../../../60_global_widgets/debugprint.dart';
@@ -38,16 +37,13 @@ Future<GetIdsFotosUserProp> recuperaIdsFotosDePropiedades(
 
   // URL de tu servidor CouchDB
   String baseUrl =
-      '$direccionip/buscobien_propiedades_casas_fotos/_design/DDUSPR/_view/getIdFotos?key=$encodedKey';
+      '$dbBaseUrl/buscobien_propiedades_casas_fotos/_design/DDUSPR/_view/getIdFotos?key=$encodedKey';
 
   debugPrintLevels(9, "URL IDS FOTOS: $baseUrl");
 
   // 3. Autenticación
-  String basicAuth =
-      'Basic ${base64Encode(utf8.encode('$username:$password'))}';
 
   Map<String, String> headers = {
-    'Authorization': basicAuth,
     'Content-Type': "application/json",
     'Accept': "application/json",
   };

@@ -965,3 +965,21 @@ Estado resultante: catálogo y referencia legibles sin sesión; las bases del pr
 **Pruebas:** 26 pruebas nuevas en `test/sesion_api_test.dart` (101 en total, `flutter analyze` sin hallazgos): decodificación y vigencia de tokens, persistencia solo del token de renovación, cabeceras, renovación única bajo concurrencia, renovación preventiva, rechazo de la renovación, falla de red, tiempo agotado, mensajes de error, registro, recuperación y el flujo completo de `sessionProvider` (inicio correcto, **contraseña incorrecta no autentica**, perfil elegido, cierre de sesión, sesión antigua no restaurada, sesión rechazada por el servidor). En `buscobien-api`, 79 pruebas.
 
 **Pendiente:** probar en dispositivo (Web, Android, iOS, Windows) el inicio y cierre de sesión, el registro y la recuperación de contraseña de punta a punta (el correo no sale hasta arreglar el SMTP del mailer, H8); migración de los 30 archivos con `Authorization: Basic` a `ApiClient` (C4); datos de usuario por la API (C5); renovación en los canales de chat (C6).
+
+### N. C4 (parte 1): módulos que ya tienen soporte en el servidor (2026-10-17)
+
+**Qué se hizo (repositorio `buscobien`):**
+
+| Cambio | Detalle |
+| :--- | :--- |
+| `couch_http.dart` | Sustituto de `package:http` para hablar con CouchDB: en las URL que empiezan con `dbBaseUrl` (`https://api.buscobien.net/db`) descarta cualquier `Authorization` del llamador, agrega el `Bearer` de la sesión (anónimo si no hay), renueva primero si el token venció y repite una vez tras renovar. Permitió migrar de forma mecánica los módulos cuyas bases ya están abiertas por S4 (decisión D7): propiedades (listado, conteo, búsqueda, publicar), espacios del usuario, avatar, fotos, me gusta, listas del usuario, conocidos, grupos, invitaciones y avisos de grupo, y el catálogo SEPOMEX |
+| Localidades del usuario | `localidades_repository.dart` usa `GET/POST /usuarios/me/localidades` y `DELETE …/:id` (la base `user_localidad` sigue cerrada) |
+| Búsqueda de usuarios | `usuarios_api.dart` usa `GET /usuarios/buscar`: la app ya no descarga documentos completos de usuarios, solo nombre, foto y perfil |
+| Datos de la sesión | `SessionRepository.getUserDataByName` usa `GET /usuarios/me`; ya no hay lectura de la vista de usuarios con credenciales de administrador ni contraseña en el cliente |
+| Compras (Stripe, opción B) | `compras_api.dart` + formulario nuevo (cantidades por tipo, meses, resumen informativo) que abre la página de pago de Stripe; `pagina_estado_compra.dart` consulta `GET /compras/:id` cada 3 s (hasta ~5 min) y al volver a la app. Ruta `/compra/estado`; regreso desde `/compra/exito` y `/compra/cancelada` (`navigateIfPurchase`). Se eliminó `provider_compra_espacios.dart` (escribía la compra desde el cliente, H-37). Android: `<queries>` con intent `VIEW https` |
+
+**Lo que sigue usando `Authorization: Basic` (se cierra con la parte 2):** `provider_mensajes.dart` (chat privado y su `_changes`), `grupos_mensajes_provider.dart`, `publicaciones_grupo_provider.dart` y `provider_listas_compartidas.dart` (la parte de `listas_prop_compartidas`). Esas bases siguen **cerradas** (D7) y necesitan endpoints en `buscobien-api`, incluido un canal en vivo para el chat que sustituya a `_changes`.
+
+**Pruebas:** `couch_http_test.dart` (8) y `compras_test.dart` (18: fórmula de importes, cliente, pantalla de estado, formulario, regreso desde Stripe). 127 pruebas en total y `flutter analyze` sin hallazgos.
+
+**Pendiente de probar en dispositivo:** pago completo con tarjeta de prueba de Stripe en Web (misma pestaña) y en Android/iOS/Windows (navegador externo y regreso a la app); depende de configurar Stripe en el servidor (`guia_habilitar_stripe.md`).

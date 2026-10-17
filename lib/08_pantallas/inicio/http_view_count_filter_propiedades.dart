@@ -1,4 +1,4 @@
-import 'package:http/http.dart' as http;
+import 'package:buscobien/40_security/couch_http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import '../../../40_security/direccionip.dart';
@@ -39,7 +39,7 @@ Future<int> viewCountFilterPropiedades(
   String parametros = "";
 
   // 3. Selección del Documento (URL Base)
-  url = '$direccionip/${endpointsPublicados[valueQry.etiquetaTipoDeEspacio]}';
+  url = '$dbBaseUrl/${endpointsPublicados[valueQry.etiquetaTipoDeEspacio]}';
 
   // 4. Selección de Diseño, Vista y Parámetros
   final isPrincipalTodos = valueQry.etiquetaMenuPrincipal == "Todas";
@@ -126,13 +126,11 @@ Future<int> viewCountFilterPropiedades(
 
   // 5. Ejecución de la Petición
   final fullUrl = "$url/_design/$design/_view/$view?$parametros";
-  final String basicAuth =
-      'Basic ${base64Encode(utf8.encode('$username:$password'))}';
 
   try {
     final response = await http.get(
       Uri.parse(fullUrl),
-      headers: {'Authorization': basicAuth, 'Content-Type': 'application/json'},
+      headers: {'Content-Type': 'application/json'},
     );
 
     if (response.statusCode == 200) {

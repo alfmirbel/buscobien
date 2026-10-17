@@ -1,4 +1,4 @@
-import 'package:http/http.dart' as http;
+import 'package:buscobien/40_security/couch_http.dart' as http;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -47,7 +47,7 @@ Future<EspaciosCasaGet> findPropiedadesEstadosde10en10(
 
   final dbName =
       endpointsPublicados[tipoEspacio] ?? endpointsPublicados["normales"];
-  url = '$direccionip/$dbName/_find';
+  url = '$dbBaseUrl/$dbName/_find';
 
   // Preparación de la petición
   final busquedaJSON = jsonEncode({
@@ -65,8 +65,6 @@ Future<EspaciosCasaGet> findPropiedadesEstadosde10en10(
   );
 
   final headers = {
-    'Authorization':
-        'Basic ${base64Encode(utf8.encode('$username:$password'))}',
     'Content-Type': 'application/json',
   };
 

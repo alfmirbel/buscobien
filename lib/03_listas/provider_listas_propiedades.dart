@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------------
 import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:http/http.dart' as http;
+import 'package:buscobien/40_security/couch_http.dart' as http;
 
 import '../40_security/direccionip.dart';
 import '../60_global_widgets/debugprint.dart';
@@ -37,8 +37,6 @@ class ClassListaPropiedadesProvider
 
   // Headers de Autenticación
   Map<String, String> get _headers => {
-    'Authorization':
-        'Basic ${base64Encode(utf8.encode('$username:$password'))}',
     'Content-Type': 'application/json',
   };
 
@@ -62,7 +60,7 @@ class ClassListaPropiedadesProvider
     try {
       // URL de la vista que devuelve los items de una lista específica
       String url =
-          '$direccionip/buscobien_listas_propiedades/_design/DDLOCAL/_view/vistaListaID?key="$listaIdTarget"';
+          '$dbBaseUrl/buscobien_listas_propiedades/_design/DDLOCAL/_view/vistaListaID?key="$listaIdTarget"';
       debugPrintLevels(10, 'HTTP getListaPropiedad, url = $url');
 
       final response = await http.get(Uri.parse(url), headers: _headers);
@@ -119,7 +117,7 @@ class ClassListaPropiedadesProvider
       final bodyJson = listaPropertyListModelToMap(dataModel);
 
       // Usamos la DB de relaciones
-      String url = '$direccionip/buscobien_listas_propiedades';
+      String url = '$dbBaseUrl/buscobien_listas_propiedades';
 
       final response = await http.post(
         Uri.parse(url),
@@ -151,7 +149,7 @@ class ClassListaPropiedadesProvider
 
     try {
       // 1. Buscamos el documento por la combinación de IDs
-      String findUrl = '$direccionip/buscobien_listas_propiedades/_find';
+      String findUrl = '$dbBaseUrl/buscobien_listas_propiedades/_find';
       final findBody = jsonEncode({
         "selector": {
           "listapropiedad.listaId":
@@ -201,7 +199,7 @@ class ClassListaPropiedadesProvider
       // por lo que debemos buscarlo. Si lo asignaste como _id, usa GET directo.
 
       // Opción A: Búsqueda por selector (más segura si listapropiedadId es un campo interno)
-      String findUrl = '$direccionip/buscobien_listas_propiedades/_find';
+      String findUrl = '$dbBaseUrl/buscobien_listas_propiedades/_find';
       final findBody = jsonEncode({
         "selector": {"listapropiedad.listapropiedadId": listapropiedadId},
         "limit": 1,
@@ -236,7 +234,7 @@ class ClassListaPropiedadesProvider
   // Método auxiliar privado para no repetir lógica de borrado
   Future<bool> _ejecutarBorrado(String docId, String docRev) async {
     String deleteUrl =
-        '$direccionip/buscobien_listas_propiedades/$docId';
+        '$dbBaseUrl/buscobien_listas_propiedades/$docId';
 
     final deleteResponse = await http.put(
       Uri.parse(deleteUrl),

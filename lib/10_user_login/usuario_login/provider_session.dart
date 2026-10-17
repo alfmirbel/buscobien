@@ -1,10 +1,8 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../40_security/api_providers.dart';
-import '../../40_security/direccionip.dart';
 import '../../08_pantallas/ubicacion/data_sepomex_localidades.dart';
 import '../../60_global_widgets/debugprint.dart';
 import '../data_models/data_get_user.dart';
@@ -27,12 +25,6 @@ SessionStorage sessionStorage(Ref ref) {
 @riverpod
 class SessionNotifier extends _$SessionNotifier {
   SessionStorage get _storage => ref.read(sessionStorageProvider);
-
-  Map<String, String> get _authHeaders {
-    String basicAuth =
-        'Basic ${base64Encode(utf8.encode('$username:$password'))}';
-    return {'Authorization': basicAuth, 'Content-Type': 'application/json'};
-  }
 
   @override
   AuthState build() {
@@ -758,30 +750,10 @@ class SessionNotifier extends _$SessionNotifier {
     final (statusCode, userData) = await repo.getUserDataByName(
       userName: state.sessionUserData.userName,
       nombrePerfil: state.nombrePerfil,
-      authHeaders: _authHeaders,
     );
     if (userData != null) {
       // FASE 5: marcar datos como cargados para evitar peticiones redundantes
       state = state.copyWith(userData: userData, isUserDataLoaded: true);
-    }
-    return statusCode;
-  }
-
-  Future<int> getUserIdNamePassByNameID() async {
-    final repo = ref.read(sessionRepositoryProvider);
-    final (statusCode, initialId) = await repo.getUserIdNamePassByNameID(
-      userId: state.sessionUserData.userId,
-      esPromotor: state.esPromotor,
-      authHeaders: _authHeaders,
-    );
-
-    if (initialId != null) {
-      state = state.copyWith(initialIdUserPass: initialId);
-      if (initialId.rows.isNotEmpty) {
-        // FASE 2 (26-05-18): resetInitialUserData(0) ya crea nuevas instancias
-        // inmutables para sessionUserData e initialIdUserPass — no hay que mutar.
-        resetInitialUserData(0);
-      }
     }
     return statusCode;
   }

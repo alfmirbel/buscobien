@@ -4,7 +4,7 @@ import 'dart:io';
 
 import 'package:buscobien/40_security/direccionip.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:http/http.dart' as http;
+import 'package:buscobien/40_security/couch_http.dart' as http;
 
 import '../../../../60_global_widgets/debugprint.dart';
 import '../lista_fotos_ordenadas/data_fotos_ordenadas_get_idpropiedad.dart';
@@ -38,15 +38,12 @@ Future<int> recuperaFotosOrdenadasIdProperty(
 
   // Asumimos que 'direccionip', 'username' y 'password' son variables globales o importadas
   String baseUrl =
-      '$direccionip/buscobien_fotos_ordenadas/_design/DDLISTAFOTOS/_view/idpropiedad?key=$keyEncoded';
+      '$dbBaseUrl/buscobien_fotos_ordenadas/_design/DDLISTAFOTOS/_view/idpropiedad?key=$keyEncoded';
 
   debugPrintLevels(7, "recuperaFotosOrdenadasIdProperty URL DE: $baseUrl");
 
-  String basicAuth =
-      'Basic ${base64Encode(utf8.encode('$username:$password'))}';
 
   Map<String, String> headers = {
-    'Authorization': basicAuth,
     'Content-Type': "application/json",
     'Accept': "application/json",
   };

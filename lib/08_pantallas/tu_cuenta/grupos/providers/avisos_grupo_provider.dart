@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:http/http.dart' as http;
+import 'package:buscobien/40_security/couch_http.dart' as http;
 import 'package:uuid/uuid.dart';
 
 import 'package:buscobien/40_security/direccionip.dart';
@@ -18,7 +18,6 @@ import 'package:buscobien/08_pantallas/tu_cuenta/grupos/models/aviso_grupo_model
 const String _dbAvisos = 'buscobien_grupos_avisos';
 
 Map<String, String> get _authHeaders => {
-  'Authorization': 'Basic ${base64Encode(utf8.encode('$username:$password'))}',
   'Content-Type': 'application/json',
 };
 
@@ -38,7 +37,7 @@ class AvisosGrupoNotifier extends AsyncNotifier<List<AvisoGrupoModel>> {
 
   Future<List<AvisoGrupoModel>> _fetch() async {
     try {
-      final url = Uri.parse('$direccionip/$_dbAvisos/_find');
+      final url = Uri.parse('$dbBaseUrl/$_dbAvisos/_find');
       final body = jsonEncode({
         'selector': {'type': 'aviso_grupo', 'grupoId': _grupoId},
         'sort': [
@@ -82,7 +81,7 @@ class AvisosGrupoNotifier extends AsyncNotifier<List<AvisoGrupoModel>> {
       );
 
       final response = await http.put(
-        Uri.parse('$direccionip/$_dbAvisos/$id'),
+        Uri.parse('$dbBaseUrl/$_dbAvisos/$id'),
         headers: _authHeaders,
         body: avisoGrupoModelToJson(aviso),
       );
@@ -103,7 +102,7 @@ class AvisosGrupoNotifier extends AsyncNotifier<List<AvisoGrupoModel>> {
   Future<bool> eliminarAviso(AvisoGrupoModel aviso) async {
     try {
       final getResp = await http.get(
-        Uri.parse('$direccionip/$_dbAvisos/${aviso.id}'),
+        Uri.parse('$dbBaseUrl/$_dbAvisos/${aviso.id}'),
         headers: _authHeaders,
       );
       if (getResp.statusCode != 200) return false;
@@ -111,7 +110,7 @@ class AvisosGrupoNotifier extends AsyncNotifier<List<AvisoGrupoModel>> {
       final rev = doc['_rev'] as String;
 
       final delResp = await http.put(
-        Uri.parse('$direccionip/$_dbAvisos/${aviso.id}'),
+        Uri.parse('$dbBaseUrl/$_dbAvisos/${aviso.id}'),
         headers: _authHeaders,
         body: jsonEncode({
           '_id': aviso.id,

@@ -3,7 +3,7 @@ import 'dart:core';
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
+import 'package:buscobien/40_security/couch_http.dart' as http;
 
 import '../../60_global_widgets/debugprint.dart';
 import 'data_user_avatar_get.dart';
@@ -75,20 +75,18 @@ class ClassUserAvatarNotifier extends _$ClassUserAvatarNotifier {
     debugPrintLevels(4, 'HTTP guardaArchivoAvatar (Native Attachments)');
 
     try {
-      String basicAuth = 'Basic ${base64Encode(utf8.encode('$username:$password'))}';
       String timestamp = DateTime.now().toString();
       String idFoto = generateSHA256Hash(idUsuario + file.name + timestamp);
 
       // Usamos el idFoto como documentId para CouchDB
       String encodedFilename = Uri.encodeComponent(file.name);
-      String uploadUrl = '$direccionip/buscobien_avatares/$idFoto/$encodedFilename';
+      String uploadUrl = '$dbBaseUrl/buscobien_avatares/$idFoto/$encodedFilename';
 
       List<int> fileBytes = await File(file.path!).readAsBytes();
 
       var response = await http.put(
         Uri.parse(uploadUrl),
         headers: {
-          'Authorization': basicAuth,
           'Content-Type': "image/jpeg", // O el mime detectado, usamos image/jpeg por defecto
         },
         body: fileBytes,
@@ -106,14 +104,11 @@ class ClassUserAvatarNotifier extends _$ClassUserAvatarNotifier {
     try {
       String encodedId = Uri.encodeComponent('"$idUsuario"');
       String baseUrl =
-          '$direccionip/buscobien_avatares/_design/DDUSER/_view/vistaUserID?key=$encodedId';
-      String basicAuth =
-          'Basic ${base64Encode(utf8.encode('$username:$password'))}';
+          '$dbBaseUrl/buscobien_avatares/_design/DDUSER/_view/vistaUserID?key=$encodedId';
 
       var response = await http.get(
         Uri.parse(baseUrl),
         headers: {
-          'Authorization': basicAuth,
           'Content-Type': "application/json",
         },
       );
@@ -157,16 +152,14 @@ class ClassUserAvatarNotifier extends _$ClassUserAvatarNotifier {
     int statusCode = 0;
     String encodedFilename = Uri.encodeComponent(file.name);
     // Para Attachments nativos, mandamos PUT /db/docId/filename?rev=...
-    String updateUrl = '$direccionip/buscobien_avatares/$recordId/$encodedFilename?rev=$rev';
+    String updateUrl = '$dbBaseUrl/buscobien_avatares/$recordId/$encodedFilename?rev=$rev';
     
     debugPrintLevels(4, "01 updateRecordWithFile updateUrl: $updateUrl");
 
     List<int> fileBytes = File(filePath).readAsBytesSync();
 
-    String basicAuth = 'Basic ${base64Encode(utf8.encode('$username:$password'))}';
 
     Map<String, String> headers = {
-      'Authorization': basicAuth,
       'Content-Type': "image/jpeg", // tipo de contenido binario
     };
 

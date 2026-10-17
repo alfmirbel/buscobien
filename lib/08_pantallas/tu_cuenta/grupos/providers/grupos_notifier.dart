@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:http/http.dart' as http;
+import 'package:buscobien/40_security/couch_http.dart' as http;
 import 'package:uuid/uuid.dart';
 
 import 'package:buscobien/40_security/direccionip.dart';
@@ -14,8 +14,6 @@ import 'package:buscobien/08_pantallas/tu_cuenta/grupos/models/grupo_model.dart'
 // =============================================================================
 
 Map<String, String> get _authHeaders => {
-      'Authorization':
-          'Basic ${base64Encode(utf8.encode('$username:$password'))}',
       'Content-Type': 'application/json',
     };
 
@@ -39,7 +37,7 @@ class GruposNotifier extends AsyncNotifier<List<GrupoModel>> {
   Future<void> cargarMisGrupos(String userId) async {
     state = const AsyncValue.loading();
     try {
-      final url = Uri.parse('$direccionip/$_dbGrupos/_find');
+      final url = Uri.parse('$dbBaseUrl/$_dbGrupos/_find');
       final body = jsonEncode({
         'selector': {
           'type': 'grupo',
@@ -73,7 +71,7 @@ class GruposNotifier extends AsyncNotifier<List<GrupoModel>> {
   // Carga todos los grupos públicos (para la pantalla Descubrir).
   Future<List<GrupoModel>> cargarGruposPublicos() async {
     try {
-      final url = Uri.parse('$direccionip/$_dbGrupos/_find');
+      final url = Uri.parse('$dbBaseUrl/$_dbGrupos/_find');
       final body = jsonEncode({
         'selector': {
           'type': 'grupo',
@@ -130,7 +128,7 @@ class GruposNotifier extends AsyncNotifier<List<GrupoModel>> {
         timestamp: DateTime.now().toIso8601String(),
       );
 
-      final url = Uri.parse('$direccionip/$_dbGrupos');
+      final url = Uri.parse('$dbBaseUrl/$_dbGrupos');
       final response = await http.post(
         url,
         headers: _authHeaders,
@@ -156,7 +154,7 @@ class GruposNotifier extends AsyncNotifier<List<GrupoModel>> {
       String grupoId, MiembroGrupoModel nuevoMiembro) async {
     try {
       // 1. Obtener documento actual para tener el _rev vigente
-      final getUrl = Uri.parse('$direccionip/$_dbGrupos/$grupoId');
+      final getUrl = Uri.parse('$dbBaseUrl/$_dbGrupos/$grupoId');
       final getResponse = await http.get(getUrl, headers: _authHeaders);
       if (getResponse.statusCode != 200) return false;
 
@@ -171,7 +169,7 @@ class GruposNotifier extends AsyncNotifier<List<GrupoModel>> {
       final miembrosActualizados = [...grupoActual.miembros, nuevoMiembro];
       grupoActual.miembros = miembrosActualizados;
 
-      final putUrl = Uri.parse('$direccionip/$_dbGrupos/$grupoId');
+      final putUrl = Uri.parse('$dbBaseUrl/$_dbGrupos/$grupoId');
       final putResponse = await http.put(
         putUrl,
         headers: _authHeaders,
@@ -198,7 +196,7 @@ class GruposNotifier extends AsyncNotifier<List<GrupoModel>> {
   /// el usuario no es miembro, el miembro es administrador o falló la escritura.
   Future<GrupoModel?> eliminarMiembro(String grupoId, String usuarioId) async {
     try {
-      final getUrl = Uri.parse('$direccionip/$_dbGrupos/$grupoId');
+      final getUrl = Uri.parse('$dbBaseUrl/$_dbGrupos/$grupoId');
       final getResponse = await http.get(getUrl, headers: _authHeaders);
       if (getResponse.statusCode != 200) return null;
 
@@ -238,7 +236,7 @@ class GruposNotifier extends AsyncNotifier<List<GrupoModel>> {
   // Actualiza los datos editables de un grupo (nombre, descripción, objetivo, etc.).
   Future<bool> actualizarGrupo(GrupoModel grupo) async {
     try {
-      final url = Uri.parse('$direccionip/$_dbGrupos/${grupo.id}');
+      final url = Uri.parse('$dbBaseUrl/$_dbGrupos/${grupo.id}');
       final response = await http.put(
         url,
         headers: _authHeaders,
@@ -270,7 +268,7 @@ final gruposProvider =
 // Provider separado para la pantalla Descubrir — grupos públicos.
 // No afecta el estado de "mis grupos" del usuario.
 final gruposPublicosProvider = FutureProvider<List<GrupoModel>>((ref) async {
-  final url = Uri.parse('$direccionip/$_dbGrupos/_find');
+  final url = Uri.parse('$dbBaseUrl/$_dbGrupos/_find');
   final body = jsonEncode({
     'selector': {
       'type': 'grupo',

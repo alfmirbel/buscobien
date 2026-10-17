@@ -40,6 +40,10 @@ class ApiClient {
 
   Future<bool>? _renovando;
 
+  /// Renueva la sesión si hace falta (una sola renovación a la vez). Devuelve `true` si hay un
+  /// token de acceso nuevo.
+  Future<bool> renovarSesion() => _renovar();
+
   Future<ApiResponse> get(String ruta, {Map<String, String>? query, bool auth = true}) =>
       _enviar('GET', ruta, query: query, auth: auth);
 

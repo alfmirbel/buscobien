@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:http/http.dart' as http;
+import 'package:buscobien/40_security/couch_http.dart' as http;
 import 'package:uuid/uuid.dart';
 
 import '../40_security/direccionip.dart';
@@ -20,7 +20,6 @@ import 'provider_user_lists.dart';
 const String _dbMeGusta = 'buscobien_megusta_propiedades';
 
 Map<String, String> get _authHeaders => {
-  'Authorization': 'Basic ${base64Encode(utf8.encode('$username:$password'))}',
   'Content-Type': 'application/json',
 };
 
@@ -111,7 +110,7 @@ class MeGustaNotifier extends AsyncNotifier<List<MeGustaModel>> {
   // ---------------------------------------------------------------------------
 
   Future<List<MeGustaModel>> _fetch(String userId) async {
-    final url = Uri.parse('$direccionip/$_dbMeGusta/_find');
+    final url = Uri.parse('$dbBaseUrl/$_dbMeGusta/_find');
     final body = jsonEncode({
       'selector': {'type': 'me_gusta', 'usuarioId': userId},
       'limit': 500,
@@ -137,7 +136,7 @@ class MeGustaNotifier extends AsyncNotifier<List<MeGustaModel>> {
         timestamp: DateTime.now().toIso8601String(),
       );
       final response = await http.put(
-        Uri.parse('$direccionip/$_dbMeGusta/$id'),
+        Uri.parse('$dbBaseUrl/$_dbMeGusta/$id'),
         headers: _authHeaders,
         body: meGustaModelToJson(modelo),
       );
@@ -160,7 +159,7 @@ class MeGustaNotifier extends AsyncNotifier<List<MeGustaModel>> {
     try {
       // Obtener _rev actual
       final getResp = await http.get(
-        Uri.parse('$direccionip/$_dbMeGusta/${modelo.id}'),
+        Uri.parse('$dbBaseUrl/$_dbMeGusta/${modelo.id}'),
         headers: _authHeaders,
       );
       if (getResp.statusCode != 200) return false;
@@ -170,7 +169,7 @@ class MeGustaNotifier extends AsyncNotifier<List<MeGustaModel>> {
       doc['_deleted'] = true;
 
       final delResp = await http.put(
-        Uri.parse('$direccionip/$_dbMeGusta/${modelo.id}'),
+        Uri.parse('$dbBaseUrl/$_dbMeGusta/${modelo.id}'),
         headers: _authHeaders,
         body: jsonEncode(doc),
       );
@@ -224,7 +223,7 @@ class MeGustaNotifier extends AsyncNotifier<List<MeGustaModel>> {
 
       // Anti-duplicado: verificar si la propiedad ya está en Favoritas
       final checkUrl = Uri.parse(
-        '$direccionip/buscobien_listas_propiedades/_find',
+        '$dbBaseUrl/buscobien_listas_propiedades/_find',
       );
       final checkBody = jsonEncode({
         'selector': {
@@ -249,7 +248,7 @@ class MeGustaNotifier extends AsyncNotifier<List<MeGustaModel>> {
         }
       }
 
-      final url = Uri.parse('$direccionip/buscobien_listas_propiedades');
+      final url = Uri.parse('$dbBaseUrl/buscobien_listas_propiedades');
       final body = jsonEncode({
         '_id': const Uuid().v4(),
         'listapropiedad': {

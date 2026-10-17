@@ -1,8 +1,7 @@
 import 'dart:async'; // Necesario para TimeoutException
-import 'dart:convert';
 import 'dart:io'; // Necesario para SocketException
 import 'dart:math'; // Necesario para Random
-import 'package:http/http.dart' as http;
+import 'package:buscobien/40_security/couch_http.dart' as http;
 
 // Asumimos que estas importaciones existen en tu proyecto
 import '../../../../40_security/direccionip.dart';
@@ -20,7 +19,7 @@ Future<CouchDbReturnValue> guardaFotosOrdenadas(
   debugPrintLevels(7, "HTTP guardaFotosOrdenadas START");
 
   // URL de tu servidor CouchDB
-  String baseUrl = '$direccionip/buscobien_fotos_ordenadas';
+  String baseUrl = '$dbBaseUrl/buscobien_fotos_ordenadas';
 
   // 1. GENERACIÓN DE DATOS
   listaFotos.timestamp = DateTime.now().toString();
@@ -40,11 +39,8 @@ Future<CouchDbReturnValue> guardaFotosOrdenadas(
   );
 
   // 2. AUTENTICACIÓN
-  String basicAuth =
-      'Basic ${base64Encode(utf8.encode('$username:$password'))}';
 
   Map<String, String> headers = {
-    'Authorization': basicAuth,
     'Content-Type': "application/json",
   };
 

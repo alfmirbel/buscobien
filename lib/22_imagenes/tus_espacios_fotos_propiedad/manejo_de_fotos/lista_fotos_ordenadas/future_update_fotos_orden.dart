@@ -1,7 +1,7 @@
 import 'dart:async'; // Necesario para TimeoutException
 import 'dart:convert';
 import 'dart:math'; // Necesario para Random
-import 'package:http/http.dart' as http;
+import 'package:buscobien/40_security/couch_http.dart' as http;
 
 // Asumimos que estas importaciones existen en tu proyecto
 import '../../../../40_security/direccionip.dart';
@@ -28,7 +28,7 @@ Future<int> actualizaFotosOrdenadas(ValueGetIdPropiedad listaFotos) async {
   int statusCode = 0;
 
   // URL de tu servidor CouchDB
-  String baseUrl = '$direccionip/buscobien_fotos_ordenadas';
+  String baseUrl = '$dbBaseUrl/buscobien_fotos_ordenadas';
 
   // 1. GENERACIÓN DE HASH Y TIMESTAMP
   // Se mantiene la lógica original de actualizar el ID interno y el timestamp
@@ -41,11 +41,8 @@ Future<int> actualizaFotosOrdenadas(ValueGetIdPropiedad listaFotos) async {
         Random().nextInt(999).toString(),
   );
 
-  String basicAuth =
-      'Basic ${base64Encode(utf8.encode('$username:$password'))}';
 
   Map<String, String> headers = {
-    'Authorization': basicAuth,
     'Content-Type': "application/json",
   };
 

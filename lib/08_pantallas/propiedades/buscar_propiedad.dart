@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:http/http.dart' as http;
+import 'package:buscobien/40_security/couch_http.dart' as http;
 
 import '../../40_security/direccionip.dart';
 import '../../40_security/urls_endpoints_espacios.dart';
@@ -8,7 +8,6 @@ import '../../60_global_widgets/debugprint.dart';
 import '../inicio/data_espacios_casas_get.dart';
 
 Map<String, String> get _cabeceras => {
-  'Authorization': 'Basic ${base64Encode(utf8.encode('$username:$password'))}',
   'Content-Type': 'application/json',
 };
 
@@ -24,7 +23,7 @@ Future<ValueEspaciosCasaGet?> buscarPropiedadPublicada(
     try {
       final respuesta = await http
           .get(
-            Uri.parse('$direccionip/$base/_design/DDUSER/_view/idPropiedad/?key=$clave'),
+            Uri.parse('$dbBaseUrl/$base/_design/DDUSER/_view/idPropiedad/?key=$clave'),
             headers: _cabeceras,
           )
           .timeout(const Duration(seconds: 10));
@@ -48,7 +47,7 @@ Future<List<Map<String, dynamic>>> propiedadesPublicadasDeUsuario(
     try {
       final respuesta = await http
           .post(
-            Uri.parse('$direccionip/$base/_find'),
+            Uri.parse('$dbBaseUrl/$base/_find'),
             headers: _cabeceras,
             body: jsonEncode({
               'selector': {'espacioscasa.idusuario': idUsuario},

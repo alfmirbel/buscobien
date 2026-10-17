@@ -7,7 +7,7 @@ import 'dart:io'; // Necesario para SocketException
 import 'dart:math';
 import 'package:buscobien/22_imagenes/data_models/data_fotos_casa.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:http/http.dart' as http;
+import 'package:buscobien/40_security/couch_http.dart' as http;
 
 import '../../../../07_routes/routes_parameters.dart';
 import '../../../../40_security/direccionip.dart';
@@ -40,13 +40,10 @@ Future<int> deleteFotoPorIdFoto(String id, String rev) async {
   // OPTIMIZACIÓN: Codificar parámetros URL
   String encodedRev = Uri.encodeQueryComponent(rev);
   String baseUrl =
-      '$direccionip/buscobien_propiedades_casas_fotos/$id?rev=$encodedRev';
+      '$dbBaseUrl/buscobien_propiedades_casas_fotos/$id?rev=$encodedRev';
 
-  String basicAuth =
-      'Basic ${base64Encode(utf8.encode('$username:$password'))}';
 
   Map<String, String> headers = {
-    'Authorization': basicAuth,
     'Content-Type': "application/json",
   };
 
@@ -97,12 +94,9 @@ Future<String> recuperaFotoPorIdFoto(String idFoto) async {
   // OPTIMIZACIÓN: Codificar la key para evitar errores de sintaxis URL
   String encodedKey = Uri.encodeComponent('"$idFoto"');
   String baseUrl =
-      '$direccionip/buscobien_propiedades_casas_fotos/_design/DDFOTO/_view/idFoto?key=$encodedKey';
+      '$dbBaseUrl/buscobien_propiedades_casas_fotos/_design/DDFOTO/_view/idFoto?key=$encodedKey';
 
-  String basicAuth =
-      'Basic ${base64Encode(utf8.encode('$username:$password'))}';
   Map<String, String> headers = {
-    'Authorization': basicAuth,
     'Content-Type': "application/json",
   };
 
@@ -171,12 +165,9 @@ Future<FotosCasaClass> recuperaFotoCompletaPorIdFoto(String idFoto) async {
   // OPTIMIZACIÓN: Codificar la key para evitar errores de sintaxis URL
   String encodedKey = Uri.encodeComponent('"$idFoto"');
   String baseUrl =
-      '$direccionip/buscobien_propiedades_casas_fotos/_design/DDFOTO/_view/idFoto?key=$encodedKey';
+      '$dbBaseUrl/buscobien_propiedades_casas_fotos/_design/DDFOTO/_view/idFoto?key=$encodedKey';
 
-  String basicAuth =
-      'Basic ${base64Encode(utf8.encode('$username:$password'))}';
   Map<String, String> headers = {
-    'Authorization': basicAuth,
     'Content-Type': "application/json",
   };
 
@@ -233,14 +224,11 @@ Future<CuentaFotos> numeroDeImagenesIdUserPropiedad(
   String encodedKey = Uri.encodeComponent(jsonKey);
 
   String baseUrl =
-      '$direccionip/buscobien_propiedades_casas_fotos/_design/DDUSPR/_view/cuentaFotos?key=$encodedKey';
+      '$dbBaseUrl/buscobien_propiedades_casas_fotos/_design/DDUSPR/_view/cuentaFotos?key=$encodedKey';
 
   debugPrintLevels(9, "------------ URL: $baseUrl");
 
-  String basicAuth =
-      'Basic ${base64Encode(utf8.encode('$username:$password'))}';
   Map<String, String> headers = {
-    'Authorization': basicAuth,
     'Content-Type': "application/json",
   };
 
@@ -290,9 +278,7 @@ Future<ResultadoGuardaFoto> guardaFotoEnFotosDeLaPropiedad(
     idFoto: "",
   );
 
-  String uploadUrl = '$direccionip/buscobien_propiedades_casas_fotos';
-  String basicAuth =
-      'Basic ${base64Encode(utf8.encode('$username:$password'))}';
+  String uploadUrl = '$dbBaseUrl/buscobien_propiedades_casas_fotos';
   String timestamp = DateTime.now().toString();
 
   // Generación de ID único
@@ -325,7 +311,6 @@ Future<ResultadoGuardaFoto> guardaFotoEnFotosDeLaPropiedad(
   };
 
   Map<String, String> headers = {
-    'Authorization': basicAuth,
     'Content-Type': "application/json",
   };
 
@@ -381,14 +366,11 @@ Future<FotosCasaGetIDs> recuperaFotosDePropiedadesSkipLimit(
 
   // CORRECCIÓN: Se eliminó el doble ']]' que había en el código original
   String baseUrl =
-      '$direccionip/buscobien_propiedades_casas_fotos/_design/DDUSPR/_view/userproperty?key=$encodedKey&skip=$skip&limit=$limit';
+      '$dbBaseUrl/buscobien_propiedades_casas_fotos/_design/DDUSPR/_view/userproperty?key=$encodedKey&skip=$skip&limit=$limit';
 
   debugPrintLevels(7, "URL SkipLimit: $baseUrl");
 
-  String basicAuth =
-      'Basic ${base64Encode(utf8.encode('$username:$password'))}';
   Map<String, String> headers = {
-    'Authorization': basicAuth,
     'Content-Type': "application/json",
   };
 
@@ -434,14 +416,11 @@ Future<int> recuperaFotosDePropiedades(
   String jsonKey = '["$idUsuario","$idPropiedad"]';
   String encodedKey = Uri.encodeComponent(jsonKey);
   String baseUrl =
-      '$direccionip/buscobien_propiedades_casas_fotos/_design/DDUSPR/_view/userproperty?key=$encodedKey';
+      '$dbBaseUrl/buscobien_propiedades_casas_fotos/_design/DDUSPR/_view/userproperty?key=$encodedKey';
 
   debugPrintLevels(7, "URL: $baseUrl");
 
-  String basicAuth =
-      'Basic ${base64Encode(utf8.encode('$username:$password'))}';
   Map<String, String> headers = {
-    'Authorization': basicAuth,
     'Content-Type': "application/json",
   };
 
@@ -509,14 +488,11 @@ Future<ListaFotosIdsPropiedadGet> getListaIdsFotosByIdUserIdPropiedad(
   String jsonKey = '["$idUsuario","$idPropiedad"]';
   String encodedKey = Uri.encodeComponent(jsonKey);
   String baseUrl =
-      '$direccionip/buscobien_propiedades_casas_fotos/_design/DDUSPR/_view/idUserPropiedadFoto?key=$encodedKey';
+      '$dbBaseUrl/buscobien_propiedades_casas_fotos/_design/DDUSPR/_view/idUserPropiedadFoto?key=$encodedKey';
 
   debugPrintLevels(7, "URL: $baseUrl");
 
-  String basicAuth =
-      'Basic ${base64Encode(utf8.encode('$username:$password'))}';
   Map<String, String> headers = {
-    'Authorization': basicAuth,
     'Content-Type': "application/json",
   };
 
@@ -566,14 +542,11 @@ Future<ListaFotosIdsPropiedadGet> getListaIdsFotosByIdPropiedad(
 
   String encodedKey = Uri.encodeComponent('"$idPropiedad"');
   String baseUrl =
-      '$direccionip/buscobien_propiedades_casas_fotos/_design/DDFOTO/_view/idFotoIdPropiedad?key=$encodedKey';
+      '$dbBaseUrl/buscobien_propiedades_casas_fotos/_design/DDFOTO/_view/idFotoIdPropiedad?key=$encodedKey';
 
   debugPrintLevels(7, "URL: $baseUrl");
 
-  String basicAuth =
-      'Basic ${base64Encode(utf8.encode('$username:$password'))}';
   Map<String, String> headers = {
-    'Authorization': basicAuth,
     'Content-Type': "application/json",
   };
 

@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:buscobien/40_security/generate_hash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:http/http.dart' as http;
+import 'package:buscobien/40_security/couch_http.dart' as http;
 
 import '../40_security/direccionip.dart';
 import '../60_global_widgets/debugprint.dart';
@@ -39,15 +39,12 @@ class UserListsNotifier extends Notifier<GetUserPropertyListModel> {
 
     int resultado = 0;
     try {
-      String basicAuth =
-          'Basic ${base64Encode(utf8.encode('$username:$password'))}';
       Map<String, String> headers = {
-        'Authorization': basicAuth,
         'Content-Type': 'application/json',
       };
 
       String url =
-          '$direccionip/buscobien_usuarios_listas/_design/DDUSER/_view/vistaUserID/?key="$userId"';
+          '$dbBaseUrl/buscobien_usuarios_listas/_design/DDUSER/_view/vistaUserID/?key="$userId"';
       debugPrintLevels(10, "HTTP fetchUserLists: url=$url");
 
       final response = await http.get(Uri.parse(url), headers: headers);
@@ -129,11 +126,8 @@ class UserListsNotifier extends Notifier<GetUserPropertyListModel> {
         ],
       );
 
-      final url = Uri.parse('$direccionip/buscobien_usuarios_listas');
-      String basicAuth =
-          'Basic ${base64Encode(utf8.encode('$username:$password'))}';
+      final url = Uri.parse('$dbBaseUrl/buscobien_usuarios_listas');
       Map<String, String> headers = {
-        'Authorization': basicAuth,
         'Content-Type': 'application/json',
       };
 
@@ -172,16 +166,13 @@ class UserListsNotifier extends Notifier<GetUserPropertyListModel> {
     try {
       debugPrintLevels(10, "Intentando borrar lista: docId=$docId");
 
-      String basicAuth =
-          'Basic ${base64Encode(utf8.encode('$username:$password'))}';
       Map<String, String> headers = {
-        'Authorization': basicAuth,
         'Content-Type': 'application/json',
       };
 
       // GET para obtener el _rev actual del documento en CouchDB
       final docUrl = Uri.parse(
-        '$direccionip/buscobien_usuarios_listas/$docId',
+        '$dbBaseUrl/buscobien_usuarios_listas/$docId',
       );
       final getResponse = await http.get(docUrl, headers: headers);
       if (getResponse.statusCode != 200) {

@@ -1,424 +1,248 @@
-//import 'package:buscobien/08_pantallas/propiedades/tus_propiedades/form_captura_propiedad.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import '../../../../60_global_widgets/campo_texto.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';
-import '../../../../10_user_login/usuario_login/provider_session.dart';
-import '../../../../20_var_globales/couchdb_errors.dart';
-import '../../../../60_global_widgets/debugprint.dart';
-import '../../../../60_global_widgets/dialogbox_mensaje_general.dart';
-import '../form_update_espacio_comprado.dart';
-import 'provider_compra_espacios.dart';
-import '../../../../20_var_globales/var_color_themes.dart';
-import '../../../../20_var_globales/var_color_widget.dart';
-import '../../../../20_var_globales/variables_globales.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../07_routes/app_routes.dart';
+import '../../../../20_var_globales/var_color_themes.dart';
+import '../../../../60_global_widgets/dialogbox_mensaje_general.dart';
+import 'compras_api.dart';
+
+/// Compra de espacios: se eligen cantidades y meses, y el pago se hace en Stripe.
+/// Los importes de esta pantalla son informativos; el servidor calcula el cobro real.
 class PaginaCompraEspacios extends ConsumerStatefulWidget {
-  const PaginaCompraEspacios({super.key});
+  const PaginaCompraEspacios({super.key, ComprasApi? api}) : _api = api;
+
+  final ComprasApi? _api;
 
   @override
-  // ignore: no_logic_in_create_state
-  ConsumerState createState() {
-    debugPrintLevels(1, " **************************************************");
-    debugPrintLevels(1, "  1. PaginaCompraEspacios createState");
-    debugPrintLevels(1, " **************************************************");
-    return PaginaCompraEspaciosState();
-  }
+  ConsumerState<PaginaCompraEspacios> createState() => PaginaCompraEspaciosState();
 }
 
 class PaginaCompraEspaciosState extends ConsumerState<PaginaCompraEspacios> {
-  double alto = 25;
-  double ancho = 100;
-  double verticalWidth = 275.00;
-  String idUsuario = "";
+  late final ComprasApi _api = widget._api ?? comprasApi;
 
-  final GlobalKey<FormState> formKeyCompraEspacio = GlobalKey<FormState>();
-  bool _comprando = false; // evita registrar la compra dos veces
+  PreciosCompra? _precios;
+  String? _errorPrecios;
+  final Map<String, int> _cantidades = {for (final t in tiposDeEspacio) t: 0};
+  int _meses = 1;
+  bool _comprando = false; // evita iniciar dos pagos a la vez
 
   @override
   void initState() {
-    debugPrintLevels(1, " **************************************************");
-    debugPrintLevels(1, "  1. PaginaCompraEspacios initState");
-    debugPrintLevels(1, " **************************************************");
-    idUsuario = ref
-        .read(sessionProvider)
-        .userData
-        .rows[0]
-        .value
-        .usuario
-        .idUsuario;
-    ref.read(compraDeEspaciosProvider.notifier).resetCampoEspacioCompra();
-    ref
-        .read(compraDeEspaciosProvider.notifier)
-        .setCampoEspacioCompra(ref, "idUsuario", idUsuario);
-
     super.initState();
+    _cargarPrecios();
   }
 
-  Future<void> _comprar() async {
-    final formulario = formKeyCompraEspacio.currentState;
-    if (formulario == null || _comprando || !formulario.validate()) return;
-    formulario.save();
+  Future<void> _cargarPrecios() async {
+    setState(() => _errorPrecios = null);
+    final r = await _api.precios();
+    if (!mounted) return;
+    setState(() {
+      if (r.ok) {
+        _precios = r.dato;
+      } else {
+        _errorPrecios = r.mensaje;
+      }
+    });
+  }
+
+  void _cambiar(String tipo, int delta) {
+    final maximo = _precios?.maximoPorTipo ?? 0;
+    setState(() => _cantidades[tipo] = ((_cantidades[tipo] ?? 0) + delta).clamp(0, maximo));
+  }
+
+  Future<void> _pagar() async {
+    final precios = _precios;
+    if (precios == null || _comprando || calcularVistaPrevia(precios, _cantidades, _meses).vacia) return;
     setState(() => _comprando = true);
 
-    int estado = 0;
-    try {
-      estado = await ref
-          .read(compraDeEspaciosProvider.notifier)
-          .writeCompraEspaciosToCouchDB(ref);
-      debugPrintLevels(2, "Pagina Compra Espacios writeCompraEspaciosToCouchDB status: $estado");
-    } catch (e) {
-      debugPrintLevels(1, "Pagina Compra Espacios exception: $e");
-    }
+    final r = await _api.iniciarPago(meses: _meses, cantidades: _cantidades);
     if (!mounted) return;
-
-    await showMessageDialog(
-      context,
-      "Compra Espacios",
-      codigoCouchDB.containsKey(estado)
-          ? codigoCouchDB[estado]!.label
-          : (estado == 0 ? "No se pudo registrar la compra. Inténtalo de nuevo." : "Se generaron los espacios."),
-      estado == 0 ? appTheme.error : appTheme.primary,
-      TextAlign.center,
-      "Salir",
+    if (!r.ok) {
+      setState(() => _comprando = false);
+      await showMessageDialog(context, 'Compra de espacios', r.mensaje, appTheme.error, TextAlign.center, 'Cerrar');
+      return;
+    }
+    final inicio = r.dato!;
+    final abierto = await launchUrl(
+      Uri.parse(inicio.checkoutUrl),
+      webOnlyWindowName: '_self',
     );
     if (!mounted) return;
-    if (estado == 0) {
+    if (!abierto) {
       setState(() => _comprando = false);
-    } else {
-      Navigator.pop(context);
+      await showMessageDialog(
+        context,
+        'Compra de espacios',
+        'No se pudo abrir la página de pago.',
+        appTheme.error,
+        TextAlign.center,
+        'Cerrar',
+      );
+      return;
     }
+    // En Web la misma pestaña ya navegó a Stripe; en móvil/escritorio se espera aquí la confirmación.
+    if (kIsWeb) return;
+    await Navigator.of(context).pushReplacementNamed(AppRoutes.estadoCompra, arguments: inicio.compraId);
   }
-
-  //-----------------------------------------------------------------------------
-  @override
-  void didChangeDependencies() {
-    debugPrintLevels(1, " PaginaCompraEspacios didChangeDependencies");
-    super.didChangeDependencies();
-  }
-
-  @override
-  void didUpdateWidget(covariant PaginaCompraEspacios oldWidget) {
-    debugPrintLevels(1, " PaginaCompraEspacios didUpdateWidget");
-    super.didUpdateWidget(oldWidget);
-  }
-
-  @override
-  void deactivate() {
-    debugPrintLevels(1, " PaginaCompraEspacios deactivate");
-    super.deactivate();
-  }
-
-  @override
-  void dispose() {
-    debugPrintLevels(1, " PaginaCompraEspacios dispose");
-    super.dispose();
-  }
-
-  //-----------------------------------------------------------------------------
 
   @override
   Widget build(BuildContext context) {
-    debugPrintLevels(1, " **************************************************");
-    debugPrintLevels(1, "  3. PaginaCompraEspacios build");
-    debugPrintLevels(1, " **************************************************");
-    screenWidth = MediaQuery.of(context).size.width;
-    screenHeight = MediaQuery.of(context).size.height;
-
-    setState(() {
-      screenWidth = MediaQuery.of(context).size.width * 0.8;
-      screenHeight = MediaQuery.of(context).size.height;
-    });
-
-    //-SCAFFOLD---------------------------------------------------------------------
+    final precios = _precios;
     return Scaffold(
+      backgroundColor: appTheme.surface,
       appBar: AppBar(
-        toolbarHeight: 40.0, // default kToolbarHeight = 56.0
+        toolbarHeight: 40.0,
         centerTitle: true,
         titleSpacing: 0,
         backgroundColor: appTheme.primary,
         iconTheme: IconThemeData(size: 14, color: appTheme.onPrimary),
         title: Text(
           'Compra de Espacios',
-          style: TextStyle(
-            color: appTheme.onPrimary,
-            fontWeight: FontWeight.bold,
-            fontSize: 14,
-          ),
+          style: TextStyle(color: appTheme.onPrimary, fontWeight: FontWeight.bold, fontSize: 14),
         ),
-        leading: IconButton(tooltip: 'Regresar', 
+        leading: IconButton(
+          tooltip: 'Regresar',
           color: appTheme.onPrimary,
           icon: const Icon(Symbols.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Form(
-          key: formKeyCompraEspacio,
-          child: Column(
-            children: [
-              Center(
-                child: Column(
-                  children: [
-                    const SizedBox(height: 20),
-                    Text(
-                      'Espacios',
-                      textAlign: TextAlign.center,
-                      maxLines: 2,
-                      style: TextStyle(
-                        color: appTheme.primary,
-                        fontSize: fontSizeTituloPagina,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: "Comfortaa",
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 20),
-              Center(
-                child: Text(
-                  "Número de espacios",
-                  maxLines: 2,
-                  style: TextStyle(
-                    fontFamily: 'Outfit',
-                    color: appTheme.secondary,
-                    fontSize: fontSizeTituloPagina,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              Wrap(
-                crossAxisAlignment: WrapCrossAlignment.start,
-                spacing: 20,
-                runSpacing: 10,
-                alignment: WrapAlignment.start,
-                children: [
-                  renglonCapturaGet(
-                    "noDeEspaciosNormales",
-                    buildCampoCompraEspacioCasa(ref, "noDeEspaciosNormales"),
-                    Alignment.topLeft,
-                    300,
-                  ),
-                  renglonCapturaGet(
-                    "noDeEspaciosDestacados",
-                    buildCampoCompraEspacioCasa(ref, "noDeEspaciosDestacados"),
-                    Alignment.topLeft,
-                    300,
-                  ),
-                  renglonCapturaGet(
-                    "noDeEspaciosSuperdestacados",
-                    buildCampoCompraEspacioCasa(ref, "noDeEspaciosSuperdestacados"),
-                    Alignment.topLeft,
-                    300,
-                  ),
-                  renglonCapturaGet(
-                    "noDeEspaciosOportunidades",
-                    buildCampoCompraEspacioCasa(ref, "noDeEspaciosOportunidades"),
-                    Alignment.topLeft,
-                    300,
-                  ),
-                  renglonCapturaGet(
-                    "noDeEspaciosRemates",
-                    buildCampoCompraEspacioCasa(ref, "noDeEspaciosRemates"),
-                    Alignment.topLeft,
-                    300,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              Center(
-                child: Text(
-                  "Costo de los espacios",
-                  maxLines: 2,
-                  style: TextStyle(
-                    fontFamily: 'Outfit',
-                    color: appTheme.secondary,
-                    fontSize: fontSizeTituloPagina,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              Center(
-                child: Text(
-                  "Costo",
-                  maxLines: 2,
-                  style: TextStyle(
-                    fontFamily: 'Outfit',
-                    color: appTheme.secondary,
-                    fontSize: fontSizeTituloPagina,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              Wrap(
-                crossAxisAlignment: WrapCrossAlignment.start,
-                spacing: 20,
-                runSpacing: 10,
-                alignment: WrapAlignment.start,
-                children: [
-                  renglonCapturaGet(
-                    "totalEspacioNormal",
-                    buildCampoCompraEspacioCasa(ref, "totalEspacioNormal"),
-                    Alignment.topLeft,
-                    300,
-                  ),
-                  renglonCapturaGet(
-                    "totalEspacioDestacado",
-                    buildCampoCompraEspacioCasa(ref, "totalEspacioDestacado"),
-                    Alignment.topLeft,
-                    300,
-                  ),
-                  renglonCapturaGet(
-                    "totalEspacioSuperdestacado",
-                    buildCampoCompraEspacioCasa(ref, "totalEspacioSuperdestacado"),
-                    Alignment.topLeft,
-                    300,
-                  ),
-                  renglonCapturaGet(
-                    "totalEspaciosOportunidades",
-                    buildCampoCompraEspacioCasa(ref, "totalEspaciosOportunidades"),
-                    Alignment.topLeft,
-                    300,
-                  ),
-                  renglonCapturaGet(
-                    "totalEspaciosRemates",
-                    buildCampoCompraEspacioCasa(ref, "totalEspaciosRemates"),
-                    Alignment.topLeft,
-                    300,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              Wrap(
-                crossAxisAlignment: WrapCrossAlignment.start,
-                spacing: 20,
-                runSpacing: 10,
-                alignment: WrapAlignment.start,
-                children: [
-                  renglonCapturaGet(
-                    "impuestos",
-                    buildCampoCompraEspacioCasa(ref, "impuestos"),
-                    Alignment.topLeft,
-                    300,
-                  ),
-                  renglonCapturaGet(
-                    "granTotal",
-                    buildCampoCompraEspacioCasa(ref, "granTotal"),
-                    Alignment.topLeft,
-                    300,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              Center(
-                child: Text(
-                  "Forma de pago",
-                  maxLines: 2,
-                  style: TextStyle(
-                    fontFamily: 'Outfit',
-                    color: appTheme.secondary,
-                    fontSize: fontSizeTituloPagina,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              Wrap(
-                crossAxisAlignment: WrapCrossAlignment.start,
-                spacing: 20,
-                runSpacing: 10,
-                alignment: WrapAlignment.start,
-                children: [
-                  renglonCapturaGet(
-                    "medioDePago",
-                    buildCampoCompraEspacioCasa(ref, "medioDePago"),
-                    Alignment.topLeft,
-                    300,
-                  ),
-                  renglonCapturaGet(
-                    "referenciaDePago",
-                    buildCampoCompraEspacioCasa(ref, "referenciaDePago"),
-                    Alignment.topLeft,
-                    500,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              Wrap(
-                crossAxisAlignment: WrapCrossAlignment.center,
-                spacing: 20,
-                runSpacing: 10,
-                alignment: WrapAlignment.center,
-                children: [
-                  Builder(
-                    builder: (context) => ElevatedButton(
-                      // ignore: sort_child_properties_last
-                      child: Text(
-                        'Cancelar',
-                        style: TextStyle(fontSize: 14, color: appTheme.onPrimary),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: appTheme.primary,
-                        minimumSize: const Size(150, 40),
-                      ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ),
-                  Builder(
-                    builder: (context) => ElevatedButton(
-                      // ignore: sort_child_properties_last
-                      child: Text(
-                        'Comprar',
-                        style: TextStyle(fontSize: 14, color: appTheme.onPrimary),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: appTheme.primary,
-                        minimumSize: const Size(150, 40),
-                      ),
-                      onPressed: _comprando ? null : _comprar,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 30),
-            ],
-          ),
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 560),
+          child: precios == null ? _cargando() : _formulario(precios),
         ),
       ),
     );
   }
-}
 
-//-----------------------------------------------------------------------------+
-
-// Create a Form widget.-----------------------------------------------
-/// Tipo de dato de cada campo de la compra: cantidades enteras o importes.
-TipoCampo _tipoCampoCompra(String nombre) {
-  if (nombre.startsWith('noDeEspacios') || nombre.startsWith('mesesContratados')) {
-    return TipoCampo.entero;
+  Widget _cargando() {
+    if (_errorPrecios == null) return const CircularProgressIndicator();
+    return Padding(
+      padding: const EdgeInsets.all(24),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(_errorPrecios!, textAlign: TextAlign.center, style: TextStyle(color: appTheme.error)),
+          const SizedBox(height: 12),
+          FilledButton(onPressed: _cargarPrecios, child: const Text('Reintentar')),
+        ],
+      ),
+    );
   }
-  if (nombre.startsWith('totalEspacio') || nombre == 'impuestos' || nombre == 'granTotal') {
-    return TipoCampo.dinero;
-  }
-  return TipoCampo.texto;
-}
 
-Widget buildCampoCompraEspacioCasa(WidgetRef ref, String nombreVariable) {
-  final compraEspaciosProvider = ref.read(compraDeEspaciosProvider.notifier);
-  return CampoTexto(
-    etiqueta: compraEspaciosProvider.getNombreDelCampoCompraEspacio(nombreVariable),
-    valorInicial: compraEspaciosProvider.getCampoEspacioCompra(ref, nombreVariable),
-    tipo: _tipoCampoCompra(nombreVariable),
-    obligatorio: true,
-    onChanged: (v) => compraEspaciosProvider.setCampoEspacioCompra(ref, nombreVariable, v.toUpperCase()),
-  );
+  Widget _formulario(PreciosCompra precios) {
+    final vista = calcularVistaPrevia(precios, _cantidades, _meses);
+    return ListView(
+      padding: const EdgeInsets.all(16),
+      children: [
+        Text('Elige tus espacios', style: _titulo()),
+        const SizedBox(height: 12),
+        for (final tipo in tiposDeEspacio) _renglonTipo(precios, tipo),
+        const SizedBox(height: 16),
+        Text('Duración', style: _titulo()),
+        const SizedBox(height: 8),
+        DropdownButtonFormField<int>(
+          initialValue: _meses,
+          decoration: const InputDecoration(labelText: 'Meses contratados', border: OutlineInputBorder()),
+          items: [
+            for (var m = 1; m <= precios.mesesMaximo; m++)
+              DropdownMenuItem(value: m, child: Text(m == 1 ? '1 mes' : '$m meses')),
+          ],
+          onChanged: (v) => setState(() => _meses = v ?? _meses),
+        ),
+        const SizedBox(height: 16),
+        Text('Resumen', style: _titulo()),
+        const SizedBox(height: 8),
+        _linea('Subtotal', formatoDinero(vista.subtotalCentavos)),
+        _linea('IVA (${(precios.iva * 100).round()} %)', formatoDinero(vista.impuestosCentavos)),
+        const Divider(),
+        _linea('Total', formatoDinero(vista.totalCentavos), fuerte: true),
+        const SizedBox(height: 4),
+        Text(
+          'El pago se realiza en la página segura de Stripe. Tus espacios se crean cuando el pago se confirma.',
+          style: TextStyle(color: appTheme.onSurfaceVariant, fontSize: 12),
+        ),
+        const SizedBox(height: 20),
+        Wrap(
+          alignment: WrapAlignment.center,
+          spacing: 20,
+          runSpacing: 10,
+          children: [
+            OutlinedButton(
+              style: OutlinedButton.styleFrom(minimumSize: const Size(150, 40)),
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Cancelar'),
+            ),
+            FilledButton.icon(
+              style: FilledButton.styleFrom(backgroundColor: appTheme.primary, minimumSize: const Size(150, 40)),
+              onPressed: (_comprando || vista.vacia) ? null : _pagar,
+              icon: _comprando
+                  ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2))
+                  : const Icon(Symbols.lock),
+              label: const Text('Pagar con Stripe'),
+            ),
+          ],
+        ),
+        const SizedBox(height: 30),
+      ],
+    );
+  }
+
+  TextStyle _titulo() => TextStyle(
+        fontFamily: 'Outfit',
+        color: appTheme.secondary,
+        fontSize: 16,
+        fontWeight: FontWeight.bold,
+      );
+
+  Widget _linea(String etiqueta, String valor, {bool fuerte = false}) {
+    final estilo = TextStyle(fontWeight: fuerte ? FontWeight.bold : FontWeight.normal, fontSize: fuerte ? 16 : 14);
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 2),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [Text(etiqueta, style: estilo), Text(valor, style: estilo)],
+      ),
+    );
+  }
+
+  Widget _renglonTipo(PreciosCompra precios, String tipo) {
+    final cantidad = _cantidades[tipo] ?? 0;
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        child: Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(precios.nombres[tipo] ?? tipo, style: const TextStyle(fontWeight: FontWeight.w600)),
+                  Text(
+                    '${formatoDinero(precios.precioMensualCentavos[tipo] ?? 0)} al mes por espacio',
+                    style: TextStyle(color: appTheme.onSurfaceVariant, fontSize: 12),
+                  ),
+                ],
+              ),
+            ),
+            IconButton(
+              tooltip: 'Quitar uno',
+              onPressed: cantidad > 0 ? () => _cambiar(tipo, -1) : null,
+              icon: const Icon(Symbols.remove_circle),
+            ),
+            SizedBox(width: 28, child: Text('$cantidad', textAlign: TextAlign.center)),
+            IconButton(
+              tooltip: 'Agregar uno',
+              onPressed: cantidad < precios.maximoPorTipo ? () => _cambiar(tipo, 1) : null,
+              icon: const Icon(Symbols.add_circle),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }

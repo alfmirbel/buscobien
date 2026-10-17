@@ -18,6 +18,7 @@ void initDeepLinkHandler(GlobalKey<NavigatorState> navigatorKey) {
 void _handleWebInitialUri(GlobalKey<NavigatorState> navigatorKey) {
   final uri = Uri.base;
   navigateIfRecovery(uri, navigatorKey);
+  navigateIfPurchase(uri, navigatorKey);
 }
 
 // En Mobile/Desktop: escucha enlaces entrantes vía app_links
@@ -26,13 +27,16 @@ void _handleMobileDeepLinks(GlobalKey<NavigatorState> navigatorKey) {
 
   // Enlace que abrió la app por primera vez (cold start)
   appLinks.getInitialLink().then((uri) {
-    if (uri != null) navigateIfRecovery(uri, navigatorKey);
+    if (uri != null) _alEntrarEnlace(uri, navigatorKey);
   });
 
   // Enlace mientras la app ya está activa (warm start)
-  appLinks.uriLinkStream.listen((uri) {
-    navigateIfRecovery(uri, navigatorKey);
-  });
+  appLinks.uriLinkStream.listen((uri) => _alEntrarEnlace(uri, navigatorKey));
+}
+
+void _alEntrarEnlace(Uri uri, GlobalKey<NavigatorState> navigatorKey) {
+  navigateIfRecovery(uri, navigatorKey);
+  navigateIfPurchase(uri, navigatorKey);
 }
 
 @visibleForTesting
@@ -54,4 +58,19 @@ void navigateIfRecovery(
     AppRoutes.cambioPassword,
     arguments: {'token': token, 'perfil': perfil},
   );
+}
+
+// Regreso desde Stripe: /compra/exito?compra=ID o /compra/cancelada?compra=ID.
+// En ambos casos se muestra el estado real, porque lo confirma el servidor y no la URL.
+@visibleForTesting
+void navigateIfPurchase(
+  Uri uri,
+  GlobalKey<NavigatorState> navigatorKey,
+) {
+  if (!uri.path.contains('/compra/exito') && !uri.path.contains('/compra/cancelada')) return;
+
+  final compra = uri.queryParameters['compra'];
+  if (compra == null || compra.isEmpty) return;
+
+  navigatorKey.currentState?.pushNamed(AppRoutes.estadoCompra, arguments: compra);
 }

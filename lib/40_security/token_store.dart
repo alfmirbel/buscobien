@@ -38,7 +38,12 @@ class TokenStore {
   /// Lee el token de renovación guardado (una sola vez por ejecución).
   Future<void> cargar() async {
     if (_cargado) return;
-    _renovacion = await _storage.read(key: claveRenovacion) ?? '';
+    try {
+      _renovacion = await _storage.read(key: claveRenovacion) ?? '';
+    } catch (_) {
+      // Almacén no disponible (p. ej. llavero dañado): se trabaja como visitante.
+      _renovacion = '';
+    }
     _cargado = true;
   }
 

@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:http/http.dart' as http;
 
 import '../08_pantallas/ubicacion/data_sepomex_localidades_get_cp.dart';
+import '../40_security/api_client.dart';
+import '../40_security/couch_http.dart' as http;
 import '../40_security/direccionip.dart';
 import 'data_user_localidad.dart';
 import 'data_user_localidad_get.dart';
@@ -12,89 +13,60 @@ final localidadesRepositoryProvider = Provider<LocalidadesRepository>(
 );
 
 class LocalidadesRepository {
-  Map<String, String> get _headers {
-    final basicAuth =
-        'Basic ${base64Encode(utf8.encode('$username:$password'))}';
-    return {'Authorization': basicAuth, 'Content-Type': 'application/json'};
-  }
+  LocalidadesRepository({ApiClient? api}) : _api = api ?? apiClient;
 
-  // ── Usuario localidades ────────────────────────────────────────────────────
+  final ApiClient _api;
 
+  // ── Localidades del usuario (buscobien-api; solo el propio usuario) ────────
+
+  /// Las localidades guardadas por el usuario con sesión. [userId] se conserva por compatibilidad:
+  /// el servidor siempre responde con las del usuario del token.
   Future<UsuarioLocalidadesGet> fetchUserLocalidades(String userId) async {
-    final encodedKey = Uri.encodeComponent('"$userId"');
-    final url =
-        '$direccionip/buscobien_user_localidad/_design/DDUL/_view/vistaUserID?key=$encodedKey';
+    final vacio = UsuarioLocalidadesGet(totalRows: 0, offset: 0, rows: []);
+    final r = await _api.get('/usuarios/me/localidades');
+    final lista = r.data;
+    if (!r.ok || lista is! List) return vacio;
     try {
-      final response = await http.get(Uri.parse(url), headers: _headers);
-      if (response.statusCode == 200) {
-        return usuarioLocalidadesGetFromJson(utf8.decode(response.bodyBytes));
-      }
-    } catch (_) {}
-    return UsuarioLocalidadesGet(totalRows: 0, offset: 0, rows: []);
+      final filas = lista
+          .whereType<Map<String, dynamic>>()
+          .map((d) => {'id': d['id'], 'key': d['id_usuario'] ?? userId, 'value': d})
+          .toList();
+      return UsuarioLocalidadesGet.fromJson({'total_rows': filas.length, 'offset': 0, 'rows': filas});
+    } catch (_) {
+      return vacio;
+    }
   }
 
-  Future<UsuarioLocalidadesGet> fetchUserLocalidad(
-    String userId,
-    String asentamiento,
-  ) async {
-    final url =
-        '$direccionip/buscobien_user_localidad/_design/DDUL/_view/vistaUserAsentamiento'
-        '?key=["${Uri.encodeComponent(userId)}","${Uri.encodeComponent(asentamiento)}"]';
-    try {
-      final response = await http.get(Uri.parse(url), headers: _headers);
-      if (response.statusCode == 200) {
-        return usuarioLocalidadesGetFromJson(utf8.decode(response.bodyBytes));
-      }
-    } catch (_) {}
-    return UsuarioLocalidadesGet(totalRows: 0, offset: 0, rows: []);
+  Future<UsuarioLocalidadesGet> fetchUserLocalidad(String userId, String asentamiento) async {
+    final todas = await fetchUserLocalidades(userId);
+    final coinciden = todas.rows.where((f) => f.value.localidadCp.asentamiento == asentamiento).toList();
+    return UsuarioLocalidadesGet(totalRows: coinciden.length, offset: 0, rows: coinciden);
   }
 
   // Retorna: 200 guardado, 409 duplicado, 400/500 error
   Future<int> saveUserLocalidad(UsuarioLocalidades localidad) async {
     try {
-      final existente = await fetchUserLocalidad(
-        localidad.idUsuario,
-        localidad.localidadCp.asentamiento,
-      );
+      final existente = await fetchUserLocalidad(localidad.idUsuario, localidad.localidadCp.asentamiento);
       if (existente.rows.isNotEmpty) return 409;
-
-      final body = json.encode(localidad.toJson());
-      final url = '$direccionip/buscobien_user_localidad';
-      final response = await http.post(
-        Uri.parse(url),
-        headers: _headers,
-        body: body,
-      );
-      return response.statusCode == 201 ? 200 : 400;
+      final r = await _api.post('/usuarios/me/localidades', cuerpo: localidad.toJson());
+      if (r.status == 201) return 200;
+      return r.sinRed ? 500 : 400;
     } catch (_) {
       return 500;
     }
   }
 
   Future<bool> deleteUserLocalidad(String id) async {
-    final getUrl = '$direccionip/buscobien_user_localidad/$id';
-    try {
-      final getResponse = await http.get(Uri.parse(getUrl), headers: _headers);
-      if (getResponse.statusCode == 200) {
-        final doc = json.decode(utf8.decode(getResponse.bodyBytes));
-        final rev = doc['_rev'];
-        if (rev != null) {
-          final deleteUrl = '$direccionip/buscobien_user_localidad/$id?rev=$rev';
-          final deleteResponse = await http.delete(Uri.parse(deleteUrl), headers: _headers);
-          return deleteResponse.statusCode == 200;
-        }
-      }
-    } catch (_) {}
-    return false;
+    final r = await _api.delete('/usuarios/me/localidades/${Uri.encodeComponent(id)}');
+    return r.ok;
   }
 
-  // ── Catálogo SEPOMEX ───────────────────────────────────────────────────────
+  // ── Catálogo SEPOMEX (lectura pública, también sin iniciar sesión) ─────────
 
   Future<LocalidadesGet> fetchByCodigoPostal(int cp) async {
-    final url =
-        '$direccionip/codigospostales/_design/DDCP/_view/vistaCP?key=$cp';
+    final url = '$dbBaseUrl/codigospostales/_design/DDCP/_view/vistaCP?key=$cp';
     try {
-      final response = await http.get(Uri.parse(url), headers: _headers);
+      final response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {
         return localidadesGetFromJson(utf8.decode(response.bodyBytes));
       }

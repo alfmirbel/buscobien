@@ -2,10 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:http/http.dart' as http;
+import 'package:buscobien/40_security/couch_http.dart' as http;
 import 'package:uuid/uuid.dart';
 
 import 'package:buscobien/40_security/direccionip.dart';
+import 'package:buscobien/08_pantallas/tu_cuenta/conocidos/usuarios_api.dart';
 import 'package:buscobien/60_global_widgets/debugprint.dart';
 import 'package:buscobien/08_pantallas/tu_cuenta/grupos/models/invitacion_grupo_model.dart';
 
@@ -22,8 +23,6 @@ import 'package:buscobien/08_pantallas/tu_cuenta/grupos/models/invitacion_grupo_
 const String _dbInvitaciones = 'buscobien_grupos_invitaciones';
 
 Map<String, String> get _authHeaders => {
-  'Authorization':
-      'Basic ${base64Encode(utf8.encode('$username:$password'))}',
   'Content-Type': 'application/json',
 };
 
@@ -41,7 +40,7 @@ class GruposInvitacionesNotifier
   Future<void> fetchInvitaciones(String userId) async {
     state = const AsyncValue.loading();
     try {
-      final url = Uri.parse('$direccionip/$_dbInvitaciones/_find');
+      final url = Uri.parse('$dbBaseUrl/$_dbInvitaciones/_find');
       final body = jsonEncode({
         'selector': {
           'type': 'invitacion_grupo',
@@ -107,7 +106,7 @@ class GruposInvitacionesNotifier
       );
 
       // Usa PUT /{db}/{docid} para mayor confiabilidad cuando el _id es conocido
-      final docUrl = Uri.parse('$direccionip/$_dbInvitaciones/${inv.id}');
+      final docUrl = Uri.parse('$dbBaseUrl/$_dbInvitaciones/${inv.id}');
       final body = invitacionGrupoModelToJson(inv);
       var response = await http.put(docUrl, headers: _authHeaders, body: body);
 
@@ -117,7 +116,7 @@ class GruposInvitacionesNotifier
           1,
           'GruposInvitacionesNotifier.enviarInvitacion: base de datos no encontrada, creando...',
         );
-        final dbUrl = Uri.parse('$direccionip/$_dbInvitaciones');
+        final dbUrl = Uri.parse('$dbBaseUrl/$_dbInvitaciones');
         final createResp = await http.put(dbUrl, headers: _authHeaders);
         // 201 = creada, 412 = ya existía — ambas son aceptables
         debugPrintLevels(
@@ -156,7 +155,7 @@ class GruposInvitacionesNotifier
       inv.status = nuevoStatus;
       inv.timestampRespuesta = DateTime.now().toIso8601String();
 
-      final url = Uri.parse('$direccionip/$_dbInvitaciones/${inv.id}');
+      final url = Uri.parse('$dbBaseUrl/$_dbInvitaciones/${inv.id}');
       final response = await http.put(
         url,
         headers: _authHeaders,
@@ -229,52 +228,12 @@ final invitacionesGrupoEnviadasProvider =
 // =============================================================================
 // PROVIDER DE USUARIOS PARA INVITAR (buscar usuarios registrados)
 // =============================================================================
-// Reutiliza los mismos endpoints que social_providers.dart de conocidos.
+// Usa GET /usuarios/buscar de buscobien-api (solo nombre, foto y perfil).
 
-final usuariosParaInvitarProvider =
-    FutureProvider<List<Map<String, dynamic>>>((ref) async {
-      final url = Uri.parse('$direccionip/buscobien_usuarios/_find');
-      final body = jsonEncode({
-        'selector': {
-          'usuario.nombreusuario': {r'$exists': true},
-        },
-        'limit': 50,
-      });
+final usuariosParaInvitarProvider = FutureProvider<List<Map<String, dynamic>>>(
+  (ref) => buscarUsuariosPublicos(perfil: 'Usuario'),
+);
 
-      try {
-        final response = await http.post(url, headers: _authHeaders, body: body);
-        if (response.statusCode == 200) {
-          final data = jsonDecode(utf8.decode(response.bodyBytes));
-          return List<Map<String, dynamic>>.from(data['docs'] as List);
-        }
-        return [];
-      } catch (e) {
-        debugPrintLevels(1, 'usuariosParaInvitarProvider exception: $e');
-        return [];
-      }
-    });
-
-final promotoresParaInvitarProvider =
-    FutureProvider<List<Map<String, dynamic>>>((ref) async {
-      final url = Uri.parse(
-        '$direccionip/buscobien_usuarios_promotores/_find',
-      );
-      final body = jsonEncode({
-        'selector': {
-          'usuario.nombreusuario': {r'$exists': true},
-        },
-        'limit': 50,
-      });
-
-      try {
-        final response = await http.post(url, headers: _authHeaders, body: body);
-        if (response.statusCode == 200) {
-          final data = jsonDecode(utf8.decode(response.bodyBytes));
-          return List<Map<String, dynamic>>.from(data['docs'] as List);
-        }
-        return [];
-      } catch (e) {
-        debugPrintLevels(1, 'promotoresParaInvitarProvider exception: $e');
-        return [];
-      }
-    });
+final promotoresParaInvitarProvider = FutureProvider<List<Map<String, dynamic>>>(
+  (ref) => buscarUsuariosPublicos(perfil: 'Promotor'),
+);

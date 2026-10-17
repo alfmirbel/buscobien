@@ -6,6 +6,7 @@ import '../01_splash_screen/splash_page.dart';
 import '../02_principal_screen/principal_sliver_screen_menus_inicio.dart';
 import '../03_listas/pagina_mis_listas.dart';
 import '../08_pantallas/tu_cuenta/tus_espacios/compra_espacios/form_compra_espacios.dart';
+import '../08_pantallas/tu_cuenta/tus_espacios/compra_espacios/pagina_estado_compra.dart';
 import '../08_pantallas/tu_cuenta/tus_espacios/form_update_espacio_comprado.dart';
 import '../04_provider/pagina_colores.dart';
 import '../08_pantallas/perfil/pagina_perfil.dart';
@@ -44,6 +45,7 @@ class AppRoutes {
   static const gestionavatar = "/gestionavatar";
 
   static const compraespacios = "/compraespacios";
+  static const estadoCompra = "/compra/estado";
 
   static const carouselfotospropiedad = "/carouselfotospropiedad";
 
@@ -179,6 +181,12 @@ Route? routeGenerate(RouteSettings settings) {
     case AppRoutes.compraespacios:
       debugPrintLevels(3, "Call AppRoutes.compraespacios");
       return navigateToRoute(const PaginaCompraEspacios(), settings: settings);
+
+    case AppRoutes.estadoCompra:
+      return navigateToRoute(
+        PaginaEstadoCompra(compraId: settings.arguments as String),
+        settings: settings,
+      );
 
     case AppRoutes.carouselfotospropiedad:
       return navigateToRoute(

@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:buscobien/40_security/couch_http.dart' as http;
 import '../../../20_var_globales/couchdb_errors.dart';
 import '../../../40_security/direccionip.dart';
 import '../../../40_security/urls_endpoints_espacios.dart';
@@ -48,7 +48,7 @@ Future<String> upsertEspacioPublicadoToCouchDB(
     Map<String, String> headers = _getHeaders();
 
     // Construcción de la URL base
-    String baseUrl = '$direccionip/';
+    String baseUrl = '$dbBaseUrl/';
 
     // Optimizacion: Switch simplificado y construcción de ruta
     baseUrl += endpointsPublicados[tipoanuncio.toLowerCase()]!;
@@ -234,7 +234,7 @@ Future<int> deleteEspacioPublicadoToCouchDB(
     // CONSTRUCCIÓN DE LA URL BASE
     // (Misma lógica que en el Upsert para localizar la BD correcta)
     // ---------------------------------------------------------
-    String baseUrl = '$direccionip/';
+    String baseUrl = '$dbBaseUrl/';
     baseUrl += endpointsPublicados[tipoDeEspacio.toLowerCase()]!;
     // ID DEL DOCUMENTO PUBLICADO
     String url = "$baseUrl/${idPublicacion}";
@@ -346,7 +346,7 @@ Future<int> deleteEspacioToCouchDB(
     // CONSTRUCCIÓN DE LA URL BASE
     // (Misma lógica que en el Upsert para localizar la BD correcta)
     // ---------------------------------------------------------
-    String baseUrl = '$direccionip/';
+    String baseUrl = '$dbBaseUrl/';
     switch (tipoanuncio.toLowerCase()) {
       case "normales":
         baseUrl += endpointsCaptura["Normales"]!;
@@ -450,7 +450,5 @@ Future<int> deleteEspacioToCouchDB(
 
 // Helper para generar headers (Optimización: Evita repetir código de auth)
 Map<String, String> _getHeaders() {
-  String basicAuth =
-      'Basic ${base64Encode(utf8.encode('$username:$password'))}';
-  return {'Authorization': basicAuth, 'Content-Type': 'application/json'};
+  return {'Content-Type': 'application/json'};
 }

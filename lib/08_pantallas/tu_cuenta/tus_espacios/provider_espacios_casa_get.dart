@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:core';
-import 'package:http/http.dart' as http;
+import 'package:buscobien/40_security/couch_http.dart' as http;
 import '../../../10_user_login/usuario_login/provider_session.dart';
 import '../../../20_var_globales/couchdb_errors.dart';
 import '../../../22_imagenes/tus_espacios_fotos_propiedad/manejo_de_fotos/lista_fotos_ordenadas/clase_listas_fotos_propiedad.dart';
@@ -56,9 +56,7 @@ class ClassCompraEspaciosNotifierProvider extends Notifier<ListaEspaciosCasa> {
 
   // Helper para generar headers (Optimización: Evita repetir código de auth)
   Map<String, String> _getHeaders() {
-    String basicAuth =
-        'Basic ${base64Encode(utf8.encode('$username:$password'))}';
-    return {'Authorization': basicAuth, 'Content-Type': 'application/json'};
+    return {'Content-Type': 'application/json'};
   }
 
   //-----------------------------------------------------------------------------
@@ -94,7 +92,7 @@ class ClassCompraEspaciosNotifierProvider extends Notifier<ListaEspaciosCasa> {
       // Optimización: Uso de interpolación segura
       String endpointKey = ref.read(menuTipoEspaciosProvider).etiqueta;
       String url =
-          '$direccionip/${endpointsCaptura[endpointKey]}/_design/DDUSER/_view/idUser/?key="$idUser"';
+          '$dbBaseUrl/${endpointsCaptura[endpointKey]}/_design/DDUSER/_view/idUser/?key="$idUser"';
 
       debugPrintLevels(
         10,
@@ -192,7 +190,7 @@ class ClassCompraEspaciosNotifierProvider extends Notifier<ListaEspaciosCasa> {
       );
 
       String url =
-          '$direccionip/${tabla[tipoEspacio]}/_design/DDUSER/_view/idPropiedad/?key="$idPropiedad"';
+          '$dbBaseUrl/${tabla[tipoEspacio]}/_design/DDUSER/_view/idPropiedad/?key="$idPropiedad"';
       debugPrintLevels(10, "01 getPropiedadCasaIdPropiedad url: $url");
       final response = await http.get(Uri.parse(url), headers: headers);
       debugPrintLevels(
@@ -249,7 +247,7 @@ class ClassCompraEspaciosNotifierProvider extends Notifier<ListaEspaciosCasa> {
         // Asumiendo que tipoanuncio coincide con las keys del mapa, si no, mantener el switch original logic
       }
 
-      String baseUrl = '$direccionip/';
+      String baseUrl = '$dbBaseUrl/';
       switch (tipoanuncio.toLowerCase()) {
         case "normales":
           baseUrl += endpointsCaptura["Normales"]!;
