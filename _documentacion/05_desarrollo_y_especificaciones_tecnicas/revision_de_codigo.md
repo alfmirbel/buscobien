@@ -173,6 +173,16 @@ Detalle en [`inventario_seguridad_bases.md`](../06_modelo_de_datos_y_bd/inventar
 | **H-37** `buscobien_compra_espacios` la escribe el cliente (importes y referencia de pago manipulables) | **Servidor listo** (`buscobien-api`: compras con Stripe, importes calculados por el servidor, espacios creados solo al confirmarse el pago; anexo L del plan de seguridad). **Pendiente:** que la app use `POST /compras/checkout`; hasta entonces el flujo anterior sigue activo. Modelo `CompraEspacio` ya tolera importes enteros |
 | **H-38** `buscobien_social` sin uso aparente (restos del primer motor social) | **Parcial**: código retirado del cliente (`7684004`); la base se cierra en S4 y se borrará tras confirmar que nada la usa |
 
+## 3.11 Hallazgo crítico al migrar el inicio de sesión (2026-10-17)
+
+| Hallazgo | Estado |
+| :--- | :--- |
+| **H-39 (crítico)** El inicio de sesión **no verificaba la contraseña**: `_handleLogin` solo comprobaba que el usuario existiera (`getUserIdNamePassByName`) y `validaPassword` no se usaba en ninguna parte; cualquier clave permitía entrar con un usuario existente | **Resuelto** en el cliente (C3): la verifica `buscobien-api` con bcrypt y bloqueo por intentos. Hasta que todos usen la versión nueva, la versión anterior de la app sigue siendo vulnerable |
+| **H-40** La app guardaba en el dispositivo el hash SHA-256 de la contraseña (`userPassHash`) y restauraba la sesión sin verificarla | **Resuelto**: ya no se guarda; la sesión se restaura solo con el token de renovación y se valida en segundo plano |
+| **H-41** El registro y la recuperación escribían en CouchDB desde el cliente con la contraseña de administrador y la recuperación llamaba al mailer por HTTP sin TLS | **Resuelto** para registro y recuperación (C3); el resto de módulos sigue pendiente (C4) |
+
+Detalle en el anexo M de [`plan_seguridad_nginx_jwt.md`](../08_operacion_guias_y_despliegue/plan_seguridad_nginx_jwt.md).
+
 ## 4. Fortalezas observadas
 
 - Estructura modular clara (`NN_modulo`) y nombres consistentes; los 199 archivos están inventariados.

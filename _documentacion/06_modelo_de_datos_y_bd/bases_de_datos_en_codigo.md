@@ -5,9 +5,9 @@
 
 | Indicador | Valor |
 | :--- | ---: |
-| Bases referenciadas en el código | 31 |
+| Bases referenciadas en el código | 30 |
 | …que están en el diccionario de esquemas | 15 |
-| …que **faltan** en el diccionario | 16 |
+| …que **faltan** en el diccionario | 15 |
 | Del diccionario sin referencia en el código del cliente | 4 |
 
 ## Inventario
@@ -40,10 +40,9 @@
 | `buscobien_publicados_remate` | sí | 1 | `40_security` | `40_security/urls_endpoints_espacios.dart` |
 | `buscobien_publicados_super` | sí | 1 | `40_security` | `40_security/urls_endpoints_espacios.dart` |
 | `buscobien_user_localidad` | **no** | 1 | `12_localidades_user` | `12_localidades_user/localidades_repository.dart` |
-| `buscobien_usuarios` | sí | 4 | `08_pantallas/tu_cuenta`, `10_user_login` | `08_pantallas/tu_cuenta/conocidos/social_providers.dart`, `08_pantallas/tu_cuenta/grupos/providers/grupos_invitaciones_provider.dart`, `10_user_login/usuario_login/password_recovery_repository.dart`, `10_user_login/usuario_login/session_repository.dart` |
+| `buscobien_usuarios` | sí | 3 | `08_pantallas/tu_cuenta`, `10_user_login` | `08_pantallas/tu_cuenta/conocidos/social_providers.dart`, `08_pantallas/tu_cuenta/grupos/providers/grupos_invitaciones_provider.dart`, `10_user_login/usuario_login/session_repository.dart` |
 | `buscobien_usuarios_listas` | **no** | 1 | `03_listas` | `03_listas/provider_user_lists.dart` |
-| `buscobien_usuarios_promotores` | **no** | 4 | `08_pantallas/tu_cuenta`, `10_user_login` | `08_pantallas/tu_cuenta/conocidos/social_providers.dart`, `08_pantallas/tu_cuenta/grupos/providers/grupos_invitaciones_provider.dart`, `10_user_login/usuario_login/password_recovery_repository.dart`, `10_user_login/usuario_login/session_repository.dart` |
-| `buscobien_usuarios_propietarios` | **no** | 1 | `10_user_login` | `10_user_login/usuario_login/password_recovery_repository.dart` |
+| `buscobien_usuarios_promotores` | **no** | 3 | `08_pantallas/tu_cuenta`, `10_user_login` | `08_pantallas/tu_cuenta/conocidos/social_providers.dart`, `08_pantallas/tu_cuenta/grupos/providers/grupos_invitaciones_provider.dart`, `10_user_login/usuario_login/session_repository.dart` |
 | `codigospostales` | **no** | 1 | `12_localidades_user` | `12_localidades_user/localidades_repository.dart` |
 
 ## Del diccionario, sin referencia en el cliente

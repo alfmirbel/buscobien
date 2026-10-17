@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -7,7 +5,7 @@ import 'package:material_symbols_icons/symbols.dart';
 import '../../07_routes/app_routes.dart';
 import '../../20_var_globales/var_color_themes.dart';
 import '../../60_global_widgets/dialogbox_mensaje_general.dart';
-import 'password_recovery_repository.dart';
+import 'auth_api.dart';
 
 class PageCambioPassword extends ConsumerStatefulWidget {
   const PageCambioPassword({
@@ -30,14 +28,13 @@ class _PageCambioPasswordState extends ConsumerState<PageCambioPassword> {
 
   bool _obscurePass = true;
   bool _obscureConfirm = true;
-  bool _isLoading = true;
-  bool _tokenValido = false;
-  String? _docId;
+  bool _isLoading = false;
+  // El enlace se valida en el servidor al guardar la contraseña nueva.
+  final bool _tokenValido = true;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _validarToken());
   }
 
   @override
@@ -45,35 +42,6 @@ class _PageCambioPasswordState extends ConsumerState<PageCambioPassword> {
     _passController.dispose();
     _confirmController.dispose();
     super.dispose();
-  }
-
-  Future<void> _validarToken() async {
-    final resultado = await validarToken(widget.token, widget.perfil);
-
-    if (!mounted) return;
-
-    if (resultado == null) {
-      setState(() => _isLoading = false);
-      await showMessageDialog(
-        context,
-        'Enlace inválido',
-        'El enlace de recuperación no es válido o ya expiró.\n'
-            'Solicita uno nuevo desde la pantalla de inicio de sesión.',
-        appTheme.error,
-        TextAlign.center,
-        'Ir al inicio',
-      );
-      if (!mounted) return;
-      Navigator.of(
-        context,
-      ).pushNamedAndRemoveUntil(AppRoutes.principal, (route) => false);
-    } else {
-      _docId = resultado.docId;
-      setState(() {
-        _isLoading = false;
-        _tokenValido = true;
-      });
-    }
   }
 
   int _calcularFortaleza(String pass) {
@@ -93,24 +61,31 @@ class _PageCambioPasswordState extends ConsumerState<PageCambioPassword> {
     setState(() => _isLoading = true);
     FocusScope.of(context).unfocus();
 
-    final hash = sha256
-        .convert(utf8.encode(_passController.text.trim()))
-        .toString();
-
-    final ok = await actualizarPassword(_docId!, widget.perfil, hash);
+    final resultado = await authApi.confirmarRecuperacion(
+      token: widget.token,
+      perfil: widget.perfil,
+      password: _passController.text.trim(),
+    );
 
     if (!mounted) return;
     setState(() => _isLoading = false);
 
-    if (!ok) {
+    if (!resultado.ok) {
+      final enlaceInvalido = resultado.code == 'INVALID_RESET_TOKEN';
       await showMessageDialog(
         context,
-        'Error',
-        'No fue posible actualizar la contraseña. Intenta de nuevo.',
+        enlaceInvalido ? 'Enlace inválido' : 'Error',
+        enlaceInvalido
+            ? 'El enlace de recuperación no es válido o ya expiró.\n'
+                'Solicita uno nuevo desde la pantalla de inicio de sesión.'
+            : resultado.mensaje,
         appTheme.error,
         TextAlign.center,
-        'Entendido',
+        enlaceInvalido ? 'Ir al inicio' : 'Entendido',
       );
+      if (enlaceInvalido && mounted) {
+        Navigator.of(context).pushNamedAndRemoveUntil(AppRoutes.principal, (route) => false);
+      }
       return;
     }
 

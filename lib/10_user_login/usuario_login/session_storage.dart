@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 abstract class SessionStorage {
   Future<void> write({required String key, required String value});
   Future<String?> read({required String key});
+  Future<void> delete({required String key});
   Future<void> deleteAll();
 }
 
@@ -12,6 +13,9 @@ class MobileSessionStorage implements SessionStorage {
   const MobileSessionStorage();
 
   final FlutterSecureStorage _storage = const FlutterSecureStorage();
+
+  @override
+  Future<void> delete({required String key}) => _storage.delete(key: key);
 
   @override
   Future<void> deleteAll() => _storage.deleteAll();
@@ -28,6 +32,12 @@ class WebSessionStorage implements SessionStorage {
   const WebSessionStorage();
 
   Future<SharedPreferences> _getPrefs() => SharedPreferences.getInstance();
+
+  @override
+  Future<void> delete({required String key}) async {
+    final prefs = await _getPrefs();
+    await prefs.remove(key);
+  }
 
   @override
   Future<void> deleteAll() async {

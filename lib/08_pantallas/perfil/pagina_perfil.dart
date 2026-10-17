@@ -636,10 +636,8 @@ Future<void> _showLogoutDialog(BuildContext context, WidgetRef ref) async {
                 0,
                 "*** appBarPrincipal Usuario onPressed cierra sesión",
               );
-              // 1. Borrar sesión local (await + () son obligatorios para que se ejecute)
-              await ref.read(sessionProvider.notifier).deleteLocalSessionData();
-              // 2. Resetear variables de usuario
-              ref.read(sessionProvider.notifier).resetInitialUserData(0);
+              // 1. Revocar la sesión en el servidor, olvidar los tokens y limpiar el estado local
+              await ref.read(sessionProvider.notifier).cerrarSesion();
               // 3. Resetear Avatar (Corregido para usar el provider generado y el método correcto)
               // Nota: El método definido en el provider anterior era 'resetGetUserAvatarProvider'
               ref

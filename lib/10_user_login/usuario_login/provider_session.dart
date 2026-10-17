@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../40_security/api_providers.dart';
 import '../../40_security/direccionip.dart';
 import '../../08_pantallas/ubicacion/data_sepomex_localidades.dart';
 import '../../60_global_widgets/debugprint.dart';
@@ -10,6 +12,7 @@ import '../data_models/data_user_promotor.dart';
 import '../data_models/data_usuarios.dart';
 import '../data_models/data_get_id_user_pass.dart';
 import '../data_models/auth_state.dart';
+import 'auth_api.dart';
 import 'data_session.dart';
 import 'session_repository.dart';
 import 'session_storage.dart';
@@ -33,6 +36,8 @@ class SessionNotifier extends _$SessionNotifier {
 
   @override
   AuthState build() {
+    // Si el servidor rechaza la renovación de la sesión, la app vuelve al estado «sin sesión».
+    ref.read(apiClientProvider).alExpirarSesion = _cerrarSesionLocal;
     return AuthState.initial();
   }
 
@@ -176,11 +181,19 @@ class SessionNotifier extends _$SessionNotifier {
     final userId = await _storage.read(key: "userId") ?? "";
     final userName = await _storage.read(key: "userName") ?? "";
     final nombre = await _storage.read(key: "nombrePerfil") ?? "";
-    final userPassHash = await _storage.read(key: "userPassHash") ?? "";
 
     debugPrintLevels(1, " STORAGE: userId recuperado: $userId");
     debugPrintLevels(1, " STORAGE: userName recuperado: $userName");
     debugPrintLevels(1, " STORAGE: nombrePerfil recuperado: $nombre");
+
+    // Sin token de renovación no hay sesión recuperable (incluye las sesiones guardadas por
+    // versiones anteriores, que no se podían verificar): hay que iniciar sesión de nuevo.
+    final tokens = ref.read(tokenStoreProvider);
+    await tokens.cargar();
+    if (!tokens.haySesion) {
+      debugPrintLevels(1, " STORAGE: Sin token de renovación; no se restaura la sesión.");
+      return;
+    }
 
     // Si no hay sesión guardada, no hacer nada
     if (userId.isEmpty && userName.isEmpty) {
@@ -198,8 +211,7 @@ class SessionNotifier extends _$SessionNotifier {
       valueToSave: "",
       userId: userId,
       userName: userName,
-      userPass:
-          userPassHash, // hash SHA-256; nunca se persiste la clave en texto plano
+      userPass: "", // la contraseña no se guarda en el dispositivo
       esUsuarioComprador: "",
       esUsuarioPromotor: "",
       esUsuarioEspecialista: "",
@@ -216,6 +228,10 @@ class SessionNotifier extends _$SessionNotifier {
 
     debugPrintLevels(1, " STORAGE: Sesión marcada como autenticada.");
 
+    // Comprueba en segundo plano que el servidor sigue aceptando la sesión: si la rechaza,
+    // ApiClient llama a _cerrarSesionLocal y la app queda sin sesión.
+    unawaited(ref.read(apiClientProvider).get('/usuarios/me'));
+
     // Actualizar los flags de rol según el perfil recuperado
     if (nombre.isNotEmpty) {
       setPerfilUsuarioByNombrePerfil();
@@ -225,6 +241,44 @@ class SessionNotifier extends _$SessionNotifier {
   Future<bool> deleteLocalSessionData() async {
     await _storage.deleteAll();
     return true;
+  }
+
+  /// Inicia sesión en buscobien-api: la contraseña la verifica el servidor.
+  /// Si es correcta, guarda los tokens y deja la sesión marcada como autenticada.
+  Future<ResultadoAuth<SesionApi>> iniciarSesionConApi({
+    required String usuario,
+    required String password,
+  }) async {
+    final perfil = state.nombrePerfil.isEmpty ? "Usuario" : state.nombrePerfil;
+    final r = await ref.read(authApiProvider).login(usuario: usuario, password: password, perfil: perfil);
+    if (!r.ok) {
+      state = state.copyWith(isAuthenticated: false);
+      return r;
+    }
+    final s = r.dato!;
+    await _storage.deleteAll(); // descarta cualquier sesión local previa
+    await ref.read(tokenStoreProvider).guardar(accessToken: s.accessToken, refreshToken: s.refreshToken);
+    state = state.copyWith(
+      sessionUserData: state.sessionUserData.copyWith(
+        userId: s.userId,
+        userName: usuario,
+        userPass: "",
+      ),
+      isAuthenticated: true,
+    );
+    return r;
+  }
+
+  /// Cierra la sesión: la revoca en el servidor, olvida los tokens y limpia el estado local.
+  Future<void> cerrarSesion() async {
+    await ref.read(authApiProvider).cerrarSesion();
+    await _cerrarSesionLocal();
+  }
+
+  Future<void> _cerrarSesionLocal() async {
+    await ref.read(tokenStoreProvider).limpiar();
+    await deleteLocalSessionData();
+    resetInitialUserData(0);
   }
 
   // FASE 2 (26-05-18): Reemplaza mutaciones directas en SessionData
@@ -713,62 +767,6 @@ class SessionNotifier extends _$SessionNotifier {
     return statusCode;
   }
 
-  Future<int> getUserIdNamePassByName() async {
-    final repo = ref.read(sessionRepositoryProvider);
-    final (statusCode, initialId) = await repo.getUserIdNamePassByName(
-      userName: state.sessionUserData.userName,
-      nombrePerfil: state.nombrePerfil,
-      authHeaders: _authHeaders,
-    );
-
-    if (initialId != null) {
-      state = state.copyWith(initialIdUserPass: initialId);
-
-      // ✅ Fase 5: Crear nueva instancia en lugar de mutar
-      final SessionData newSession;
-      if (initialId.rows.isEmpty) {
-        newSession = SessionData(
-          key: "",
-          varName: "",
-          valueToSave: "",
-          userId: "",
-          userName: state.sessionUserData.userName,
-          userPass: "",
-          esUsuarioComprador: "",
-          esUsuarioPromotor: "",
-          esUsuarioEspecialista: "",
-          boolUsuarioComprador: false,
-          boolUsuarioPromotor: false,
-          boolUsuarioEspecialista: false,
-        );
-        state = state.copyWith(
-          sessionUserData: newSession,
-          isAuthenticated: false, // credenciales inválidas
-        );
-      } else {
-        newSession = SessionData(
-          key: "",
-          varName: "",
-          valueToSave: "",
-          userId: initialId.rows[0].value.userId,
-          userName: initialId.rows[0].value.userName,
-          userPass: initialId.rows[0].value.userPass,
-          esUsuarioComprador: "",
-          esUsuarioPromotor: "",
-          esUsuarioEspecialista: "",
-          boolUsuarioComprador: false,
-          boolUsuarioPromotor: false,
-          boolUsuarioEspecialista: false,
-        );
-        state = state.copyWith(
-          sessionUserData: newSession,
-          isAuthenticated: true, // ✅ login exitoso
-        );
-      }
-    }
-    return statusCode;
-  }
-
   Future<int> getUserIdNamePassByNameID() async {
     final repo = ref.read(sessionRepositoryProvider);
     final (statusCode, initialId) = await repo.getUserIdNamePassByNameID(
@@ -788,12 +786,13 @@ class SessionNotifier extends _$SessionNotifier {
     return statusCode;
   }
 
-  Future<int> writeUserToCouchDB(WidgetRef uiref, Usuario nvoUsuario) async {
-    final repo = ref.read(sessionRepositoryProvider);
-    return await repo.writeUserToCouchDB(
-      nvoUsuario: nvoUsuario,
-      esPromotor: state.esPromotor,
-      authHeaders: _authHeaders,
-    );
+  /// Crea la cuenta en buscobien-api. La contraseña viaja por HTTPS y el servidor la guarda con bcrypt.
+  Future<ResultadoAuth<void>> registrarUsuario(Usuario nvoUsuario) async {
+    final cuerpo = nvoUsuario.toJson();
+    cuerpo.remove('id_usuario'); // lo asigna el servidor
+    cuerpo.remove('timestamp');
+    cuerpo['password'] = cuerpo.remove('claveacceso');
+    cuerpo['perfil'] = state.nombrePerfil.isEmpty ? "Usuario" : state.nombrePerfil;
+    return ref.read(authApiProvider).registrar(cuerpo);
   }
 }

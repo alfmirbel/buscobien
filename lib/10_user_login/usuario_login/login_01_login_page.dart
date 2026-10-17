@@ -5,7 +5,6 @@ import 'package:material_symbols_icons/symbols.dart';
 import '../../05_provider_menus/provider_menu_inicial.dart';
 import '../../07_routes/app_routes.dart';
 import '../../20_var_globales/var_color_themes.dart';
-import '../../40_security/generate_hash.dart';
 import '../../60_global_widgets/debugprint.dart';
 import '../../60_global_widgets/dialogbox_mensaje_general.dart';
 import '../../60_global_widgets/bottom_fijo.dart';
@@ -108,100 +107,52 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     debugPrintLevels(12, " LoginPage try");
 
     try {
-      final authState = ref.read(sessionProvider);
       final sessionNotifier = ref.read(sessionProvider.notifier);
-
       final username = usernameController.text.trim();
       final password = passwordController.text.trim();
 
-      debugPrintLevels(
-        12,
-        " _handleLogin setSessionVarValue nombreusuario: $username",
+      // La contraseña la verifica buscobien-api; nada de la clave se guarda en el dispositivo.
+      final resultado = await sessionNotifier.iniciarSesionConApi(
+        usuario: username,
+        password: password,
       );
-      ref
-          .read(sessionProvider.notifier)
-          .setSessionVarValue("userName", username);
-      debugPrintLevels(12, " _handleLogin setSessionVarValue claveacceso: ---");
-      ref
-          .read(sessionProvider.notifier)
-          .setSessionVarValue("userPass", password);
-
-      debugPrintLevels(
-        12,
-        " _handleLogin setSessionVarValue claveacceso: ${authState.nombrePerfil}",
-      );
-      // Petición HTTP
-      // INICIALIZA sessionProvider
-      //------------------------------------------------------------------------
-      final onValue = await sessionNotifier.getUserIdNamePassByName();
-      //------------------------------------------------------------------------
 
       if (!mounted) return;
 
-      if (onValue != 200) {
+      if (!resultado.ok) {
         await showMessageDialog(
           context,
           "Error de Ingreso",
-          "Usuario o contraseña incorrectos.",
+          resultado.mensaje,
           appTheme.error,
           TextAlign.center,
           "Intentar de nuevo",
         );
-      } else {
-        debugPrintLevels(1, " INICIA PROCESO DE Recuperar Avatar");
-
-        // INICIA PROCESO DE Recuperar Avatar (No se espera, corre en background si así estaba diseñado)
-        final String currentUserId = ref
-            .read(sessionProvider)
-            .sessionUserData
-            .userId;
-        ref
-            .read(classUserAvatarProvider.notifier)
-            .recuperaDatosDelAvatar(currentUserId);
-        //debugPrintLevels(1, " BORRA LA SESIÓN ALMACENADA PREVIA");
-        // BORRA LA SESIÓN ALMACENADA PREVIA
-        await sessionNotifier.deleteLocalSessionData();
-        // ✅ Fase 6: await para asegurar que los datos completos del usuario estén disponibles
-        await ref
-            .read(sessionProvider.notifier)
-            .getUserDataByNameInSessionData();
-        // ✅ Fase 5: Marcar sesión como autenticada
-        // (isAuthenticated ya se setea en getSessionValuesFromLocalStorage,
-        //  aquí lo reforzamos directamente en el estado vía copyWith)
-        // -------------------------------------------------------------------
-        // OPTIMIZACIÓN: Ejecutar guardados en local storage de forma paralela
-        // usando Future.wait para reducir el tiempo de bloqueo en la UI.
-        // -------------------------------------------------------------------
-        debugPrintLevels(
-          1,
-          " OPTIMIZACIÓN: Ejecutar guardados en local storage",
-        );
-
-        // ✅ Fase 4: Se incluye el hash SHA-256 de la contraseña para reautenticación
-        await sessionNotifier.saveVarValueToLocalStorage(
-          "userId",
-          ref.read(sessionProvider).sessionUserData.userId,
-        );
-        await sessionNotifier.saveVarValueToLocalStorage(
-          "userName",
-          ref.read(sessionProvider).sessionUserData.userName,
-        );
-        await sessionNotifier.saveVarValueToLocalStorage(
-          "nombrePerfil",
-          ref.read(sessionProvider).nombrePerfil,
-        );
-        await sessionNotifier.saveVarValueToLocalStorage(
-          "userPassHash",
-          generateSHA256Hash(passwordController.text.trim()),
-        );
-        // -------------------------------------------------------------------
-        debugPrintLevels(
-          1,
-          " OPTIMIZACIÓN: Termina guardados en local storage",
-        );
-
-        if (mounted) Navigator.of(context).pop(true);
+        return;
       }
+
+      // Avatar en segundo plano
+      final String currentUserId = ref.read(sessionProvider).sessionUserData.userId;
+      ref.read(classUserAvatarProvider.notifier).recuperaDatosDelAvatar(currentUserId);
+
+      // Datos completos del usuario (hasta que pasen a la API, C5, se leen de CouchDB)
+      await sessionNotifier.getUserDataByNameInSessionData();
+      if (!mounted) return;
+
+      await sessionNotifier.saveVarValueToLocalStorage(
+        "userId",
+        ref.read(sessionProvider).sessionUserData.userId,
+      );
+      await sessionNotifier.saveVarValueToLocalStorage(
+        "userName",
+        ref.read(sessionProvider).sessionUserData.userName,
+      );
+      await sessionNotifier.saveVarValueToLocalStorage(
+        "nombrePerfil",
+        ref.read(sessionProvider).nombrePerfil,
+      );
+
+      if (mounted) Navigator.of(context).pop(true);
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(

@@ -51,10 +51,7 @@ class GestionAvataresState extends ConsumerState<GestionAvatares> {
     super.initState();
 
     // 1. Obtención del ID de usuario
-    final userPass = ref.read(sessionProvider).initialIdUserPass;
-    if (userPass.rows.isNotEmpty) {
-      parametroUserID = userPass.rows[0].value.userId;
-    }
+    parametroUserID = ref.read(sessionProvider).sessionUserData.userId;
 
     debugPrintLevels(6, "01 GestionAvatares initState: $parametroUserID");
 

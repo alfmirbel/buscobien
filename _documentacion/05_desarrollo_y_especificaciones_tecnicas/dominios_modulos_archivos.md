@@ -346,7 +346,7 @@ Módulo `lib/10_user_login/` — Autenticación, sesión, registro, recuperació
 - `lib/10_user_login/usuario_login/login_03_form_register_user.dart` — Formulario de registro.
 - `lib/10_user_login/usuario_login/page_cambio_password.dart` — Cambio de contraseña.
 - `lib/10_user_login/usuario_login/page_solicitar_recuperacion.dart` — Solicitar recuperación.
-- `lib/10_user_login/usuario_login/password_recovery_repository.dart` — Repositorio de recuperación.
+- `lib/10_user_login/usuario_login/auth_api.dart` — Cliente de cuenta contra `buscobien-api` (inicio de sesión, registro, recuperación).
 - `lib/10_user_login/usuario_login/provider_session.dart` — Provider de sesión.
 - `lib/10_user_login/usuario_login/provider_session.g.dart`
 - `lib/10_user_login/usuario_login/session_repository.dart` — Repositorio de sesión.

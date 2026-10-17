@@ -4,10 +4,9 @@ import 'package:material_symbols_icons/symbols.dart';
 
 import '../../05_provider_menus/provider_menu_inicial.dart';
 import '../../20_var_globales/var_color_themes.dart';
-import '../../40_security/generate_reset_token.dart';
 import '../../60_global_widgets/bottom_fijo.dart';
 import '../../60_global_widgets/dialogbox_mensaje_general.dart';
-import 'password_recovery_repository.dart';
+import 'auth_api.dart';
 
 class PageSolicitarRecuperacion extends ConsumerStatefulWidget {
   const PageSolicitarRecuperacion({super.key});
@@ -39,71 +38,18 @@ class _PageSolicitarRecuperacionState
     final correo = _correoController.text.trim();
     final perfil = _perfilSeleccionado;
 
-    // 1. Buscar usuario por correo en la DB del perfil
-    final usuario = await buscarUsuarioPorCorreo(correo, perfil);
+    // El servidor responde igual exista o no la cuenta (no revela qué correos están registrados)
+    final resultado = await authApi.solicitarRecuperacion(correo: correo, perfil: perfil);
 
     if (!mounted) return;
+    setState(() => _isLoading = false);
 
-    if (usuario == null) {
-      setState(() => _isLoading = false);
-      await showMessageDialog(
-        context,
-        'Sin resultado',
-        'No se encontró una cuenta con ese correo y perfil.\n'
-            'Verifica los datos e intenta de nuevo.',
-        appTheme.error,
-        TextAlign.center,
-        'Entendido',
-      );
-      return;
-    }
-
-    // 2. Generar token y expiry
-    final token = generateResetToken();
-    final expiry = generateTokenExpiry();
-
-    // 3. Persistir token en CouchDB
-    final guardado = await guardarTokenRecuperacion(
-      usuario.docId,
-      perfil,
-      token,
-      expiry,
-    );
-
-    if (!mounted) return;
-
-    if (!guardado) {
-      setState(() => _isLoading = false);
+    if (!resultado.ok) {
       await showMessageDialog(
         context,
         'Error',
-        'No fue posible procesar la solicitud. Intenta más tarde.',
+        resultado.mensaje,
         appTheme.error,
-        TextAlign.center,
-        'Entendido',
-      );
-      return;
-    }
-
-    // 4. Enviar correo
-    final enviado = await enviarCorreoRecuperacion(
-      email: correo,
-      nombreUsuario: usuario.nombre,
-      resetToken: token,
-      perfil: perfil,
-    );
-
-    if (!mounted) return;
-
-    setState(() => _isLoading = false);
-
-    if (!enviado) {
-      await showMessageDialog(
-        context,
-        'Advertencia',
-        'El enlace fue generado pero no se pudo enviar el correo. '
-            'Contacta a soporte.',
-        appTheme.secondary,
         TextAlign.center,
         'Entendido',
       );

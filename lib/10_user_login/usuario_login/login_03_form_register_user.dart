@@ -9,7 +9,6 @@ import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../20_var_globales/couchdb_errors.dart';
 import '../../20_var_globales/var_color_themes.dart';
 import '../../20_var_globales/var_color_widget.dart';
 import '../../20_var_globales/variables_globales.dart';
@@ -158,30 +157,29 @@ class RegisterScreenUsersState extends ConsumerState<RegisterScreenUsers> {
                             return;
                           } else {
                             //----------------------
-                            ref
+                            final resultado = await ref
                                 .read(sessionProvider.notifier)
-                                .writeUserToCouchDB(
-                                  ref,
+                                .registrarUsuario(
                                   ref
                                       .read(sessionProvider)
                                       .userData
                                       .rows[0]
                                       .value
                                       .usuario,
-                                )
-                                .then((onValue) async {
-                                  await showMessageDialog(
-                                    // ignore: use_build_context_synchronously
-                                    context,
-                                    "Registra Usuario",
-                                    codigoCouchDB[onValue]!.label,
-                                    appTheme.primary,
-                                    TextAlign.center,
-                                    "Salir",
-                                  );
-                                  _validaclavedeacceso = "";
-                                  rfc = "";
-                                });
+                                );
+                            if (!mounted) return;
+                            await showMessageDialog(
+                              context,
+                              "Registra Usuario",
+                              resultado.ok
+                                  ? "Cuenta creada. Ya puedes iniciar sesión."
+                                  : resultado.mensaje,
+                              resultado.ok ? appTheme.primary : appTheme.error,
+                              TextAlign.center,
+                              "Salir",
+                            );
+                            _validaclavedeacceso = "";
+                            rfc = "";
                           }
                         }
                       : null,
