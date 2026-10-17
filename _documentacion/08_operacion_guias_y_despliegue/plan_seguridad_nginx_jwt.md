@@ -261,7 +261,7 @@ Ver 4.4. Si se elige reinstalar o migrar (4.4), se hace **antes** de instalar ng
 | # | Acción | Quién | Depende de |
 | :-- | :--- | :--- | :--- |
 | 1 | Decidir dónde vive el código: el `CLAUDE.md` lo prevé en un **repositorio separado** (hoy existe `api/` vacío en este repositorio). Recomendado: repositorio propio `buscobien-api` | Propietario | — |
-| 2 | Crear el proyecto (Node ESM, `express`, `jsonwebtoken`, `bcryptjs`, `nano`; estructura `src/{routes,controllers,middleware,db}`; sin dependencias nativas) con `GET /health` | Claude | 1 |
+| 2 ✅ | Crear el proyecto (Node ESM, `express`, `jsonwebtoken`, `bcryptjs`, `nano`; estructura `src/{routes,controllers,middleware,db}`; sin dependencias nativas) con `GET /health` | Claude | 1 |
 | 3 | Escribir los endpoints: `POST /auth/login`, `/auth/refresh`, `/auth/logout`, `/auth/register`, `/auth/recover/request`, `/auth/recover/confirm`, `/auth/password`; `GET /usuarios/me`, `/usuarios/buscar` | Claude | 2 |
 | 4 | Pruebas automáticas (`node:test` con CouchDB simulado): migración SHA-256 → bcrypt, rotación y revocación del token de renovación, límites de intentos, **ningún token contiene `_admin`**, respuestas `{ error, code }` | Claude | 3 |
 | 5 | Rotar la contraseña de administrador de CouchDB (S1) y **crear la cuenta de servicio `buscobien_api`** (no administradora) con acceso solo a `buscobien_usuarios`, `buscobien_usuarios_promotores` y `buscobien_sesiones`; crear la base `buscobien_sesiones` | Propietario (credenciales de administrador) | S1 |
@@ -757,3 +757,47 @@ Notas: tras corregir el punto 10 se repitieron las pruebas B–E con los datos d
 | `certbot renew --dry-run` con nginx | **Correcto** al segundo intento (el primero falló con `authorization must be pending`, una condición transitoria del entorno de pruebas de Let's Encrypt al repetir la prueba en pocos minutos) |
 | Efecto lateral | `https://api.buscobien.net/db/` ya es una **segunda puerta pública** a la CouchDB de producción (con TLS válido, límite de peticiones y rutas administrativas bloqueadas, pero todavía aceptando la contraseña de administrador por Basic). Hasta el corte S5 el riesgo equivale al del puerto 6984 existente |
 | No hecho | Los puertos 5984, 6984 y 3001 siguen abiertos (la app actual los usa) |
+
+### H. Comandos del propietario y estado de `buscobien-api` (2026-10-17)
+
+**Servicio `buscobien-api` (pasos 2–4 del plan, repositorio `D:\buscobien-api`, commit `5a69ad2`):** escrito y probado en local con 50 pruebas automáticas (repositorios en memoria y `fetch` simulado; sin CouchDB ni red) y `npm audit` sin vulnerabilidades. **Aún no está desplegado.** Decisiones aplicadas: tokens de 15 min / 30 días, contraseña de 8 o más caracteres con letras y números, campos públicos de búsqueda `id`, `nombre`, `foto` y `perfil`, nombre de usuario como identificador de acceso.
+
+Desviaciones y detalles que conviene conocer:
+
+- **Acceso a CouchDB con `fetch`, no con `nano`** (convención del `CLAUDE.md`): `nano` 10 está en desuso y exige sesión por cookies; `fetch` permite probar sin red y quita una dependencia.
+- **Hash de contraseña:** bcrypt en `usuario.claveacceso_v2`. El SHA-256 heredado (`usuario.claveacceso`) se acepta una vez, se migra y **se conserva mientras `KEEP_LEGACY_HASH=true`** para que la app actual (que lo lee directo de CouchDB) siga funcionando; se elimina en el corte S5.
+- **Supuesto a confirmar con datos reales:** el `_id` del documento de usuario coincide con `usuario.id_usuario` (los usuarios nuevos se crean así).
+- **El cliente debe serializar las renovaciones** de token: dos renovaciones simultáneas con el mismo token se interpretan como reutilización y cierran la sesión.
+- Los usuarios existentes sin `usuario.correoelectronico` único o repetido pueden dar resultados ambiguos en la recuperación; conviene revisar duplicados.
+
+**Paso A — lo ejecuta el propietario (`deploy`, con `sudo`).** El script `~/seguridad/paso_A.sh` ya está en el servidor, con la sintaxis verificada:
+
+```powershell
+ssh miservidor
+```
+
+```bash
+bash ~/seguridad/paso_A.sh
+```
+
+Pide la contraseña de `sudo` y la contraseña **actual** del administrador de CouchDB, y hace, en orden:
+
+| # | Acción | Si falla |
+| :-- | :--- | :--- |
+| 0 | Comprueba que CouchDB responde, que existen las llaves en `/etc/buscobien-api/` y que la contraseña actual es correcta | Se detiene sin cambiar nada |
+| 1 | Respalda el `_security` actual de las bases de usuarios en `~/seguridad/respaldo/` | — |
+| 2 | **Rota la contraseña de administrador** (aleatoria, 32 caracteres), la muestra una vez y la guarda en `~/seguridad/admin.nueva` | Se detiene; la anterior sigue vigente |
+| 3 | Elimina la contraseña en texto plano de `local.ini` (solo si el hash nuevo quedó en `local.d/10-admins.ini`) y deja ambos archivos en `0640` | Avisa y no toca `local.ini` |
+| 4 | Crea la cuenta de servicio `buscobien_api` (no administradora) y guarda su contraseña en `/etc/buscobien-api/couchdb_service.pass` (`0640 root:buscobien-api`), sin mostrarla | Se detiene |
+| 5 | Crea `buscobien_sesiones`, deja `buscobien_api` como único miembro de las bases de usuarios y de sesiones, y crea los índices | Informa el código HTTP de cada base |
+| 6 | Instala `20-jwt.ini`, reinicia CouchDB y comprueba que el administrador sigue entrando y que aparece el manejador `jwt` | Indica el comando de diagnóstico |
+
+Después del script:
+
+1. Guardar la contraseña nueva en el gestor de contraseñas y ejecutar `rm ~/seguridad/admin.nueva`.
+2. Poner la contraseña nueva en `defines.json` (`COUCHDB_PASSWORD`) y recompilar la app de desarrollo.
+3. Avisar para el despliegue del servicio.
+
+**Efectos esperados:** la app de desarrollo seguirá funcionando (el administrador por Basic sigue aceptado) una vez que `defines.json` tenga la contraseña nueva; durante unos segundos CouchDB no responderá por el reinicio. Las bases de usuarios dejan de ser accesibles para cualquier usuario que no sea el administrador o `buscobien_api`.
+
+**Paso B — lo ejecuta Claude con `miservidor-root`, después del paso A:** copiar el servicio a `/opt/buscobien-api`, `npm ci --omit=dev`, crear el `.env` (`0600`, sin contraseñas: usa los archivos de `/etc/buscobien-api/`), instalar `deploy/buscobien-api.service`, arrancar el servicio, correr las pruebas contra la CouchDB de desarrollo y verificar `https://api.buscobien.net/auth/login`.
