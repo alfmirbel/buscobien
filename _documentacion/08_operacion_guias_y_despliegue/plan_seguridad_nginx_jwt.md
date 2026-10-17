@@ -823,3 +823,40 @@ Después del script:
 4. El mailer sigue sin poder enviar correos (H8): la recuperación de contraseña de punta a punta no se ha podido probar.
 
 **Siguientes pasos:** S4 (permisos por base y `validate_doc_update` en las demás bases, con inventario del campo de propietario de cada una), cambios C0–C7 en la app Flutter, arreglar el SMTP del mailer y publicar los dos commits nuevos de `buscobien-api` (`2ae1014` y el de los identificadores).
+
+### J. Decisiones D7–D10 y preparación de S4 (2026-10-17)
+
+**Decisiones del propietario:**
+
+| ID | Decisión | Aplicación |
+| :--- | :--- | :--- |
+| D7 | **Opción C** | Catálogo y datos del propietario se abren con regla de escritura por propietario; quedan **cerradas** (solo administrador / `buscobien-api`) `buscobien_mensajes`, `buscobien_grupos_mensajes`, `buscobien_user_localidad`, `buscobien_compra_espacios`, `buscobien_listas_prop_compartidas`, `buscobien_grupos_publicaciones` y `buscobien_social`, hasta que existan sus endpoints en `buscobien-api` |
+| D8 | El catálogo se ve **sin iniciar sesión** (usuarios sin cuenta o sin sesión). Listas, grupos, contactos y demás funciones exigen sesión | `publicados_*`, `propiedades_casas_fotos`, `fotos_ordenadas` y las dos bases de referencia quedan con lectura anónima; escribir sin sesión devuelve `401` |
+| D9 | Corregir el código para usar `publicados_*` / `casas_comprados_*` | Hecho (commit `7684004` del repositorio `buscobien`): burbujas de propiedad del chat y del detalle de grupo, perfil de contacto y compartir con un conocido; se eliminó código sin uso que consultaba bases inexistentes |
+| D10 | Respaldar y cerrar `buscobien_social`; borrarla cuando se confirme que nada la usa | Se retiró del cliente el código que la usaba (`InvitacionesNotifier`, `chatProvider`); la base queda cerrada con el paso S4 y su `_security` anterior se guarda en el respaldo. **El borrado se hará tras confirmar que no hay otros consumidores** |
+| — | La CouchDB de desarrollo la comparten varios proyectos; **en producción solo existirán las bases de BuscoBien** | Las 22 bases de otros proyectos no entran en S4. La producción nueva se crea solo con las 34 bases de BuscoBien |
+
+**Cambios en la app (`buscobien`, commit `7684004`):** nuevo `lib/08_pantallas/propiedades/buscar_propiedad.dart` (`buscarPropiedadPublicada`, `propiedadesPublicadasDeUsuario`); compartir con un conocido ya no escribe en la base inexistente (antes mostraba «No se pudo compartir» aunque el mensaje sí se enviaba); eliminados `provider_propiedades_compartidas_conocidos.dart`, `propertiesDetailsProvider`, `getPropiedadesDetallesPorListaId` y ≈ 150 líneas del motor social antiguo. `flutter analyze` 0 hallazgos; 75 pruebas verdes. No se probó en un dispositivo: conviene probar a mano las burbujas de propiedad en el chat y el perfil de un contacto.
+
+**Reglas de S4 (repositorio `buscobien-api`, `scripts/s4/`):** `reglas.mjs` (30 bases: reglas `validate_doc_update` y tipo de acceso), `aplicar.mjs` (simular / aplicar / revertir, con respaldo del `_security` y del diseño de cada base; instala primero la regla y después abre el acceso), `verificar.mjs` (matriz de pruebas con dos usuarios) y `paso_s4.sh` (flujo completo para el servidor). Reglas implementadas: solo administrador; propietario; invitaciones (crea el remitente, responde el destinatario); lista compartida; grupos (el administrador edita; los demás solo se añaden o salen ellos mismos).
+
+**Prueba en la instancia de pruebas (30 bases con los nombres reales):** simular → aplicar → **208 de 208 comprobaciones correctas** → revertir (la base vuelve a «solo administrador»). La matriz comprueba, por base: lectura con y sin sesión según el acceso; que un usuario no pueda modificar, borrar ni crear a nombre de otro; que el propietario no se pueda reasignar; que el destinatario responda la invitación y el remitente no; y que un miembro de un grupo no pueda hacerse administrador, editar el grupo, expulsar ni borrarlo.
+
+**Limitaciones conocidas de las reglas (documentadas):**
+
+1. En `buscobien_grupos` cualquier usuario con sesión puede añadirse a un grupo (incluso privado): CouchDB no puede comprobar la invitación, que está en otra base.
+2. En `buscobien_grupos_avisos` basta ser el autor; no se comprueba que sea administrador del grupo.
+3. Con la opción C, las bases abiertas a usuarios con sesión (listas, «me gusta», invitaciones, `casas_comprados_*`, avatares, listas compartidas, grupos) pueden **leerse** por cualquier usuario con sesión con una consulta propia.
+
+**Pendiente de aplicar en el servidor (lo ejecuta el propietario):**
+
+```powershell
+ssh miservidor
+```
+```bash
+bash /opt/buscobien-api/scripts/s4/paso_s4.sh
+```
+
+El script pide la contraseña de `sudo` y la del administrador; muestra la simulación y exige escribir `SI` para continuar; guarda el respaldo en `~/seguridad/respaldo_s4/`; aplica; crea dos usuarios temporales, ejecuta la matriz de pruebas contra la CouchDB real y comprueba por HTTPS el catálogo sin sesión; borra los usuarios temporales; y termina con `RESULTADO: TODO CORRECTO` o la lista de fallos. Para deshacerlo: `bash /opt/buscobien-api/scripts/s4/paso_s4.sh revertir`.
+
+**Efecto sobre la app actual:** ninguno mientras use el administrador (el administrador pasa todas las reglas). Las reglas solo afectan a los clientes que usen JWT.

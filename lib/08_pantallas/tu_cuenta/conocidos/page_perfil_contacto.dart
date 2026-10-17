@@ -7,7 +7,7 @@ import '../../../20_var_globales/var_color_themes.dart';
 import '../../../20_var_globales/var_de_estilo_widgets.dart';
 import '../../propiedades/buscar_propiedad.dart';
 
-// Propiedades publicadas del contacto (bases buscobien_publicados_*)
+// Propiedades publicadas del contacto (bases de propiedades publicadas)
 final propiedadesContactoProvider = FutureProvider.family<List<dynamic>, String>(
   (ref, userId) => propiedadesPublicadasDeUsuario(userId),
 );

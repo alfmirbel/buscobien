@@ -141,7 +141,6 @@ Proveedor: `homeNavigationProvider`.
 - `provider_listas_propiedades.dart`
 - `provider_me_gusta.dart`
 - `provider_listas_compartidas.dart`
-- `provider_propiedades_compartidas_conocidos.dart`
 - `data_user_list_model.dart` / `data_user_list_model_get.dart`
 - `data_lista_propiedad.dart` / `data_lista_propiedad_get.dart`
 - `lista_select_lista_save_propiedad.dart`
@@ -170,7 +169,7 @@ Proveedor: `homeNavigationProvider`.
 | L-5 | Eliminar relación lista-propiedad. | `borrarPropiedadDeLista` y `borrarListapropiedadPorId`. | Implementado |
 | L-6 | "Me gusta" en propiedades con toggle. | `MeGustaNotifier.toggleMeGusta` y auto-creación de "Favoritas". | Implementado |
 | L-7 | Compartir lista con conocidos/grupos con límite 5. | Dialogs con `CheckboxListTile`, confirmación y ejecución. | Implementado |
-| L-8 | Compartir propiedad con conocido/grupo. | `provider_propiedades_compartidas_conocidos.dart`. | Implementado |
+| L-8 | Compartir propiedad con conocido/grupo (mensaje de tipo `propiedad` en el chat). | `page_compartir_con_conocido.dart`, `page_compartir_con_grupo.dart`. | Implementado |
 | L-9 | Detalle de lista compartida. | `pagina_detalle_lista_compartida.dart`. | Implementado |
 
 ---

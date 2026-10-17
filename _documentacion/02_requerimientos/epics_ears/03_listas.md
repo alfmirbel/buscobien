@@ -75,7 +75,6 @@ La evidencia de cada requerimiento (archivo y líneas) está en la columna **Evi
 | `Lista` / `Listapropiedad` models | `data_user_list_model.dart`, `data_lista_propiedad.dart` | DTOs |
 | `ListaCompartidaModel` / `MeGustaModel` | `models/lista_compartida_model.dart`, `models/me_gusta_model.dart` | Compartidos |
 | `PageDetalleLista` / `PageDetalleListaCompartida` | `pagina_detalle_listas.dart`, `pagina_detalle_lista_compartida.dart` | Detalle |
-| `PropiedadesCompartidasConocidosNotifier` | `provider_propiedades_compartidas_conocidos.dart` | Compartir props |
 
 ---
 

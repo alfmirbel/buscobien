@@ -115,7 +115,7 @@
 - ✓ El tab Recibidas de cada destinatario muestra la lista nueva automaticamente.
 - ✓ Feature BDD: escenario "Compartir lista con máx 5 contactos + notificación chat".
 
-**Trazabilidad:** `provider_listas_compartidas.dart` (`ListasCompartidasNotifier`), `provider_propiedades_compartidas_conocidos.dart` (parcial), `mensajesChatProvider` (en `08_pantallas/tu_cuenta/...`)
+**Trazabilidad:** `provider_listas_compartidas.dart` (`ListasCompartidasNotifier`), `mensajesChatProvider` (en `08_pantallas/tu_cuenta/...`)
 
 ---
 
@@ -143,7 +143,7 @@
 - ✓ En `PageCompartirConGrupo`, los grupos seleccionados aparecen en su chat con un mensaje `tipo:'propiedad'`.
 - ✓ Feature BDD: escenario "Compartir propiedad individual con conocido/grupo + chat".
 
-**Trazabilidad:** `page_compartir_con_conocido.dart`, `page_compartir_con_grupo.dart`, `provider_propiedades_compartidas_conocidos.dart`, `publicacionesGrupoProvider` (en `08_pantallas/tu_cuenta/grupos/`), `mensajesChatProvider`, `mensajesGrupoProvider`
+**Trazabilidad:** `page_compartir_con_conocido.dart`, `page_compartir_con_grupo.dart`, `publicacionesGrupoProvider` (en `08_pantallas/tu_cuenta/grupos/`), `mensajesChatProvider`, `mensajesGrupoProvider`
 
 ---
 

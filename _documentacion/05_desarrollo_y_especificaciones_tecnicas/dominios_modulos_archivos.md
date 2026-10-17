@@ -95,7 +95,6 @@ Módulo `lib/03_listas/` — Listas personales, compartidas, "me gusta" y compar
 - `lib/03_listas/provider_listas_compartidas.dart` — Provider de listas compartidas.
 - `lib/03_listas/provider_listas_propiedades.dart` — Provider de listas de propiedades.
 - `lib/03_listas/provider_me_gusta.dart` — Provider de "me gusta".
-- `lib/03_listas/provider_propiedades_compartidas_conocidos.dart` — Provider de propiedades compartidas con conocidos.
 - `lib/03_listas/provider_user_lists.dart` — Provider de listas de usuario.
 
 ### Pantallas / Widgets

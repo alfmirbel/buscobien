@@ -12,8 +12,8 @@ Map<String, String> get _cabeceras => {
   'Content-Type': 'application/json',
 };
 
-/// Busca una propiedad publicada por su `idPropiedad` en las cinco bases
-/// `buscobien_publicados_*` (la propiedad está en la que corresponde a su tipo
+/// Busca una propiedad publicada por su `idPropiedad` en las cinco bases de
+/// propiedades publicadas (está en la que corresponde a su tipo
 /// de anuncio). Devuelve `null` si no existe o no se pudo consultar.
 Future<ValueEspaciosCasaGet?> buscarPropiedadPublicada(
   String idPropiedad,

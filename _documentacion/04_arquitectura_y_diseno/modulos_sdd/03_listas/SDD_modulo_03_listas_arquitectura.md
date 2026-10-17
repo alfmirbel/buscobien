@@ -20,7 +20,6 @@
 | `provider_listas_compartidas.dart` | Fuente — Riverpod `AsyncNotifierProvider` | Gestiona listas compartidas: `fetchListasCompartidas`, `compartirLista` (con anti-duplicado), `dejarDeCompartir`, `_copiarPropiedades`, `fetchPropiedadesListaCompartida` |
 | `provider_listas_propiedades.dart` | Fuente — Riverpod `NotifierProvider` | Gestiona relaciones lista-propiedad: `getListaPropiedad`, `addPropiedadALista`, `borrarPropiedadDeLista`, `borrarListapropiedadPorId`, `getPropiedadesDetallesPorListaId` |
 | `provider_me_gusta.dart` | Fuente — Riverpod `AsyncNotifierProvider` | Gestiona "Me gusta": `init`, `toggleMeGusta`, `_agregarMeGusta`, `_quitarMeGusta`, auto-crea lista "Favoritas", agrega propiedad a Favoritas |
-| `provider_propiedades_compartidas_conocidos.dart` | Fuente — Riverpod Provider | Gestiona compartición de propiedades con conocidos específicamente |
 | `models/lista_compartida_model.dart` | Fuente — Modelo de Datos | Define `ListaCompartidaModel` con campos `id`, `listaOrigenId`, `listaNombre`, `usuarioOrigenId/DestinoId/Nombre`, `timestamp` |
 | `data_user_list_model.dart` / `data_user_list_model_get.dart` | Fuente — Modelos de Datos | Define `Lista`, `GetUserPropertyListModel`, `RowGetUserPropertyList` para listas del usuario |
 | `data_lista_propiedad.dart` / `data_lista_propiedad_get.dart` | Fuente — Modelos de Datos | Define `Listapropiedad`, `ListaPropertyListModel`, `RowListaProperty` para relaciones lista-propiedad |
