@@ -1,30 +1,29 @@
 import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:http/http.dart' as http;
 import 'package:uuid/uuid.dart';
 
+import '../40_security/couch_http.dart' as http;
 import '../40_security/direccionip.dart';
 import '../60_global_widgets/debugprint.dart';
 import '../08_pantallas/tu_cuenta/conocidos/provider_mensajes.dart';
+import '../08_pantallas/tu_cuenta/social_api.dart';
 import 'models/lista_compartida_model.dart';
 
 // =============================================================================
 // PROVIDER — LISTAS COMPARTIDAS ENTRE USUARIOS
 // =============================================================================
-// Base: buscobien_listas_compartidas_usuarios
+// Base: buscobien_listas_compartidas_usuarios (abierta a usuarios con sesión; escribe quien comparte).
+// Las propiedades de cada lista compartida viven en buscobien_listas_prop_compartidas, una base
+// cerrada: se copian, leen y borran por buscobien-api (/listas-compartidas/:id/propiedades).
 // Índices requeridos:
 //   {"index":{"fields":["type","usuarioOrigenId","usuarioDestinoId"]},"name":"idx-lista-compartida-dupla"}
 //   {"index":{"fields":["type","usuarioOrigenId"]},"name":"idx-lista-compartida-origen"}
 //   {"index":{"fields":["type","usuarioDestinoId"]},"name":"idx-lista-compartida-destino"}
 
 const String _dbListasCompartidas = 'buscobien_listas_compartidas_usuarios';
-const String _dbListasPropCompartidas = 'buscobien_listas_prop_compartidas';
 
-Map<String, String> get _authHeaders => {
-  'Authorization': 'Basic ${base64Encode(utf8.encode('$username:$password'))}',
-  'Content-Type': 'application/json',
-};
+const Map<String, String> _authHeaders = {'Content-Type': 'application/json'};
 
 // =============================================================================
 // CONSTANTES DE RESULTADO para compartirLista
@@ -54,7 +53,7 @@ class ListasCompartidasNotifier
   }
 
   Future<List<ListaCompartidaModel>> _fetch(String userId) async {
-    final url = Uri.parse('$direccionip/$_dbListasCompartidas/_find');
+    final url = Uri.parse('$dbBaseUrl/$_dbListasCompartidas/_find');
     final body = jsonEncode({
       'selector': {
         'type': 'lista_compartida',
@@ -115,7 +114,7 @@ class ListasCompartidasNotifier
       );
 
       final url = Uri.parse(
-        '$direccionip/$_dbListasCompartidas/$listaCompartidaId',
+        '$dbBaseUrl/$_dbListasCompartidas/$listaCompartidaId',
       );
       final response = await http.put(
         url,
@@ -133,10 +132,7 @@ class ListasCompartidasNotifier
       }
 
       // Copiar propiedades de la lista origen a la lista compartida
-      await _copiarPropiedades(
-        listaOrigenId: listaOrigenId,
-        listaCompartidaId: listaCompartidaId,
-      );
+      await socialApi.copiarPropiedades(listaCompartidaId);
 
       // Notificar al destinatario por chat privado
       await enviarMensajeDirecto(
@@ -160,7 +156,7 @@ class ListasCompartidasNotifier
     String usuarioDestinoId,
   ) async {
     try {
-      final url = Uri.parse('$direccionip/$_dbListasCompartidas/_find');
+      final url = Uri.parse('$dbBaseUrl/$_dbListasCompartidas/_find');
       final body = jsonEncode({
         'selector': {
           'type': 'lista_compartida',
@@ -180,44 +176,6 @@ class ListasCompartidasNotifier
     return false;
   }
 
-  Future<void> _copiarPropiedades({
-    required String listaOrigenId,
-    required String listaCompartidaId,
-  }) async {
-    try {
-      final urlIds = Uri.parse(
-        '$direccionip/buscobien_listas_propiedades/_design/DDLOCAL/_view/vistaListaID?key="$listaOrigenId"',
-      );
-      final respIds = await http.get(urlIds, headers: _authHeaders);
-      if (respIds.statusCode != 200) return;
-
-      final dataIds = jsonDecode(utf8.decode(respIds.bodyBytes));
-      final rows = (dataIds['rows'] as List?) ?? [];
-
-      for (final row in rows) {
-        final listaPropiedad = row['value'];
-        if (listaPropiedad == null) continue;
-
-        final nuevaRelacion = {
-          '_id': const Uuid().v4(),
-          'listaCompartidaId': listaCompartidaId,
-          'propertyId': listaPropiedad['propertyId'] ?? '',
-          'tipodeespacio': listaPropiedad['tipodeespacio'] ?? '',
-          'timestamp': DateTime.now().toIso8601String(),
-          'type': 'lista_prop_compartida',
-        };
-
-        await http.post(
-          Uri.parse('$direccionip/$_dbListasPropCompartidas'),
-          headers: _authHeaders,
-          body: jsonEncode(nuevaRelacion),
-        );
-      }
-    } catch (e) {
-      debugPrintLevels(1, '_copiarPropiedades exception: $e');
-    }
-  }
-
   // ---------------------------------------------------------------------------
   // dejarDeCompartir
   // Elimina el registro de lista compartida y sus propiedades copiadas.
@@ -227,9 +185,12 @@ class ListasCompartidasNotifier
     String userId,
   ) async {
     try {
+      // Primero las propiedades copiadas: el servidor valida con la lista, que aún debe existir.
+      await socialApi.borrarPropiedades(modelo.id);
+
       // GET para obtener _rev actual
       final docUrl = Uri.parse(
-        '$direccionip/$_dbListasCompartidas/${modelo.id}',
+        '$dbBaseUrl/$_dbListasCompartidas/${modelo.id}',
       );
       final getResp = await http.get(docUrl, headers: _authHeaders);
       if (getResp.statusCode != 200) {
@@ -262,9 +223,6 @@ class ListasCompartidasNotifier
         return false;
       }
 
-      // Limpiar propiedades copiadas huérfanas en buscobien_listas_prop_compartidas
-      await _limpiarPropiedadesCompartidas(modelo.id);
-
       // Refrescar estado
       await fetchListasCompartidas(userId);
       return true;
@@ -274,61 +232,12 @@ class ListasCompartidasNotifier
     }
   }
 
-  Future<void> _limpiarPropiedadesCompartidas(String listaCompartidaId) async {
-    try {
-      final findUrl = Uri.parse(
-        '$direccionip/$_dbListasPropCompartidas/_find',
-      );
-      final findBody = jsonEncode({
-        'selector': {
-          'type': 'lista_prop_compartida',
-          'listaCompartidaId': listaCompartidaId,
-        },
-        'limit': 200,
-      });
-      final findResp = await http.post(
-        findUrl,
-        headers: _authHeaders,
-        body: findBody,
-      );
-      if (findResp.statusCode != 200) return;
-
-      final data = jsonDecode(utf8.decode(findResp.bodyBytes));
-      final docs = (data['docs'] as List?) ?? [];
-
-      for (final d in docs) {
-        final id = d['_id'] as String?;
-        final rev = d['_rev'] as String?;
-        if (id == null || rev == null) continue;
-        await http.put(
-          Uri.parse('$direccionip/$_dbListasPropCompartidas/$id'),
-          headers: _authHeaders,
-          body: jsonEncode({'_id': id, '_rev': rev, '_deleted': true}),
-        );
-      }
-    } catch (e) {
-      debugPrintLevels(1, '_limpiarPropiedadesCompartidas exception: $e');
-    }
-  }
-
   // Recupera los IDs de propiedades de una lista compartida.
   Future<List<Map<String, dynamic>>> fetchPropiedadesListaCompartida(
     String listaCompartidaId,
   ) async {
     try {
-      final url = Uri.parse('$direccionip/$_dbListasPropCompartidas/_find');
-      final body = jsonEncode({
-        'selector': {
-          'type': 'lista_prop_compartida',
-          'listaCompartidaId': listaCompartidaId,
-        },
-        'limit': 200,
-      });
-      final response = await http.post(url, headers: _authHeaders, body: body);
-      if (response.statusCode == 200) {
-        final data = jsonDecode(utf8.decode(response.bodyBytes));
-        return List<Map<String, dynamic>>.from(data['docs'] as List);
-      }
+      return await socialApi.propiedadesDeLista(listaCompartidaId) ?? [];
     } catch (e) {
       debugPrintLevels(1, 'fetchPropiedadesListaCompartida exception: $e');
     }

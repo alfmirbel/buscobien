@@ -192,7 +192,7 @@ class _PageCompartirConConocidoState
       var ok = true;
       try {
         final chatKey = '${widget.currentUserId}@@$destinoId';
-        await ref.read(mensajesChatProvider(chatKey).notifier).enviar(
+        ok = await ref.read(mensajesChatProvider(chatKey).notifier).enviar(
           widget.propiedadNombre,
           tipo: 'propiedad',
           propiedadId: widget.propiedadId,

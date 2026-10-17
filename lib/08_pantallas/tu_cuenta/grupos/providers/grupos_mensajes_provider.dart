@@ -1,25 +1,21 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:http/http.dart' as http;
 import 'package:uuid/uuid.dart';
 
-import 'package:buscobien/40_security/direccionip.dart';
-import 'package:buscobien/60_global_widgets/debugprint.dart';
 import 'package:buscobien/08_pantallas/tu_cuenta/grupos/models/mensaje_grupo_model.dart';
+import 'package:buscobien/08_pantallas/tu_cuenta/social_api.dart';
+import 'package:buscobien/08_pantallas/tu_cuenta/sondeo.dart';
+import 'package:buscobien/60_global_widgets/debugprint.dart';
 
 // =============================================================================
 // PROVIDER DE MENSAJES DEL CHAT GRUPAL (Riverpod 3.x)
 // =============================================================================
-// Base de datos CouchDB: buscobien_grupos_mensajes
-// Índice requerido (crear en Fauxton):
-//   {"index": {"fields": ["type", "grupoId", "timestamp"]}, "name": "idx-msg-grupo"}
+// Los mensajes viven en buscobien_grupos_mensajes, una base cerrada a los clientes: se leen y
+// escriben por buscobien-api (/grupos/:id/mensajes). Solo los miembros del grupo tienen acceso.
 //
 // Uso: ref.watch(mensajesGrupoProvider(grupoId))
 //      ref.read(mensajesGrupoProvider(grupoId).notifier).enviar(...)
-
-const String _dbMensajes = 'buscobien_grupos_mensajes';
 
 final mensajesGrupoProvider = AsyncNotifierProvider.family<
     MensajesGrupoNotifier, List<MensajeGrupoModel>, String>(
@@ -31,115 +27,76 @@ final mensajesGrupoProvider = AsyncNotifierProvider.family<
 // =============================================================================
 
 class MensajesGrupoNotifier extends AsyncNotifier<List<MensajeGrupoModel>> {
-  MensajesGrupoNotifier(this._grupoId);
+  MensajesGrupoNotifier(this._grupoId, {SocialApi? api, Duration intervalo = const Duration(seconds: 3)})
+      : _api = api,
+        _intervalo = intervalo;
 
   final String _grupoId;
-  http.Client? _changesClient;
-  StreamSubscription<String>? _changesSub;
+  final SocialApi? _api;
+  final Duration _intervalo;
+  SocialApi get _social => _api ?? socialApi;
+
+  /// Fecha del mensaje más reciente que el servidor ya confirmó; punto de partida del sondeo.
+  String _ultimoDelServidor = '';
 
   @override
   Future<List<MensajeGrupoModel>> build() async {
-    ref.onDispose(_cerrarStream);
+    // El sondeo corre solo mientras alguna pantalla escucha el chat.
+    final sondeo = Sondeo(_sondear, intervalo: _intervalo);
+    sondeo.atarA(ref);
 
     final mensajes = await _cargarMensajes();
-    _iniciarStream();
+    if (ref.mounted) sondeo.iniciarSiHayOyentes();
     return mensajes;
   }
 
-  // ── Carga inicial desde _find ─────────────────────────────────────────────
+  static int _masNuevoPrimero(MensajeGrupoModel a, MensajeGrupoModel b) => b.timestamp.compareTo(a.timestamp);
+
+  void _recordarUltimo(Iterable<MensajeGrupoModel> confirmados) {
+    for (final m in confirmados) {
+      if (m.timestamp.compareTo(_ultimoDelServidor) > 0) _ultimoDelServidor = m.timestamp;
+    }
+  }
+
+  // ── Carga inicial ─────────────────────────────────────────────────────────
 
   Future<List<MensajeGrupoModel>> _cargarMensajes() async {
-    final url = Uri.parse('$direccionip/$_dbMensajes/_find');
-    final body = jsonEncode({
-      'selector': {
-        'type': 'mensaje_grupo',
-        'grupoId': _grupoId,
-      },
-      'limit': 300,
-    });
-
-    try {
-      final response = await http.post(url, headers: _authHeaders, body: body);
-      if (response.statusCode != 200) return [];
-      final data = jsonDecode(utf8.decode(response.bodyBytes));
-      return (data['docs'] as List)
-          .map((e) => MensajeGrupoModel.fromJson(e as Map<String, dynamic>))
-          .toList()
-        ..sort((a, b) => b.timestamp.compareTo(a.timestamp)); // newest-first
-    } catch (e) {
-      debugPrintLevels(1, 'MensajesGrupoNotifier._cargarMensajes: $e');
-      return [];
-    }
+    final mensajes = await _social.mensajesGrupo(_grupoId);
+    if (mensajes == null) return [];
+    _recordarUltimo(mensajes);
+    return mensajes..sort(_masNuevoPrimero);
   }
 
-  // ── _changes feed continuo ────────────────────────────────────────────────
-  // CouchDB emite una línea JSON por cambio y una línea vacía de heartbeat.
-  // LineSplitter divide el stream; cada doc se inyecta al frente (newest-first)
-  // para que ListView(reverse:true) lo muestre al fondo de la pantalla.
+  // ── Sondeo de novedades ───────────────────────────────────────────────────
 
-  Future<void> _iniciarStream() async {
-    _cerrarStream();
-
-    final uri = Uri.parse(
-      '$direccionip/$_dbMensajes/_changes'
-      '?feed=continuous&heartbeat=10000&since=now&include_docs=true'
-      '&filter=_selector',
+  Future<void> _sondear() async {
+    final actual = state.asData?.value;
+    if (actual == null || !ref.mounted) return;
+    final nuevos = await _social.mensajesGrupo(
+      _grupoId,
+      desde: _ultimoDelServidor.isEmpty ? null : _ultimoDelServidor,
     );
-
-    final request = http.Request('POST', uri)
-      ..headers.addAll(_authHeaders)
-      ..body = jsonEncode({
-        'selector': {
-          'type': 'mensaje_grupo',
-          'grupoId': _grupoId,
-        },
-      });
-
-    try {
-      _changesClient = http.Client();
-      final streamed = await _changesClient!.send(request);
-
-      _changesSub = streamed.stream
-          .transform(utf8.decoder)
-          .transform(const LineSplitter())
-          .listen((line) {
-            if (line.trim().isEmpty) return; // heartbeat vacío
-
-            try {
-              final json = jsonDecode(line) as Map<String, dynamic>;
-              if (!json.containsKey('doc')) return;
-
-              final nuevo = MensajeGrupoModel.fromJson(
-                json['doc'] as Map<String, dynamic>,
-              );
-
-              final actual = state.asData?.value ?? [];
-              if (actual.any((m) => m.id == nuevo.id)) return;
-              state = AsyncData([nuevo, ...actual]);
-            } catch (_) {}
-          });
-    } catch (e) {
-      debugPrintLevels(1, 'MensajesGrupoNotifier._iniciarStream: $e');
-    }
-  }
-
-  void _cerrarStream() {
-    _changesSub?.cancel();
-    _changesClient?.close();
-    _changesSub = null;
-    _changesClient = null;
+    if (nuevos == null || !ref.mounted) return;
+    _recordarUltimo(nuevos);
+    final vigente = state.asData?.value ?? actual;
+    final ids = vigente.map((m) => m.id).toSet();
+    final aAgregar = nuevos.where((m) => !ids.contains(m.id)).toList();
+    if (aAgregar.isEmpty) return;
+    state = AsyncData([...vigente, ...aAgregar]..sort(_masNuevoPrimero));
   }
 
   // ── Enviar mensaje ─────────────────────────────────────────────────────────
+  // Optimistic update; al confirmarlo el servidor se sustituye por la versión guardada y, si falla,
+  // el mensaje se retira. El remitente y su nombre los toma el servidor de la sesión y del grupo.
 
-  Future<void> enviar({
+  Future<bool> enviar({
     required String senderId,
     required String senderName,
     required String content,
     String tipo = 'texto',
     String propiedadId = '',
   }) async {
-    if (content.trim().isEmpty) return;
+    if (content.trim().isEmpty) return false;
 
     final msg = MensajeGrupoModel(
       id: const Uuid().v4(),
@@ -147,54 +104,46 @@ class MensajesGrupoNotifier extends AsyncNotifier<List<MensajeGrupoModel>> {
       senderName: senderName,
       grupoId: _grupoId,
       content: content.trim(),
-      timestamp: DateTime.now().toIso8601String(),
+      timestamp: DateTime.now().toUtc().toIso8601String(),
       tipo: tipo,
       propiedadId: propiedadId,
     );
 
-    // Optimistic update: aparece en la UI antes del ACK de CouchDB.
     state = AsyncData([msg, ...state.asData?.value ?? []]);
 
+    MensajeGrupoModel? guardado;
     try {
-      final response = await http.post(
-        Uri.parse('$direccionip/$_dbMensajes'),
-        headers: _authHeaders,
-        body: mensajeGrupoModelToJson(msg),
-      );
-      if (response.statusCode != 201) {
-        debugPrintLevels(1, 'enviar: statusCode=${response.statusCode}');
-      }
+      guardado = await _social.enviarMensajeGrupo(msg);
     } catch (e) {
       debugPrintLevels(1, 'MensajesGrupoNotifier.enviar: $e');
     }
+    if (!ref.mounted) return guardado != null;
+
+    final actual = state.asData?.value ?? [];
+    if (guardado == null) {
+      state = AsyncData(actual.where((m) => m.id != msg.id).toList());
+      return false;
+    }
+    _recordarUltimo([guardado]);
+    state = AsyncData([for (final m in actual) m.id == msg.id ? guardado : m]..sort(_masNuevoPrimero));
+    return true;
   }
 
   // ── Marcar mensajes como leídos ───────────────────────────────────────────
-  // Llamar solo al abrir el chat (un PUT por mensaje no leído).
+  // Llamar solo al abrir el chat: una sola petición marca los mensajes de los demás.
 
   Future<void> marcarMensajesLeidos(String currentUserId) async {
-    final mensajes = state.asData?.value ?? [];
-    final noLeidos = mensajes.where(
-      (m) => !m.leido && m.senderId != currentUserId,
-    );
-
-    for (final msg in noLeidos) {
-      try {
-        msg.leido = true;
-        await http.put(
-          Uri.parse('$direccionip/$_dbMensajes/${msg.id}'),
-          headers: _authHeaders,
-          body: mensajeGrupoModelToJson(msg),
-        );
-      } catch (e) {
-        debugPrintLevels(1, 'marcarMensajesLeidos: $e');
-      }
+    final noLeidos = (state.asData?.value ?? []).where((m) => !m.leido && m.senderId != currentUserId);
+    if (noLeidos.isEmpty) return;
+    try {
+      if (!await _social.marcarLeidosGrupo(_grupoId) || !ref.mounted) return;
+      final ids = noLeidos.map((m) => m.id).toSet();
+      state = AsyncData([
+        for (final m in state.asData?.value ?? <MensajeGrupoModel>[])
+          if (ids.contains(m.id)) (m..leido = true) else m,
+      ]);
+    } catch (e) {
+      debugPrintLevels(1, 'marcarMensajesLeidos: $e');
     }
   }
-
-  Map<String, String> get _authHeaders => {
-        'Authorization':
-            'Basic ${base64Encode(utf8.encode('$username:$password'))}',
-        'Content-Type': 'application/json',
-      };
 }

@@ -36,7 +36,7 @@ class MensajeGrupoModel {
 
   factory MensajeGrupoModel.fromJson(Map<String, dynamic> json) =>
       MensajeGrupoModel(
-        id: json['_id'] as String? ?? '',
+        id: json['_id'] as String? ?? json['id'] as String? ?? '',
         rev: json['_rev'] as String? ?? '',
         senderId: json['senderId'] as String? ?? '',
         senderName: json['senderName'] as String? ?? '',

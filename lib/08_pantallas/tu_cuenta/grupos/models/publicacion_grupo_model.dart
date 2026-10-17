@@ -32,7 +32,7 @@ class PublicacionGrupoModel {
 
   factory PublicacionGrupoModel.fromJson(Map<String, dynamic> json) =>
       PublicacionGrupoModel(
-        id: json['_id'] as String? ?? '',
+        id: json['_id'] as String? ?? json['id'] as String? ?? '',
         rev: json['_rev'] as String? ?? '',
         grupoId: json['grupoId'] as String? ?? '',
         propiedadId: json['propiedadId'] as String? ?? '',

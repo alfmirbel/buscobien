@@ -9,8 +9,8 @@
 
 | Elemento | Estado verificado |
 | :--- | :--- |
-| Pruebas automatizadas | 17 archivos, 127 pruebas: sesión con la API (`sesion_api_test`), cliente hacia CouchDB (`couch_http_test`), compras con Stripe (`compras_test`), seguridad (`seguridad_test`), rutas y deep link (`rutas_test`, `deep_link_y_parametros_test`), widgets (`widgets_test`, `campo_texto_test`, `async_value_widget_test`, `foto_builder_test`), formulario de edición (`campos_edicion_test`: ida y vuelta de los 68 campos) y providers con cliente HTTP simulado (`conocidos_notifier_test`, `conocidos_flujos_test`, `grupos_notifier_test`, `grupos_flujos_test`, `grupos_invitaciones_test`, `grupos_mensajes_test`, incluido el feed `_changes`) |
-| Resultado de `flutter test` | **Pasa** (+127, 2026-10-17) |
+| Pruebas automatizadas | 18 archivos, 140 pruebas: red social por la API (`social_test`, `grupos_mensajes_test`), sesión con la API (`sesion_api_test`), cliente hacia CouchDB (`couch_http_test`), compras con Stripe (`compras_test`), seguridad (`seguridad_test`), rutas y deep link (`rutas_test`, `deep_link_y_parametros_test`), widgets (`widgets_test`, `campo_texto_test`, `async_value_widget_test`, `foto_builder_test`), formulario de edición (`campos_edicion_test`: ida y vuelta de los 68 campos) y providers con cliente HTTP simulado (`conocidos_notifier_test`, `conocidos_flujos_test`, `grupos_notifier_test`, `grupos_flujos_test`, `grupos_invitaciones_test`, `grupos_mensajes_test`, incluido el feed `_changes`) |
+| Resultado de `flutter test` | **Pasa** (+140, 2026-10-17) |
 | Cobertura (`flutter test --coverage`) | `40_security` 93 %, `07_routes` 76 %, providers de conocidos 85 %, providers de grupos 60 %. El total de `lib/` no es significativo: el informe solo incluye los archivos que alguna prueba carga |
 | Pruebas de providers | Conocidos y grupos cubiertos. **Sin pruebas:** listas de propiedades, `avisos_grupo_provider` y `publicaciones_grupo_provider` |
 | Pruebas de integración | No existen (MEJ-25) |

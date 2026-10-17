@@ -1,16 +1,16 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:http/http.dart' as http;
 import 'package:uuid/uuid.dart';
 
-import '../../../40_security/direccionip.dart';
 import '../../../60_global_widgets/debugprint.dart';
+import '../social_api.dart';
+import '../sondeo.dart';
 import 'mensaje_model.dart';
 
-// Envía un mensaje directo a CouchDB sin iniciar el feed de cambios continuo.
+// Envía un mensaje directo sin abrir la conversación (POST /mensajes de buscobien-api).
 // Útil para envíos únicos desde widgets que no necesitan escuchar la conversación.
+// El remitente lo toma el servidor de la sesión; [senderId] se conserva por compatibilidad.
 Future<bool> enviarMensajeDirecto({
   required String senderId,
   required String receiverId,
@@ -18,6 +18,7 @@ Future<bool> enviarMensajeDirecto({
   String tipo = 'texto',
   String propiedadId = '',
   String listaCompartidaId = '',
+  SocialApi? api,
 }) async {
   if (content.trim().isEmpty) return false;
   final msg = MensajeModel(
@@ -25,22 +26,13 @@ Future<bool> enviarMensajeDirecto({
     senderId: senderId,
     receiverId: receiverId,
     content: content.trim(),
-    timestamp: DateTime.now().toIso8601String(),
+    timestamp: DateTime.now().toUtc().toIso8601String(),
     tipo: tipo,
     propiedadId: propiedadId,
     listaCompartidaId: listaCompartidaId,
   );
   try {
-    final response = await http.post(
-      Uri.parse('$direccionip/buscobien_mensajes'),
-      headers: {
-        'Authorization':
-            'Basic ${base64Encode(utf8.encode('$username:$password'))}',
-        'Content-Type': 'application/json',
-      },
-      body: mensajeModelToJson(msg),
-    );
-    return response.statusCode == 201;
+    return await (api ?? socialApi).enviarMensaje(msg) != null;
   } catch (e) {
     debugPrintLevels(1, 'enviarMensajeDirecto: $e');
     return false;
@@ -68,7 +60,9 @@ final mensajesChatProvider = AsyncNotifierProvider.family<
 // =============================================================================
 
 class MensajesChatNotifier extends AsyncNotifier<List<MensajeModel>> {
-  MensajesChatNotifier(String chatKey) {
+  MensajesChatNotifier(String chatKey, {SocialApi? api, Duration intervalo = const Duration(seconds: 3)})
+      : _api = api,
+        _intervalo = intervalo {
     final parts = chatKey.split('@@');
     _currentUserId = parts[0];
     _targetUserId = parts[1];
@@ -76,150 +70,99 @@ class MensajesChatNotifier extends AsyncNotifier<List<MensajeModel>> {
 
   late final String _currentUserId;
   late final String _targetUserId;
-  http.Client? _changesClient;
-  StreamSubscription<String>? _changesSub;
+  final SocialApi? _api;
+  final Duration _intervalo;
+  SocialApi get _social => _api ?? socialApi;
+
+  /// Fecha del mensaje más reciente que el servidor ya confirmó; punto de partida del sondeo.
+  String _ultimoDelServidor = '';
 
   @override
   Future<List<MensajeModel>> build() async {
-    // Cierra el stream al destruir el notifier (al salir de la pantalla).
-    ref.onDispose(_cerrarStream);
+    // El sondeo corre solo mientras alguna pantalla escucha la conversación.
+    final sondeo = Sondeo(_sondear, intervalo: _intervalo);
+    sondeo.atarA(ref);
 
     final mensajes = await _cargarMensajes();
-    _iniciarStream(); // arranca en background, no bloquea la UI
+    if (ref.mounted) sondeo.iniciarSiHayOyentes(); // arranca en segundo plano, no bloquea la UI
     return mensajes;
   }
 
-  // ── Carga inicial desde _find ─────────────────────────────────────────────
+  // ── Carga inicial ─────────────────────────────────────────────────────────
 
   Future<List<MensajeModel>> _cargarMensajes() async {
-    final url = Uri.parse('$direccionip/buscobien_mensajes/_find');
-    final body = jsonEncode({
-      'selector': {
-        'type': 'chat_mensaje',
-        r'$or': [
-          {'senderId': _currentUserId, 'receiverId': _targetUserId},
-          {'senderId': _targetUserId, 'receiverId': _currentUserId},
-        ],
-      },
-      'limit': 200,
-    });
+    final mensajes = await _social.mensajes(_targetUserId);
+    if (mensajes == null) return [];
+    _recordarUltimo(mensajes);
+    return mensajes..sort(_masNuevoPrimero);
+  }
 
-    try {
-      final response = await http.post(url, headers: _headers, body: body);
-      if (response.statusCode != 200) return [];
-      final data = jsonDecode(utf8.decode(response.bodyBytes));
-      return (data['docs'] as List)
-          .map((e) => MensajeModel.fromJson(e))
-          .toList()
-        ..sort((a, b) => b.timestamp.compareTo(a.timestamp)); // newest-first
-    } catch (e) {
-      debugPrintLevels(1, 'MensajesChatNotifier._cargarMensajes: $e');
-      return [];
+  static int _masNuevoPrimero(MensajeModel a, MensajeModel b) => b.timestamp.compareTo(a.timestamp);
+
+  void _recordarUltimo(Iterable<MensajeModel> confirmados) {
+    for (final m in confirmados) {
+      if (m.timestamp.compareTo(_ultimoDelServidor) > 0) _ultimoDelServidor = m.timestamp;
     }
   }
 
-  // ── _changes feed continuo ────────────────────────────────────────────────
-  // CouchDB emite una línea JSON por cambio y una línea vacía de heartbeat.
-  // LineSplitter divide el stream; cada doc se inyecta al frente de la lista
-  // (index 0 = más reciente) para que ListView(reverse:true) lo muestre al fondo.
+  // ── Sondeo de novedades ───────────────────────────────────────────────────
+  // Pide los mensajes desde el último que el servidor confirmó (incluido, para no perder los que
+  // comparten el mismo instante) y descarta los que ya están por id.
 
-  Future<void> _iniciarStream() async {
-    _cerrarStream();
-
-    final uri = Uri.parse(
-      '$direccionip/buscobien_mensajes/_changes'
-      '?feed=continuous&heartbeat=10000&since=now&include_docs=true'
-      '&filter=_selector',
+  Future<void> _sondear() async {
+    final actual = state.asData?.value;
+    if (actual == null || !ref.mounted) return;
+    final nuevos = await _social.mensajes(
+      _targetUserId,
+      desde: _ultimoDelServidor.isEmpty ? null : _ultimoDelServidor,
     );
-
-    final request = http.Request('POST', uri)
-      ..headers.addAll(_headers)
-      ..body = jsonEncode({
-        'selector': {
-          'type': 'chat_mensaje',
-          r'$or': [
-            {'senderId': _currentUserId, 'receiverId': _targetUserId},
-            {'senderId': _targetUserId, 'receiverId': _currentUserId},
-          ],
-        },
-      });
-
-    try {
-      _changesClient = http.Client();
-      final streamed = await _changesClient!.send(request);
-
-      _changesSub = streamed.stream
-          .transform(utf8.decoder)
-          .transform(const LineSplitter())
-          .listen((line) {
-            if (line.trim().isEmpty) return; // heartbeat vacío de CouchDB
-
-            try {
-              final json = jsonDecode(line) as Map<String, dynamic>;
-              if (!json.containsKey('doc')) return;
-
-              final nuevo = MensajeModel.fromJson(
-                json['doc'] as Map<String, dynamic>,
-              );
-
-              final actual = state.asData?.value ?? [];
-              // Dedup: el optimistic update ya insertó el mensaje propio.
-              if (actual.any((m) => m.id == nuevo.id)) return;
-              state = AsyncData([nuevo, ...actual]);
-            } catch (_) {}
-          });
-    } catch (e) {
-      debugPrintLevels(1, 'MensajesChatNotifier._iniciarStream: $e');
-    }
-  }
-
-  void _cerrarStream() {
-    _changesSub?.cancel();
-    _changesClient?.close();
-    _changesSub = null;
-    _changesClient = null;
+    if (nuevos == null || !ref.mounted) return;
+    _recordarUltimo(nuevos);
+    final vigente = state.asData?.value ?? actual;
+    final ids = vigente.map((m) => m.id).toSet();
+    final aAgregar = nuevos.where((m) => !ids.contains(m.id)).toList();
+    if (aAgregar.isEmpty) return;
+    state = AsyncData([...vigente, ...aAgregar]..sort(_masNuevoPrimero));
   }
 
   // ── Enviar mensaje ─────────────────────────────────────────────────────────
-  // Optimistic update: el mensaje propio aparece de inmediato en la UI.
-  // Cuando el _changes feed lo devuelva, el dedup por id lo descarta.
+  // Optimistic update: el mensaje propio aparece de inmediato en la UI y, al confirmarlo el
+  // servidor, se sustituye por la versión guardada (con su fecha). Si falla, se retira.
 
-  Future<void> enviar(
+  Future<bool> enviar(
     String content, {
     String tipo = 'texto',
     String propiedadId = '',
   }) async {
-    if (content.trim().isEmpty) return;
+    if (content.trim().isEmpty) return false;
 
     final msg = MensajeModel(
       id: const Uuid().v4(),
       senderId: _currentUserId,
       receiverId: _targetUserId,
       content: content.trim(),
-      timestamp: DateTime.now().toIso8601String(),
+      timestamp: DateTime.now().toUtc().toIso8601String(),
       tipo: tipo,
       propiedadId: propiedadId,
     );
 
     state = AsyncData([msg, ...state.asData?.value ?? []]);
 
+    MensajeModel? guardado;
     try {
-      final response = await http.post(
-        Uri.parse('$direccionip/buscobien_mensajes'),
-        headers: _headers,
-        body: mensajeModelToJson(msg),
-      );
-      if (response.statusCode != 201) {
-        debugPrintLevels(1, 'enviar: statusCode=${response.statusCode}');
-      }
+      guardado = await _social.enviarMensaje(msg);
     } catch (e) {
       debugPrintLevels(1, 'MensajesChatNotifier.enviar: $e');
     }
-  }
+    if (!ref.mounted) return guardado != null;
 
-  Map<String, String> get _headers => {
-        'Authorization':
-            'Basic ${base64Encode(utf8.encode('$username:$password'))}',
-        'Content-Type': 'application/json',
-      };
+    final actual = state.asData?.value ?? [];
+    if (guardado == null) {
+      state = AsyncData(actual.where((m) => m.id != msg.id).toList());
+      return false;
+    }
+    _recordarUltimo([guardado]);
+    state = AsyncData([for (final m in actual) m.id == msg.id ? guardado : m]..sort(_masNuevoPrimero));
+    return true;
+  }
 }

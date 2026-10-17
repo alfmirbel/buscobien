@@ -983,3 +983,31 @@ Estado resultante: catálogo y referencia legibles sin sesión; las bases del pr
 **Pruebas:** `couch_http_test.dart` (8) y `compras_test.dart` (18: fórmula de importes, cliente, pantalla de estado, formulario, regreso desde Stripe). 127 pruebas en total y `flutter analyze` sin hallazgos.
 
 **Pendiente de probar en dispositivo:** pago completo con tarjeta de prueba de Stripe en Web (misma pestaña) y en Android/iOS/Windows (navegador externo y regreso a la app); depende de configurar Stripe en el servidor (`guia_habilitar_stripe.md`).
+
+### O. C4 (parte 2): mensajes, publicaciones de grupo y listas compartidas por buscobien-api (2026-10-17)
+
+**Decisión de diseño (la tomó el asistente; el propietario puede cambiarla):** el chat deja de usar el feed continuo `_changes` de CouchDB. El cliente **sondea** `GET …?desde=<fecha del último mensaje confirmado>` cada 3 segundos mientras alguna pantalla escucha la conversación. Motivos: las bases siguen cerradas a los clientes, funciona igual en Web (WASM), móvil y escritorio, y no hay conexiones largas que reconectar al vencer el token (15 min) ni ajustes de buffering en nginx. Costo: hasta 3 s de retraso y una petición cada 3 s por chat abierto; si el volumen lo exige, se puede añadir un canal SSE sin cambiar la API de lectura.
+
+**Servidor (repositorio `buscobien-api`, 98 pruebas):**
+
+| Ruta | Regla |
+| :--- | :--- |
+| `GET /mensajes/con/:id`, `POST /mensajes` | Chat privado. Cada usuario solo lee lo que intercambió con el otro; remitente y fecha los pone el servidor; el `id` del cliente hace idempotente el reintento (409 si es de otro). Límite de 60 envíos por minuto. **No se exige ser «conocido»** porque la ficha de una propiedad permite escribir al anunciante |
+| `GET/POST /grupos/:id/mensajes`, `POST …/leidos` | Chat de grupo: solo miembros (lee `buscobien_grupos`); el nombre sale del grupo |
+| `GET/POST /grupos/:id/publicaciones`, `DELETE …/:pubId` | Propiedades publicadas en el grupo; un grupo público y visible se lee sin ser miembro; publica un miembro (409 duplicado); quita el autor o un administrador |
+| `GET/POST/DELETE /listas-compartidas/:id/propiedades` | Propiedades de una lista compartida: copia solo el origen (desde su propia lista, reemplazando), lee el origen o el destino, borra cualquiera de los dos |
+
+**S4 (`scripts/s4/reglas.mjs`):** `buscobien_mensajes`, `buscobien_grupos_mensajes`, `buscobien_grupos_publicaciones` y `buscobien_listas_prop_compartidas` siguen **cerradas** a los clientes y ahora son miembro la cuenta `buscobien_api`; `buscobien_grupos`, `buscobien_listas_compartidas_usuarios` y `buscobien_listas_propiedades` (abiertas) también la incluyen para que el servidor las lea. `aplicar.mjs` crea los índices Mango que usa el servicio. `buscobien_social` queda cerrada sin cuenta de servicio (D10).
+
+**App (repositorio `buscobien`, 140 pruebas):** `social_api.dart` (cliente), `sondeo.dart` (consulta periódica atada al ciclo de vida del provider: se detiene cuando ninguna pantalla escucha), `provider_mensajes.dart`, `grupos_mensajes_provider.dart`, `publicaciones_grupo_provider.dart` y `provider_listas_compartidas.dart` migrados. Las fechas de los mensajes pasan a UTC con `Z`; el mensaje propio se muestra al instante y se sustituye por el guardado o se retira (con aviso) si el servidor lo rechaza. Al dejar de compartir una lista se borran primero las propiedades por la API (el servidor necesita que la lista aún exista) y después el documento.
+
+**Credenciales eliminadas de la app:** con esto ya ningún archivo de `lib/` usa `Authorization: Basic`. Se borraron `username`, `password` y `direccionip` de `direccionip.dart`; `defines.json` ya no necesita `COUCHDB_URL`, `COUCHDB_USER` ni `COUCHDB_PASSWORD`.
+
+**nginx (aplicado en desarrollo con respaldo `buscobien.conf.bak-social`):** `location ~ ^/(mensajes|grupos|listas-compartidas)(/|$)` hacia `127.0.0.1:3000` con `limit_req zone=api_limit`.
+
+**Pasos del propietario para activarlo en desarrollo (el código ya está copiado en `/opt/buscobien-api`; falta aplicar S4 y reiniciar):**
+
+1. `ssh miservidor` y `bash /opt/buscobien-api/scripts/s4/paso_s4.sh` (pide la contraseña de administrador; da acceso a la cuenta de servicio y crea los índices; vuelve a verificar la matriz de permisos).
+2. `bash /opt/buscobien-api/scripts/paso_social.sh` (reinicia `buscobien-api` y ejecuta `smoke_social.mjs` con usuarios temporales que borra al terminar).
+
+**Pendiente:** probar en dispositivos (dos cuentas chateando en Web y móvil, publicar y quitar en un grupo, compartir y dejar de compartir una lista); medir el consumo del sondeo; **S5** (cerrar los puertos 5984/6984/3001, `KEEP_LEGACY_HASH=false`, rotar la contraseña de administrador que estuvo compilada en versiones anteriores de la app) y retirar `buscobien_social`.

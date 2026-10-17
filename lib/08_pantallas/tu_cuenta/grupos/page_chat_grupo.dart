@@ -42,11 +42,17 @@ class _PageChatGrupoState extends ConsumerState<PageChatGrupo> {
     if (text.isEmpty) return;
     _textController.clear();
     FocusScope.of(context).unfocus();
-    await ref.read(mensajesGrupoProvider(widget.grupoId).notifier).enviar(
+    final enviado = await ref.read(mensajesGrupoProvider(widget.grupoId).notifier).enviar(
           senderId: widget.currentUserId,
           senderName: widget.currentUserName,
           content: text,
         );
+    if (!mounted) return;
+    if (!enviado) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('No se pudo enviar el mensaje. Inténtalo de nuevo.')),
+      );
+    }
   }
 
   @override
@@ -272,11 +278,17 @@ class _ChatGrupoEmbebidoState extends ConsumerState<ChatGrupoEmbebido> {
     if (text.isEmpty) return;
     _textController.clear();
     FocusScope.of(context).unfocus();
-    await ref.read(mensajesGrupoProvider(widget.grupoId).notifier).enviar(
+    final enviado = await ref.read(mensajesGrupoProvider(widget.grupoId).notifier).enviar(
           senderId: widget.currentUserId,
           senderName: widget.currentUserName,
           content: text,
         );
+    if (!mounted) return;
+    if (!enviado) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('No se pudo enviar el mensaje. Inténtalo de nuevo.')),
+      );
+    }
   }
 
   @override

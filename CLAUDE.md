@@ -80,7 +80,7 @@ REST API (Node.js) ────► CouchDB (https://citigov.cloud:6984)
     └── Notificaciones push (FCM)
 ```
 
-> **Estado real (verificado en `lib/`, 2026-10-07):** hoy la app **sí** se conecta directo a CouchDB con Basic Auth (`COUCHDB_URL/USER/PASSWORD` compilados con `--dart-define`, paquete `http`; `dio` sin uso, sin interceptor JWT). El diagrama anterior es la arquitectura **objetivo**. Detalle en `_documentacion/04_arquitectura_y_diseno/arquitectura_general_buscobien.md`.
+> **Estado real (verificado en `lib/`, 2026-10-17):** la app abre sesión con buscobien-api (JWT) y ya **no contiene credenciales de CouchDB**. Las bases abiertas se tocan con el JWT de la sesión a través de nginx (`https://api.buscobien.net/db`, `lib/40_security/couch_http.dart`) y las bases cerradas (usuarios, compras, localidades, mensajes, publicaciones de grupo, propiedades de listas compartidas) solo por endpoints de buscobien-api. Pendiente (S5): cerrar los puertos directos de CouchDB y rotar la contraseña de administrador. El diagrama anterior sigue siendo el objetivo (no se usa un solo punto de entrada para las bases abiertas). Detalle en `_documentacion/04_arquitectura_y_diseno/arquitectura_general_buscobien.md` y `_documentacion/08_operacion_guias_y_despliegue/plan_seguridad_nginx_jwt.md`.
 
 
 ---
@@ -205,18 +205,14 @@ Definidos como constantes en el código (`lib/40_security/direccionip.dart`, `li
 ```dart
 const String GOOGLE_KEY      = String.fromEnvironment('GOOGLE_KEY');
 const String GOOGLE_MAPS_KEY = String.fromEnvironment('GOOGLE_MAPS_KEY');
-const String direccionip     = String.fromEnvironment('COUCHDB_URL');
-const String username        = String.fromEnvironment('COUCHDB_USER');
-const String password        = String.fromEnvironment('COUCHDB_PASSWORD');
 ```
 
-Las credenciales se escriben **una sola vez** en `defines.json` (raíz del proyecto, nunca al repositorio):
+`lib/40_security/direccionip.dart` ya no tiene credenciales: solo `apiBaseUrl` (`API_BASE_URL`, por defecto `https://api.buscobien.net`) y `dbBaseUrl` (`apiBaseUrl/db`). La app no lee `COUCHDB_URL`, `COUCHDB_USER` ni `COUCHDB_PASSWORD`.
+
+Las claves de Google se escriben **una sola vez** en `defines.json` (raíz del proyecto, nunca al repositorio):
 
 ```json
 {
-  "COUCHDB_URL": "https://citigov.cloud:6984",
-  "COUCHDB_USER": "admin",
-  "COUCHDB_PASSWORD": "tu-password",
   "GOOGLE_KEY": "tu-google-key",
   "GOOGLE_MAPS_KEY": "tu-google-maps-key"
 }

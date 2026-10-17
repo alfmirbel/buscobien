@@ -11,9 +11,9 @@
 ## 1. Requerimientos Ubicuos
 
 ### 1.1 Credenciales de CouchDB
-- **DES-SEC-001:** El sistema deberá obtener las credenciales de CouchDB desde variables de entorno definidas en tiempo de compilación.
-- **DES-SEC-002:** El sistema deberá exponer constantes globales para `username`, `password` y `direccionip`.
-- **DES-SEC-003:** El sistema deberá utilizar `String.fromEnvironment()` para inyectar credenciales sin hardcodearlas.
+- **DES-SEC-001:** El sistema no deberá contener credenciales de CouchDB: el código solo conoce URLs (`apiBaseUrl`, `dbBaseUrl`) y la sesión del usuario (JWT) acredita cada petición.
+- **DES-SEC-002:** El sistema deberá exponer constantes globales para `apiBaseUrl` (por defecto `https://api.buscobien.net`, cambiable con `--dart-define=API_BASE_URL`) y `dbBaseUrl` (`apiBaseUrl/db`).
+- **DES-SEC-003:** El sistema deberá utilizar `String.fromEnvironment()` solo para configuración no secreta (la URL de la API). *(Hasta 2026-10-16 se leían `COUCHDB_USER`, `COUCHDB_PASSWORD` y `COUCHDB_URL`; ya no.)*
 
 ### 1.2 Funciones de Hash
 - **DES-SEC-004:** El sistema deberá soportar generación de hashes MD5, SHA1 y SHA256.
@@ -33,10 +33,9 @@
 ## 2. Requerimientos Controlados por Eventos
 
 ### 2.1 Obtención de Credenciales
-- **DES-CRED-001:** Cuando la aplicación se compila con `--dart-define=COUCHDB_USER=admin`, el sistema deberá exponer `username = "admin"`.
-- **DES-CRED-002:** Cuando la aplicación se compila con `--dart-define=COUCHDB_PASSWORD=secret`, el sistema deberá exponer `password = "secret"`.
-- **DES-CRED-003:** Cuando la aplicación se compila con `--dart-define=COUCHDB_URL=https://citigov.cloud:6984`, el sistema deberá exponer `direccionip = "https://citigov.cloud:6984"`.
-- **DES-CRED-004:** Cuando el sistema no recibe las variables de entorno, el sistema deberá exponer cadenas vacías.
+- **DES-CRED-001:** Cuando la aplicación se compila con `--dart-define=API_BASE_URL=https://otra.url`, el sistema deberá exponer `apiBaseUrl = "https://otra.url"` y `dbBaseUrl = "https://otra.url/db"`.
+- **DES-CRED-002:** Cuando el sistema no recibe `API_BASE_URL`, el sistema deberá usar `https://api.buscobien.net`.
+- **DES-CRED-003:** El sistema no deberá leer `COUCHDB_USER`, `COUCHDB_PASSWORD` ni `COUCHDB_URL` (eliminados el 2026-10-17).
 
 ### 2.2 Generación de Hashes
 - **DES-HASH-001:** Cuando el sistema necesita generar un hash MD5, el sistema deberá codificar la entrada en UTF8 y aplicar `md5.convert()`.
@@ -138,12 +137,11 @@
 
 ## 7. Modelos de Datos
 
-### 7.1 Credenciales CouchDB
+### 7.1 URLs del servicio
 | Campo | Tipo | Descripción |
 |-------|------|-------------|
-| `username` | String | Usuario de CouchDB desde `COUCHDB_USER` |
-| `password` | String | Contraseña de CouchDB desde `COUCHDB_PASSWORD` |
-| `direccionip` | String | URL base de CouchDB desde `COUCHDB_URL` |
+| `apiBaseUrl` | String | URL de buscobien-api desde `API_BASE_URL` (por defecto `https://api.buscobien.net`) |
+| `dbBaseUrl` | String | `apiBaseUrl/db`: CouchDB detrás de nginx, con el JWT de la sesión |
 
 ### 7.2 Token de Reset
 | Campo | Tipo | Descripción |
@@ -180,15 +178,14 @@
 ### 8.4 direccionip.dart
 | Constante | Fuente | Descripción |
 |-----------|--------|-------------|
-| `username` | `COUCHDB_USER` | Usuario CouchDB |
-| `password` | `COUCHDB_PASSWORD` | Contraseña CouchDB |
-| `direccionip` | `COUCHDB_URL` | URL base del servidor |
+| `apiBaseUrl` | `API_BASE_URL` | URL base de buscobien-api |
+| `dbBaseUrl` | `apiBaseUrl/db` | Base de las peticiones a CouchDB (`couch_http.dart`) |
 
 ---
 
 ## 9. Reglas de Negocio
 
-- **RN-001:** Las credenciales de CouchDB nunca deben hardcodearse; siempre se obtienen de variables de entorno.
+- **RN-001:** La aplicación no contiene credenciales de CouchDB; las bases se alcanzan con el JWT de la sesión o por endpoints de buscobien-api.
 - **RN-002:** Los passwords nunca se almacenan en texto plano; siempre se guardan como hash SHA256.
 - **RN-003:** Los tokens de reset tienen una validez máxima de 1 hora.
 - **RN-004:** La clave AES debe ser de 256 bits (32 bytes) y el IV de 128 bits (16 bytes).
@@ -224,7 +221,7 @@
 
 ```
 lib/40_security/
-├── direccionip.dart                    # Variables de entorno COUCHDB_USER, COUCHDB_PASSWORD, COUCHDB_URL
+├── direccionip.dart                    # URLs: apiBaseUrl (API_BASE_URL) y dbBaseUrl
 ├── generate_hash.dart                  # MD5, SHA1, SHA256, validación de passwords
 ├── generate_reset_token.dart           # Tokens de reset con UUID v4 + SHA256, expiración 1h
 ├── encriptar.dart                      # AES-256 legacy (deprecated), migrate a flutter_secure_storage

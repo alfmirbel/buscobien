@@ -43,7 +43,8 @@
 - **Decisión:** todo el dominio (usuarios, propiedades, listas, red social, fotos, SEPOMEX) se guarda en CouchDB; las fotos se almacenan en bases propias.
 - **Consecuencias:** sin relaciones ni transacciones (operaciones multi-documento sin atomicidad, p. ej. publicar propiedad con reversión manual); design documents sin versionar (solo existe `server/setup_couchdb_propietarios.sh`).
 
-## ADR-006 — Acceso directo cliente → CouchDB (temporal)
+## ADR-006 — Acceso directo cliente → CouchDB (temporal; superado en gran parte el 2026-10-17)
+- **Actualización 2026-10-17:** la app ya no usa credenciales de administrador: accede con el JWT de la sesión a través de nginx (`couch_http.dart`) y por endpoints de buscobien-api para las bases cerradas. Quedan por hacer el cierre de los puertos directos de CouchDB (S5) y la rotación de la contraseña. El texto siguiente describe el estado original.
 - **Contexto:** `direccionip`, `username` y `password` (de `--dart-define`) se usan en 34 archivos con `Authorization: Basic`; no hay API intermedia en producción.
 - **Decisión (vigente de hecho):** el cliente consulta y escribe en CouchDB directamente.
 - **Consecuencias:** credenciales de administrador dentro de la app, autenticación y autorización en el cliente; riesgos T1–T4 de [`modelo_de_amenazas.md`](../modelo_de_amenazas.md).

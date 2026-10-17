@@ -39,7 +39,7 @@
 El sistema deberá gestionar el estado de listas del usuario exclusivamente mediante Riverpod (`userListsProvider`, `listasCompartidasProvider`, `listaPropiedadesProvider`, `meGustaProvider`), garantizando reactividad automática ante cambios en los datos.
 
 **SDD-LIS-002**
-El sistema deberá autenticar todas las peticiones HTTP a CouchDB mediante cabecera `Authorization: Basic <base64(username:password)>`, utilizando las credenciales globales `username` y `password` definidas en `direccionip.dart`.
+El sistema deberá autenticar las peticiones HTTP a CouchDB con el JWT de la sesión (`Authorization: Bearer`, agregado por `couch_http.dart` hacia `dbBaseUrl`) y las peticiones a buscobien-api con `ApiClient`. Las credenciales globales `username` y `password` se eliminaron el 2026-10-17.
 
 **SDD-LIS-003**
 El sistema deberá mantener separadas las bases de datos por dominio:

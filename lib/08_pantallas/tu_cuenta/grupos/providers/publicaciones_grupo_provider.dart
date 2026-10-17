@@ -1,27 +1,16 @@
-import 'dart:convert';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:http/http.dart' as http;
-import 'package:uuid/uuid.dart';
 
-import 'package:buscobien/40_security/direccionip.dart';
-import 'package:buscobien/60_global_widgets/debugprint.dart';
 import 'package:buscobien/08_pantallas/tu_cuenta/grupos/models/publicacion_grupo_model.dart';
+import 'package:buscobien/08_pantallas/tu_cuenta/social_api.dart';
+import 'package:buscobien/60_global_widgets/debugprint.dart';
 
 // =============================================================================
 // PROVIDER — PUBLICACIONES DE PROPIEDADES EN GRUPOS
 // =============================================================================
-// Base: buscobien_grupos_publicaciones
-// Índice requerido:
-//   {"index":{"fields":["type","grupoId","timestamp"]},"name":"idx-pub-grupo"}
+// Base buscobien_grupos_publicaciones, cerrada a los clientes: se usa por buscobien-api
+// (/grupos/:id/publicaciones). El autor y su nombre los toma el servidor de la sesión.
 
-const String _dbPublicaciones = 'buscobien_grupos_publicaciones';
 const int _pageSize = 10;
-
-Map<String, String> get _authHeaders => {
-  'Authorization': 'Basic ${base64Encode(utf8.encode('$username:$password'))}',
-  'Content-Type': 'application/json',
-};
 
 // Patrón Riverpod 3.x: factory recibe el arg y lo pasa al constructor.
 final publicacionesGrupoProvider = AsyncNotifierProvider.family<
@@ -31,9 +20,11 @@ final publicacionesGrupoProvider = AsyncNotifierProvider.family<
 
 class PublicacionesGrupoNotifier
     extends AsyncNotifier<List<PublicacionGrupoModel>> {
-  PublicacionesGrupoNotifier(this._grupoId);
+  PublicacionesGrupoNotifier(this._grupoId, {SocialApi? api}) : _api = api;
 
   final String _grupoId;
+  final SocialApi? _api;
+  SocialApi get _social => _api ?? socialApi;
   int _skip = 0;
   bool _hayMas = true;
 
@@ -48,31 +39,10 @@ class PublicacionesGrupoNotifier
 
   Future<List<PublicacionGrupoModel>> _fetch(int skip) async {
     try {
-      final url = Uri.parse('$direccionip/$_dbPublicaciones/_find');
-      final body = jsonEncode({
-        'selector': {'type': 'publicacion_grupo', 'grupoId': _grupoId},
-        'sort': [
-          {'timestamp': 'desc'},
-        ],
-        'limit': _pageSize,
-        'skip': skip,
-      });
-      final response = await http.post(url, headers: _authHeaders, body: body);
-      if (response.statusCode == 200) {
-        final data = jsonDecode(utf8.decode(response.bodyBytes));
-        final docs = (data['docs'] as List)
-            .map(
-              (e) => PublicacionGrupoModel.fromJson(e as Map<String, dynamic>),
-            )
-            .toList();
-        if (docs.length < _pageSize) _hayMas = false;
-        return docs;
-      }
-      debugPrintLevels(
-        1,
-        'PublicacionesGrupoNotifier._fetch error: ${response.statusCode}',
-      );
-      return [];
+      final docs = await _social.publicaciones(_grupoId, saltar: skip, limite: _pageSize);
+      if (docs == null) return [];
+      if (docs.length < _pageSize) _hayMas = false;
+      return docs;
     } catch (e) {
       debugPrintLevels(1, 'PublicacionesGrupoNotifier._fetch exception: $e');
       return [];
@@ -84,9 +54,12 @@ class PublicacionesGrupoNotifier
     _skip += _pageSize;
     final actuales = state.value ?? [];
     final nuevas = await _fetch(_skip);
+    if (!ref.mounted) return;
     state = AsyncValue.data([...actuales, ...nuevas]);
   }
 
+  /// `false` si ya se había publicado esa propiedad o si falla. [autorId] y [autorNombre] se
+  /// conservan por compatibilidad: el servidor usa los de la sesión.
   Future<bool> compartirPropiedad({
     required String propiedadId,
     required String propiedadNombre,
@@ -95,38 +68,17 @@ class PublicacionesGrupoNotifier
     required String autorNombre,
   }) async {
     try {
-      final actuales = state.value ?? [];
-      // Evitar duplicado del mismo autor para la misma propiedad
-      if (actuales.any(
-        (p) => p.propiedadId == propiedadId && p.autorId == autorId,
-      )) {
-        return false;
-      }
-
-      final id = const Uuid().v4();
-      final pub = PublicacionGrupoModel(
-        id: id,
+      final (resultado, pub) = await _social.publicar(
         grupoId: _grupoId,
         propiedadId: propiedadId,
         propiedadNombre: propiedadNombre,
         tipodeespacio: tipodeespacio,
-        autorId: autorId,
-        autorNombre: autorNombre,
-        timestamp: DateTime.now().toIso8601String(),
       );
-
-      final response = await http.put(
-        Uri.parse('$direccionip/$_dbPublicaciones/$id'),
-        headers: _authHeaders,
-        body: publicacionGrupoModelToJson(pub),
-      );
-
-      if (response.statusCode == 201 || response.statusCode == 200) {
-        state = AsyncValue.data([pub, ...actuales]);
-        return true;
+      if (resultado != ResultadoPublicar.publicada || pub == null || !ref.mounted) {
+        return resultado == ResultadoPublicar.publicada;
       }
-      debugPrintLevels(1, 'compartirPropiedad error: ${response.statusCode}');
-      return false;
+      state = AsyncValue.data([pub, ...state.value ?? []]);
+      return true;
     } catch (e) {
       debugPrintLevels(1, 'compartirPropiedad exception: $e');
       return false;
@@ -135,31 +87,9 @@ class PublicacionesGrupoNotifier
 
   Future<bool> quitarPublicacion(PublicacionGrupoModel pub) async {
     try {
-      final getResp = await http.get(
-        Uri.parse('$direccionip/$_dbPublicaciones/${pub.id}'),
-        headers: _authHeaders,
-      );
-      if (getResp.statusCode != 200) return false;
-      final doc = jsonDecode(utf8.decode(getResp.bodyBytes));
-      final rev = doc['_rev'] as String;
-
-      final delResp = await http.put(
-        Uri.parse('$direccionip/$_dbPublicaciones/${pub.id}'),
-        headers: _authHeaders,
-        body: jsonEncode({
-          '_id': pub.id,
-          '_rev': rev,
-          '_deleted': true,
-        }),
-      );
-      if (delResp.statusCode == 200 || delResp.statusCode == 201 || delResp.statusCode == 202) {
-        final actuales = state.value ?? [];
-        state = AsyncValue.data(
-          actuales.where((p) => p.id != pub.id).toList(),
-        );
-        return true;
-      }
-      return false;
+      if (!await _social.quitarPublicacion(_grupoId, pub.id) || !ref.mounted) return false;
+      state = AsyncValue.data((state.value ?? []).where((p) => p.id != pub.id).toList());
+      return true;
     } catch (e) {
       debugPrintLevels(1, 'quitarPublicacion exception: $e');
       return false;

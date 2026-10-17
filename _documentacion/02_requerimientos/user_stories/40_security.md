@@ -21,13 +21,9 @@
 **Para** prevenir filtración de secretos al compilar o desensamblar el bundle.
 
 ### Conversation
-- `direccionip.dart` (3 líneas) accede a los valores:
-  - `username = String.fromEnvironment('COUCHDB_USER')`
-  - `password = String.fromEnvironment('COUCHDB_PASSWORD')`
-  - `direccionip = String.fromEnvironment('COUCHDB_URL')` (URL base de la API Node.js)
-- Las credenciales viven en `defines.json` (archivo en `.gitignore`, **no en el repo**) y se inyectan en compile-time vía `--dart-define-from-file=defines.json` (ver `AGENTS.md`).
-- **Crucial:** Flutter **nunca** se conecta a CouchDB directamente. El valor `direccionip` apunta a la URL de la API Node.js, no al puerto 6984 de CouchDB (ese lo abre la API en el servidor).
-- Sin `--dart-define-from-file=defines.json`, los valores quedan como `String.empty` — la app no podrá autenticarse pero no expone secretos en el bundle.
+- `direccionip.dart` solo define URLs: `apiBaseUrl = String.fromEnvironment('API_BASE_URL', defaultValue: 'https://api.buscobien.net')` y `dbBaseUrl = '$apiBaseUrl/db'`. Las constantes `username`, `password` y `direccionip` (credenciales de administrador) se eliminaron el 2026-10-17.
+- `defines.json` (en `.gitignore`) ya no necesita `COUCHDB_*`; conserva las claves de Google Maps.
+- La app se conecta a CouchDB **a través de nginx y con el JWT de la sesión** (`couch_http.dart`), o por endpoints de buscobien-api para las bases cerradas; ya no hay credencial compartida.
 
 ### Confirmation
 - ✓ Al descompilar el bundle Flutter no aparecen cadenas con `username` / `password` reales — sólo placeholders vacíos.

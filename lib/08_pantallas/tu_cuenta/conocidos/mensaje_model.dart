@@ -32,7 +32,7 @@ class MensajeModel {
   });
 
   factory MensajeModel.fromJson(Map<String, dynamic> json) => MensajeModel(
-    id: json["_id"] ?? "",
+    id: json["_id"] ?? json["id"] ?? "",
     rev: json["_rev"] ?? "",
     senderId: json["senderId"] ?? "",
     receiverId: json["receiverId"] ?? "",

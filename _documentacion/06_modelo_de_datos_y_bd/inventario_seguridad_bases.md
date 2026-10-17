@@ -50,15 +50,15 @@
 
 | Base | Docs | Campos de participantes | Escritura legítima | Regla de escritura propuesta |
 | :--- | ---: | :--- | :--- | :--- |
-| `buscobien_mensajes` | 31 | `senderId`, `receiverId` | El remitente crea; nadie edita (salvo marcar leído el destinatario) | Crear: `senderId = userCtx.name`; actualizar: solo el campo de lectura y solo el destinatario |
+| `buscobien_mensajes` *(cerrada; la sirve buscobien-api, 2026-10-17)* | 31 | `senderId`, `receiverId` | El remitente crea; nadie edita (salvo marcar leído el destinatario) | Crear: `senderId = userCtx.name`; actualizar: solo el campo de lectura y solo el destinatario |
 | `buscobien_invitaciones` | 10 | `senderId`, `receiverId` | El remitente crea; el destinatario cambia `status`; cualquiera de los dos borra al eliminar el contacto | Crear: `senderId = name`; actualizar: `receiverId = name` y solo `status`; borrar: remitente o destinatario |
 | `buscobien_listas_compartidas_usuarios` | 6 | `usuarioOrigenId`, `usuarioDestinoId` | El origen crea y borra | Crear/borrar: `usuarioOrigenId = name` |
-| `buscobien_listas_prop_compartidas` | 6 | **ninguno** (solo `listaCompartidaId`) | Se agregan propiedades a una lista compartida | **No se puede validar al propietario sin leer otra base** → candidata a endpoint |
+| `buscobien_listas_prop_compartidas` *(cerrada; la sirve buscobien-api, 2026-10-17)* | 6 | **ninguno** (solo `listaCompartidaId`) | Se agregan propiedades a una lista compartida | **No se puede validar al propietario sin leer otra base** → candidata a endpoint |
 | `buscobien_grupos` | 4 | `creadorId`, `miembros[].usuarioId` | Crea el creador; entran miembros (propios) y el administrador expulsa | Complejo: ver nota |
 | `buscobien_grupos_invitaciones` | 4 | `senderId`, `receiverId` | Igual que invitaciones | Igual que invitaciones |
-| `buscobien_grupos_mensajes` | 9 | `senderId` (el grupo en `grupoId`) | Miembros del grupo | `senderId = name`; **pertenecer al grupo no se puede comprobar** |
+| `buscobien_grupos_mensajes` *(cerrada; la sirve buscobien-api, 2026-10-17)* | 9 | `senderId` (el grupo en `grupoId`) | Miembros del grupo | `senderId = name`; **pertenecer al grupo no se puede comprobar** |
 | `buscobien_grupos_avisos` | 2 | `autorId` | Administradores del grupo | `autorId = name`; el rol de administrador no se puede comprobar |
-| `buscobien_grupos_publicaciones` | 1 | no se pudo determinar (sin documentos de muestra) | Miembros | Revisar el modelo antes de decidir |
+| `buscobien_grupos_publicaciones` *(cerrada; la sirve buscobien-api, 2026-10-17)* | 1 | no se pudo determinar (sin documentos de muestra) | Miembros | Revisar el modelo antes de decidir |
 | `buscobien_social` | 2 | `senderId`, `receiverId` (vacíos) | **Sin uso aparente**: restos del primer motor social (tipos `invitation`/`chat_message`) | Cerrar; confirmar en el código antes de borrar |
 
 *Nota sobre `buscobien_grupos`:* entrar a un grupo público modifica un documento cuyo `creadorId` es otro usuario. La regla debe permitir que un usuario añada o quite **solo su propia** entrada en `miembros[]`, y que los administradores del grupo editen lo demás; es la regla más compleja de S4 y la menos fiable de mantener en una función de validación.

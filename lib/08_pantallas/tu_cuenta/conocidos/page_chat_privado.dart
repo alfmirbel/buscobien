@@ -46,7 +46,15 @@ class _PageChatPrivadoState extends ConsumerState<PageChatPrivado> {
     if (text.isEmpty) return;
     _textController.clear();
     FocusScope.of(context).unfocus();
-    await ref.read(mensajesChatProvider(_chatKey).notifier).enviar(text);
+    final enviado = await ref.read(mensajesChatProvider(_chatKey).notifier).enviar(text);
+    if (!mounted) return;
+    if (!enviado) _avisoNoEnviado();
+  }
+
+  void _avisoNoEnviado() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('No se pudo enviar el mensaje. Inténtalo de nuevo.')),
+    );
   }
 
   @override

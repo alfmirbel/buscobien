@@ -14,7 +14,7 @@
 | Objetivo de Negocio | Actor | Impacto | Entregable |
 |---------------------|-------|---------|------------|
 | Arquitectura segura: Flutter 0 credenciales DB | Usuario final | Datos protegidos (password hash, tokens, JWT en secure storage) | Hash SHA-256, tokens reset 1h, AES-256 (legacy) |
-| | Backend (Node.js API) | Recibe credenciales solo vía headers Basic Auth / JWT | `direccionip.dart` creds por `--dart-define` |
+| | Backend (Node.js API) | Recibe la sesión solo vía `Authorization: Bearer` (JWT) | `direccionip.dart` solo URLs (`apiBaseUrl`, `dbBaseUrl`) |
 | | Desarrollador | Endpoints tipados por tipo de espacio (5 categorías) | `urls_endpoints_espacios.dart` maps |
 
 ---
@@ -27,7 +27,7 @@ App necesita credenciales / hash / token / endpoint
        ▼
 ┌─────────────────────────────────────────────────────┐
 │ lib\40_security\                                    │
-│ - direccionip.dart: COUCHDB_USER/PASS/URL (env)     │
+│ - direccionip.dart: apiBaseUrl / dbBaseUrl (URLs)   │
 │ - encriptar.dart: AES-256 (deprecated → secure)     │
 │ - generate_hash.dart: MD5/SHA1/SHA256 + validaPass  │
 │ - generate_reset_token.dart: UUIDv4→SHA256 + expiry │
@@ -43,7 +43,7 @@ App necesita credenciales / hash / token / endpoint
 
 | ID | Tipo EARS | Requerimiento | Evidencia | Estado |
 |----|-----------|---------------|-----------|--------|
-| REQ-SEC-001 | **Ubicuo** | El sistema **nunca** tendrá credenciales CouchDB en código — `username`, `password`, `direccionip` se inyectan en compile-time vía `--dart-define-from-file=defines.json` y se acceden con `String.fromEnvironment()`. | `lib\40_security\direccionip.dart:5-7` | En código |
+| REQ-SEC-001 | **Ubicuo** | El sistema **nunca** tendrá credenciales CouchDB en código — `username`, `password`, `direccionip` se inyectan en compile-time vía `--dart-define-from-file=defines.json` y se acceden con `String.fromEnvironment()`. | `lib\40_security\direccionip.dart` (solo URLs) | En código |
 | REQ-SEC-002 | **Ubicuo** | El sistema validará passwords comparando `SHA-256(password_input)` contra hash almacenado (nunca texto plano). | `lib\40_security\generate_hash.dart:20-25` `validaPassword` | En código |
 | REQ-SEC-003 | **Evento** | Cuando se solicite recuperación de contraseña, el sistema generará token: `UUID v4 → SHA-256 hex` + `expiry = now(UTC) + 1 hora` ISO8601. | `lib\40_security\generate_reset_token.dart:10-25` | En código |
 | REQ-SEC-004 | **Estado** | Mientras un token de reset no haya expirado (`isTokenValid` compara UTC now vs expiry), el sistema permitirá cambio de password. | `generate_reset_token.dart:27-32` | En código |
@@ -63,7 +63,7 @@ La evidencia de cada requerimiento (archivo y líneas) está en la columna **Evi
 
 ## Notas de Seguridad
 
-- **Hoy Flutter sí toca CouchDB**: `direccionip.dart` expone `COUCHDB_URL`, `COUCHDB_USER` y `COUCHDB_PASSWORD` (inyectados con `--dart-define`) y 34 archivos los usan con Basic Auth. Las credenciales quedan dentro del binario/bundle: **riesgo crítico**; objetivo: moverlas al API Node.js.
+- **Estado 2026-10-17:** la app ya no contiene credenciales de CouchDB (`direccionip.dart` solo tiene `apiBaseUrl` y `dbBaseUrl`). Las bases abiertas se tocan con el JWT de la sesión (`couch_http.dart`) y las cerradas por endpoints de buscobien-api. Queda cerrar los puertos directos de CouchDB (S5) y rotar la contraseña de administrador que estuvo compilada en versiones anteriores.
 - **AES en `encriptar.dart` está DEPRECADO**: Migración en curso a `flutter_secure_storage` (ver comentarios en código).
 - **SHA-256 para passwords**: Único algoritmo aprobado para credenciales.
 - **Tokens reset 1 hora**: Expiración corta por seguridad.

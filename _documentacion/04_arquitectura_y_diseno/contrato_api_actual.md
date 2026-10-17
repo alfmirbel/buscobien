@@ -5,9 +5,10 @@
 
 ## 1. CouchDB (acceso directo desde el cliente)
 
-- **Base URL:** `COUCHDB_URL` (`--dart-define`, constante `direccionip` en `lib/40_security/direccionip.dart`).
-- **Autenticación:** cabecera `Authorization: Basic base64(COUCHDB_USER:COUCHDB_PASSWORD)` en cada petición (pendiente de reemplazo por JWT; ver [`modelo_de_amenazas.md`](modelo_de_amenazas.md)).
-- **Cliente HTTP:** paquete `http`.
+- **Base URL:** `dbBaseUrl` (`https://api.buscobien.net/db`, constante en `lib/40_security/direccionip.dart`).
+- **Autenticación:** cabecera `Authorization: Bearer <JWT de la sesión>` que agrega `couch_http.dart` (anónimo si no hay sesión; renueva el token al vencer). Reemplaza a la credencial Basic de administrador usada hasta 2026-10-16; ver [`modelo_de_amenazas.md`](modelo_de_amenazas.md).
+- **Bases cerradas** (`buscobien_mensajes`, `buscobien_grupos_mensajes`, `buscobien_grupos_publicaciones`, `buscobien_listas_prop_compartidas`, `buscobien_compra_espacios`, `buscobien_user_localidad`): no se consultan desde la app; se usan los endpoints de buscobien-api.
+- **Cliente HTTP:** paquete `http` (`couch_http.dart` para CouchDB y `ApiClient` para buscobien-api).
 
 ### 1.1 Patrones de acceso
 

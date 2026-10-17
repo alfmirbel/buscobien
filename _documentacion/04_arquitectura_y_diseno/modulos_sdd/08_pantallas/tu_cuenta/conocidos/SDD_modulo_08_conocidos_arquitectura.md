@@ -18,7 +18,7 @@ Archivos del módulo (14): ver [`inventario_08_pantallas_maestro.md`](../../../.
 El sistema deberá renderizar `ConocidosView` como contenedor raíz del módulo, orquestando la navegación entre `PageMisContactos`, `PageInvitaciones` y `PageDescubrirUsuarios` mediante `NavigationBar`.
 
 **SDD-CON-002**
-El sistema deberá autenticar todas las peticiones HTTP a CouchDB mediante cabecera `Authorization: Basic <base64(username:password)>`, utilizando las credenciales globales `username` y `password` definidas en `direccionip.dart`.
+El sistema deberá autenticar las peticiones HTTP a CouchDB con el JWT de la sesión (`Authorization: Bearer`, agregado por `couch_http.dart` hacia `dbBaseUrl`) y las peticiones a buscobien-api con `ApiClient`. Las credenciales globales `username` y `password` se eliminaron el 2026-10-17.
 
 **SDD-CON-003**
 El sistema deberá gestionar el estado de invitaciones y contactos exclusivamente mediante Riverpod (`conocidosProvider`, `conocidosAceptadosProvider`, `invitacionesRecibidasProvider`, `invitacionesEnviadasProvider`), garantizando reactividad automática ante cambios.

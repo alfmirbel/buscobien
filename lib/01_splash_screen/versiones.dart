@@ -23,6 +23,23 @@ Por ejemplo, 1.2.3 donde 1 es la versión mayor (cambios grandes),
 
 final List<AppVersion> historialDeVersiones = [
   AppVersion(
+    version: "Beta 0.09.002",
+    titulo: "Seguridad: chat, publicaciones de grupo y listas compartidas por buscobien-api; la app ya no lleva credenciales de CouchDB",
+    fecha: DateTime(2026, 10, 17),
+    esCritica: true,
+    cambios: [
+      "Cambio: el chat privado y el de grupo ya no leen ni escriben en CouchDB: usan GET/POST /mensajes y /grupos/:id/mensajes de buscobien-api. El remitente y la fecha los pone el servidor y en los grupos solo leen y escriben los miembros.",
+      "Cambio: en lugar del feed continuo _changes, la conversación consulta novedades cada 3 s (?desde=) mientras está abierta y se detiene al salir (nuevo sondeo.dart).",
+      "Cambio: el mensaje propio aparece al instante y se sustituye por el guardado; si el servidor lo rechaza se retira y se avisa con «No se pudo enviar el mensaje». Las fechas de los mensajes pasan a UTC.",
+      "Cambio: publicaciones de propiedades en grupos (listar, publicar, quitar) por /grupos/:id/publicaciones; el servidor evita duplicados y solo deja quitar al autor o a un administrador.",
+      "Cambio: las propiedades de las listas compartidas se copian, leen y borran por /listas-compartidas/:id/propiedades; al dejar de compartir se borran primero las propiedades y luego la lista.",
+      "Nuevo: social_api.dart (cliente de esos endpoints) y sondeo.dart.",
+      "Eliminado: las constantes username, password y direccionip de direccionip.dart. Ningún archivo de lib/ usa ya Authorization: Basic; defines.json ya no necesita COUCHDB_URL, COUCHDB_USER ni COUCHDB_PASSWORD.",
+      "Pruebas: social_test.dart y grupos_mensajes_test.dart reescrito (140 pruebas en total).",
+      "Pendiente: cerrar los puertos directos de CouchDB y rotar la contraseña de administrador (S5), y probar en dispositivos.",
+    ],
+  ),
+  AppVersion(
     version: "Beta 0.09.001",
     titulo: "Seguridad: la app deja de usar credenciales de administrador (módulos del servidor, pagos con Stripe)",
     fecha: DateTime(2026, 10, 17),
