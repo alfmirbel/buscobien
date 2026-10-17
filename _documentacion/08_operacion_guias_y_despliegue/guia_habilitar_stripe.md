@@ -125,8 +125,11 @@ Mientras la app no esté adaptada (paso 7), la prueba se hace con la línea de c
 
 ```powershell
 $api = "https://api.buscobien.net"
-# 1) Iniciar sesión (usuario real de pruebas)
-$login = Invoke-RestMethod "$api/auth/login" -Method Post -ContentType "application/json" -Body '{"nombreusuario":"TU_USUARIO","password":"TU_CLAVE","perfil":"Promotor"}'
+# 1) Iniciar sesión (usuario real de pruebas; la clave se pide sin dejarla en el historial)
+$clave = Read-Host "Clave del usuario" -AsSecureString
+$claveTexto = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($clave))
+$cuerpo = @{ nombreusuario = "TU_USUARIO"; perfil = "Promotor"; password = $claveTexto } | ConvertTo-Json
+$login = Invoke-RestMethod "$api/auth/login" -Method Post -ContentType "application/json" -Body $cuerpo
 $h = @{ Authorization = "Bearer $($login.accessToken)" }
 # 2) Ver los precios que usa el servidor
 Invoke-RestMethod "$api/compras/precios" -Headers $h
