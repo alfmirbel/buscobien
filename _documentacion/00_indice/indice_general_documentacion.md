@@ -74,7 +74,7 @@ flowchart LR
 - [`gherkin_bdd_scenarios/`](../07_pruebas_y_calidad/gherkin_bdd_scenarios/) — 129 `.feature` con escenarios detallados por módulo y pantalla.
 
 ### 08 — [`08_operacion_guias_y_despliegue/`](../08_operacion_guias_y_despliegue/README.md)
-- [`runbook_operacion.md`](../08_operacion_guias_y_despliegue/runbook_operacion.md), [`ssh_servidor_y_despliegue.md`](../08_operacion_guias_y_despliegue/ssh_servidor_y_despliegue.md), [`plan_seguridad_nginx_jwt.md`](../08_operacion_guias_y_despliegue/plan_seguridad_nginx_jwt.md), [`inventario_seguridad_bases.md`](../06_modelo_de_datos_y_bd/inventario_seguridad_bases.md), [`guia_motor_social_y_grupos.md`](../08_operacion_guias_y_despliegue/guia_motor_social_y_grupos.md), [`guia_notificaciones_entre_usuarios.md`](../08_operacion_guias_y_despliegue/guia_notificaciones_entre_usuarios.md), [`plan_trabajo_ui_ux_navegacion.md`](../08_operacion_guias_y_despliegue/plan_trabajo_ui_ux_navegacion.md).
+- [`runbook_operacion.md`](../08_operacion_guias_y_despliegue/runbook_operacion.md), [`ssh_servidor_y_despliegue.md`](../08_operacion_guias_y_despliegue/ssh_servidor_y_despliegue.md), [`plan_seguridad_nginx_jwt.md`](../08_operacion_guias_y_despliegue/plan_seguridad_nginx_jwt.md), [`guia_habilitar_stripe.md`](../08_operacion_guias_y_despliegue/guia_habilitar_stripe.md), [`inventario_seguridad_bases.md`](../06_modelo_de_datos_y_bd/inventario_seguridad_bases.md), [`guia_motor_social_y_grupos.md`](../08_operacion_guias_y_despliegue/guia_motor_social_y_grupos.md), [`guia_notificaciones_entre_usuarios.md`](../08_operacion_guias_y_despliegue/guia_notificaciones_entre_usuarios.md), [`plan_trabajo_ui_ux_navegacion.md`](../08_operacion_guias_y_despliegue/plan_trabajo_ui_ux_navegacion.md).
 
 ---
 

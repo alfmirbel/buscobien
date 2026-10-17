@@ -935,3 +935,5 @@ Estado resultante: catálogo y referencia legibles sin sesión; las bases del pr
 **Pendiente en la app Flutter (fase C):** el formulario de compra debe pedir solo meses y cantidades, llamar a `POST /compras/checkout`, abrir `checkoutUrl` con `url_launcher` y consultar `GET /compras/:id` hasta `pagada`; y la pantalla de localidades debe usar `/usuarios/me/localidades`. Mientras tanto el flujo anterior (el cliente escribe los importes) sigue funcionando con la contraseña de administrador. **Ya se corrigió** el modelo `CompraEspacio` para aceptar importes enteros (`(json[...] as num).toDouble()`), necesario porque el servidor escribe números JSON que Dart leería como `int`.
 
 **Pendiente en el servidor (siguiente):** endpoints de mensajes privados y de grupo (con canal en vivo) y de listas compartidas por propiedad.
+
+**Guía paso a paso (cuenta de Stripe, claves, webhook, precios, pruebas, cambios en la app y producción):** [`guia_habilitar_stripe.md`](guia_habilitar_stripe.md).
