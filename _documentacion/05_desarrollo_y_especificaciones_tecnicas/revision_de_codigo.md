@@ -170,7 +170,7 @@ Detalle en [`inventario_seguridad_bases.md`](../06_modelo_de_datos_y_bd/inventar
 | **H-34** consultas a la base inexistente `buscobien_propiedades` (`provider_listas_propiedades`, `provider_user_lists`, `page_perfil_contacto`) | **Resuelto** (`7684004`): el perfil del contacto consulta `publicados_*`; el código sin uso se eliminó |
 | **H-35** consultas a la base inexistente `buscobien_espacios` (`burbujas_chat.dart` de MEJ-31 y `page_detalle_grupo.dart`): las burbujas de propiedad del chat no cargan datos | **Resuelto** (`7684004`): `buscarPropiedadPublicada` busca por `idPropiedad` en las cinco bases `publicados_*`. Defecto introducido por MEJ-31 (se asumió una base que no existe) |
 | **H-36** `buscobien_propiedades_compartidas_conocidos` no existe | **Resuelto** (`7684004`): compartir con un conocido solo envía el mensaje al chat; se eliminó el proveedor |
-| **H-37** `buscobien_compra_espacios` la escribe el cliente (importes y referencia de pago manipulables) | **Abierto**; requiere mover el registro al servidor |
+| **H-37** `buscobien_compra_espacios` la escribe el cliente (importes y referencia de pago manipulables) | **Servidor listo** (`buscobien-api`: compras con Stripe, importes calculados por el servidor, espacios creados solo al confirmarse el pago; anexo L del plan de seguridad). **Pendiente:** que la app use `POST /compras/checkout`; hasta entonces el flujo anterior sigue activo. Modelo `CompraEspacio` ya tolera importes enteros |
 | **H-38** `buscobien_social` sin uso aparente (restos del primer motor social) | **Parcial**: código retirado del cliente (`7684004`); la base se cierra en S4 y se borrará tras confirmar que nada la usa |
 
 ## 4. Fortalezas observadas

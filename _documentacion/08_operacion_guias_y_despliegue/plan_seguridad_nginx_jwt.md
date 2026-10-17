@@ -638,6 +638,22 @@ server {
         proxy_read_timeout 60s;
     }
 
+    # Compras (Stripe) y webhook de pagos
+    location ~ ^/compras(/|$) {
+        limit_req zone=api_limit burst=40 nodelay;
+        proxy_pass http://127.0.0.1:3000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_set_header X-Forwarded-Proto https;
+    }
+    location = /webhooks/stripe {
+        client_max_body_size 256k;
+        proxy_pass http://127.0.0.1:3000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_set_header X-Forwarded-Proto https;
+    }
+
     # Mailer (transitorio, solo mientras la app actual lo llame por aqui)
     location /api/mailer {
         proxy_pass http://127.0.0.1:3001/api;
@@ -878,3 +894,44 @@ Estado resultante: catálogo y referencia legibles sin sesión; las bases del pr
 **CI (GitHub Actions):** la primera ejecución falló porque el código usaba `ScrollCacheExtent`, que no existe en Flutter *stable* (solo en *master*); se corrigió con `cacheExtent` (commit `2fb43d9`). La app ya es compilable con *stable*.
 
 **Siguiente:** endpoints de `buscobien-api` para las bases cerradas (compras → H-37, domicilio, mensajes privados y de grupo con canal en vivo, listas compartidas por propiedad), y cambios C0–C7 en la app.
+
+### L. Compras con Stripe y localidades del usuario en `buscobien-api` (2026-10-17)
+
+**Decisión del propietario (H-37):** pagos con **Stripe**; los espacios se crean cuando la pasarela confirma el pago.
+
+**Diseño implementado (repositorio `buscobien-api`, commits `12c38a1`, `36681de`, `5982d57`):**
+
+| Pieza | Comportamiento |
+| :--- | :--- |
+| `POST /compras/checkout` (con sesión) | Recibe solo `{ meses, cantidades }`. El **servidor calcula** subtotal, IVA y total con la tabla de precios (`PRECIOS_FILE`), guarda la compra como `pendiente` en `buscobien_compra_espacios` y crea una *Stripe Checkout Session* (líneas por tipo de espacio y una línea de IVA, `metadata` con la compra y el usuario, clave de idempotencia = id de la compra, vigencia de ≈ 30 min). Devuelve `checkoutUrl` para abrir en el navegador |
+| `POST /webhooks/stripe` | Verifica la **firma** sobre el cuerpo exacto recibido. Solo con `checkout.session.completed` / `async_payment_succeeded` y `payment_status = paid` **y** coincidencia de sesión, importe, moneda y usuario con la compra, crea los espacios (ids deterministas: reintentos y eventos repetidos no duplican) y marca la compra `pagada` con `vigente = 1`, `vencimiento` y `referenciaDePago` = `payment_intent`. Si algo no coincide la compra queda `inconsistente` y **no se entrega nada**. `async_payment_failed` y `expired` marcan `fallida`/`expirada` sin deshacer jamás un pago. Si el procesamiento falla responde 500 para que Stripe reintente |
+| `GET /compras`, `GET /compras/:id`, `GET /compras/precios` | Estado y catálogo; solo el dueño ve su compra y nunca se exponen identificadores de Stripe |
+| Espacios creados | Documentos vacíos con el mismo formato del modelo `EspaciosCasa` (`activa = 0`) en `buscobien_casas_comprados_{normal,destacado,super,oportunidad,remate}`, a nombre del comprador |
+| Sin configuración | Sin claves de Stripe o con precios sin confirmar, las compras responden `503` (`PAYMENTS_UNAVAILABLE` / `PRICES_UNAVAILABLE`); el resto del servicio funciona |
+
+**Pruebas:** 78 pruebas automáticas (28 nuevas de compras y localidades) en local y en el Node del servidor; incluyen verificación real de la firma del webhook con el SDK de Stripe, importes manipulados por el cliente, webhook repetido, caída a medias con reintento, pago asíncrono y aislamiento entre usuarios. En la instancia de pruebas de CouchDB: la cuenta de servicio crea documentos a nombre de otros usuarios en `compra_espacios`, `user_localidad` y `casas_comprados_*` (12 de 12) sin que los usuarios puedan; la matriz de S4 sigue en 208 de 208.
+
+**Cambios de permisos que requiere (hay que volver a ejecutar `paso_s4.sh`):** la cuenta de servicio `buscobien_api` se añade como miembro de `buscobien_compra_espacios`, `buscobien_user_localidad` y las cinco `casas_comprados_*`, y las reglas de escritura por propietario dejan pasar a esa cuenta (los usuarios con JWT no pueden hacerse pasar por ella: sus identificadores los emite el servidor).
+
+**Localidades del usuario:** `GET/POST /usuarios/me/localidades` y `DELETE /usuarios/me/localidades/:id` (máximo 20 por usuario; el dueño y la fecha los pone el servidor; coordenadas validadas). Sustituyen el acceso directo del cliente a `buscobien_user_localidad`.
+
+**Despliegue en desarrollo:** `/opt/buscobien-api` actualizado (Stripe 17.7, compatible con el Node 18 del servidor); nginx con `/compras` y `/webhooks/stripe`; verificado por HTTPS: sin token `401`, el webhook sin configurar responde `503`, el login sigue igual. **Los pagos están deshabilitados hasta que el propietario cargue las claves y los precios.**
+
+**Lo que debe hacer el propietario:**
+
+1. **Cuenta de Stripe en modo de prueba.** Desarrolladores → *Claves de API*: copiar la clave secreta de prueba (`sk_test_…`) o crear una **clave restringida** (`rk_test_…`) con permiso de *escritura* solo en «Checkout Sessions».
+2. **Webhook.** Desarrolladores → *Webhooks* → *Añadir endpoint*: URL `https://api.buscobien.net/webhooks/stripe`, eventos `checkout.session.completed`, `checkout.session.async_payment_succeeded`, `checkout.session.async_payment_failed` y `checkout.session.expired`. Copiar el *secreto de firma* (`whsec_…`).
+3. **Cargar los secretos y los precios** en el servidor (los secretos se escriben sin mostrarse):
+   ```bash
+   ssh miservidor
+   bash /opt/buscobien-api/scripts/stripe_config.sh
+   sudo nano /etc/buscobien-api/precios.json     # precios reales (en centavos) y "confirmado": true
+   sudo systemctl restart buscobien-api
+   ```
+4. **Aplicar los permisos nuevos:** `bash /opt/buscobien-api/scripts/s4/paso_s4.sh`.
+5. **Prueba de punta a punta con la tarjeta de prueba `4242 4242 4242 4242`** (cualquier fecha futura y CVC): iniciar sesión por la API, `POST /compras/checkout`, abrir `checkoutUrl`, pagar, y comprobar `GET /compras/:id` → `pagada` y los espacios en `casas_comprados_*`.
+6. Para **producción**: claves reales (`--produccion`), webhook propio de producción y precios definitivos; nunca reutilizar las claves de prueba.
+
+**Pendiente en la app Flutter (fase C):** el formulario de compra debe pedir solo meses y cantidades, llamar a `POST /compras/checkout`, abrir `checkoutUrl` con `url_launcher` y consultar `GET /compras/:id` hasta `pagada`; y la pantalla de localidades debe usar `/usuarios/me/localidades`. Mientras tanto el flujo anterior (el cliente escribe los importes) sigue funcionando con la contraseña de administrador. **Ya se corrigió** el modelo `CompraEspacio` para aceptar importes enteros (`(json[...] as num).toDouble()`), necesario porque el servidor escribe números JSON que Dart leería como `int`.
+
+**Pendiente en el servidor (siguiente):** endpoints de mensajes privados y de grupo (con canal en vivo) y de listas compartidas por propiedad.
