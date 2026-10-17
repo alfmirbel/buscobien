@@ -801,3 +801,25 @@ Después del script:
 **Efectos esperados:** la app de desarrollo seguirá funcionando (el administrador por Basic sigue aceptado) una vez que `defines.json` tenga la contraseña nueva; durante unos segundos CouchDB no responderá por el reinicio. Las bases de usuarios dejan de ser accesibles para cualquier usuario que no sea el administrador o `buscobien_api`.
 
 **Paso B — lo ejecuta Claude con `miservidor-root`, después del paso A:** copiar el servicio a `/opt/buscobien-api`, `npm ci --omit=dev`, crear el `.env` (`0600`, sin contraseñas: usa los archivos de `/etc/buscobien-api/`), instalar `deploy/buscobien-api.service`, arrancar el servicio, correr las pruebas contra la CouchDB de desarrollo y verificar `https://api.buscobien.net/auth/login`.
+
+### I. Ejecución del paso A y despliegue de `buscobien-api` en desarrollo (2026-10-17)
+
+| Paso | Resultado |
+| :--- | :--- |
+| Paso A (propietario, `paso_A.sh`) | Completado sin errores: respaldos de `_security` en `~/seguridad/respaldo/`; contraseña de administrador rotada; texto plano eliminado de `local.ini` (0 entradas); cuenta `buscobien_api` creada; base `buscobien_sesiones` creada; `_security` fijado en esa base y en las tres bases de usuarios; índices creados; JWT activo (`"authentication_handlers":["cookie","jwt","default"]`); el administrador sigue entrando tras el reinicio |
+| Respaldo cifrado de la llave privada | Hecho por el propietario; copia local verificada (2480 bytes, formato `Salted__`); la copia del servidor se eliminó |
+| Despliegue (Claude, paso B) | `/opt/buscobien-api` (código `root:root`, `.env` `0640 root:buscobien-api` **sin contraseñas**), `npm ci --omit=dev`, unidad `systemd` habilitada, escucha solo en `127.0.0.1:3000`, ≈ 64 MB de memoria |
+| Pruebas con el Node del servidor (18.20) | 50 de 50 |
+| Prueba de humo (`scripts/smoke.mjs`, 18 comprobaciones) | **Todo correcto**, incluida la validación del JWT por la CouchDB real a través de nginx, el cierre de las bases de usuarios para un token de usuario (403), la reutilización de un token de renovación (cierra la familia) y el borrado del usuario de prueba y sus 5 sesiones |
+| Visibilidad pública | `https://api.buscobien.net/auth/login` y `/usuarios/me` responden desde nginx; `/health` **no** está publicado (404) |
+
+**Hallazgo con datos reales:** en `buscobien_usuarios` (1 documento) y `buscobien_usuarios_promotores` (3) el `_id` de CouchDB (32 hex) **no** coincide con `usuario.id_usuario` (64 hex). El servicio ya lo contempla (`sub = id_usuario`, claim `did = _id`) y los usuarios nuevos usan el mismo formato que los existentes.
+
+**Seguridad pendiente tras estos pasos:**
+
+1. La nueva contraseña de administrador **apareció en la conversación de trabajo**; rotarla otra vez antes de pasar a producción (la producción nueva genera la suya).
+2. `https://api.buscobien.net/db/` sigue aceptando la contraseña de administrador por Basic hasta el corte S5.
+3. La vista `vistaNOMBRE` de `DDUSER` emite el documento completo (incluido el hash). Mientras la app antigua la use, cualquier cuenta con acceso de lectura a la base ve los hashes; se retira en S5 con el cambio C5 del código de la app.
+4. El mailer sigue sin poder enviar correos (H8): la recuperación de contraseña de punta a punta no se ha podido probar.
+
+**Siguientes pasos:** S4 (permisos por base y `validate_doc_update` en las demás bases, con inventario del campo de propietario de cada una), cambios C0–C7 en la app Flutter, arreglar el SMTP del mailer y publicar los dos commits nuevos de `buscobien-api` (`2ae1014` y el de los identificadores).
