@@ -226,36 +226,3 @@ class UserListsNotifier extends Notifier<GetUserPropertyListModel> {
     }
   }
 }
-
-// -----------------------------------------------------------------------------
-// PROVIDER AUXILIAR: TRAER DETALLES DE PROPIEDADES (Bulk Fetch simluado)
-// -----------------------------------------------------------------------------
-// Este provider recibe una lista de IDs y devuelve los objetos Propiedad completos
-final propertiesDetailsProvider =
-    FutureProvider.family<List<dynamic>, List<String>>((ref, ids) async {
-      if (ids.isEmpty) return [];
-
-      // Opción Optimizada: Usar _all_docs con keys o _find con operador $in
-      // Aquí usamos _find con $in para obtener solo las necesarias
-      final url = Uri.parse('$direccionip/buscobien_propiedades/_find');
-      final body = jsonEncode({
-        "selector": {
-          "_id": {"\$in": ids},
-        },
-      });
-
-      Map<String, String> headers = {
-        'Authorization':
-            'Basic ${base64Encode(utf8.encode('$username:$password'))}',
-        'Content-Type': 'application/json',
-      };
-
-      final response = await http.post(url, headers: headers, body: body);
-
-      if (response.statusCode == 200) {
-        final data = jsonDecode(utf8.decode(response.bodyBytes));
-        // Retornamos la lista de documentos crudos (o mapeados a tu clase Propiedad)
-        return data['docs'] as List<dynamic>;
-      }
-      return [];
-    });

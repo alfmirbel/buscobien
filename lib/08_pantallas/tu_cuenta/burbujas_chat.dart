@@ -1,11 +1,7 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import '../propiedades/buscar_propiedad.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:buscobien/20_var_globales/var_color_themes.dart';
-import 'package:buscobien/40_security/direccionip.dart';
-import 'package:buscobien/60_global_widgets/debugprint.dart';
-import 'package:buscobien/08_pantallas/inicio/data_espacios_casas_get.dart';
 import 'package:buscobien/22_imagenes/tus_espacios_fotos_propiedad/manejo_de_fotos/lista_ids_fotos/data_fotos_get_ids_fotos_user_prop.dart';
 import 'package:buscobien/08_pantallas/propiedades/pagina_detalle_propiedad.dart';
 import 'package:buscobien/03_listas/models/lista_compartida_model.dart';
@@ -68,36 +64,23 @@ class BurbujaPropiedadChat extends StatelessWidget {
 
   Future<void> _verPropiedad(BuildContext context) async {
     if (propiedadId.isEmpty) return;
-    try {
-      final authHeaders = {
-        'Authorization':
-            'Basic ${base64Encode(utf8.encode('$username:$password'))}',
-        'Content-Type': 'application/json',
-      };
-      final resp = await http.get(
-        Uri.parse('$direccionip/buscobien_espacios/$propiedadId'),
-        headers: authHeaders,
+    final propiedad = await buscarPropiedadPublicada(propiedadId);
+    if (!context.mounted) return;
+    if (propiedad == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Esta propiedad ya no está publicada.')),
       );
-      if (resp.statusCode == 200) {
-        final doc =
-            jsonDecode(utf8.decode(resp.bodyBytes)) as Map<String, dynamic>;
-        final propiedad = ValueEspaciosCasaGet.fromJson(doc);
-        if (!context.mounted) return;
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => PaginaDetalleWidget(
-              propiedad,
-              GetIdsFotosUserProp(totalRows: 0, offset: 0, rows: []),
-            ),
-          ),
-        );
-      } else {
-        debugPrintLevels(1, 'BurbujaPropiedadChat error: ${resp.statusCode}');
-      }
-    } catch (e) {
-      debugPrintLevels(1, 'BurbujaPropiedadChat exception: $e');
+      return;
     }
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => PaginaDetalleWidget(
+          propiedad,
+          GetIdsFotosUserProp(totalRows: 0, offset: 0, rows: []),
+        ),
+      ),
+    );
   }
 }
 

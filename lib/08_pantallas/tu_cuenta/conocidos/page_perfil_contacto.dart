@@ -1,38 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:http/http.dart' as http;
 import 'package:material_symbols_icons/symbols.dart';
-import 'dart:convert';
 
 import '../../../20_var_globales/var_color_themes.dart';
 import '../../../20_var_globales/var_de_estilo_widgets.dart';
-import '../../../40_security/direccionip.dart';
+import '../../propiedades/buscar_propiedad.dart';
 
-// Provider ligero exclusivo para consultar propiedades de un usuario específico
-final propiedadesContactoProvider =
-    FutureProvider.family<List<dynamic>, String>((ref, userId) async {
-      final url = Uri.parse('$direccionip/buscobien_propiedades/_find');
-      final body = jsonEncode({
-        "selector": {
-          "userId": userId,
-        }, // Asegúrate que en la DB exista el campo userId
-      });
-      final response = await http.post(
-        url,
-        headers: {
-          'Authorization':
-              'Basic ${base64Encode(utf8.encode('$username:$password'))}',
-          'Content-Type': 'application/json',
-        },
-        body: body,
-      );
-
-      if (response.statusCode == 200) {
-        return jsonDecode(utf8.decode(response.bodyBytes))['docs'];
-      }
-      return [];
-    });
+// Propiedades publicadas del contacto (bases buscobien_publicados_*)
+final propiedadesContactoProvider = FutureProvider.family<List<dynamic>, String>(
+  (ref, userId) => propiedadesPublicadasDeUsuario(userId),
+);
 
 class PagePerfilContacto extends ConsumerWidget {
   final String contactoId;

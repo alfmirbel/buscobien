@@ -6,7 +6,6 @@ import 'package:buscobien/60_global_widgets/debugprint.dart';
 import 'package:buscobien/08_pantallas/tu_cuenta/conocidos/models/conocido.dart';
 import 'package:buscobien/08_pantallas/tu_cuenta/conocidos/providers/conocidos_notifier.dart';
 import 'package:buscobien/08_pantallas/tu_cuenta/conocidos/provider_mensajes.dart';
-import 'package:buscobien/03_listas/provider_propiedades_compartidas_conocidos.dart';
 
 // Pantalla secundaria: selecciona hasta 5 conocidos y comparte una propiedad.
 // Envía un mensaje de tipo "propiedad" al chat privado y registra la compartición.
@@ -188,26 +187,20 @@ class _PageCompartirConConocidoState
       final destinoId = _otroIdFromConocido(conocido);
       final destinoNombre = _otroNombreFromConocido(conocido);
 
-      // Registrar en la DB de propiedades compartidas
-      final ok = await ref
-          .read(propiedadesCompartidasConocidosProvider.notifier)
-          .compartirPropiedad(
-            origenId: widget.currentUserId,
-            origenNombre: widget.currentUserName,
-            destinoId: destinoId,
-            destinoNombre: destinoNombre,
-            propiedadId: widget.propiedadId,
-            propiedadNombre: widget.propiedadNombre,
-            tipodeespacio: widget.tipodeespacio,
-          );
-
-      // Enviar mensaje al chat privado
-      final chatKey = '${widget.currentUserId}@@$destinoId';
-      await ref.read(mensajesChatProvider(chatKey).notifier).enviar(
-        widget.propiedadNombre,
-        tipo: 'propiedad',
-        propiedadId: widget.propiedadId,
-      );
+      // Compartir = enviar un mensaje de tipo "propiedad" al chat privado
+      // (el registro aparte en una base propia se retiró: la base no existía).
+      var ok = true;
+      try {
+        final chatKey = '${widget.currentUserId}@@$destinoId';
+        await ref.read(mensajesChatProvider(chatKey).notifier).enviar(
+          widget.propiedadNombre,
+          tipo: 'propiedad',
+          propiedadId: widget.propiedadId,
+        );
+      } catch (e) {
+        ok = false;
+        debugPrintLevels(1, 'No se pudo compartir con $destinoNombre: $e');
+      }
 
       if (ok) exitosos++;
       debugPrintLevels(2, 'Compartido con $destinoNombre: ok=$ok');
