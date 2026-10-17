@@ -860,3 +860,21 @@ bash /opt/buscobien-api/scripts/s4/paso_s4.sh
 El script pide la contraseña de `sudo` y la del administrador; muestra la simulación y exige escribir `SI` para continuar; guarda el respaldo en `~/seguridad/respaldo_s4/`; aplica; crea dos usuarios temporales, ejecuta la matriz de pruebas contra la CouchDB real y comprueba por HTTPS el catálogo sin sesión; borra los usuarios temporales; y termina con `RESULTADO: TODO CORRECTO` o la lista de fallos. Para deshacerlo: `bash /opt/buscobien-api/scripts/s4/paso_s4.sh revertir`.
 
 **Efecto sobre la app actual:** ninguno mientras use el administrador (el administrador pasa todas las reglas). Las reglas solo afectan a los clientes que usen JWT.
+
+### K. S4 aplicado en el ambiente de desarrollo (2026-10-17)
+
+El propietario ejecutó `paso_s4.sh` en el servidor:
+
+| Paso | Resultado |
+| :--- | :--- |
+| Simulación | 30 bases listadas sin errores |
+| Aplicación | 30 bases **aplicadas** sin errores; respaldo del `_security` anterior de cada base en `~/seguridad/respaldo_s4/` (reversión con `paso_s4.sh revertir`) |
+| Matriz de pruebas con dos usuarios temporales, contra la CouchDB real | **208 de 208 comprobaciones correctas** (las mismas que en la instancia de pruebas) |
+| Comprobaciones por HTTPS | Catálogo sin sesión `200`; códigos postales sin sesión `200`; mensajes privados con sesión `403` |
+| Limpieza | 2 usuarios temporales borrados (con sus sesiones) |
+
+Estado resultante: catálogo y referencia legibles sin sesión; las bases del propietario y de la red social (sin chat) abiertas a usuarios con sesión y con escritura limitada al propietario; mensajes, domicilio, compras, listas compartidas por propiedad, publicaciones de grupo y `buscobien_social` **cerradas**. La app actual (que usa la contraseña de administrador) no se ve afectada.
+
+**CI (GitHub Actions):** la primera ejecución falló porque el código usaba `ScrollCacheExtent`, que no existe en Flutter *stable* (solo en *master*); se corrigió con `cacheExtent` (commit `2fb43d9`). La app ya es compilable con *stable*.
+
+**Siguiente:** endpoints de `buscobien-api` para las bases cerradas (compras → H-37, domicilio, mensajes privados y de grupo con canal en vivo, listas compartidas por propiedad), y cambios C0–C7 en la app.
