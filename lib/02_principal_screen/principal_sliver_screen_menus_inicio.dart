@@ -336,7 +336,8 @@ class _PrincipalSliversMenuInicialState
               controller: _scrollController,
               thumbVisibility: true,
               child: CustomScrollView(
-                scrollCacheExtent: ScrollCacheExtent.pixels(1500),
+                // ignore: deprecated_member_use -- compatible con Flutter stable (ScrollCacheExtent solo existe en master)
+                cacheExtent: 1500,
                 controller: _scrollController,
                 slivers: [
                   // --- MENÚ INICIAL (Siempre visible excepto flujo Propiedades) ---

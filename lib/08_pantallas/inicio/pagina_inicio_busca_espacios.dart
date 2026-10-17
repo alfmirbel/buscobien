@@ -322,7 +322,8 @@ class _PaginaBuscaEspaciosState extends ConsumerState<PaginaBuscaEspacios> {
                       "****** SE EJECUTO countAsync: totalDoctos = $totalDoctos",
                     );
                     return CustomScrollView(
-                      scrollCacheExtent: ScrollCacheExtent.pixels(1500),
+                      // ignore: deprecated_member_use -- compatible con Flutter stable (ScrollCacheExtent solo existe en master)
+                      cacheExtent: 1500,
                       slivers: [
                         /*
                     SliverToBoxAdapter(
